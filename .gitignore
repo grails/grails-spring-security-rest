@@ -1,0 +1,9 @@
+.idea/
+*.iml
+.classpath
+.project
+target/
+/web-app/WEB-INF
+*.log
+/*.zip
+/plugin.xml
