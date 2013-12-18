@@ -1,0 +1,8 @@
+security {
+
+    rest {
+
+        active = true
+
+    }
+}
