@@ -18,6 +18,11 @@ class RestAuthenticationToken extends UsernamePasswordAuthenticationToken {
         this.tokenValue = tokenValue
     }
 
+    RestAuthenticationToken(String tokenValue) {
+        super("N/A", "N/A")
+        this.tokenValue = tokenValue
+    }
+
     String toString() {
         def result = [:]
         result.username = principal.toString()

@@ -33,7 +33,7 @@ class GormTokenValidatorProvider implements AuthenticationProvider {
         if (authenticationToken) {
             return token
         } else {
-            throw new BadCredentialsException()
+            throw new BadCredentialsException("Invalid token")
         }
     }
 
