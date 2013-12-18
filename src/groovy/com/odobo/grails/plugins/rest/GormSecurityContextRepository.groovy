@@ -1,5 +1,6 @@
 package com.odobo.grails.plugins.rest
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
@@ -8,6 +9,8 @@ import org.springframework.security.web.context.SecurityContextRepository
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import java.security.MessageDigest
+import java.security.SecureRandom
 
 /**
  * TODO: write doc
@@ -56,19 +59,20 @@ class GormSecurityContextRepository implements SecurityContextRepository {
      */
     @Override
     void saveContext(SecurityContext context, HttpServletRequest request, HttpServletResponse response) {
-        def restAuthenticationToken = context.authentication
+        RestAuthenticationToken authenticationToken = context.authentication
 
-        if (restAuthenticationToken && restAuthenticationToken instanceof RestAuthenticationToken) {
-            String tokenValue = restAuthenticationToken.tokenValue
+        if (authenticationToken) {
 
             //TODO make generic
-            AuthenticationToken authenticationToken = AuthenticationToken.findByValue(tokenValue)
+            AuthenticationToken existingToken = AuthenticationToken.findByValue(authenticationToken.tokenValue)
 
-            if (!authenticationToken) {
-                authenticationToken = new AuthenticationToken(value: tokenValue)
+            if (!existingToken) {
+                existingToken = new AuthenticationToken(value: authenticationToken.tokenValue)
             }
 
-            authenticationToken.save()
+            AuthenticationToken.withNewSession {
+                existingToken.save()
+            }
         }
     }
 
@@ -83,4 +87,5 @@ class GormSecurityContextRepository implements SecurityContextRepository {
     boolean containsContext(HttpServletRequest request) {
         return false
     }
+
 }

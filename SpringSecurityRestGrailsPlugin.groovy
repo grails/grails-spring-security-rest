@@ -7,6 +7,7 @@ import com.odobo.grails.plugins.rest.RestTokenValidationFilter
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.web.access.AjaxAwareAccessDeniedHandler
+import grails.plugin.springsecurity.web.authentication.FilterProcessUrlRequestMatcher
 import grails.plugin.springsecurity.web.authentication.RequestHolderAuthenticationFilter
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
@@ -80,13 +81,14 @@ class SpringSecurityRestGrailsPlugin {
             rememberMeServices = ref('rememberMeServices')
             authenticationDetailsSource = ref('authenticationDetailsSource')
             requiresAuthenticationRequestMatcher = ref('filterProcessUrlRequestMatcher')
-            usernameParameter = conf.apf.usernameParameter // j_username
-            passwordParameter = conf.apf.passwordParameter // j_password
+            usernameParameter = conf.rest.login.usernameParameter // j_username
+            passwordParameter = conf.rest.login.passwordParameter // j_password
             continueChainBeforeSuccessfulAuthentication = conf.apf.continueChainBeforeSuccessfulAuthentication // false
             allowSessionCreation = false
             postOnly = true
         }
 
+        filterProcessUrlRequestMatcher(FilterProcessUrlRequestMatcher, conf.rest.login.endpointUrl)
         authenticationSuccessHandler(RestAuthenticationSuccessHandler)
         authenticationFailureHandler(RestAuthenticationFailureHandler)
         rememberMeServices(NullRememberMeServices)

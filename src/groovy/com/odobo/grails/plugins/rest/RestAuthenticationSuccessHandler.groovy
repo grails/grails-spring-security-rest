@@ -21,7 +21,6 @@ class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
      */
     @Override
     void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        //TODO write actual code
-        response << '{"success": true}'
+        response << authentication.toString()
     }
 }
