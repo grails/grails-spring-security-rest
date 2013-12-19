@@ -1,4 +1,4 @@
-package com.odobo.grails.plugins.rest.token
+package com.odobo.grails.plugin.springsecurity.rest.token.generator
 
 import groovy.transform.CompileStatic
 

@@ -1,6 +1,7 @@
-package com.odobo.grails.plugins.rest.token
+package com.odobo.grails.plugin.springsecurity.rest.token
 
-
+import com.odobo.grails.plugin.springsecurity.rest.token.generator.SecureRandomTokenGenerator
+import com.odobo.grails.plugin.springsecurity.rest.token.generator.UUIDTokenGenerator
 import spock.lang.Specification
 import spock.lang.Unroll
 

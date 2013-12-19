@@ -1,6 +1,5 @@
-package com.odobo.grails.plugins.rest
+package com.odobo.grails.plugin.springsecurity.rest
 
-import grails.converters.JSON
 import groovy.transform.CompileStatic
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
@@ -23,6 +22,7 @@ class RestAuthenticationToken extends UsernamePasswordAuthenticationToken {
         this.tokenValue = tokenValue
     }
 
+    /*
     String toString() {
         def result = [:]
         result.username = principal.toString()
@@ -30,5 +30,6 @@ class RestAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
         return result as JSON
     }
+    */
 
 }

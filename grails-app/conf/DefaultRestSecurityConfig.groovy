@@ -14,6 +14,14 @@ security {
 
         }
 
+
+        tokenRepository {
+
+            //tokenDomainClassName = 'AuthenticationToken'
+            //tokenValuePropertyName = 'tokenValue'
+
+        }
+
     }
 
 }

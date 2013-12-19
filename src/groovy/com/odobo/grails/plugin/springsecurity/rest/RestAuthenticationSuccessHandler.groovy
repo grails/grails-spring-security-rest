@@ -1,4 +1,4 @@
-package com.odobo.grails.plugins.rest
+package com.odobo.grails.plugin.springsecurity.rest
 
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler

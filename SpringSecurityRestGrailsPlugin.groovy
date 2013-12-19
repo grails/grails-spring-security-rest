@@ -1,9 +1,10 @@
-import com.odobo.grails.plugins.rest.FakeAuthenticationProvider
-import com.odobo.grails.plugins.rest.GormSecurityContextRepository
-import com.odobo.grails.plugins.rest.GormTokenValidatorProvider
-import com.odobo.grails.plugins.rest.RestAuthenticationFailureHandler
-import com.odobo.grails.plugins.rest.RestAuthenticationSuccessHandler
-import com.odobo.grails.plugins.rest.RestTokenValidationFilter
+import com.odobo.grails.plugin.springsecurity.rest.FakeAuthenticationProvider
+
+import com.odobo.grails.plugin.springsecurity.rest.token.validator.GormTokenValidatorProvider
+import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler
+import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationSuccessHandler
+import com.odobo.grails.plugin.springsecurity.rest.token.validator.TokenValidatorFilter
+import com.odobo.grails.plugin.springsecurity.rest.token.validator.TokenValidatorFilter
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.web.access.AjaxAwareAccessDeniedHandler
@@ -108,11 +109,9 @@ class SpringSecurityRestGrailsPlugin {
         requestCache(NullRequestCache)
         authenticationEntryPoint(Http403ForbiddenEntryPoint)
 
-        //TODO make it configurable
-        securityContextRepository(GormSecurityContextRepository) {
-            headerName = 'X-Auth-Token'
-        }
-        restTokenValidationFilter(RestTokenValidationFilter) {
+        securityContextRepository(NullSecurityContextRepository)
+
+        restTokenValidationFilter(TokenValidatorFilter) {
             tokenValidatorProvider = ref('tokenValidatorProvider')
             headerName = 'X-Auth-Token'
         }
