@@ -19,7 +19,7 @@ class SecureRandomTokenGenerator implements TokenGenerator {
      */
     @Override
     String generateToken() {
-        new BigInteger(130, random).toString(32)
+        new BigInteger(160, random).toString(32)
     }
 
 }
