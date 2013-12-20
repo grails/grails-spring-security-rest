@@ -1,5 +1,3 @@
-import com.odobo.grails.plugin.springsecurity.rest.FakeAuthenticationProvider
-
 import com.odobo.grails.plugin.springsecurity.rest.token.validator.GormTokenValidatorProvider
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationSuccessHandler
@@ -66,13 +64,12 @@ class SpringSecurityRestGrailsPlugin {
 
         ///*
         //SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER
-        SpringSecurityUtils.registerProvider 'fakeAuthenticationProvider'
+        //SpringSecurityUtils.registerProvider 'fakeAuthenticationProvider'
 
         //TODO to config file
         conf.filterChain.filterNames = ['securityContextPersistenceFilter', 'authenticationProcessingFilter',
                                         'restTokenValidationFilter', 'anonymousAuthenticationFilter',
                                         'exceptionTranslationFilter', 'filterInvocationInterceptor']
-        conf.providerNames = ['fakeAuthenticationProvider']
 
         authenticationProcessingFilter(UsernamePasswordAuthenticationFilter) {
             authenticationManager = ref('authenticationManager')
@@ -93,9 +90,6 @@ class SpringSecurityRestGrailsPlugin {
         authenticationSuccessHandler(RestAuthenticationSuccessHandler)
         authenticationFailureHandler(RestAuthenticationFailureHandler)
         rememberMeServices(NullRememberMeServices)
-
-        fakeAuthenticationProvider(FakeAuthenticationProvider)
-
 
         exceptionTranslationFilter(ExceptionTranslationFilter, ref('authenticationEntryPoint'), ref('requestCache')) {
             accessDeniedHandler = ref('accessDeniedHandler')
