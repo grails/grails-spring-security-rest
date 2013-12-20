@@ -22,6 +22,12 @@ class RestAuthenticationToken extends UsernamePasswordAuthenticationToken {
         this.tokenValue = tokenValue
     }
 
+    RestAuthenticationToken(String tokenValue, Collection<? extends GrantedAuthority> authorities) {
+        super("N/A", "N/A")
+        this.tokenValue = tokenValue
+    }
+
+
     /*
     String toString() {
         def result = [:]

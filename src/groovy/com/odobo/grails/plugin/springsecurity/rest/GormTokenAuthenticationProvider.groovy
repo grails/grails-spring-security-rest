@@ -53,7 +53,8 @@ class GormTokenAuthenticationProvider implements AuthenticationProvider, GrailsA
                 def existingToken = tokenClass.findWhere((tokenValuePropertyName): authenticationRequest.tokenValue)
 
                 if (existingToken) {
-                    authenticationResult = new RestAuthenticationToken(authenticationRequest.tokenValue)
+                    def userDetails = userDetailsService.loadUserByToken(authenticationRequest.tokenValue)
+                    authenticationResult = new RestAuthenticationToken(userDetails.username, userDetails.password, userDetails.authorities, authenticationRequest.tokenValue)
                 }
             }
 
@@ -68,16 +69,4 @@ class GormTokenAuthenticationProvider implements AuthenticationProvider, GrailsA
         return (RestAuthenticationToken.class.isAssignableFrom(authentication))
     }
 
-    protected Authentication createSuccessAuthentication(Object principal, Authentication authentication,
-                                                         UserDetails user) {
-        // Ensure we return the original credentials the user supplied,
-        // so subsequent attempts are successful even with encoded passwords.
-        // Also ensure we return the original getDetails(), so that future
-        // authentication events after cache expiry contain the details
-        RestAuthenticationToken result = new UsernamePasswordAuthenticationToken(principal,
-                authentication.getCredentials(), authoritiesMapper.mapAuthorities(user.getAuthorities()));
-        result.setDetails(authentication.getDetails());
-
-        return result;
-    }
 }
