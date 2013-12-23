@@ -1,22 +1,13 @@
-import com.odobo.grails.plugin.springsecurity.rest.token.validator.GormTokenValidatorProvider
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationSuccessHandler
-import com.odobo.grails.plugin.springsecurity.rest.token.validator.TokenValidatorFilter
-import com.odobo.grails.plugin.springsecurity.rest.token.validator.TokenValidatorFilter
-import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
-import grails.plugin.springsecurity.web.access.AjaxAwareAccessDeniedHandler
 import grails.plugin.springsecurity.web.authentication.FilterProcessUrlRequestMatcher
-import grails.plugin.springsecurity.web.authentication.RequestHolderAuthenticationFilter
-import org.springframework.security.authentication.AuthenticationTrustResolverImpl
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
 import org.springframework.security.web.access.ExceptionTranslationFilter
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
 import org.springframework.security.web.authentication.NullRememberMeServices
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.security.web.context.NullSecurityContextRepository
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache
 import org.springframework.security.web.savedrequest.NullRequestCache
 
 class SpringSecurityRestGrailsPlugin {
@@ -33,12 +24,12 @@ class SpringSecurityRestGrailsPlugin {
     String authorEmail = "alvaro.sanchez@odobo.com"
     String description = 'Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow'
 
-    String documentation = "http://grails.org/plugin/spring-security-rest"
+    String documentation = "https://github.com/alvarosanchez/grails-spring-security-rest"
 
     String license = "APACHE"
     def organization = [ name: "Odobo Limited", url: "http://www.odobo.com" ]
 
-    def issueManagement = [ system: "GitHub", url: "https://github.com/grails-plugins/grails-spring-security-openid/issues" ]
+    def issueManagement = [ system: "GitHub", url: "https://github.com/alvarosanchez/grails-spring-security-rest/issues" ]
     def scm = [ url: "https://github.com/alvarosanchez/grails-spring-security-rest" ]
 
     def doWithSpring = {
