@@ -1,7 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
-import grails.plugin.springsecurity.SpringSecurityUtils
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException

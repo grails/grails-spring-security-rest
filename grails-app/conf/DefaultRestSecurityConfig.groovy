@@ -34,6 +34,8 @@ security {
                     hosts = 'localhost:11211'
                     username = ''
                     password = ''
+
+                    expiration = 3600
                 }
 
             }

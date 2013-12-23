@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.token.rendering.RestAuthenticationTokenJsonRenderer
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 
@@ -8,9 +9,11 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 /**
- * TODO: write doc
+ * Generates a JSON response using a {@link RestAuthenticationTokenJsonRenderer}.
  */
 class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
+    RestAuthenticationTokenJsonRenderer renderer
 
     /**
      * Called when a user has been successfully authenticated.
@@ -21,6 +24,6 @@ class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
      */
     @Override
     void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        response << authentication.toString()
+        response << renderer.generateJson(authentication)
     }
 }

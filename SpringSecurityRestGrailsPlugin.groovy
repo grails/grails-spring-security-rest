@@ -1,7 +1,13 @@
+import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFilter
+import com.odobo.grails.plugin.springsecurity.rest.RestTokenValidationFilter
+import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
+import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler
+import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationProvider
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationSuccessHandler
-import com.odobo.grails.plugin.springsecurity.rest.token.validator.GormTokenAuthenticationProvider
-import com.odobo.grails.plugin.springsecurity.rest.token.validator.MemcachedTokenAuthenticationProvider
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
+
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.web.authentication.FilterProcessUrlRequestMatcher
 import net.spy.memcached.DefaultHashAlgorithm
@@ -65,29 +71,26 @@ class SpringSecurityRestGrailsPlugin {
 
         //TODO to config file
         conf.filterChain.filterNames = ['securityContextPersistenceFilter', 'authenticationProcessingFilter',
-                                        'anonymousAuthenticationFilter',
+                                        'anonymousAuthenticationFilter', 'restAuthenticationFilter',
                                         'exceptionTranslationFilter', 'filterInvocationInterceptor']
 
-        authenticationProcessingFilter(UsernamePasswordAuthenticationFilter) {
+        /* authenticationProcessingFilter */
+        authenticationProcessingFilter(RestAuthenticationFilter) {
             authenticationManager = ref('authenticationManager')
-            sessionAuthenticationStrategy = ref('sessionAuthenticationStrategy')
             authenticationSuccessHandler = ref('authenticationSuccessHandler')
             authenticationFailureHandler = ref('authenticationFailureHandler')
-            rememberMeServices = ref('rememberMeServices')
             authenticationDetailsSource = ref('authenticationDetailsSource')
-            requiresAuthenticationRequestMatcher = ref('filterProcessUrlRequestMatcher')
             usernameParameter = conf.rest.login.usernameParameter // j_username
             passwordParameter = conf.rest.login.passwordParameter // j_password
-            continueChainBeforeSuccessfulAuthentication = conf.apf.continueChainBeforeSuccessfulAuthentication // false
-            allowSessionCreation = false
-            postOnly = true
+            filterUrl = conf.rest.login.endpointUrl
+            tokenGenerator = ref('tokenGenerator')
+            tokenStorageService = ref('tokenStorageService')
         }
-
-        filterProcessUrlRequestMatcher(FilterProcessUrlRequestMatcher, conf.rest.login.endpointUrl)
-        authenticationSuccessHandler(RestAuthenticationSuccessHandler)
+        authenticationSuccessHandler(RestAuthenticationSuccessHandler) {
+            renderer = ref('restAuthenticationTokenJsonRenderer')
+        }
         authenticationFailureHandler(RestAuthenticationFailureHandler)
         rememberMeServices(NullRememberMeServices)
-
         exceptionTranslationFilter(ExceptionTranslationFilter, ref('authenticationEntryPoint'), ref('requestCache')) {
             accessDeniedHandler = ref('accessDeniedHandler')
             authenticationTrustResolver = ref('authenticationTrustResolver')
@@ -96,12 +99,16 @@ class SpringSecurityRestGrailsPlugin {
         accessDeniedHandler(AccessDeniedHandlerImpl) {
             errorPage = null //403
         }
-
         requestCache(NullRequestCache)
         authenticationEntryPoint(Http403ForbiddenEntryPoint)
-
         securityContextRepository(NullSecurityContextRepository)
 
+        /* restAuthenticationFilter */
+        restAuthenticationFilter(RestTokenValidationFilter) {
+            authenticationSuccessHandler = ref('authenticationSuccessHandler')
+        }
+
+        /* tokenStorageService */
         if (conf.rest.token.storage.useMemcached) {
             memcachedClient(MemcachedClientFactoryBean) {
                 servers = conf.rest.token.storage.memcached.hosts
@@ -117,17 +124,27 @@ class SpringSecurityRestGrailsPlugin {
                 useNagleAlgorithm = false
             }
 
-
-            tokenAuthenticationProvider(MemcachedTokenAuthenticationProvider) {
+            tokenStorageService(MemcachedTokenStorageService) {
                 memcachedClient = ref('memcachedClient')
+                expiration = conf.rest.token.storage.memcached.expiration
             }
         }
-
         if (conf.rest.token.storage.useGorm) {
-            tokenAuthenticationProvider(GormTokenAuthenticationProvider) {
-
+            tokenStorageService(GormTokenStorageService) {
+                userDetailsService = ref('userDetailsService')
             }
         }
+
+        /* tokenGenerator */
+        tokenGenerator(SecureRandomTokenGenerator)
+
+        /* restAuthenticationProvider */
+        restAuthenticationProvider(RestAuthenticationProvider) {
+            tokenStorageService = ref('tokenStorageService')
+        }
+
+        /* restAuthenticationTokenJsonRenderer */
+        restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer)
 
         //*/
 
