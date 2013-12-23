@@ -27,15 +27,4 @@ class RestAuthenticationToken extends UsernamePasswordAuthenticationToken {
         this.tokenValue = tokenValue
     }
 
-
-    /*
-    String toString() {
-        def result = [:]
-        result.username = principal.toString()
-        result.token = tokenValue
-
-        return result as JSON
-    }
-    */
-
 }
