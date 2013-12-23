@@ -20,7 +20,6 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
 
     UserDetailsService userDetailsService
 
-    @Override
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
         def conf = SpringSecurityUtils.securityConfig
         String tokenClassName = conf.rest.tokenRepository.tokenDomainClassName
@@ -41,13 +40,11 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
             if (existingToken) {
                 def username = existingToken."${usernamePropertyName}"
                 return userDetailsService.loadUserByUsername(username)
-            } else {
-                throw new TokenNotFoundException("Token ${tokenValue} not found")
             }
+            throw new TokenNotFoundException("Token ${tokenValue} not found")
         }
     }
 
-    @Override
     void storeToken(String tokenValue, UserDetails details) {
         def conf = SpringSecurityUtils.securityConfig
         String tokenClassName = conf.rest.tokenRepository.tokenDomainClassName

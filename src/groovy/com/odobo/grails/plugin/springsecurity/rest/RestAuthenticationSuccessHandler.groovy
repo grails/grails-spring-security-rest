@@ -22,7 +22,6 @@ class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
      * @param response the response
      * @param authentication the <tt>Authentication</tt> object which was created during the authentication process.
      */
-    @Override
     void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         response << renderer.generateJson(authentication)
     }

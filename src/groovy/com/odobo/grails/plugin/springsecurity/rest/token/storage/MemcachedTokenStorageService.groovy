@@ -13,17 +13,14 @@ class MemcachedTokenStorageService implements TokenStorageService {
 
     Integer expiration = 3600
 
-    @Override
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
         def userDetails = memcachedClient.get(tokenValue)
         if (userDetails) {
             return userDetails
-        } else {
-            throw new TokenNotFoundException("Token ${tokenValue} not found")
         }
+        throw new TokenNotFoundException("Token ${tokenValue} not found")
     }
 
-    @Override
     void storeToken(String tokenValue, UserDetails details) {
         memcachedClient.set tokenValue, expiration, details
     }

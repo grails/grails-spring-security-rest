@@ -13,11 +13,10 @@ class RestAuthenticationProvider implements AuthenticationProvider {
 
     TokenStorageService tokenStorageService
 
-    @Override
     Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        Assert.isInstanceOf(RestAuthenticationToken.class, authentication, "Only RestAuthenticationToken is supported")
-        RestAuthenticationToken authenticationRequest = (RestAuthenticationToken) authentication
+        Assert.isInstanceOf(RestAuthenticationToken, authentication, "Only RestAuthenticationToken is supported")
+        RestAuthenticationToken authenticationRequest = authentication
         RestAuthenticationToken authenticationResult = new RestAuthenticationToken(authenticationRequest.tokenValue)
 
         if (authenticationRequest.tokenValue) {
@@ -28,8 +27,7 @@ class RestAuthenticationProvider implements AuthenticationProvider {
         return authenticationResult
     }
 
-    @Override
     boolean supports(Class<?> authentication) {
-        return (RestAuthenticationToken.class.isAssignableFrom(authentication))
+        return RestAuthenticationToken.isAssignableFrom(authentication)
     }
 }
