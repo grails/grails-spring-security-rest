@@ -1,4 +1,4 @@
-package com.odobo.grails.plugin.springsecurity.rest.token.generator
+package com.odobo.grails.plugin.springsecurity.rest.token.generation
 
 /**
  * Implementations of this interface must provide a token generation strategy

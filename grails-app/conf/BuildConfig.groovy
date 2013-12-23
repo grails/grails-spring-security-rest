@@ -1,5 +1,7 @@
 grails.project.work.dir = 'target'
 
+def conf = grails.plugin.springsecurity.SpringSecurityUtils.securityConfig
+
 grails.project.dependency.resolution = {
     inherits 'global'
     log 'warn'
@@ -15,12 +17,21 @@ grails.project.dependency.resolution = {
         test "org.spockframework:spock-grails-support:0.7-groovy-2.0", {
             export = false
         }
+
+        compile 'net.spy:spymemcached:2.10.3', {
+            if (!conf.rest.token.storage.useMemcached) {
+                export = false
+            }
+        }
     }
 
     plugins {
         compile ':spring-security-core:2.0-RC2'
-        compile ':spring-security-cas:2.0-RC1'
-        compile ':spring-security-ldap:2.0-RC2'
+
+        //Temporary dependencies to "get inspired" }:->
+        compile ':spring-security-cas:2.0-RC1', ':spring-security-ldap:2.0-RC2', {
+            export = false
+        }
 
         build(":release:3.0.1", ":rest-client-builder:1.0.3") {
             export = false

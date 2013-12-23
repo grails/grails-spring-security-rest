@@ -1,7 +1,13 @@
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationSuccessHandler
+import com.odobo.grails.plugin.springsecurity.rest.token.validator.GormTokenAuthenticationProvider
+import com.odobo.grails.plugin.springsecurity.rest.token.validator.MemcachedTokenAuthenticationProvider
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.web.authentication.FilterProcessUrlRequestMatcher
+import net.spy.memcached.DefaultHashAlgorithm
+import net.spy.memcached.HashAlgorithm
+import net.spy.memcached.spring.MemcachedClientFactoryBean
+import net.spy.memcached.transcoders.SerializingTranscoder
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
 import org.springframework.security.web.access.ExceptionTranslationFilter
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
@@ -95,6 +101,33 @@ class SpringSecurityRestGrailsPlugin {
         authenticationEntryPoint(Http403ForbiddenEntryPoint)
 
         securityContextRepository(NullSecurityContextRepository)
+
+        if (conf.rest.token.storage.useMemcached) {
+            memcachedClient(MemcachedClientFactoryBean) {
+                servers = conf.rest.token.storage.memcached.hosts
+                protocol = 'BINARY'
+                transcoder = { SerializingTranscoder st ->
+                    compressionThreshold = 1024
+                }
+                opTimeout = 1000
+                timeoutExceptionThreshold = 1998
+                hashAlg = DefaultHashAlgorithm.KETAMA_HASH
+                locatorType = 'CONSISTENT'
+                failureMode = 'Redistribute'
+                useNagleAlgorithm = false
+            }
+
+
+            tokenAuthenticationProvider(MemcachedTokenAuthenticationProvider) {
+                memcachedClient = ref('memcachedClient')
+            }
+        }
+
+        if (conf.rest.token.storage.useGorm) {
+            tokenAuthenticationProvider(GormTokenAuthenticationProvider) {
+
+            }
+        }
 
         //*/
 

@@ -1,5 +1,3 @@
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-
 security {
 
     rest {
@@ -14,11 +12,31 @@ security {
 
         }
 
+        token {
 
-        tokenRepository {
+            generation {
+                useSecureRandom = true
+                useUUID = false
+            }
 
-            //tokenDomainClassName = 'AuthenticationToken'
-            //tokenValuePropertyName = 'tokenValue'
+            storage {
+
+                useGorm = false
+                useMemcached = false
+
+                gorm {
+                    tokenDomainClassName = 'AuthenticationToken'
+                    tokenValuePropertyName = 'tokenValue'
+                    usernamePropertyName = 'username'
+                }
+
+                memcached {
+                    hosts = 'localhost:11211'
+                    username = ''
+                    password = ''
+                }
+
+            }
 
         }
 

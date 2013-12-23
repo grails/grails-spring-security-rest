@@ -1,14 +1,13 @@
-package com.odobo.grails.plugin.springsecurity.rest
+package com.odobo.grails.plugin.springsecurity.rest.token.validator
 
-import com.odobo.grails.plugin.springsecurity.rest.token.details.TokenBasedUserDetailsService
+import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import grails.plugin.springsecurity.SpringSecurityUtils
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.plugins.support.aware.GrailsApplicationAware
 import org.springframework.security.authentication.AuthenticationProvider
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.util.Assert
 
 /**
@@ -20,7 +19,7 @@ class GormTokenAuthenticationProvider implements AuthenticationProvider, GrailsA
     GrailsApplication grailsApplication
 
     /** To load a {@link org.springframework.security.core.userdetails.UserDetails} object */
-    TokenBasedUserDetailsService userDetailsService
+    TokenStorageService userDetailsService
 
     /**
      * Uses GORM to find tokens and thus authenticating users
