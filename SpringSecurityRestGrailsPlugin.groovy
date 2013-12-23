@@ -1,24 +1,16 @@
-import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFilter
-import com.odobo.grails.plugin.springsecurity.rest.RestTokenValidationFilter
+import com.odobo.grails.plugin.springsecurity.rest.*
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
-import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler
-import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationProvider
-import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationSuccessHandler
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
-
 import grails.plugin.springsecurity.SpringSecurityUtils
-import grails.plugin.springsecurity.web.authentication.FilterProcessUrlRequestMatcher
 import net.spy.memcached.DefaultHashAlgorithm
-import net.spy.memcached.HashAlgorithm
 import net.spy.memcached.spring.MemcachedClientFactoryBean
 import net.spy.memcached.transcoders.SerializingTranscoder
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
 import org.springframework.security.web.access.ExceptionTranslationFilter
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
 import org.springframework.security.web.authentication.NullRememberMeServices
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.context.NullSecurityContextRepository
 import org.springframework.security.web.savedrequest.NullRequestCache
 
@@ -82,7 +74,7 @@ class SpringSecurityRestGrailsPlugin {
             authenticationDetailsSource = ref('authenticationDetailsSource')
             usernameParameter = conf.rest.login.usernameParameter // j_username
             passwordParameter = conf.rest.login.passwordParameter // j_password
-            filterUrl = conf.rest.login.endpointUrl
+            endpointUrl = conf.rest.login.endpointUrl
             tokenGenerator = ref('tokenGenerator')
             tokenStorageService = ref('tokenStorageService')
         }
@@ -128,8 +120,7 @@ class SpringSecurityRestGrailsPlugin {
                 memcachedClient = ref('memcachedClient')
                 expiration = conf.rest.token.storage.memcached.expiration
             }
-        }
-        if (conf.rest.token.storage.useGorm) {
+        } else {
             tokenStorageService(GormTokenStorageService) {
                 userDetailsService = ref('userDetailsService')
             }

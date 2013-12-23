@@ -28,11 +28,6 @@ grails.project.dependency.resolution = {
     plugins {
         compile ':spring-security-core:2.0-RC2'
 
-        //Temporary dependencies to "get inspired" }:->
-        compile ':spring-security-cas:2.0-RC1', ':spring-security-ldap:2.0-RC2', {
-            export = false
-        }
-
         build(":release:3.0.1", ":rest-client-builder:1.0.3") {
             export = false
         }
