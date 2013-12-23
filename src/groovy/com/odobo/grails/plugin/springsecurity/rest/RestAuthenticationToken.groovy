@@ -1,13 +1,11 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
-import groovy.transform.CompileStatic
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 
 /**
  * Holds the API token, passed by the client via a custom HTTP header
  */
-@CompileStatic
 class RestAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
     String tokenValue
