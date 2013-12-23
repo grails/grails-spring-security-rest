@@ -59,7 +59,7 @@ class SpringSecurityRestGrailsPlugin {
 
         //TODO to config file
         conf.filterChain.filterNames = ['securityContextPersistenceFilter', 'authenticationProcessingFilter',
-                                        'restTokenValidationFilter', 'anonymousAuthenticationFilter',
+                                        'anonymousAuthenticationFilter',
                                         'exceptionTranslationFilter', 'filterInvocationInterceptor']
 
         authenticationProcessingFilter(UsernamePasswordAuthenticationFilter) {
@@ -95,12 +95,6 @@ class SpringSecurityRestGrailsPlugin {
         authenticationEntryPoint(Http403ForbiddenEntryPoint)
 
         securityContextRepository(NullSecurityContextRepository)
-
-        restTokenValidationFilter(TokenValidatorFilter) {
-            tokenValidatorProvider = ref('tokenValidatorProvider')
-            headerName = 'X-Auth-Token'
-        }
-        tokenValidatorProvider(GormTokenValidatorProvider)
 
         //*/
 
