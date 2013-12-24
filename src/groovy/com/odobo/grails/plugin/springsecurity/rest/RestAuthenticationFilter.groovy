@@ -47,17 +47,13 @@ class RestAuthenticationFilter extends GenericFilterBean {
         if (authenticationResult.authenticated) {
             String tokenValue = tokenGenerator.generateToken()
 
-            RestAuthenticationToken authenticationToken =
-                    new RestAuthenticationToken(authenticationResult.principal, authenticationRequest.credentials,
-                                                authenticationResult.authorities, tokenValue)
-
             tokenStorageService.storeToken(tokenValue, authenticationResult.details)
 
-            SecurityContextHolder.getContext().setAuthentication(authenticationResult);
+            SecurityContextHolder.context.setAuthentication(authenticationResult)
 
-            authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult);
+            authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult)
         }
 
-        chain.doFilter(request, response);
+        chain.doFilter(request, response)
     }
 }

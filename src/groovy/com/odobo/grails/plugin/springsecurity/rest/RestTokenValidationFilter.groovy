@@ -23,7 +23,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest servletRequest = (ServletRequest) request
+        HttpServletRequest servletRequest = request
 
         String tokenValue = servletRequest.getHeader(headerName)
 
@@ -31,11 +31,11 @@ class RestTokenValidationFilter extends GenericFilterBean {
             RestAuthenticationToken authenticationRequest = new RestAuthenticationToken(tokenValue)
             RestAuthenticationToken authenticationResult = restAuthenticationProvider.authenticate(authenticationRequest)
 
-            SecurityContextHolder.getContext().setAuthentication(authenticationResult);
+            SecurityContextHolder.context.setAuthentication(authenticationResult)
 
-            authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult);
+            authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult)
         }
 
-        chain.doFilter(request, response);
+        chain.doFilter(request, response)
     }
 }
