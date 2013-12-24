@@ -4,6 +4,7 @@ import com.odobo.grails.plugin.springsecurity.rest.token.generation.TokenGenerat
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import org.springframework.security.authentication.AuthenticationDetailsSource
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
@@ -41,7 +42,11 @@ class RestAuthenticationFilter extends GenericFilterBean {
 
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        Authentication authenticationRequest = authenticationDetailsSource.buildDetails(request)
+        String username = request.getParameter(usernameParameter)
+        String password = request.getParameter(passwordParameter)
+        Authentication authenticationRequest = new UsernamePasswordAuthenticationToken(username, password)
+        authenticationRequest.details = authenticationDetailsSource.buildDetails(request)
+
         Authentication authenticationResult = authenticationManager.authenticate(authenticationRequest)
 
         if (authenticationResult.authenticated) {
