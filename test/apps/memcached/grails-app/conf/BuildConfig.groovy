@@ -48,9 +48,13 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
 
+    def gebVersion = "0.9.2"
+
     dependencies {
-        // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
-        // runtime 'mysql:mysql-connector-java:5.1.24'
+        test 'com.github.detro.ghostdriver:phantomjsdriver:1.0.4'
+
+        test "org.gebish:geb-spock:$gebVersion"
+        test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
     }
 
     plugins {
@@ -66,6 +70,11 @@ grails.project.dependency.resolution = {
         runtime ":database-migration:1.3.8"
         runtime ":jquery:1.10.2.2"
         runtime ":resources:1.2.1"
+
+        test ":geb:$gebVersion"
+        test(":spock:0.7") {
+            exclude("spock-grails-support")
+        }
 
 
     }
