@@ -1,5 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.generation
 
+import org.apache.commons.lang.RandomStringUtils
+
 import java.security.SecureRandom
 
 /**
@@ -15,7 +17,10 @@ class SecureRandomTokenGenerator implements TokenGenerator {
      * @return a String token of 32 alphanumeric characters.
      */
     String generateToken() {
-        new BigInteger(160, random).toString(32)
+        String token = new BigInteger(160, this.random).toString(32)
+        def tokenSize = token.size()
+        if (tokenSize < 32) token += RandomStringUtils.random(32 - tokenSize)
+        return token
     }
 
 }
