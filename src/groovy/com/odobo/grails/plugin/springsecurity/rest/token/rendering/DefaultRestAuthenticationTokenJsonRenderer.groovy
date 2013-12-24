@@ -10,19 +10,13 @@ import org.springframework.security.core.userdetails.UserDetails
  */
 class DefaultRestAuthenticationTokenJsonRenderer implements RestAuthenticationTokenJsonRenderer {
 
-
-    @Override
     String generateJson(RestAuthenticationToken restAuthenticationToken) {
-        def result = [:]
         UserDetails userDetails = restAuthenticationToken.details
 
-        result.username = userDetails.username
-        result.token = restAuthenticationToken.tokenValue
-        result.roles = []
-
-        userDetails.authorities.each {GrantedAuthority role ->
-            result.roles << role.authority
-        }
+        def result = [
+            username: userDetails.username,
+            token: restAuthenticationToken.tokenValue,
+            roles: userDetails.authorities.collect {GrantedAuthority role -> role.authority }]
 
         return (result as JSON).toString()
     }

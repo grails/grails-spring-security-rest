@@ -18,11 +18,7 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        compile 'net.spy:spymemcached:2.10.3', {
-            if (!conf.rest.token.storage.useMemcached) {
-                export = false
-            }
-        }
+        compile 'net.spy:spymemcached:2.10.3'
     }
 
     plugins {

@@ -18,7 +18,6 @@ class RestAuthenticationFailureHandler implements AuthenticationFailureHandler {
      * @param response the response.
      * @param exception the exception which was thrown to reject the authentication request.
      */
-    @Override
     void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         //TODO check
         response.setStatus(HttpServletResponse.SC_FORBIDDEN)
