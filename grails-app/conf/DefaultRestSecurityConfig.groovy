@@ -1,3 +1,5 @@
+import javax.servlet.http.HttpServletResponse
+
 security {
 
     rest {
@@ -9,6 +11,7 @@ security {
             endpointUrl = '/login'
             usernameParameter = 'username'
             passwordParameter = 'password'
+            failureStatusCode = HttpServletResponse.SC_FORBIDDEN
 
         }
 

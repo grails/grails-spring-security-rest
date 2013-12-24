@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse
 
 class RestAuthenticationFailureHandlerSpec extends Specification {
 
-	void "it returns 403 when authentication fails"() {
+	void "it returns #statusCode when authentication fails"() {
         given:
         RestAuthenticationFailureHandler handler = new RestAuthenticationFailureHandler()
         HttpServletRequest request = new MockHttpServletRequest()
@@ -19,9 +19,13 @@ class RestAuthenticationFailureHandlerSpec extends Specification {
         AuthenticationException exception = new TokenNotFoundException('n/a')
 
         when:
+        handler.statusCode = statusCode
         handler.onAuthenticationFailure(request, response, exception)
 
         then:
-        response.status == 403
+        response.status == statusCode
+
+        where:
+        statusCode << [401, 403]
 	}
 }

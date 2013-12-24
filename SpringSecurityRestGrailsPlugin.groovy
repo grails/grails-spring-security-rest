@@ -14,6 +14,8 @@ import org.springframework.security.web.authentication.NullRememberMeServices
 import org.springframework.security.web.context.NullSecurityContextRepository
 import org.springframework.security.web.savedrequest.NullRequestCache
 
+import javax.servlet.http.HttpServletResponse
+
 class SpringSecurityRestGrailsPlugin {
 
     String version = "1.0.0.M1"
@@ -81,7 +83,9 @@ class SpringSecurityRestGrailsPlugin {
         authenticationSuccessHandler(RestAuthenticationSuccessHandler) {
             renderer = ref('restAuthenticationTokenJsonRenderer')
         }
-        authenticationFailureHandler(RestAuthenticationFailureHandler)
+        authenticationFailureHandler(RestAuthenticationFailureHandler) {
+            statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_FORBIDDEN
+        }
         rememberMeServices(NullRememberMeServices)
         exceptionTranslationFilter(ExceptionTranslationFilter, ref('authenticationEntryPoint'), ref('requestCache')) {
             accessDeniedHandler = ref('accessDeniedHandler')

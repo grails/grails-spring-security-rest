@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse
  */
 class RestAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
+    Integer statusCode
+
     /**
      * Called when an authentication attempt fails.
      * @param request the request during which the authentication attempt occurred.
@@ -19,7 +21,6 @@ class RestAuthenticationFailureHandler implements AuthenticationFailureHandler {
      * @param exception the exception which was thrown to reject the authentication request.
      */
     void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        //TODO check
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN)
+        response.setStatus(statusCode)
     }
 }
