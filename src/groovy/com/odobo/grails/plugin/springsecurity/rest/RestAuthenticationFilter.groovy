@@ -7,6 +7,8 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.web.filter.GenericFilterBean
@@ -75,14 +77,23 @@ class RestAuthenticationFilter extends GenericFilterBean {
                 Authentication authenticationResult = authenticationManager.authenticate(authenticationRequest)
 
                 if (authenticationResult.authenticated) {
+
+                    SecurityContextHolder.context.setAuthentication(authenticationResult)
+
                     String tokenValue = tokenGenerator.generateToken()
 
-                    tokenStorageService.storeToken(tokenValue, authenticationResult.details)
+                    tokenStorageService.storeToken(tokenValue, authenticationResult.principal)
 
-                    authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult)
+                    RestAuthenticationToken restAuthenticationToken = new RestAuthenticationToken(authenticationResult.principal, authenticationResult.credentials, authenticationResult.authorities, tokenValue)
+
+                    authenticationSuccessHandler.onAuthenticationSuccess(request, response, restAuthenticationToken)
+
+                    return
                 }
+
             } catch (AuthenticationException ae) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response, ae)
+                return
             }
         }
 

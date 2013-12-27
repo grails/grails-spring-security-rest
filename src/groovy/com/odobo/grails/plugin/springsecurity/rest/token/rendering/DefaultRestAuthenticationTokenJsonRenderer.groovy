@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails
 class DefaultRestAuthenticationTokenJsonRenderer implements RestAuthenticationTokenJsonRenderer {
 
     String generateJson(RestAuthenticationToken restAuthenticationToken) {
-        UserDetails userDetails = restAuthenticationToken.details
+        UserDetails userDetails = restAuthenticationToken.principal
 
         def result = [
             username: userDetails.username,

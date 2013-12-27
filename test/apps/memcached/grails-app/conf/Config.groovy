@@ -113,7 +113,8 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 
-    debug  'com.odobo'
+    debug  'com.odobo',
+           'org.springframework.security'
 
     off    'org.openqa',
            'net.spy.memcached'
@@ -121,18 +122,18 @@ log4j = {
 
 
 // Added by the Spring Security Core plugin:
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'org.example.grails.User'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'org.example.grails.UserRole'
-grails.plugin.springsecurity.authority.className = 'org.example.grails.Role'
-grails.plugin.springsecurity.controllerAnnotations.staticRules = [
-	'/':                              ['permitAll'],
-	'/index':                         ['permitAll'],
-	'/index.gsp':                     ['permitAll'],
-	'/**/js/**':                      ['permitAll'],
-	'/**/css/**':                     ['permitAll'],
-	'/**/images/**':                  ['permitAll'],
-	'/**/favicon.ico':                ['permitAll']
-]
+//grails.plugin.springsecurity.userLookup.userDomainClassName = 'org.example.grails.User'
+//grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'org.example.grails.UserRole'
+//grails.plugin.springsecurity.authority.className = 'org.example.grails.Role'
+//grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+//	'/':                              ['permitAll'],
+//	'/index':                         ['permitAll'],
+//	'/index.gsp':                     ['permitAll'],
+//	'/**/js/**':                      ['permitAll'],
+//	'/**/css/**':                     ['permitAll'],
+//	'/**/images/**':                  ['permitAll'],
+//	'/**/favicon.ico':                ['permitAll']
+//]
 
 grails {
     plugin {

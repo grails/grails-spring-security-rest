@@ -4,6 +4,7 @@ import geb.spock.GebReportingSpec
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import spock.lang.Ignore
+import spock.lang.IgnoreRest
 import spock.lang.Shared
 import spock.lang.Unroll
 
@@ -41,5 +42,24 @@ class RestAuthenticationFilterSpec extends GebReportingSpec {
         where:
         httpMethod << ['get', 'post', 'put', 'delete']
 
+    }
+
+    void "authentication attempt with wrong credentials returns a failure status code"() {
+        when:
+        def response = restBuilder.post("${baseUrl}/login?username=foo&password=bar")
+
+        then:
+        response.status == 403
+    }
+
+    void "authentication attempt with correct credentials returns a valid status code"() {
+        when:
+        RestResponse response = restBuilder.post("${baseUrl}/login?username=jimi&password=jimispassword")
+
+        then:
+        response.status == 200
+        response.json.username == 'jimi'
+        response.json.token
+        response.json.roles.size() == 2
     }
 }
