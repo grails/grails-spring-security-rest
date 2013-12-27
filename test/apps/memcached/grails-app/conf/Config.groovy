@@ -112,6 +112,11 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+
+    debug  'com.odobo'
+
+    off    'org.openqa',
+           'net.spy.memcached'
 }
 
 

@@ -65,7 +65,7 @@ class SpringSecurityRestGrailsPlugin {
 
         //TODO to config file
         conf.filterChain.filterNames = ['securityContextPersistenceFilter', 'authenticationProcessingFilter',
-                                        'anonymousAuthenticationFilter', 'restAuthenticationFilter',
+                                        'anonymousAuthenticationFilter',
                                         'exceptionTranslationFilter', 'filterInvocationInterceptor']
 
         /* authenticationProcessingFilter */
