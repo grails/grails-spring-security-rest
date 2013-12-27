@@ -19,8 +19,7 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         def tokenValue = '1a2b3c4d'
         def userDetails = new User(username, password, roles)
 
-        RestAuthenticationToken token = new RestAuthenticationToken(username, password, roles, tokenValue)
-        token.details = userDetails
+        RestAuthenticationToken token = new RestAuthenticationToken(userDetails, password, roles, tokenValue)
 
         DefaultRestAuthenticationTokenJsonRenderer renderer = new DefaultRestAuthenticationTokenJsonRenderer()
 
