@@ -1,0 +1,34 @@
+There are few methods to call in the DSL. At the top level method calls taking a single Closure argument are translated into module names. The code in the nested closure represents the module definition.
+
+A module definition can call dependsOn, defaultBundle and resource methods:
+
+{code:java}
+modules = {
+    core {
+        dependsOn 'jquery, utils'
+        defaultBundle 'ui'
+
+        resource url:'/js/core.js', disposition: 'head'
+        resource url:'/js/ui.js'
+        resource url:'/css/main.css', 
+        resource url:'/css/branding.css'
+        resource url:'/css/print.css', attrs:[media:'print']
+    }
+    
+    utils {
+        dependsOn 'jquery'
+        
+        resource url:'/js/utils.js' 
+    }
+
+    forms {
+        dependsOn 'core,utils'
+        defaultBundle 'ui'
+        
+        resource url:'/css/forms.css'
+        resource url:'/js/forms.js'
+    }
+}
+{code}
+
+The above DSL defines three resource modules; 'core', 'utils' and 'forms'. The resources in these modules will be automatically bundled out of the box according to the module name, resulting in fewer files. You can override this with *bundle:'someOtherName'* on each resource, or call defaultBundle on the module

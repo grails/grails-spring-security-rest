@@ -1,0 +1,30 @@
+Applications can also define resources in Config.groovy if they wish. Simply assign the DSL to the *grails.resources.modules* property.
+
+Example in grails-app/conf/Config.groovy:
+
+{code:java}
+grails.resources.modules = {
+    core {
+        dependsOn 'jquery, utils'
+        defaultBundle 'ui'
+
+        resource url:'/js/core.js', disposition: 'head'
+        resource url:'/js/ui.js'
+    }
+    
+    utils {
+        dependsOn 'jquery'
+        
+        resource url:'/js/utils.js' 
+    }
+
+    forms {
+        dependsOn 'core,utils'
+        defaultBundle 'ui'
+        
+        resource url:'/css/forms.css'
+        resource url:'/js/forms.js'
+    }
+}
+{code}
+

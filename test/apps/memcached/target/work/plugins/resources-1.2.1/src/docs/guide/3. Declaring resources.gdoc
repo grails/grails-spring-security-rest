@@ -1,0 +1,4 @@
+You can declare your resources in your Application's Config.groovy or in a Resources artefact in your application or plugins.
+
+This is done using a simple DSL in both cases. You define the names of the modules you have and the resources within them, and dependencies between modules.
+

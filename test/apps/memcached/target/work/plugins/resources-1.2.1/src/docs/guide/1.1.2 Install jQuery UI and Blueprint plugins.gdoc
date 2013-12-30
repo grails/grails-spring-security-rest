@@ -1,0 +1,6 @@
+Just run:
+{code}
+grails install-plugin jquery-ui
+grails install-plugin blueprint
+{code}
+

@@ -1,0 +1,41 @@
+<plugin name='spring-security-core' version='2.0-RC2' grailsVersion='2.0.0 &gt; *'>
+  <author>Burt Beckwith</author>
+  <authorEmail>burt@burtbeckwith.com</authorEmail>
+  <title>Spring Security Core Plugin</title>
+  <description>Spring Security Core plugin</description>
+  <documentation>http://grails-plugins.github.io/grails-spring-security-core/</documentation>
+  <type>SpringSecurityCoreGrailsPlugin</type>
+  <resources>
+    <resource>DefaultSecurityConfig</resource>
+    <resource>grails.plugin.springsecurity.LoginController</resource>
+    <resource>grails.plugin.springsecurity.LogoutController</resource>
+    <resource>test.TestPersistentLogin</resource>
+    <resource>test.TestRequestmap</resource>
+    <resource>test.TestRole</resource>
+    <resource>test.TestUser</resource>
+    <resource>test.TestUserRole</resource>
+    <resource>grails.plugin.springsecurity.SpringSecurityService</resource>
+    <resource>grails.plugin.springsecurity.SecurityTagLib</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://plugins.grails.org' />
+    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+    <repository name='http://repo.spring.io/milestone' url='http://repo.spring.io/milestone/' />
+  </repositories>
+  <dependencies>
+    <compile>
+      <dependency group='org.springframework.security' name='spring-security-core' version='3.2.0.RC1' />
+      <dependency group='org.springframework.security' name='spring-security-web' version='3.2.0.RC1' />
+    </compile>
+  </dependencies>
+  <plugins>
+    <compile>
+      <plugin group='org.grails.plugins' name='webxml' version='1.4.1' />
+    </compile>
+  </plugins>
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>

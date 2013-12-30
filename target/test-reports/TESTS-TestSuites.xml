@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+  <testsuite errors="0" failures="0" hostname="MacBook-Pro-de-Alvaro.local" id="0" name="RestAuthenticationFailureHandlerSpec" package="com.odobo.grails.plugin.springsecurity.rest" tests="1" time="0.187" timestamp="2013-12-27T17:53:53">
+      <properties />
+
+      <testcase classname="com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec" name="it returns #statusCode when authentication fails" time="0.005" />
+
+      <system-out><![CDATA[--Output from it returns #statusCode when authentication fails--
+]]></system-out>
+
+      <system-err><![CDATA[]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="MacBook-Pro-de-Alvaro.local" id="1" name="TokenGeneratorSpec" package="com.odobo.grails.plugin.springsecurity.rest.token" tests="2" time="0.003" timestamp="2013-12-27T17:53:54">
+      <properties />
+
+      <testcase classname="com.odobo.grails.plugin.springsecurity.rest.token.TokenGeneratorSpec" name="com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator generates tokens with 32 characters" time="0.002" />
+
+      <testcase classname="com.odobo.grails.plugin.springsecurity.rest.token.TokenGeneratorSpec" name="com.odobo.grails.plugin.springsecurity.rest.token.generation.UUIDTokenGenerator generates tokens with 32 characters" time="0.001" />
+
+      <system-out><![CDATA[--Output from com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator generates tokens with 32 characters--
+--Output from com.odobo.grails.plugin.springsecurity.rest.token.generation.UUIDTokenGenerator generates tokens with 32 characters--
+]]></system-out>
+
+      <system-err><![CDATA[]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="MacBook-Pro-de-Alvaro.local" id="2" name="DefaultRestAuthenticationTokenJsonRendererSpec" package="com.odobo.grails.plugin.springsecurity.rest.token.rendering" tests="2" time="0.23" timestamp="2013-12-27T17:53:53">
+      <properties />
+
+      <testcase classname="com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec" name="it renders proper JSON for a given token when the user has 2 roles" time="0.179" />
+
+      <testcase classname="com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec" name="it renders proper JSON for a given token when the user has 0 roles" time="0.045" />
+
+      <system-out><![CDATA[--Output from it renders proper JSON for a given token when the user has 2 roles--
+{"username":"john.doe","token":"1a2b3c4d","roles":["ADMIN","USER"]}
+--Output from it renders proper JSON for a given token when the user has 0 roles--
+{"username":"john.doe","token":"1a2b3c4d","roles":[]}
+]]></system-out>
+
+      <system-err><![CDATA[]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="MacBook-Pro-de-Alvaro.local" id="3" name="RestAuthenticationFailureHandlerSpec" package="com.odobo.grails.plugin.springsecurity.rest" tests="1" time="0.862" timestamp="2013-12-27T17:53:51">
+      <properties />
+
+      <testcase classname="com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec" name="it returns #statusCode when authentication fails" time="0.045" />
+
+      <system-out><![CDATA[--Output from it returns #statusCode when authentication fails--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from it returns #statusCode when authentication fails--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="MacBook-Pro-de-Alvaro.local" id="4" name="TokenGeneratorSpec" package="com.odobo.grails.plugin.springsecurity.rest.token" tests="2" time="0.013" timestamp="2013-12-27T17:53:53">
+      <properties />
+
+      <testcase classname="com.odobo.grails.plugin.springsecurity.rest.token.TokenGeneratorSpec" name="com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator generates tokens with 32 characters" time="0.009" />
+
+      <testcase classname="com.odobo.grails.plugin.springsecurity.rest.token.TokenGeneratorSpec" name="com.odobo.grails.plugin.springsecurity.rest.token.generation.UUIDTokenGenerator generates tokens with 32 characters" time="0.004" />
+
+      <system-out><![CDATA[--Output from com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator generates tokens with 32 characters--
+--Output from com.odobo.grails.plugin.springsecurity.rest.token.generation.UUIDTokenGenerator generates tokens with 32 characters--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator generates tokens with 32 characters--
+--Output from com.odobo.grails.plugin.springsecurity.rest.token.generation.UUIDTokenGenerator generates tokens with 32 characters--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="MacBook-Pro-de-Alvaro.local" id="5" name="DefaultRestAuthenticationTokenJsonRendererSpec" package="com.odobo.grails.plugin.springsecurity.rest.token.rendering" tests="2" time="1.376" timestamp="2013-12-27T17:53:52">
+      <properties />
+
+      <testcase classname="com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec" name="it renders proper JSON for a given token when the user has 2 roles" time="1.256" />
+
+      <testcase classname="com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec" name="it renders proper JSON for a given token when the user has 0 roles" time="0.096" />
+
+      <system-out><![CDATA[--Output from it renders proper JSON for a given token when the user has 2 roles--
+{"username":"john.doe","token":"1a2b3c4d","roles":["ADMIN","USER"]}
+--Output from it renders proper JSON for a given token when the user has 0 roles--
+{"username":"john.doe","token":"1a2b3c4d","roles":[]}
+]]></system-out>
+
+      <system-err><![CDATA[--Output from it renders proper JSON for a given token when the user has 2 roles--
+--Output from it renders proper JSON for a given token when the user has 0 roles--
+]]></system-err>
+
+  </testsuite>
+</testsuites>

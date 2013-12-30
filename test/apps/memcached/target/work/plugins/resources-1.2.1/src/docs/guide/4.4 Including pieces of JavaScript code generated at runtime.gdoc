@@ -1,0 +1,31 @@
+Often in an application, especially those using custom Grails tags and rich UIs, you will need to render fragments of JavaScript code while the page is being rendered. It is not always possible to know what JS code there will be in the page until the render process is finished.
+
+The [script|Tags] tag allows you to specify sections of JavaScript text during page rendering, but if using Sitemesh layouts, you will be able to have these fragments appear either in <head> or deferred to the end of the page, just like other JavaScript resources.
+
+This integrates with the disposition mechanism, allowing you to throw your JavaScript into a specific location:
+
+{code:xml}
+<r:script>
+    window.alert('This is the end of the page!');
+</r:script>
+
+<r:script disposition='head'>
+    window.alert('This is the head of the page!');
+</r:script>
+{code}
+
+What happens is the <r:script> tag stashes your fragment in the request attributes until <r:layoutResources/> is called - when it is pulled out of the attributes and rendered according to the current disposition being rendered.
+
+This is ideal for other custom Grails GSP taglibs to use to write out their JS code used to e.g. set up UI elements:
+
+{code:java}
+class MyCustomTagLib {
+    def datePicker = {
+        out << r.script(disposition:'head') {
+            out << '$("#'+attrs.id.encodeAsJavaScript()+').datePicker();'
+        }
+    }
+}
+{code}
+
+The order of code is preserved, and all such fragments are rendered *after* all the modules required by the page (in that disposition) have been included.

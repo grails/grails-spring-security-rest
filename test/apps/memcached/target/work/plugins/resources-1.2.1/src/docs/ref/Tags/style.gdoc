@@ -1,0 +1,30 @@
+h1. r:style Tag
+
+Using this tag you can write "inline" CSS anywhere in your GSP (providing you use Sitemesh layouts), which will be placed at the used disposition. The disposition "head" is used as default.
+
+The code is executed after all the other resources in the given disposition have been included, so you can easily stack up little fragments that set up your UI elements or perform other functions.
+
+Assuming a Sitemesh layout that calls <r:layoutResources/> at the correct times, the following causes alerts to occur when head and page body load:
+
+{code:xml}
+<html>
+   <head>
+      <meta name="layout" content="main"/>
+      <r:require modules="jquery-ui, blueprint"/>
+      <r:require module="single-module"/>
+
+      <r:style>
+         p {
+            color: ${['blue', 'green', 'red', 'yellow'][new Random().nextInt(4)]} !important;
+         }
+      </r:style>
+   </head>
+   <body>
+      <p>Text in a random color.</p>
+   </body>
+</html>
+{code}
+
+h2. Attributes
+
+* disposition - Optional. The disposition name of the code. Defaults to "head", but can be any other disposition like "defer".

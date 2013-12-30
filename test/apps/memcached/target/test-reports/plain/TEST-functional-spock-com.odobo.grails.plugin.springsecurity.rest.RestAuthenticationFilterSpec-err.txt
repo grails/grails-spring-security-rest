@@ -1,0 +1,10 @@
+--Output from get requests without parameters generate 405 responses--
+--Output from post requests without parameters generate 400 responses--
+--Output from put requests without parameters generate 405 responses--
+--Output from delete requests without parameters generate 405 responses--
+--Output from the filter is only applied to the configured URL[0]--
+--Output from the filter is only applied to the configured URL[1]--
+--Output from the filter is only applied to the configured URL[2]--
+--Output from the filter is only applied to the configured URL[3]--
+--Output from authentication attempt with wrong credentials returns a failure status code--
+--Output from authentication attempt with correct credentials returns a valid status code--

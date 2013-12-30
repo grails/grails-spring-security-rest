@@ -1,0 +1,18 @@
+<plugin name='rest-client-builder' version='1.0.3' grailsVersion='2.0 &gt; *'>
+  <author>Graeme Rocher</author>
+  <authorEmail>grocher@vmware.com</authorEmail>
+  <title>REST Client Builder Plugin</title>
+  <description>Grails REST Client Builder Plugin</description>
+  <documentation>http://grails.org/plugin/rest-client-builder</documentation>
+  <type>RestClientBuilderGrailsPlugin</type>
+  <resources />
+  <repositories>
+    <repository name='grailsCentral' url='http://grails.org/plugins' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+  </repositories>
+  <dependencies />
+  <plugins />
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>

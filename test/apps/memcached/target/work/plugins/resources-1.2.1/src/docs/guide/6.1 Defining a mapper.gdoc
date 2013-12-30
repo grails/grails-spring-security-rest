@@ -1,0 +1,31 @@
+Defining a resource mapper is easy. You create a file with ResourceMapper.groovy as the file suffix, in the grails-app/resourceMappers folder.
+
+The name of the mapper is extracted from the filename like any other Grails artefact, for example "TestResourceMapper" yields a mapper with name "test".
+ 
+Example grails-app/resourceMappers/TestResourceMapper.groovy:
+
+{code:java}
+import org.grails.plugin.resource.mapper.MapperPhase
+
+class TestResourceMapper {
+
+    def phase = MapperPhase.MUTATION
+
+    def map(resource, config) {
+        def file = new File(resource.processedFile.parentFile, "_${resource.processedFile.name}")
+        assert resource.processedFile.renameTo(file)
+        resource.processedFile = file
+        resource.updateActualUrlFromProcessedFile()
+    }
+
+}
+{code}
+
+The only method a mapper must implement is *map(resource, config)* which is passed the [ResourceMeta|http://github.com/grails-plugins/grails-resources/blob/master/src/groovy/org/grails/plugin/resource/ResourceMeta.groovy] object that represents the resource and the mapper-specific config variables pulled out of @grails.resources.mappers.<mappername>@.
+NOTE: The name of the mapper is always in all lower case.
+
+This method can do whatever it needs to the resource's file, provided it calls the updateActualUrlFromProcessedFile() method if the resource moves, unless you patch ResourceMeta.actualUrl manually.
+
+You can change other properties of the resource, such as change the content type of the resource, add or modify tagAttributes (which are passed through when rendering the link for the resource).
+
+That's all you need to do to create a mapper. The best way to learn how they work is to study the source of [Cached-Resources|http://grails.org/plugin/cached-resources] and [Zipped-Resources|http://grails.org/plugin/zipped-resources] plugins.

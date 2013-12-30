@@ -1,0 +1,21 @@
+Bundling files is the process of concatenating multiple files of the same type into one, so that there are fewer requests made to the server. This can significantly improve page load times even when using ETag or Last-Modified caching schemes.
+
+In a typical application you might bundle most or all of your CSS into one file, and all your common JS into one file, with per-page JS files for page-specific features.
+
+This works very well in combination with the cached-resources plugin an mapper which hashes your files. It means that your clients will cache the (larger) bundled files "forever" but you needn't worry if your next deployment changes one file within a bundle - the bundle will be rebuilt with a new hash and downloaded to the client, as the URL for the resource will have changed.
+
+There is of course a trade-off here, in that a change to one JS file in a bundle will trigger a download of the entire JS bundle for all clients.
+
+It's important to understand that bundling is automatically performed per-module, but you can set it to bundle resources across modules - even those you have not defined yourself. For example using the jquery-ui plugin, you can force it to bundle all the jQuery and jQuery UI JS code into one file, mixed in along with your own code - all in the correct dependency ordering.
+
+The framework will never bundle files that have different dispositions together - this makes no sense. Bundles are therefore automatically named to include the disposition (you may not see this if another mapper such as cached-resources is renaming the files).
+
+Bundling can be controlled in a number of ways. The logic runs as follows:
+
+# If a resource declaration has an explicit bundle property set, this is used.
+# If there is no explicit bundle property set on the resource, it will use the default for the module
+# The default for the module is "bundle_" plus the name of the module unless defaultBundle has been called
+# If defaultBundle has been called in the module with a string, that name is used for the resource's bundle
+# If defaultBundle has been called in the module with a boolean false, no bundling will occur on the resource, only resources with a bundle specified will be bundled.
+
+*NOTE* If a resource declares "attrs" or "wrapper" it will not be bundled at all. This is because bundling does not make sense in this situation unless all the attrs and wrapper logic match.

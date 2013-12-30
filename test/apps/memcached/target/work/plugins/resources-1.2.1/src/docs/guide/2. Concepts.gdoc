@@ -1,0 +1,55 @@
+The resources framework provides 5 primary functions to a Grails application:
+
+# Bundling of resources into modules with dependency management.
+# Processing of resources prior to serving them.
+# Tag library to render links to resources in modules.
+# Tag library to render links to other resources which are not in modules.
+# Service of resources to clients based on appropriate requests.
+
+In the general sense, a resource is an item that a client accesses, whether from the application or a different location. Typical items served as resources by an application are CSS, Javascript, icon, and image files. With the resources plugin tags [resource|Tags], [img|Tags] and [external|Tags] replacing the corresponding grails tags in the @g:@ namespace as of Grails 1.4, this more general meaning is important, as different functions of the plugin view resources in different ways. The following sections will provide an overview of how resources are handled by the resource plugin with respect to each of these functions. Please see the other sections of this User Guide for details regarding each of the tags and objects mentioned.
+
+h2. Bundling of Resources into Modules with Dependency Management.
+
+In the resources framework, you define resource modules that have a name and contain one or more resources. The modules are declared in separate files named like ModuleResources.groovy (forming a Resources artefact) or in a separate modules block within Config.groovy.
+
+The resources can either be local to the application, and declared with the usual map of attributes, such as @dir:@ and @file:@, or external to the application, with an absolute url containing @://@ . 
+
+When resources in a module are required on a groovy server page (GSP), for example a css file in a set, this requirement is indicated by including a [require|Tags] tag for the module in the header. Links to the resources themselves are then included in the GSP by including one or two [layoutResources|Tags] tags. The first is placed in the header and the second at the bottom of the page to render any items which should be deferred to the end of the page, such as javascript fragments. 
+
+Dependencies can be specified between modules, so that a page which requires resources in one module, which in turn requires other resources in other modules, need only require the former and all dependent modules will automatically be included on the page, in the proper order.
+
+h2. Processing of Resources Prior to Serving Them.
+
+Another important function of the Resources plugin is to process resources prior to serving them to clients. For example, CSS files can be minified and combined to improve server performance.
+
+This processing is performed by [Mappers|guide:6. Creating custom mappers], which can generally perform any type of modification of the resources, including renaming and combining files. An example is combination of css files, which can also include re-writing links to the css files so combined. The specific mappers applied to a resource can be specified based on the type of resource, type of mapper, or on a per resource basis.
+
+Another form of resource processing provided by the Resources plugin is aggregation of pieces of Javascript. Segments of script can be embedded within a GSP using the [script|Tags] tag. These will then be rendered into the head or end of the page when the [layoutResources|Tags] tag is invoked. The location (head or end of the page) of both javascript fragments and other resources is controlled by defining their @disposition@ attribute.
+
+h2. Tag Library to Render Links to Resources in Modules.
+
+The plugin includes several tags for rendering links to resources that are declared in modules. The [resource|Tags] tag is the primary tag used for this purpose and the uri for a resource can be specified as a combination of attributes, such as directory and file, or a relative uri. The [img|Tags] tag is a specialized tag for rendering links to image files which can be used for images which are declared in modules.
+
+h2. Tag Library to Render Links to Resources Not Declared in Modules.
+
+The Resources plugin also provides tags which can be used to render links to resources which are not declared in a module. This function assumes greater importance since Grails 1.4, as the @g:resource@, @g:external@, and @g:img@ tags now call the corresponding tags in the Resources plugin.
+
+Resources which haven't been declared in a module fall into two classes, those which *are* served by the application and those which refer to a resource *not* served by the application. The former have a context relative URI whereas the latter have an absolute URI, which the plugin defines as a URI that contains the characters @://@ . 
+
+The primary tag to render links to either type of resource is the [external|Tags] tag. This tag can take a URI (relative or absolute) or a combination of other attributes to specify the resource, such as directory and file. The [img|Tags] tag may be used with similar arguments to render a link to an image file. 
+
+h2. Service of Resources to Clients.
+
+A final major function of the Resources plugin is to serve content which is not provided by the dynamic controllers, which serve URIs of the form /controller/action/id. The plugin provides two methods of resolving URIs to serve these non-dynamic, or static, resources.
+
+The primary method is by resolving URIs within a specific static URI subspace, normally those URIs under @static/@. When such a URI is encountered, the plugin first attempts to determine if the URI corresponds to a resource declared in a module. If it finds one, it serves that. If it cannot find such a resource, it will next examine the file system under webapp and if a file with corresponding path and name is found, it will serve that. In the process of doing so, it will create a copy of the file and process it in the normal manner for a resource of its type, assigning it to a virtual 'adhoc' module. 
+
+The second method of serving resources is designed to serve resources requested with legacy URIs. These are URIs which are not under the static URI subspace or the form /controller/action/id served by the dynamic controllers. They typically would be generated by a mechanism other than the Resources plugin tags, for example, by older Grails applications. These are referred to as 'ad-hoc' or 'legacy' resources. In order to recognize these URIs, a pattern matching them must be configured, and by default the patterns @/images/\*@, @\*.css@, and @*.js@ will be processed in this way. When such resources are requested, the client is redirected to a processed copy of the resource which is created in the @/static/@ URI subspace. This method is not recommended for general use, but only for accomodating legacy URIs.
+
+h2. Use With Security
+
+When the resources plugin is used to serve resources, it is important to understand that resources in the static URI subspace are served without application of security rules by SpringSecurity. This implies that any resources served from the static URI subspace are provided with no security rules applied. {warning}Importantly, this implies that any files accessible in the web-app base directory will be accessible under a corresponding path under <ctx>/static, so be careful which files are available under the web-app base directory.{warning}
+
+h2. Performance
+
+While the Resources plugin contains a number of optimizations for improving server performance, such as minifying and combining css files, it will not likely perform well at serving large numbers of files or very large files, such as movies. This is because each resource which can be served or processed as an ad-hoc resource creates entries in memory, and very large numbers of such entries could lead to memory exhaustion. Additionally, resources are served to clients through a number of stream buffers, which will limit performance for very large files. In such cases it is likely better to provide a controller with appropriate methods to serve the resources at controller/action style URIs.

@@ -1,0 +1,7 @@
+h1. cssprocessor bundle
+
+The "csspreprocessor" mapper iterates over the lines in your CSS files and updates any references to application resource urls to have a "resource:" prefix, and absolutizes them relative to the static resources folder.
+
+This is a precursor phase that makes it safe for the CSS to be moved in the filesystem, without breaking the links to the resources.
+
+The inverse is performed by the [cssrewriter|Mappers] mapper.

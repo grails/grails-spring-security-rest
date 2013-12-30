@@ -1,0 +1,870 @@
+2013-12-23 22:49:19,648 [main] ERROR StackTrace  - Full Stack Trace:
+Condition not satisfied:
+
+false
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something(RestAuthenticationFailureHandlerSpec.groovy:12)
+2013-12-23 22:49:19,651 [main] ERROR StackTrace  - Full Stack Trace:
+Condition not satisfied:
+
+false
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something(RestAuthenticationFailureHandlerSpec.groovy:12)
+2013-12-23 22:49:19,653 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+false
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something(RestAuthenticationFailureHandlerSpec.groovy:12)
+2013-12-23 22:49:19,653 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+false
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something(RestAuthenticationFailureHandlerSpec.groovy:12)
+2013-12-23 22:49:19,657 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+false
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something(RestAuthenticationFailureHandlerSpec.groovy:12)
+2013-12-23 22:49:19,657 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+false
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something(RestAuthenticationFailureHandlerSpec.groovy:12)
+2013-12-23 22:49:19,900 [main] ERROR StackTrace  - Full Stack Trace:
+Condition not satisfied:
+
+false
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something(RestAuthenticationFailureHandlerSpec.groovy:12)
+2013-12-23 22:49:19,901 [main] ERROR StackTrace  - Full Stack Trace:
+Condition not satisfied:
+
+false
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something(RestAuthenticationFailureHandlerSpec.groovy:12)
+2013-12-23 22:49:19,914 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+false
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something(RestAuthenticationFailureHandlerSpec.groovy:12)
+2013-12-23 22:49:19,914 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+false
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something(RestAuthenticationFailureHandlerSpec.groovy:12)
+2013-12-23 22:49:19,915 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+false
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something(RestAuthenticationFailureHandlerSpec.groovy:12)
+2013-12-23 22:49:19,915 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+false
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something(RestAuthenticationFailureHandlerSpec.groovy:12)
+2013-12-23 22:50:07,130 [main] ERROR StackTrace  - Full Stack Trace:
+Condition not satisfied:
+
+response.status == 401
+|        |      |
+|        403    false
+org.springframework.mock.web.MockHttpServletResponse@7e791283
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something cool(RestAuthenticationFailureHandlerSpec.groovy:29)
+2013-12-23 22:50:07,136 [main] ERROR StackTrace  - Full Stack Trace:
+Condition not satisfied:
+
+response.status == 401
+|        |      |
+|        403    false
+org.springframework.mock.web.MockHttpServletResponse@7e791283
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something cool(RestAuthenticationFailureHandlerSpec.groovy:29)
+2013-12-23 22:50:07,137 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == 401
+|        |      |
+|        403    false
+org.springframework.mock.web.MockHttpServletResponse@7e791283
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something cool(RestAuthenticationFailureHandlerSpec.groovy:29)
+2013-12-23 22:50:07,137 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == 401
+|        |      |
+|        403    false
+org.springframework.mock.web.MockHttpServletResponse@7e791283
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something cool(RestAuthenticationFailureHandlerSpec.groovy:29)
+2013-12-23 22:50:07,142 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == 401
+|        |      |
+|        403    false
+org.springframework.mock.web.MockHttpServletResponse@7e791283
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something cool(RestAuthenticationFailureHandlerSpec.groovy:29)
+2013-12-23 22:50:07,142 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == 401
+|        |      |
+|        403    false
+org.springframework.mock.web.MockHttpServletResponse@7e791283
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something cool(RestAuthenticationFailureHandlerSpec.groovy:29)
+2013-12-23 22:50:07,398 [main] ERROR StackTrace  - Full Stack Trace:
+Condition not satisfied:
+
+response.status == 401
+|        |      |
+|        403    false
+org.springframework.mock.web.MockHttpServletResponse@64ca516e
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something cool(RestAuthenticationFailureHandlerSpec.groovy:29)
+2013-12-23 22:50:07,399 [main] ERROR StackTrace  - Full Stack Trace:
+Condition not satisfied:
+
+response.status == 401
+|        |      |
+|        403    false
+org.springframework.mock.web.MockHttpServletResponse@64ca516e
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something cool(RestAuthenticationFailureHandlerSpec.groovy:29)
+2013-12-23 22:50:07,413 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == 401
+|        |      |
+|        403    false
+org.springframework.mock.web.MockHttpServletResponse@64ca516e
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something cool(RestAuthenticationFailureHandlerSpec.groovy:29)
+2013-12-23 22:50:07,414 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == 401
+|        |      |
+|        403    false
+org.springframework.mock.web.MockHttpServletResponse@64ca516e
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something cool(RestAuthenticationFailureHandlerSpec.groovy:29)
+2013-12-23 22:50:07,414 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == 401
+|        |      |
+|        403    false
+org.springframework.mock.web.MockHttpServletResponse@64ca516e
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something cool(RestAuthenticationFailureHandlerSpec.groovy:29)
+2013-12-23 22:50:07,414 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == 401
+|        |      |
+|        403    false
+org.springframework.mock.web.MockHttpServletResponse@64ca516e
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.test something cool(RestAuthenticationFailureHandlerSpec.groovy:29)
+2013-12-23 22:58:58,928 [main] ERROR StackTrace  - Full Stack Trace:
+java.lang.NullPointerException: Cannot get property 'username' on null object
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:19)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:24)
+2013-12-23 22:58:58,930 [main] ERROR StackTrace  - Full Stack Trace:
+java.lang.NullPointerException: Cannot get property 'username' on null object
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:19)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:24)
+2013-12-23 22:58:58,931 [main] ERROR StackTrace  - Full Stack Trace:
+java.lang.NullPointerException: Cannot get property 'username' on null object
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:19)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:24)
+2013-12-23 22:58:58,931 [main] ERROR StackTrace  - Full Stack Trace:
+java.lang.NullPointerException: Cannot get property 'username' on null object
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:19)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:24)
+2013-12-23 22:58:58,934 [main] ERROR StackTrace  - Full Stack Trace:
+java.lang.NullPointerException: Cannot get property 'username' on null object
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:19)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:24)
+2013-12-23 22:58:58,934 [main] ERROR StackTrace  - Full Stack Trace:
+java.lang.NullPointerException: Cannot get property 'username' on null object
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:19)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:24)
+2013-12-23 22:58:59,176 [main] ERROR StackTrace  - Full Stack Trace:
+java.lang.NullPointerException: Cannot get property 'username' on null object
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:19)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:24)
+2013-12-23 22:58:59,176 [main] ERROR StackTrace  - Full Stack Trace:
+java.lang.NullPointerException: Cannot get property 'username' on null object
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:19)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:24)
+2013-12-23 22:58:59,179 [main] ERROR StackTrace  - Full Stack Trace:
+java.lang.NullPointerException: Cannot get property 'username' on null object
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:19)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:24)
+2013-12-23 22:58:59,180 [main] ERROR StackTrace  - Full Stack Trace:
+java.lang.NullPointerException: Cannot get property 'username' on null object
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:19)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:24)
+2013-12-23 22:58:59,180 [main] ERROR StackTrace  - Full Stack Trace:
+java.lang.NullPointerException: Cannot get property 'username' on null object
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:19)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:24)
+2013-12-23 22:58:59,181 [main] ERROR StackTrace  - Full Stack Trace:
+java.lang.NullPointerException: Cannot get property 'username' on null object
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:19)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:24)
+2013-12-23 23:01:44,247 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:112)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:110)
+	... 2 more
+2013-12-23 23:01:44,252 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:110)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:01:44,252 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:01:44,254 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:01:44,254 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:01:44,254 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:01:44,260 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:01:44,260 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:01:44,260 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:01:44,443 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:112)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:110)
+	... 2 more
+2013-12-23 23:01:44,444 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:110)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:01:44,444 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:01:44,445 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:01:44,445 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:01:44,445 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:01:44,446 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:01:44,446 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:01:44,446 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:02:03,591 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:112)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:110)
+	... 2 more
+2013-12-23 23:02:03,595 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:110)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:02:03,595 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:02:03,596 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:02:03,596 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:02:03,596 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:02:03,602 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:02:03,602 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:02:03,602 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:02:03,782 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:112)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:110)
+	... 2 more
+2013-12-23 23:02:03,782 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:110)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:02:03,782 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:02:03,784 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:02:03,784 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:02:03,784 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:02:03,784 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:02:03,785 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:02:03,785 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:27)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:10:27,455 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:112)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:110)
+	... 2 more
+2013-12-23 23:10:27,458 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:110)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:10:27,458 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:10:27,459 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:10:27,459 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:10:27,459 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:10:27,465 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:10:27,465 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:10:27,465 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:10:27,647 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:112)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:110)
+	... 2 more
+2013-12-23 23:10:27,647 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at org.codehaus.groovy.grails.web.converters.AbstractConverter.toString(AbstractConverter.java:110)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:10:27,647 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:10:27,649 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:10:27,649 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:10:27,649 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:10:27,650 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-23 23:10:27,650 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-23 23:10:27,650 [main] ERROR StackTrace  - Full Stack Trace:
+org.apache.commons.lang.UnhandledException: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:29)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+Caused by: org.codehaus.groovy.grails.web.converters.exceptions.ConverterException: Unconvertable Object of class: java.util.LinkedHashMap
+	at grails.converters.JSON.value(JSON.java:199)
+	at grails.converters.JSON.render(JSON.java:133)
+	... 2 more
+2013-12-24 11:32:38,266 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.MissingMethodException: No signature of method: org.springframework.mock.web.MockHttpServletResponse.setStatus() is applicable for argument types: (null) values: [null]
+Possible solutions: setStatus(int), getStatus(), setStatus(int, java.lang.String)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler.onAuthenticationFailure(RestAuthenticationFailureHandler.groovy:25)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.it returns 403 when authentication fails(RestAuthenticationFailureHandlerSpec.groovy:22)
+2013-12-24 11:32:38,291 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.MissingMethodException: No signature of method: org.springframework.mock.web.MockHttpServletResponse.setStatus() is applicable for argument types: (null) values: [null]
+Possible solutions: setStatus(int), getStatus(), setStatus(int, java.lang.String)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler.onAuthenticationFailure(RestAuthenticationFailureHandler.groovy:25)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.it returns 403 when authentication fails(RestAuthenticationFailureHandlerSpec.groovy:22)
+2013-12-24 11:32:38,337 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.MissingMethodException: No signature of method: org.springframework.mock.web.MockHttpServletResponse.setStatus() is applicable for argument types: (null) values: [null]
+Possible solutions: setStatus(int), getStatus(), setStatus(int, java.lang.String)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler.onAuthenticationFailure(RestAuthenticationFailureHandler.groovy:25)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.it returns 403 when authentication fails(RestAuthenticationFailureHandlerSpec.groovy:22)
+2013-12-24 11:32:38,354 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.MissingMethodException: No signature of method: org.springframework.mock.web.MockHttpServletResponse.setStatus() is applicable for argument types: (null) values: [null]
+Possible solutions: setStatus(int), getStatus(), setStatus(int, java.lang.String)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler.onAuthenticationFailure(RestAuthenticationFailureHandler.groovy:25)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.it returns 403 when authentication fails(RestAuthenticationFailureHandlerSpec.groovy:22)
+2013-12-24 11:32:38,436 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.MissingMethodException: No signature of method: org.springframework.mock.web.MockHttpServletResponse.setStatus() is applicable for argument types: (null) values: [null]
+Possible solutions: setStatus(int), getStatus(), setStatus(int, java.lang.String)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler.onAuthenticationFailure(RestAuthenticationFailureHandler.groovy:25)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.it returns 403 when authentication fails(RestAuthenticationFailureHandlerSpec.groovy:22)
+2013-12-24 11:32:38,454 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.MissingMethodException: No signature of method: org.springframework.mock.web.MockHttpServletResponse.setStatus() is applicable for argument types: (null) values: [null]
+Possible solutions: setStatus(int), getStatus(), setStatus(int, java.lang.String)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler.onAuthenticationFailure(RestAuthenticationFailureHandler.groovy:25)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.it returns 403 when authentication fails(RestAuthenticationFailureHandlerSpec.groovy:22)
+2013-12-24 11:32:40,869 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.MissingMethodException: No signature of method: org.springframework.mock.web.MockHttpServletResponse.setStatus() is applicable for argument types: (null) values: [null]
+Possible solutions: setStatus(int), getStatus(), setStatus(int, java.lang.String)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler.onAuthenticationFailure(RestAuthenticationFailureHandler.groovy:25)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.it returns 403 when authentication fails(RestAuthenticationFailureHandlerSpec.groovy:22)
+2013-12-24 11:32:40,870 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.MissingMethodException: No signature of method: org.springframework.mock.web.MockHttpServletResponse.setStatus() is applicable for argument types: (null) values: [null]
+Possible solutions: setStatus(int), getStatus(), setStatus(int, java.lang.String)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler.onAuthenticationFailure(RestAuthenticationFailureHandler.groovy:25)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.it returns 403 when authentication fails(RestAuthenticationFailureHandlerSpec.groovy:22)
+2013-12-24 11:32:40,873 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.MissingMethodException: No signature of method: org.springframework.mock.web.MockHttpServletResponse.setStatus() is applicable for argument types: (null) values: [null]
+Possible solutions: setStatus(int), getStatus(), setStatus(int, java.lang.String)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler.onAuthenticationFailure(RestAuthenticationFailureHandler.groovy:25)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.it returns 403 when authentication fails(RestAuthenticationFailureHandlerSpec.groovy:22)
+2013-12-24 11:32:40,874 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.MissingMethodException: No signature of method: org.springframework.mock.web.MockHttpServletResponse.setStatus() is applicable for argument types: (null) values: [null]
+Possible solutions: setStatus(int), getStatus(), setStatus(int, java.lang.String)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler.onAuthenticationFailure(RestAuthenticationFailureHandler.groovy:25)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.it returns 403 when authentication fails(RestAuthenticationFailureHandlerSpec.groovy:22)
+2013-12-24 11:32:40,876 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.MissingMethodException: No signature of method: org.springframework.mock.web.MockHttpServletResponse.setStatus() is applicable for argument types: (null) values: [null]
+Possible solutions: setStatus(int), getStatus(), setStatus(int, java.lang.String)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler.onAuthenticationFailure(RestAuthenticationFailureHandler.groovy:25)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.it returns 403 when authentication fails(RestAuthenticationFailureHandlerSpec.groovy:22)
+2013-12-24 11:32:40,876 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.MissingMethodException: No signature of method: org.springframework.mock.web.MockHttpServletResponse.setStatus() is applicable for argument types: (null) values: [null]
+Possible solutions: setStatus(int), getStatus(), setStatus(int, java.lang.String)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler.onAuthenticationFailure(RestAuthenticationFailureHandler.groovy:25)
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandlerSpec.it returns 403 when authentication fails(RestAuthenticationFailureHandlerSpec.groovy:22)
+2013-12-27 18:50:50,374 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:50,377 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:50,378 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:50,378 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:50,381 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:50,382 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:50,454 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:50,454 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:50,455 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:50,455 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:50,455 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:50,455 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:51,017 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:51,017 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:51,018 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:51,019 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:51,019 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:51,019 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:51,066 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:51,066 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:51,066 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:51,067 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:51,067 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:50:51,067 [main] ERROR StackTrace  - Full Stack Trace:
+org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object 'john.doe' with class 'java.lang.String' to class 'org.springframework.security.core.userdetails.UserDetails'
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer.generateJson(DefaultRestAuthenticationTokenJsonRenderer.groovy:14)
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:28)
+2013-12-27 18:52:47,560 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:47,561 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:47,562 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:47,562 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:47,565 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:47,565 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:47,674 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:47,675 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:47,675 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:47,675 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:47,675 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:47,675 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:48,293 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:48,293 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:48,295 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:48,295 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:48,295 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:48,295 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:48,357 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:48,358 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:48,358 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:48,358 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:48,358 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)
+2013-12-27 18:52:48,358 [main] ERROR StackTrace  - Full Stack Trace:
+groovy.lang.ReadOnlyPropertyException: Cannot set readonly property: principal for class: com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+	at com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRendererSpec.it renders proper JSON for a given token when the user has #roles.size() roles(DefaultRestAuthenticationTokenJsonRendererSpec.groovy:23)

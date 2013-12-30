@@ -1,0 +1,22 @@
+All you have to do here is add the [require|Tags] to your GSP page. Anywhere will do, but in <head> makes sense, and add a bit of code:
+
+{code:xml}
+<html>
+   <head>
+      <meta name="layout" content="main"/>
+      <r:require modules="jquery-ui, blueprint"/>
+      
+      <r:script>
+          $(function() {
+              $('#form').dialog('open');
+          });
+      </r:script>
+   </head>
+   <body>
+      <div id="form">
+           Hello World
+      </div>  
+   </body>
+</html>
+{code}
+

@@ -1,0 +1,26 @@
+The optional "operation" property allows you to specify the name of the kind of work performed by the mapper. Users can then prevent any mappers of this operation from executing on their resources.
+
+The common example is to specify *exclude:"minify"* in a resource declaration to prevent any kind of minifying mapper from being applied to a resource that is already minified.
+
+A similar operation called e.g. "compress" could be used to prevent duplicate zipping of resources that may have been pre-compressed (such as images).
+
+{code:java}
+import org.grails.plugin.resource.mapper.MapperPhase
+
+class TestResourceMapper {
+
+    def phase = MapperPhase.COMPRESS
+
+    def operation = "compression"
+    
+    def map(resource, config) {
+        // Zip the file here
+    }
+
+}
+{code}
+
+Note the operations and mapper names occupy the same namespace so that the "exclude" argument on resource declarations can apply to either.
+
+Resources will fail fast at runtime if an operation is specified on any mapper, where there is also a mapper with a name the same as the operation.
+

@@ -1,0 +1,458 @@
+<!DOCTYPE html><html xmlns:stringutils="xalan://org.apache.tools.ant.util.StringUtils" xmlns:lxslt="http://xml.apache.org/xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>
+                    Test - RestAuthenticationFilterSpec</title>
+<link type="image/x-icon" href="http://grails.org/images/favicon.ico" rel="shortcut icon">
+<link title="Style" type="text/css" rel="stylesheet" href="../../../../../../stylesheet.css">
+</head>
+<body>
+<div id="report" class="container container_8">
+<div class="grid_6">
+<a title="Home" href="../../../../../../index.html">
+<div class="grailslogo"></div>
+</a>
+<h1>RestAuthenticationFilterSpec</h1>
+<h2>Package: com.odobo.grails.plugin.springsecurity.rest</h2>
+</div>
+<div class="grid_2">
+<nav id="navigationlinks">
+<p>
+<a href="../../../../../../failed.html">
+                    Tests with failure and errors
+                </a>
+</p>
+<p>
+<a href="../../../../../../index.html">
+                    Package summary
+                </a>
+</p>
+<p>
+<a href="../../../../../../all.html">
+                    Show all tests
+                </a>
+</p>
+</nav>
+</div>
+<div class="clear"></div>
+<div class="testsuite failure">
+<div class="header">
+<h2>RestAuthenticationFilterSpec</h2>
+<h3>
+                        Executed
+                        10
+                        tests
+                    
+                        with
+                        6 failures
+                        .
+                    </h3>
+</div>
+<div class="testcase clearfix failure grid_8 alpha omega" data-name="get requests without parameters generate 405 responses">
+<div class="grid_3 alpha">
+<p>
+<span class="icon failure"></span><b class="testname message failure">get requests without parameters generate 405 responses</b>
+</p>
+<p class="summary">Executed in 2.687 seconds.</p>
+</div>
+<div class="grid_5 omega outputinfo">
+<div class="details">
+<p>
+<b class="message">Condition not satisfied:
+
+response.status == statusCode
+|        |      |  |
+|        200    |  405
+|               false
+grails.plugins.rest.client.RestResponse@1dd0b7d7
+</b>
+</p>
+<pre>junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == statusCode
+|        |      |  |
+|        200    |  405
+|               false
+grails.plugins.rest.client.RestResponse@1dd0b7d7
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFilterSpec.#httpMethod requests without parameters generate #statusCode responses(RestAuthenticationFilterSpec.groovy:23)
+</pre>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+<div class="testcase clearfix failure grid_8 alpha omega" data-name="post requests without parameters generate 400 responses">
+<div class="grid_3 alpha">
+<p>
+<span class="icon failure"></span><b class="testname message failure">post requests without parameters generate 400 responses</b>
+</p>
+<p class="summary">Executed in 0.081 seconds.</p>
+</div>
+<div class="grid_5 omega outputinfo">
+<div class="details">
+<p>
+<b class="message">Condition not satisfied:
+
+response.status == statusCode
+|        |      |  |
+|        302    |  400
+|               false
+grails.plugins.rest.client.RestResponse@30fb4348
+</b>
+</p>
+<pre>junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == statusCode
+|        |      |  |
+|        302    |  400
+|               false
+grails.plugins.rest.client.RestResponse@30fb4348
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFilterSpec.#httpMethod requests without parameters generate #statusCode responses(RestAuthenticationFilterSpec.groovy:23)
+</pre>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+<div class="testcase clearfix failure grid_8 alpha omega" data-name="put requests without parameters generate 405 responses">
+<div class="grid_3 alpha">
+<p>
+<span class="icon failure"></span><b class="testname message failure">put requests without parameters generate 405 responses</b>
+</p>
+<p class="summary">Executed in 0.081 seconds.</p>
+</div>
+<div class="grid_5 omega outputinfo">
+<div class="details">
+<p>
+<b class="message">Condition not satisfied:
+
+response.status == statusCode
+|        |      |  |
+|        302    |  405
+|               false
+grails.plugins.rest.client.RestResponse@7558d4e5
+</b>
+</p>
+<pre>junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == statusCode
+|        |      |  |
+|        302    |  405
+|               false
+grails.plugins.rest.client.RestResponse@7558d4e5
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFilterSpec.#httpMethod requests without parameters generate #statusCode responses(RestAuthenticationFilterSpec.groovy:23)
+</pre>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+<div class="testcase clearfix failure grid_8 alpha omega" data-name="delete requests without parameters generate 405 responses">
+<div class="grid_3 alpha">
+<p>
+<span class="icon failure"></span><b class="testname message failure">delete requests without parameters generate 405 responses</b>
+</p>
+<p class="summary">Executed in 0.08 seconds.</p>
+</div>
+<div class="grid_5 omega outputinfo">
+<div class="details">
+<p>
+<b class="message">Condition not satisfied:
+
+response.status == statusCode
+|        |      |  |
+|        302    |  405
+|               false
+grails.plugins.rest.client.RestResponse@1e52c5f1
+</b>
+</p>
+<pre>junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == statusCode
+|        |      |  |
+|        302    |  405
+|               false
+grails.plugins.rest.client.RestResponse@1e52c5f1
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFilterSpec.#httpMethod requests without parameters generate #statusCode responses(RestAuthenticationFilterSpec.groovy:23)
+</pre>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+<div class="testcase clearfix success grid_8 alpha omega" data-name="the filter is only applied to the configured URL[0]">
+<div class="grid_3 alpha">
+<p>
+<span class="icon success"></span><b class="testname message success">the filter is only applied to the configured URL[0]</b>
+</p>
+<p class="summary">Executed in 0.167 seconds.</p>
+</div>
+<div class="grid_5 omega outputinfo"></div>
+<div class="clear"></div>
+</div>
+<div class="testcase clearfix success grid_8 alpha omega" data-name="the filter is only applied to the configured URL[1]">
+<div class="grid_3 alpha">
+<p>
+<span class="icon success"></span><b class="testname message success">the filter is only applied to the configured URL[1]</b>
+</p>
+<p class="summary">Executed in 0.08 seconds.</p>
+</div>
+<div class="grid_5 omega outputinfo"></div>
+<div class="clear"></div>
+</div>
+<div class="testcase clearfix success grid_8 alpha omega" data-name="the filter is only applied to the configured URL[2]">
+<div class="grid_3 alpha">
+<p>
+<span class="icon success"></span><b class="testname message success">the filter is only applied to the configured URL[2]</b>
+</p>
+<p class="summary">Executed in 0.083 seconds.</p>
+</div>
+<div class="grid_5 omega outputinfo"></div>
+<div class="clear"></div>
+</div>
+<div class="testcase clearfix success grid_8 alpha omega" data-name="the filter is only applied to the configured URL[3]">
+<div class="grid_3 alpha">
+<p>
+<span class="icon success"></span><b class="testname message success">the filter is only applied to the configured URL[3]</b>
+</p>
+<p class="summary">Executed in 0.084 seconds.</p>
+</div>
+<div class="grid_5 omega outputinfo"></div>
+<div class="clear"></div>
+</div>
+<div class="testcase clearfix failure grid_8 alpha omega" data-name="authentication attempt with wrong credentials returns a failure status code">
+<div class="grid_3 alpha">
+<p>
+<span class="icon failure"></span><b class="testname message failure">authentication attempt with wrong credentials returns a failure status code</b>
+</p>
+<p class="summary">Executed in 0.082 seconds.</p>
+</div>
+<div class="grid_5 omega outputinfo">
+<div class="details">
+<p>
+<b class="message">Condition not satisfied:
+
+response.status == 403
+|        |      |
+|        302    false
+grails.plugins.rest.client.RestResponse@251b9c30
+</b>
+</p>
+<pre>junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == 403
+|        |      |
+|        302    false
+grails.plugins.rest.client.RestResponse@251b9c30
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFilterSpec.authentication attempt with wrong credentials returns a failure status code(RestAuthenticationFilterSpec.groovy:52)
+</pre>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+<div class="testcase clearfix failure grid_8 alpha omega" data-name="authentication attempt with correct credentials returns a valid status code">
+<div class="grid_3 alpha">
+<p>
+<span class="icon failure"></span><b class="testname message failure">authentication attempt with correct credentials returns a valid status code</b>
+</p>
+<p class="summary">Executed in 0.082 seconds.</p>
+</div>
+<div class="grid_5 omega outputinfo">
+<div class="details">
+<p>
+<b class="message">Condition not satisfied:
+
+response.status == 200
+|        |      |
+|        302    false
+grails.plugins.rest.client.RestResponse@6919e126
+</b>
+</p>
+<pre>junit.framework.AssertionFailedError: Condition not satisfied:
+
+response.status == 200
+|        |      |
+|        302    false
+grails.plugins.rest.client.RestResponse@6919e126
+
+	at com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFilterSpec.authentication attempt with correct credentials returns a valid status code(RestAuthenticationFilterSpec.groovy:60)
+</pre>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+<div class="clearfix output footer">
+<div class="sysout">
+<h2>Standard output</h2>
+<pre class="stdout">--Output from get requests without parameters generate 405 responses--
+--Output from post requests without parameters generate 400 responses--
+--Output from put requests without parameters generate 405 responses--
+--Output from delete requests without parameters generate 405 responses--
+--Output from the filter is only applied to the configured URL[0]--
+--Output from the filter is only applied to the configured URL[1]--
+--Output from the filter is only applied to the configured URL[2]--
+--Output from the filter is only applied to the configured URL[3]--
+--Output from authentication attempt with wrong credentials returns a failure status code--
+--Output from authentication attempt with correct credentials returns a valid status code--
+</pre>
+</div>
+<div class="syserr">
+<h2>System error</h2>
+<pre class="syserr">--Output from get requests without parameters generate 405 responses--
+--Output from post requests without parameters generate 400 responses--
+--Output from put requests without parameters generate 405 responses--
+--Output from delete requests without parameters generate 405 responses--
+--Output from the filter is only applied to the configured URL[0]--
+--Output from the filter is only applied to the configured URL[1]--
+--Output from the filter is only applied to the configured URL[2]--
+--Output from the filter is only applied to the configured URL[3]--
+--Output from authentication attempt with wrong credentials returns a failure status code--
+--Output from authentication attempt with correct credentials returns a valid status code--
+</pre>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+<div class="clear"></div>
+</div>
+<!--
+            Parses JUnit output and associates it with the corresponding test case
+        -->
+<script language="javascript">
+
+
+/**
+ * The JUnit report format is incredibly stuipd in the
+ * sense that it accumulates output from all test methods
+ * into a single xml node.
+ */
+(function() {
+
+    var outputElements = findOutputElements();
+    for (var i in outputElements) {
+        var outputElement = outputElements[i];
+        var textOutput = outputElement.element.firstChild.nodeValue;
+        var header = outputElement.getHeader();
+        appendTestMethodOutput(textOutput, header);
+    }
+
+    function findOutputElements() {
+        var outputElements = [];
+        var preElements = document.getElementsByTagName("pre");
+        for (var i in preElements) {
+            var preElement = preElements[i];
+            var className = preElement.className || "";
+            if (className.indexOf("stdout") >= 0) {
+                var outputElement = new OutputElement(preElement, "output");
+                outputElements.push(outputElement);
+            } else if (className.indexOf("syserr") >= 0) {
+                var outputElement = new OutputElement(preElement, "error");
+                outputElements.push(outputElement);
+            }
+        }
+
+        return outputElements;
+    }
+
+    function OutputElement(element, type) {
+        this.element = element;
+        this.type = type;
+
+        this.getHeader = function() {
+            if (type === "output") {
+                return "System output";
+            } else if ("error") {
+                return "System error";
+            }
+        }
+    }
+
+    function appendTestMethodOutput(text, header) {
+        var testOutput = new TestMethodOutput(header);
+
+        var lines = text.split(/\r\n|\r|\n/);
+        for (var i in lines) {
+            var line = lines[i];
+            var matches = line.match(/^--Output from (.*)--$/);
+            if (matches !== null && matches.length == 2) {
+                testOutput.flushToDom();
+                testOutput.testName = matches[1];
+            } else {
+                testOutput.addLine(line);
+            }
+        }
+
+        testOutput.flushToDom();
+    }
+
+    function TestMethodOutput(header) {
+        this.header = header;
+        this.testName = undefined;
+        this.buffer = "";
+
+        this.addLine = function(line) {
+            this.buffer += line + "\n";
+        }
+
+        this.flushToDom = function() {
+            if (this.testName !== undefined) {
+                var domNode = getTestcaseElementByName(this.testName);
+                if (domNode !== undefined && trimString(this.buffer).length > 0) {
+                    this.appendTo(domNode);
+                }
+
+                this.reset();
+            }
+        }
+
+        this.appendTo = function(domNode) {
+            var node = document.createElement("div");
+            node.innerHTML = '<p><b class="message">' + header + '</b></p>';
+
+            var preNode = document.createElement("pre");
+            preNode.appendChild(document.createTextNode(this.buffer));
+            node.appendChild(preNode);
+
+            var outputContainer = findElementByTagClassAndParent("div", "outputinfo", domNode);
+            outputContainer.appendChild(node);
+        }
+
+        this.reset = function() {
+            this.methodName = undefined;
+            this.buffer = "";
+        }
+    }
+
+    function getTestcaseElementByName(name) {
+        var divElements = document.getElementsByTagName("div");
+        var elementCount = divElements.length;
+        for (var i=0; i<elementCount; i++) {
+            var el = divElements[i];
+            if (el.getAttribute("data-name") === name) {
+                return el;
+            }
+        }
+    }
+
+    function findElementByTagClassAndParent(tagName, className, parentNode) {
+        var elements = parentNode.getElementsByTagName(tagName);
+        for (var i in elements) {
+            var element = elements[i];
+
+            // Not 100% correct, but good enough here
+            if (element.className !== undefined && element.className.indexOf(className) >= 0) {
+                return element;
+            }
+        }
+    }
+
+    function trimString(str) {
+        return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+    }
+
+})();
+
+        </script>
+</body>
+</html>

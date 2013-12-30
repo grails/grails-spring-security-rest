@@ -1,0 +1,12 @@
+h1. r:img Tag
+
+This tag renders an HTML <img> tag that points to a declared or undeclared resource.
+
+h2. Attributes
+
+* uri - Optional. The app-relative URI of the resource, i.e. "/images/icon.png". Used as an alternative to dir/file combination
+* file - Optional. The file attribute as used by g:resource
+* dir - Optional. The dir attribute as used by g:resource. Defaults to "images"
+* plugin - Optional. The plugin attribute as used by g:resource
+
+All other attributes such as width and height are passed-through. Note that if the resource is declared and has 'attrs' specified, these will be passed through. Therefore you can declare images in modules and use that as a central location for their common attributes such as width and height.

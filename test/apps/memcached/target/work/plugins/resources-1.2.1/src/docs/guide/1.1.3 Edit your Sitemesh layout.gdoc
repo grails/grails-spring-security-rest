@@ -1,0 +1,17 @@
+You need to add the [layoutResources|Tags] tag twice to your page, for the <head> resources and end-of-body resources.
+
+Your grails-app/views/layouts/main.gsp:
+
+{code:xml}
+<html>
+   <head>
+      <g:layoutTitle/>
+      <r:layoutResources/>
+   </head>
+   <body>
+      <g:layoutBody/>
+      <r:layoutResources/>
+   </body>
+</html>
+{code}
+

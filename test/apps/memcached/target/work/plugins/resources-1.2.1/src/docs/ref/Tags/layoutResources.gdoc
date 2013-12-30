@@ -1,0 +1,28 @@
+h1. r:layoutResources Tag
+
+Renders the resource links required to satisfy the dependencies described by calls to <r:require> in the current request - for the current disposition.
+
+This tag has special behaviour, in that the first time it is called it renders the resources with disposition "head" (intended to be included within the <head> section of your page) and the second time it is called it renders the disposition "defer" resources.
+
+For best use, this should be called in the head and at the end of the body in your Sitemesh layout. It can work without Sitemesh layouts, but you will need to ensure that all <r:require> and <r:script> invocations are called before the <r:layoutResources/> that would render them. Herein lies the power of using Sitemesh - using it you no longer have to worry about when you call resource tags, which opens up many new possibilities.
+
+Example grails-app/views/layouts/main.gsp:
+
+{code:xml}
+<html>
+   <head>
+      <g:layoutTitle/>
+      <r:layoutResources/>
+   </head>
+   <body>
+      <g:layoutBody/>
+      <r:layoutResources/>
+   </body>
+</html>
+{code}
+
+h2. Attributes
+
+* disposition - Optional. The resource disposition to render. If not specified, the first call in a request renders "head", and then the second renders "defer". However you can pass in any disposition that you use in resource declarations e.g. "image-preload".
+
+

@@ -1,0 +1,53 @@
+Declaring a resource is done using the "resource" method. This takes either a single string URI or a map of arguments that define the URL of the resource and any other specific options you require.
+
+The single-string argument variant is a simple shortcut for resources that are safe to use all defaults:
+
+{code:java}
+modules = {
+    ui {
+        resource '/css/forms.css'
+        resource '/js/forms.js'
+    }
+}
+{code}
+
+The more powerful map argument form accepts the following arguments:
+
+* url - Required. The app-relative URL of the resource as a String, or a g:resource-style map of dir, file and plugin attributes.
+* exclude - Optional. A comma-delimited String or a List of names of mappers/operations to exclude. The special "*" value excludes all mappers and operations - the resource will be passed-through as is. You can exclude specific operations such as "minify" if the resource has already been minified.
+* bundle - Optional. The name of the bundle to put the resource into. See "Bundling" for more details
+* disposition - Optional. The disposition of the resource. If not specified, it will default to a value appropriate for the type of the resource. For JavaScript this default is "defer". To force code into the <head>, set it to "head".
+* attrs - Optional. Map of attribute names and values to pass through to the linking tag when the resource is rendered. e.g. use to pass attrs:[media:'print'] for print-only CSS, or "type". Note that supplying "attrs" will prevent bundling of the resource. Passing in "type" (which is passed through to [external|Tags] tag) allows you to tell the framework that the resource is a specific type irrespective of the file extension. For example if you have a file that ends ".less" but you want the framework to treat it like CSS when rendering links, you need to set attrs:\[type:"css"\].
+* id - Optional. Module-unique id of the resource to be used when [overriding|guide:5. Overriding resources] resource properties. Defaults to the url of the resource if none supplied.
+* linkOverride - Optional. The URL to use when rendering links for the resource, instead of the processed resource's URL. Allows your external resources to participate in dependency management, and some niche CDN requirements.
+* wrapper - Optional. A Closure that will be used to render the resource link. The correct markup for linking will be passed in. Used primarily for MSIE workarounds i.e: wrapper: \{ s -> "<!--[if lt IE 8]>$s<![endif]-->" \}. Note that supplying a wrapper will prevent bundling of that resource.
+* plugin - Optional. If applicable, the name of the plugin a resource is being defined in. 
+
+Examples:
+
+{code:java}
+modules = {
+    core {
+        resource url:[dir:'css/blueprint',file:'screen.css'], attrs:[media:'screen, projection'], bundle:'core-ui'
+        resource url:[dir:'css/blueprint',file:'ie.css'], attrs:[media:'screen, projection'],  
+            wrapper: { s -> "<!--[if lt IE 8]>$s<![endif]-->" }
+
+        resource id:'main-js', url:'js/coreutils-min.js', disposition: 'head', exclude:'minify'
+
+        resource url:'js/lib.js', linkOverride:'http://mycdn.com/js/lib.js'
+    }
+    
+    ui {
+        resource url:'/css/forms.css', bundle:'core-ui'
+        resource url:'/js/forms.js'
+    }
+}
+{code}
+
+{code:java}
+modules = {
+    'font-awesome' {
+        resource url: [plugin: 'font-awesome-resources', dir: 'css', file: 'font-awesome.css']
+    }
+}
+{code}

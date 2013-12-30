@@ -1,0 +1,41 @@
+<plugin name='cache' version='1.1.1' grailsVersion='2.0 &gt; *'>
+  <author>Jeff Brown</author>
+  <authorEmail>jbrown@vmware.com</authorEmail>
+  <title>Cache Plugin</title>
+  <description>Grails Cache Plugin</description>
+  <documentation>http://grails-plugins.github.com/grails-cache/</documentation>
+  <type>CacheGrailsPlugin</type>
+  <resources>
+    <resource>DefaultCacheConfig</resource>
+    <resource>TestCacheConfig</resource>
+    <resource>com.demo.DemoController</resource>
+    <resource>com.demo.PersonController</resource>
+    <resource>com.demo.Person</resource>
+    <resource>com.demo.BasicCachingService</resource>
+    <resource>grails.plugin.cache.GrailsCacheAdminService</resource>
+    <resource>grails.plugin.cache.CacheTagLib</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://plugins.grails.org' />
+    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+  </repositories>
+  <dependencies>
+    <test>
+      <dependency group='org.codehaus.jsr166-mirror' name='jsr166y' version='1.7.0' />
+      <dependency group='org.codehaus.gpars' name='gpars' version='1.0.0' />
+    </test>
+    <build>
+      <dependency group='net.sourceforge.nekohtml' name='nekohtml' version='1.9.14' />
+    </build>
+  </dependencies>
+  <plugins>
+    <compile>
+      <plugin group='org.grails.plugins' name='webxml' version='1.4.1' />
+    </compile>
+  </plugins>
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>

@@ -1,0 +1,2 @@
+--Output from Memcached connection works for storing String's--
+--Output from Memcached connection works for storing Date's--

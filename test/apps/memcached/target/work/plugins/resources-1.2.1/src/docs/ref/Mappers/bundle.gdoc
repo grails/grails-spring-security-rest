@@ -1,0 +1,9 @@
+h1. bundle mapper
+
+The "bundle" mapper adds together resources of the same type to reduce the number of files your client pages request.
+
+The "bundle" mapper looks at the value of the "bundle" property on resources and if found, will add the resource to a new synthetic aggregated resource. 
+
+This aggregated resource is itself processed through mappers, so it is subject to the other optimisations you apply to the kind of resource the bundle is aggregating.
+
+Bundles are always in the base directory of the static resources folder - which means references to files inside the bundle must be re-adjusted so they continue to refer to the same files. This is made possible for CSS files by the [csspreprocessor|Mappers] and [cssrewriter|Mappers] mappers.

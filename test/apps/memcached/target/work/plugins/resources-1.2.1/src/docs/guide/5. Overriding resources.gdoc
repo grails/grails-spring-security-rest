@@ -1,0 +1,26 @@
+When plugins provide resource module declarations, they may not choose the same resource attributes that you would like to use - in particular plugins will often auto-bundle resources by module name, or have dependencies that you'd like to tweak.
+
+This is easy to achieve with the Resources framework, as your application can override the defaultBundle, dependsOn and resources of any module using the "overrides" clause:
+
+{code:java}
+modules = {
+    overrides {
+        jquery {
+            // We want jquery bundled in with our other code
+            defaultBundle 'monolith'
+        }
+
+        otherModuleToTweak {
+            dependsOn 'something-else-we-added'
+            
+            resource id:'main-css', bundle: 'my-bundle'
+        }
+    }
+}
+{code}
+
+All you do is re-define the module inside your "overrides" clause (yes this mean no module can be called "overrides"), and provide new values for defaultBundle, dependsOn and individual resource attributes.
+
+To override the attributes of resources, the original resource needs to have an id declared on it, or you can use the URI of the original resource if no id was provided.
+
+Arguments passed to the resource call in "overrides" are merged into those for the original resource, before being processed. Therefor you can change or clear any values previously declared.

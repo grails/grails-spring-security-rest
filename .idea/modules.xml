@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/test/apps/memcached/memcached.iml" filepath="$PROJECT_DIR$/test/apps/memcached/memcached.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test/apps/memcached/memcached-grailsPlugins.iml" filepath="$PROJECT_DIR$/test/apps/memcached/memcached-grailsPlugins.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-security-rest.iml" filepath="$PROJECT_DIR$/spring-security-rest.iml" />
+    </modules>
+  </component>
+</project>
+

@@ -1,0 +1,6 @@
+When you run this and request the GSP page, you should view the source and look at what is happening in the page. Use Safari or Chrome resource inspector to see what files were requested and when.
+
+You should have a page that is rendered with the Blueprint CSS framework, pulling in both jQuery and jQuery-UI, with jQuery-UI JS deferred to the end of the page, jQuery loaded in the head, and the "document ready" JS code fragment to set up the page is rendered right at the end of the body after jQuery UI has loaded.
+
+All with almost zero effort!
+

@@ -1,0 +1,9 @@
+The resource processing chain uses ResourceMapper artefacts to do the work.
+
+You can create your own ResourceMapper artefacts inside your application or plugins to perform tasks such as;
+
+* Moving and renaming resources
+* Changing the contents of resource files (compress, minify, compile etc)
+* Set HTTP response headers when requests are processed
+
+Resource mappers only get the chance to map (process) each resource once - the final resource is then stored on disk to serve future requests.

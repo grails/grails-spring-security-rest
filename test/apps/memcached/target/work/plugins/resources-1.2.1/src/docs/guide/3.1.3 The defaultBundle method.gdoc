@@ -1,0 +1,28 @@
+By default, modules with more than one resource will be auto-bundled using the module name as a bundle name. You can override this by setting the default bundle name for the module by calling defaultBundle. This name can be the same as bundles used in other modules, to bundle resoures across module boundaries.
+
+The method takes a String or boolean as parameter. A string sets the default bundle name, and passing in a boolean false will turn off all default bundling for that module.
+
+{code:java}
+modules = {
+    core {
+        defaultBundle 'core-ui'
+        
+        resource url:[dir:'css/blueprint',file:'screen.css'], attrs:[media:'screen, projection']
+        resource url:[dir:'css/blueprint',file:'ie.css'], attrs:[media:'screen, projection'],  
+            wrapper: { s -> "<!--[if lt IE 8]>$s<![endif]-->" }
+
+        resource id:'main-js', url:'js/coreutils-min.js', disposition: 'head', exclude:'minify'
+
+        resource url:'js/lib.js', linkOverride:'http://mycdn.com/js/lib.js'
+    }
+    
+    ui {
+        defaultBundle 'core-ui'
+        
+        resource url:'/css/forms.css', bundle:'theme'
+        resource url:'/js/forms.js'
+    }
+}
+{code}
+
+Here you can see that the fallback bundle for both modules is set to "core-ui" and individual resources can still override this.

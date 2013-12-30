@@ -1,0 +1,25 @@
+Often a mapper is only meant to target certain file types or file patterns. Make it easier for your users by operating correctly out of the box by specifying defaultExcludes and/or defaultIncludes for your mapper, which will filter the resources passed to your mapper:
+
+{code:java}
+import org.grails.plugin.resource.mapper.MapperPhase
+
+class TestResourceMapper {
+
+    def phase = MapperPhase.MUTATION
+
+    static defaultExcludes = [
+        '**/*.png',
+        '**/*.gif',
+        '**/*.jpg',
+        '**/*.jpeg',
+        '**/*.gz',
+        '**/*.zip'
+    ]
+    static defaultIncludes = [ '/images/**' ]
+    
+    def map(resource, config) {
+        ...
+    }
+{code}
+
+These defaults can be overidden by the user with the *grails.resources.<mappername>.includes* and *grails.resources.<mappername>.excludes* Config variables.

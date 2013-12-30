@@ -1,0 +1,36 @@
+h1. r:require Tag
+
+This is the tag that you call to indicate that your page needs a given resource module.
+
+Through the dependency resolution mechanism and your calls to [layoutResources|Tags], this automatically pulls in all the resources you need in the correct order, without any duplication.
+
+{code:xml}
+<html>
+   <head>
+      <meta name="layout" content="main"/>
+      <r:require modules="jquery-ui, blueprint"/>
+      <r:require module="single-module"/>
+      
+      <r:script>
+          $(function() {
+              $('#form').dialog('open');
+          });
+      </r:script>
+   </head>
+   <body>
+      <div id="form">
+           Hello World
+      </div>  
+   </body>
+</html>
+{code}
+
+h2. Attributes
+
+* module - Optional. The name of the resource module required.
+* modules - Optional. A comma-delimited list of resource modules required.
+* strict - Optional. Set to true by default, the page will throw an exception if one of them modules in the module/modules attributes cannot be found. If you wish to include an optional module, set this attribute to false.
+
+
+
+

@@ -1,0 +1,11 @@
+<plugin name='spring-security-rest' version='1.0.0.M1' grailsVersion='2.0 &gt; *'>
+  <author>Alvaro Sanchez-Mariscal</author>
+  <authorEmail>alvaro.sanchez@odobo.com</authorEmail>
+  <title>Spring Security REST Plugin</title>
+  <description>Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow</description>
+  <documentation>https://github.com/alvarosanchez/grails-spring-security-rest</documentation>
+  <type>SpringSecurityRestGrailsPlugin</type>
+  <resources>
+    <resource>DefaultRestSecurityConfig</resource>
+  </resources>
+</plugin>
