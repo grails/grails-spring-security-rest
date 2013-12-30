@@ -23,7 +23,7 @@ function addJsClass(el) {
                         <a href="../guide/index.html" class="button">Table of contents</a>
                         <div id="nav-summary-childs" style="display:none;">
                             
-                            <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a></div>
+                            <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a></div>
                             
                         </div>
                     </div>
@@ -60,14 +60,27 @@ function addJsClass(el) {
                         <div id="table-of-content">
                             <h2>Table of Contents</h2>
                             
-                            <div class="toc-item" style="margin-left:0px"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a></div>
+                            <div class="toc-item" style="margin-left:0px"><a href="#introduction"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:10px"><a href="../guide/introduction.html#gettingStarted"><strong>1.1</strong><span>Getting started</span></a></div>
+                            <div class="toc-item" style="margin-left:10px"><a href="#gettingStarted"><strong>1.1</strong><span>Getting started</span></a></div>
                             
                             <div style="clear:both" ></div>
                         </div>
                         
                         
+
+<h1 id="introduction">1 Introduction to the Spring Security REST plugin</h1>
+The Spring Security REST Grails plugin allows you to use Spring Security for a stateless, token-based, RESTful authentication.<p class="paragraph"/><h4>Release History</h4>
+<ul class="star">
+<li>15 January 2014 (estimated)</li>
+<ul class="star">
+<li>Initial release.</li>
+</ul></ul><p class="paragraph"/>
+
+
+<h2 id="gettingStarted">1.1 Getting started</h2>
+To use this plugin, add this to the <code>BuildConfig.groovy</code> file:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:&#123;&#123;VERSION&#125;&#125;'</pre></div>
+
                     </div>
                 </td>
                 <td id="col2">
