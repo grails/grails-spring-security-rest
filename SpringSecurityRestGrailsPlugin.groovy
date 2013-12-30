@@ -30,7 +30,7 @@ class SpringSecurityRestGrailsPlugin {
     String authorEmail = "alvaro.sanchez@odobo.com"
     String description = 'Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow'
 
-    String documentation = "https://github.com/alvarosanchez/grails-spring-security-rest"
+    String documentation = "http://alvarosanchez.github.io/grails-spring-security-rest/"
 
     String license = "APACHE"
     def organization = [ name: "Odobo Limited", url: "http://www.odobo.com" ]
