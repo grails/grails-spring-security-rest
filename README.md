@@ -5,8 +5,8 @@ Spring Security REST for Grails
 
 Grails plugin to implement a stateless, token-based, RESTful authentication using Spring Security.
 
-Check the documentation at [http://alvarosanchez.github.io/grails-spring-security-rest/](http://alvarosanchez.github.io/grails-spring-security-rest/).
-
+* Documentation at [http://alvarosanchez.github.io/grails-spring-security-rest/](http://alvarosanchez.github.io/grails-spring-security-rest/).
+* Javadoc: [http://alvarosanchez.github.io/grails-spring-security-rest/gapi/](http://alvarosanchez.github.io/grails-spring-security-rest/gapi/).
 
 
 
