@@ -1,6 +1,6 @@
 grails.project.work.dir = 'target'
 
-def conf = grails.plugin.springsecurity.SpringSecurityUtils.securityConfig
+grails.project.dependency.resolver = 'maven'
 
 grails.project.dependency.resolution = {
     inherits 'global'

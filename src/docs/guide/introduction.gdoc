@@ -1,0 +1,13 @@
+This is an example documentation template. The syntax format is similar to "Textile":http://textile.thresholdstate.com/.
+
+You can apply formatting such as *bold*, _italic_ and @code@. Bullets are possible too:
+
+* Bullet 1
+* Bullet 2
+
+As well as numbered lists:
+
+# Number 1
+# Number 2
+
+The documentation also handles links to [guide items|guide:introduction] as well as [reference|items]
