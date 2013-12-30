@@ -6,5 +6,5 @@ grails doc
 cp -R target/docs/* .
 git add .
 git commit -m "Documentation updated" .
-git push origin gh-docs
+git push origin gh-pages
 git checkout master
