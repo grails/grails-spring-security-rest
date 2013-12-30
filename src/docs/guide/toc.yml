@@ -1,1 +1,3 @@
-introduction: Introduction
+introduction:
+  title: Introduction to the Spring Security REST plugin
+  gettingStarted: Getting started
