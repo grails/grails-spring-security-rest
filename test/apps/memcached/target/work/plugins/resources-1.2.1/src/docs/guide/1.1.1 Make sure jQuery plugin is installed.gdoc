@@ -1,5 +1,0 @@
-For Grails 1.4, it is installed by default. For older versions:
-
-{code}
-grails install-plugin jquery*
-{code}

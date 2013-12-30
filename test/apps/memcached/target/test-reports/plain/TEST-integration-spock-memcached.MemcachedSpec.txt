@@ -1,9 +1,0 @@
-Testsuite: memcached.MemcachedSpec
-Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0,023 sec
-------------- Standard Output ---------------
---Output from Memcached connection works for storing String's--
---Output from Memcached connection works for storing Date's--
-------------- ---------------- ---------------
-
-Testcase: Memcached connection works for storing String's took 0,008 sec
-Testcase: Memcached connection works for storing Date's took 0,004 sec

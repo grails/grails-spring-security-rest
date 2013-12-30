@@ -1,9 +1,0 @@
-The resources framework is now installed by default for all Grails applications. When security is in place to protect resources provided by the web application, there are several important points to bear in mind. 
-
-h2. Resources served under <ctx>/static are not secureable.
-
-Due to the manner in which the Resources plugin processes resources, the SpringSecurity plugin doesn't apply any rules to them. Thus access to resources under the reserved URL subspace, normally, @/static/@, cannot be restricted with security rules.
-
-h2. Files in the web-app base directory are always accessible under /static.
-
-Again due to the type of processing performed by the Resources plugin, any files under the web-app base directory (with the exception of those under WEB-INF) will be accessible under corresponding paths under @/static@. For example, @/images/img1.jpg@ would be accessible under @/static/images/img1.jpg@. This is true whether the @/images@ directory is considered an ad-hoc pattern or not.

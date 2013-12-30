@@ -1,7 +1,0 @@
-h1. cssrewriter mapper
-
-The "cssrewriter" is the second phase of CSS rewriting.
-
-It seeks out urls in the CSS resources that are prefixed with "resource:" having been previously processed by [csspreprocessor|Mappers], and then converts them to the new final URL of the resource.
-
-For example if the target resource, an image, has moved and been renamed, the new URL written to the CSS will reflect this.

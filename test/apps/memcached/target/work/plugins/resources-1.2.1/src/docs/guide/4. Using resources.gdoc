@@ -1,7 +1,0 @@
-Now that you know how to declare resources, you need to use them in your page.
-
-There are several tags for this purpose, but the primary means is to use the [require|Tags] tag to indicate which modules you need, and the [layoutResources|Tags] tag to perform the rendering of the resources.
-
-The [require|Tags] tag causes the framework to look up all the resources required to satisfy your module dependencies. However nothing is rendered at that point.
-
-The [layoutResources|Tags] tag is called to render the resources themselves (and internally it calls into [external|Tags] tag for each resource). This tag has special behaviour, in that the first time you call it, it automatically renders only resources with disposition "head". The second time you call it, it automatically renders only resources with disposition "defer".
