@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>1.1 Getting started 1.0.0.M2</title>
+    <title>4.1 Memcached 1.0.0.M2</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -27,7 +27,16 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/authentication.html"><strong>2</strong><span>Authentication</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/authentication.html"><strong>2</strong><span>Authentication Filter</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenGeneration.html"><strong>3</strong><span>Token Generation</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenStorage.html"><strong>4</strong><span>Token Storage</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenValidation.html"><strong>5</strong><span>Token Validation Filter</span></a>
                     </div>
                     
                 </div>
@@ -53,16 +62,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
+                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>3</strong><span>Token Generation</span></a></div>
+                
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../../guide/authentication.html"><strong>2</strong><span>Authentication</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/tokenValidation.html"><strong>5</strong><span>Token Validation Filter</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>1.1 Getting started - Reference Documentation</h1>
+                    <h1>4.1 Memcached - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
@@ -75,13 +86,16 @@ function addJsClass() {
 
                 
 
-<h2 id="gettingStarted">1.1 Getting started</h2>
-To use this plugin, add this to the <code>BuildConfig.groovy</code> file:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.0.0.M2'</pre></div>
+<h2 id="memcached">4.1 Memcached</h2>
+To use Memcached, simply define the following configuration properties to match your environments accordingly:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useMemcached</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.memcached.hosts</code></td><td><code>localhost:11211</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.memcached.username</code></td><td><code>''</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.memcached.password</code></td><td><code>''</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.memcached.expiration</code></td><td><code>3600</code></td></tr></table><p class="paragraph"/>For development, if you have Memcached installed locally with the default settings, just define
+<code>grails.plugin.springsecurity.rest.token.storage.useMemcached = true</code>. It should work.
 
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item next-right"><a href="../../guide/authentication.html"><strong>2</strong><span>Authentication</span> >></a></div>
+                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>3</strong><span>Token Generation</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../../guide/tokenValidation.html"><strong>5</strong><span>Token Validation Filter</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

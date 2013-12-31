@@ -7,4 +7,3 @@ target/
 *.log
 /*.zip
 /plugin.xml
-docs/

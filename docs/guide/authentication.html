@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>2 Authentication Filter 1.0.0.M2</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>2</strong><span>Authentication Filter</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>3</strong><span>Token Generation</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>4</strong><span>Token Storage</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>5</strong><span>Token Validation Filter</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/tokenGeneration.html"><strong>3</strong><span>Token Generation</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>2 Authentication Filter - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
+
+                    <p><strong>Version:</strong> 1.0.0.M2</p>
+
+                    
+                </div>
+
+                
+
+                
+
+<h1 id="authentication">2 Authentication Filter</h1>
+The <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html" target="blank">authentication filter</a>
+uses the default <code>authenticationManager</code> bean, which in turn uses all the registered authentication
+providers. See the <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/authenticationProviders.html" target="blank">Spring Security Core guide</a>
+for more information about how to define your own providers. Note that you can easily plug any Spring Security sub-plugin
+(like the LDAP one) to use a different authentication strategy.<p class="paragraph"/>If the authentication is successful, a <a href="../guide/single.html#tokenGeneration" class="guide">token generator</a> is used to generate a token, and a
+<a href="../guide/single.html#tokenStorage" class="guide">token storage</a> implementation is used to store the token.<p class="paragraph"/>Finally, the JSON response sent back to the client is rendered by a <code>restAuthenticationTokenJsonRenderer</code> bean. The plugin
+offers you a <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/rendering/DefaultRestAuthenticationTokenJsonRenderer.html" target="blank">default implementation</a>
+that renders a response like this:<p class="paragraph"/><div class="code"><pre>&#123;
+    <span class="java&#45;quote">"username"</span>: <span class="java&#45;quote">"john.doe"</span>,
+    <span class="java&#45;quote">"token"</span>: <span class="java&#45;quote">"1a2b3c4d"</span>,
+    <span class="java&#45;quote">"roles"</span>: &#91;
+        <span class="java&#45;quote">"ADMIN"</span>,
+        <span class="java&#45;quote">"USER"</span>
+    &#93;
+&#125;</pre></div><p class="paragraph"/>If you want your own, simply create a class implementing
+<a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/rendering/RestAuthenticationTokenJsonRenderer.html" target="blank">RestAuthenticationTokenJsonRenderer</a>
+and wire it up in <code>resources.groovy</code> with name <code>restAuthenticationTokenJsonRenderer</code>.<p class="paragraph"/>The current version expects the username and password as request parameters (there is a
+<a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues/2" target="blank">task planned</a> to add JSON support). Both the
+parameter names, the URL where the filter is listening, and the response code sent when the authentication fails are
+configurable with the following <code>Config.groovy</code> properties:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.endpointUrl</code></td><td><code>/login</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.usernameParameter</code></td><td><code>username</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.passwordParameter</code></td><td><code>password</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.failureStatusCode</code></td><td><code>403</code></td></tr></table>
+
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/tokenGeneration.html"><strong>3</strong><span>Token Generation</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>
