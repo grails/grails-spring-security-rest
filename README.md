@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/alvarosanchez/grails-spring-security-rest.png?label=ready)](https://waffle.io/alvarosanchez/grails-spring-security-rest)  
 Spring Security REST for Grails
 ===========================
 [![Build Status](https://drone.io/github.com/alvarosanchez/grails-spring-security-rest/status.png)](https://drone.io/github.com/alvarosanchez/grails-spring-security-rest/latest)
