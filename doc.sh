@@ -1,5 +1,6 @@
 #!/bin/sh
 
+rm -rf docs/
 grails doc
 version=`cat SpringSecurityRestGrailsPlugin.groovy | grep version | sed -e 's/^.*"\(.*\)"$/\1/g'`
 find target/docs/guide -name "*.html" | xargs sed -e "s/&#123;&#123;VERSION&#125;&#125;/${version}/g" -i ""
