@@ -1,0 +1,13 @@
+To use Memcached, simply define the following configuration properties to match your environments accordingly:
+
+{table}
+*Config key*                                                            | *Default value*
+@grails.plugin.springsecurity.rest.token.storage.useMemcached@          | @false@
+@grails.plugin.springsecurity.rest.token.storage.memcached.hosts@       | @localhost:11211@
+@grails.plugin.springsecurity.rest.token.storage.memcached.username@    | @''@
+@grails.plugin.springsecurity.rest.token.storage.memcached.password@    | @''@
+@grails.plugin.springsecurity.rest.token.storage.memcached.expiration@  | @3600@
+{table}
+
+For development, if you have Memcached installed locally with the default settings, just define
+@grails.plugin.springsecurity.rest.token.storage.useMemcached = true@. It should work.

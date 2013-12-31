@@ -43,6 +43,10 @@ security {
 
             }
 
+            validation {
+                headerName = 'X-Auth-Token'
+            }
+
         }
 
     }

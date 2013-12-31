@@ -1,0 +1,26 @@
+To use GORM, those are the relevant configuration properties:
+
+{table}
+*Config key*                                                                    | *Default value*
+@grails.plugin.springsecurity.rest.token.storage.useGorm@                       | @false@
+@grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName@     | @AuthenticationToken@
+@grails.plugin.springsecurity.rest.token.storage.gorm.tokenValuePropertyName@   | @tokenValue@
+@grails.plugin.springsecurity.rest.token.storage.gorm.usernamePropertyName@     | @username@
+{table}
+
+The domain class should look like this:
+
+{code}
+class AuthenticationToken {
+
+    String tokenValue
+    String username
+}
+{code}
+
+{note}
+In this case, instead of storing the whole @UserDetails@ object, only the username is stored. This is because applications
+using this strategy will probably have the standard User and Role domain classes. Then, the username is passed to the
+default @userDetailsService@ bean, which in the case of the default Spring Security Core GORM implementation will fetch
+the information from the mentioned domain classes.
+{note}

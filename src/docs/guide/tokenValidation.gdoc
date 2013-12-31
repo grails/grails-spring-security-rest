@@ -1,0 +1,12 @@
+The token validation filter looks for the token in a HTTP header and then tries to validate the token using the configured
+[token storage|guide:tokenStorage] implementation.
+
+If the validation is successful, the UserDetails object is stored in the security context. This allows you to use in
+your application @ @Secured@, @springSecurityService.currentUser@ and so on.
+
+The configuration properties are:
+
+{table}
+*Config key*                                                            | *Default value*
+@grails.plugin.springsecurity.rest.token.validation.headerName@         | @X-Auth-Token@
+{table}

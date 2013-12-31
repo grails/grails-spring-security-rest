@@ -1,0 +1,4 @@
+The tokens are stored on the server using a @tokenStorageService@ bean. The plugin comes with out-of-the-box support
+for Memcached and GORM, but you can use your own strategy implementing the
+[TokenStorageService|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html]
+interface.

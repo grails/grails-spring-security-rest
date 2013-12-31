@@ -27,6 +27,8 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
         String tokenValue = servletRequest.getHeader(headerName)
 
+        //TODO implement failure handler
+
         if (tokenValue) {
             RestAuthenticationToken authenticationRequest = new RestAuthenticationToken(tokenValue)
             RestAuthenticationToken authenticationResult = restAuthenticationProvider.authenticate(authenticationRequest)
