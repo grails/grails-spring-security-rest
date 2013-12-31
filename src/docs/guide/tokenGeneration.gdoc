@@ -1,0 +1,18 @@
+The plugin comes prepackaged with 2 token generation strategies:
+* [Using java.security.SecureRandom|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/generation/SecureRandomTokenGenerator.html].
+* [Using java.util.UUID|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/generation/UUIDTokenGenerator.html].
+
+The strategy used is configurable in @Config.groovy@:
+
+{table}
+*Config key*                                                            | *Default value*
+@grails.plugin.springsecurity.rest.token.generation.useSecureRandom@    | @true@
+@grails.plugin.springsecurity.rest.token.generation.useUUID@            | @false@
+{table}
+
+Both of them generate tokens of 32 alphanumeric characters.
+
+That should be enough for most of the human beings. But if you still want to provide your own implementation,
+simply write a class implementing
+[TokenGenerator|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/generation/TokenGenerator.html]
+and wire it up in @resources.groovy@ as @tokenGenerator@.

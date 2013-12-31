@@ -1,4 +1,8 @@
 introduction: Introduction to the Spring Security REST plugin
-authentication: Authentication
+authentication: Authentication Filter
 tokenGeneration: Token Generation
-tokenStorage: Token Storage
+tokenStorage:
+  title: Token Storage
+  memcached: Memcached
+  gorm: GORM
+tokenValidation: Token Validation Filter
