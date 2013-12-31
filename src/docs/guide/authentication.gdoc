@@ -1,13 +1,40 @@
-The Spring Security REST Grails plugin allows you to use Spring Security for a stateless, token-based, RESTful authentication.
+The [authentication filter|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html]
+uses the default @authenticationManager@ bean, which in turn uses all the registered authentication
+providers. See the [Spring Security Core guide|http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/authenticationProviders.html]
+for more information about how to define your own providers. Note that you can easily plug any Spring Security sub-plugin
+(like the LDAP one) to use a different authentication strategy.
 
-The default behaviour of Spring Security is to store the authenticated principal in the HTTP session. However, in a
-RESTful scenario, we need to make sure our server is stateless.
+If the authentication is successful, a [token generator|guide:tokenGeneration] is used to generate a token, and a
+[token storage|guide:tokenStorage] implementation is used to store the token.
 
-As a result, the plugin includes 2 Spring Security filters:
-* One to do the validation: it receives the username and password, validates credentials and if they are correct, generates a token.
-* One to validate the tokens received.
+Finally, the JSON response sent back to the client is rendered by a @restAuthenticationTokenJsonRenderer@ bean. The plugin
+offers you a [default implementation|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/rendering/DefaultRestAuthenticationTokenJsonRenderer.html]
+that renders a response like this:
 
-h4. Release History
+{code}
+{
+    "username": "john.doe",
+    "token": "1a2b3c4d",
+    "roles": [
+        "ADMIN",
+        "USER"
+    ]
+}
+{code}
 
-* 15 January 2014 (estimated)
-** Initial release.
+If you want your own, simply create a class implementing
+[RestAuthenticationTokenJsonRenderer|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/rendering/RestAuthenticationTokenJsonRenderer.html]
+and wire it up in @resources.groovy@ with name @restAuthenticationTokenJsonRenderer@.
+
+The current version expects the username and password as request parameters (there is a
+[task planned|https://github.com/alvarosanchez/grails-spring-security-rest/issues/2] to add JSON support). Both the
+parameter names, the URL where the filter is listening, and the response code sent when the authentication fails are
+configurable with the following @Config.groovy@ properties:
+
+{table}
+*Config key*                                                | *Default value*
+@grails.plugin.springsecurity.rest.login.endpointUrl@       | @/login@
+@grails.plugin.springsecurity.rest.login.usernameParameter@ | @username@
+@grails.plugin.springsecurity.rest.login.passwordParameter@ | @password@
+@grails.plugin.springsecurity.rest.login.failureStatusCode@ | @403@
+{table}

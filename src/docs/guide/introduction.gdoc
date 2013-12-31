@@ -26,7 +26,19 @@ storing tokens gives you the chance to decide about expiration strategies.
 
 More information about this strategy can be found [on this post by James Ward|http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services].
 
+This plugin helps you to wire your existing Spring Security [authentication mechanism|guide:authentication], provides you
+with ready-to-use [token generation strategies|guide:tokenGeneration] and comes prepackaged with Memcached and GORM support
+for [token storage|guide:tokenStorage].
+
 h4. Release History
 
 * 15 January 2014 (estimated)
 ** Initial release.
+
+h2. Getting started
+
+To use this plugin, add this to the @BuildConfig.groovy@ file:
+
+{code}
+compile ':spring-security-rest:{{VERSION}}'
+{code}

@@ -1,5 +1,0 @@
-To use this plugin, add this to the @BuildConfig.groovy@ file:
-
-{code}
-compile ':spring-security-rest:{{VERSION}}'
-{code}

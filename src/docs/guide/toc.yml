@@ -1,4 +1,4 @@
-introduction:
-  title: Introduction to the Spring Security REST plugin
-  gettingStarted: Getting started
+introduction: Introduction to the Spring Security REST plugin
 authentication: Authentication
+tokenGeneration: Token Generation
+tokenStorage: Token Storage
