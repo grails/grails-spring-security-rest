@@ -27,6 +27,18 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
                     </div>
                     
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>2</strong><span>Authentication Filter</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>3</strong><span>Token Generation</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>4</strong><span>Token Storage</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>5</strong><span>Token Validation Filter</span></a>
+                    </div>
+                    
                 </div>
             </div>
         </li>
@@ -54,6 +66,8 @@ function addJsClass() {
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
+                    <div class="toc-item next-right"><a href="../guide/authentication.html"><strong>2</strong><span>Authentication Filter</span> >></a></div>
+                
 
 
                 <div class="project">
@@ -67,36 +81,40 @@ function addJsClass() {
                 </div>
 
                 
-                <div id="table-of-content">
-                    <h2>Table of Contents</h2>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="#gettingStarted"><strong>1.1</strong><span>Getting started</span></a>
-                    </div>
-                    
-                </div>
-                
 
                 
 
 <h1 id="introduction">1 Introduction to the Spring Security REST plugin</h1>
 The Spring Security REST Grails plugin allows you to use Spring Security for a stateless, token-based, RESTful authentication.<p class="paragraph"/>The default behaviour of Spring Security is to store the authenticated principal in the HTTP session. However, in a
-RESTful scenario, we need to make sure our server is stateless.<p class="paragraph"/>As a result, the plugin includes 2 Spring Security filters:
-<ul class="star">
-<li>One to do the validation: it receives the username and password, validates credentials and if they are correct, generates a token.</li>
-<li>One to validate the tokens received.</li>
-</ul><p class="paragraph"/><h4>Release History</h4>
+RESTful scenario, we need to make sure our server is stateless.<p class="paragraph"/>If you are writing an API that will be used by other programs, you can use OAuth for this. But if you are exposing your API
+for a front-end Javascript client to implement a
+<a href="http://www.slideshare.net/alvarosanchezmariscal/developing-spi-applications-using-grails-and-angularjs" target="blank">Single Page Interface</a>,
+OAuth is not an option, specially if you want to authentication end users against your own user backend (eg: LDAP). In
+this case, a token-based authentication may be a more suitable implementation, like the following:<p class="paragraph"/><img border="0" class="center" src="../img/rest.png"></img>
+<ol>
+<li>The client application requests and endpoint that requires authentication, so the server responds with a 401 response.</li>
+<li>The client redirects the user to the login form.</li>
+<li>The user enter credentials, and the client sends a request to the authentication endpoint. The server validates credentials, and if valid, generates, stores and sends back a token to the client.</li>
+<li>The client then stores the token internally. It will be sent on every API method request.</li>
+<li>The client sends again a request to the protected resource, passing the token as an HTTP header.</li>
+<li>The server validates the token, and if valid, executes the actual operation requested.</li>
+</ol><p class="paragraph"/>As per the <a href="http://en.wikipedia.org/wiki/Representational_state_transfer" target="blank">REST definition</a>, the client is transferring its
+state on every request so the server is truly stateless. The approach to store tokens on the server is just an alternative
+to use HTTP basic authentication (so credentials are not passed on every request). It also helps to perform the validation
+step (#5 in the diagram) faster, because the tokens, and the associated principal information may be cached. Finally,
+storing tokens gives you the chance to decide about expiration strategies.<p class="paragraph"/>More information about this strategy can be found <a href="http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services" target="blank">on this post by James Ward</a>.<p class="paragraph"/>This plugin helps you to wire your existing Spring Security <a href="../guide/single.html#authentication" class="guide">authentication mechanism</a>, provides you
+with ready-to-use <a href="../guide/single.html#tokenGeneration" class="guide">token generation strategies</a> and comes prepackaged with Memcached and GORM support
+for <a href="../guide/single.html#tokenStorage" class="guide">token storage</a>.<p class="paragraph"/><h4>Release History</h4>
 <ul class="star">
 <li>15 January 2014 (estimated)</li>
 <ul class="star">
 <li>Initial release.</li>
-</ul></ul><p class="paragraph"/>
-
-
-<h2 id="gettingStarted">1.1 Getting started</h2>
-To use this plugin, add this to the <code>BuildConfig.groovy</code> file:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.0.0.M2'</pre></div>
+</ul></ul><p class="paragraph"/><h2>Getting started</h2><p class="paragraph"/>To use this plugin, add this to the <code>BuildConfig.groovy</code> file:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.0.0.M2'</pre></div>
 
 
                 <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/authentication.html"><strong>2</strong><span>Authentication Filter</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
