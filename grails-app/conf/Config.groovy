@@ -4,3 +4,5 @@ log4j = {
            'org.springframework'
 
 }
+
+grails.doc.images = new File("src/docs/images")
