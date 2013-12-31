@@ -87,7 +87,7 @@ function addJsClass() {
 <h1 id="tokenValidation">5 Token Validation Filter</h1>
 The token validation filter looks for the token in a HTTP header and then tries to validate the token using the configured
 <a href="../guide/single.html#tokenStorage" class="guide">token storage</a> implementation.<p class="paragraph"/>If the validation is successful, the UserDetails object is stored in the security context. This allows you to use in
-your application <code> </code>Secured<code>, </code>springSecurityService.currentUser<code> and so on.<p class="paragraph"/>The configuration properties are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td></code>grails.plugin.springsecurity.rest.token.validation.headerName<code></td><td></code>X-Auth-Token@</td></tr></table>
+your application <code>&#64;Secured</code>, <code>springSecurityService.currentUser</code> and so on.<p class="paragraph"/>The configuration properties are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr></table>
 
 
                 <div style="clear:both;margin-top:15px;"></div>
