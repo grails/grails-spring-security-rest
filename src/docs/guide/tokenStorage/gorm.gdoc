@@ -1,3 +1,7 @@
+{warning}
+The GORM support is still experimental.
+{warning}
+
 To use GORM, those are the relevant configuration properties:
 
 {table}
