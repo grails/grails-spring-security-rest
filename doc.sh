@@ -7,7 +7,7 @@ rm -rf docs/                         ç
 
 echo "Replacing version in documentation...\n"
 version=`cat SpringSecurityRestGrailsPlugin.groovy | grep version | sed -e 's/^.*"\(.*\)"$/\1/g'`
-find target/docs/guide -name "*.html" | xargs sed -e "s/&#123;&#123;VERSION&#125;&#125;/${version}/g" -i ""
+find target/docs/guide -name "*.html" | xargs sed -e "s/&#123;&#123;VERSION&#125;&#125;/${version}/g" -i
 
 rm -rf /tmp/docs/
 mv target/docs /tmp
@@ -27,7 +27,7 @@ cd gh-pages
 
 echo "Replacing version in index.html...\n"
 cp index.tmpl index.html
-sed -e "s/{{VERSION}}/${version}/g" -i "" index.html
+sed -e "s/{{VERSION}}/${version}/g" -i index.html
 
 echo "Moving the generated documentation to the right place...\n"
 rm -rf docs/
@@ -39,4 +39,4 @@ git add -f .
 git commit -m "Documentation updated"
 git push -fq origin gh-pages > /dev/null
 
-echo -e "Done updating documentation\n"
+echo "Done updating documentation\n"
