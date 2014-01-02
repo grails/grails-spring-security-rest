@@ -1,6 +1,8 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.web.filter.GenericFilterBean
 
@@ -20,6 +22,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
     RestAuthenticationProvider restAuthenticationProvider
 
     AuthenticationSuccessHandler authenticationSuccessHandler
+    AuthenticationFailureHandler authenticationFailureHandler
 
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -27,15 +30,17 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
         String tokenValue = servletRequest.getHeader(headerName)
 
-        //TODO implement failure handler
-
         if (tokenValue) {
-            RestAuthenticationToken authenticationRequest = new RestAuthenticationToken(tokenValue)
-            RestAuthenticationToken authenticationResult = restAuthenticationProvider.authenticate(authenticationRequest)
+            try {
+                RestAuthenticationToken authenticationRequest = new RestAuthenticationToken(tokenValue)
+                RestAuthenticationToken authenticationResult = restAuthenticationProvider.authenticate(authenticationRequest)
 
-            SecurityContextHolder.context.setAuthentication(authenticationResult)
+                SecurityContextHolder.context.setAuthentication(authenticationResult)
 
-            authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult)
+                authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult)
+            } catch (AuthenticationException ae) {
+                authenticationFailureHandler.onAuthenticationFailure(request, response, ae)
+            }
         }
 
         chain.doFilter(request, response)

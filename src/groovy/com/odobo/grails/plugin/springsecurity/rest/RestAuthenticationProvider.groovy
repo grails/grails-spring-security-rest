@@ -21,7 +21,7 @@ class RestAuthenticationProvider implements AuthenticationProvider {
 
         if (authenticationRequest.tokenValue) {
             def userDetails = tokenStorageService.loadUserByToken(authenticationRequest.tokenValue)
-            authenticationResult = new RestAuthenticationToken(userDetails.username, userDetails.password, userDetails.authorities, authenticationRequest.tokenValue)
+            authenticationResult = new RestAuthenticationToken(userDetails, userDetails.password, userDetails.authorities, authenticationRequest.tokenValue)
         }
 
         return authenticationResult

@@ -65,7 +65,7 @@ class SpringSecurityRestGrailsPlugin {
 
         //TODO to config file
         conf.filterChain.filterNames = ['securityContextPersistenceFilter', 'authenticationProcessingFilter',
-                                        'anonymousAuthenticationFilter',
+                                        'anonymousAuthenticationFilter', 'restAuthenticationFilter',
                                         'exceptionTranslationFilter', 'filterInvocationInterceptor']
 
         /* authenticationProcessingFilter */
@@ -103,6 +103,8 @@ class SpringSecurityRestGrailsPlugin {
         restAuthenticationFilter(RestTokenValidationFilter) {
             headerName = conf.rest.token.validation.headerName
             authenticationSuccessHandler = ref('authenticationSuccessHandler')
+            authenticationFailureHandler = ref('authenticationFailureHandler')
+            restAuthenticationProvider = ref('restAuthenticationProvider')
         }
 
         /* tokenStorageService */
