@@ -1,17 +1,18 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
-import geb.spock.GebReportingSpec
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
-import spock.lang.Ignore
-import spock.lang.IgnoreRest
 import spock.lang.Shared
+import spock.lang.Specification
 import spock.lang.Unroll
 
-class RestAuthenticationFilterSpec extends GebReportingSpec {
+class RestAuthenticationFilterSpec extends Specification {
 
     @Shared
     RestBuilder restBuilder = new RestBuilder()
+
+    @Shared
+    String baseUrl = "http://localhost:8080/memcached"
 
     @Unroll
 	void "#httpMethod requests without parameters generate #statusCode responses"() {
