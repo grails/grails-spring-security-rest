@@ -2,7 +2,13 @@ The token validation filter looks for the token in a HTTP header and then tries 
 [token storage|guide:tokenStorage] implementation.
 
 If the validation is successful, the UserDetails object is stored in the security context. This allows you to use in
-your application @\@Secured@, @springSecurityService.currentUser@ and so on.
+your application @\@Secured@, @springSecurityService.principal@ and so on.
+
+{note}
+@springSecurityService.currentUser@ expects a @grails.plugin.springsecurity.userdetails.GrailsUser@ to perform a DB query.
+However, this plugins stores in the security context a more generic @org.springframework.security.core.userdetails.User@.
+Use @springSecurityService.principal@ instead.
+{note}
 
 The configuration properties are:
 
