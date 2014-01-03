@@ -34,7 +34,9 @@ class RestTokenValidationFilterSpec extends Specification {
 
         then:
         response.status == 200
-        response.text == 'jimi'
+        response.json.username == 'jimi'
+        response.json.token
+        response.json.roles.size() == 2
 
     }
 

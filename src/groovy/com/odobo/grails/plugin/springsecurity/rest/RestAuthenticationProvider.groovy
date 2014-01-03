@@ -27,7 +27,7 @@ class RestAuthenticationProvider implements AuthenticationProvider {
         RestAuthenticationToken authenticationResult = new RestAuthenticationToken(authenticationRequest.tokenValue)
 
         if (authenticationRequest.tokenValue) {
-            log.debud "Trying to validate token ${authenticationRequest.tokenValue}"
+            log.debug "Trying to validate token ${authenticationRequest.tokenValue}"
             def userDetails = tokenStorageService.loadUserByToken(authenticationRequest.tokenValue)
 
             log.debug "Authentication result: ${authenticationResult}"
