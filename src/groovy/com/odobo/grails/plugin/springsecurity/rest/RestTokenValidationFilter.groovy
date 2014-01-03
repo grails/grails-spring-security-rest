@@ -45,11 +45,17 @@ class RestTokenValidationFilter extends GenericFilterBean {
                 RestAuthenticationToken authenticationRequest = new RestAuthenticationToken(tokenValue)
                 RestAuthenticationToken authenticationResult = restAuthenticationProvider.authenticate(authenticationRequest)
 
-                log.debug "Token authenticated. Storing the authentication result in the security context"
-                log.debug "Authentication result: ${authenticationResult}"
-                SecurityContextHolder.context.setAuthentication(authenticationResult)
+                if (authenticationResult.authenticated) {
+                    log.debug "Token authenticated. Storing the authentication result in the security context"
+                    log.debug "Authentication result: ${authenticationResult}"
+                    SecurityContextHolder.context.setAuthentication(authenticationResult)
 
-                authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult)
+                    authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult)
+
+                    log.debug "Continuing the filter chain"
+                    chain.doFilter(request, response)
+                }
+
             } catch (AuthenticationException ae) {
                 log.debug "Authentication failed: ${ae.message}"
                 authenticationFailureHandler.onAuthenticationFailure(request, response, ae)

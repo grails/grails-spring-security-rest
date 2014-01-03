@@ -10,4 +10,9 @@ class SecuredController {
     def index() {
         render springSecurityService.principal.username
     }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def superAdmin() {
+        render springSecurityService.principal.username
+    }
 }

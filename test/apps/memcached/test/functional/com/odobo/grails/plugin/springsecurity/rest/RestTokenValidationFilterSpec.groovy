@@ -34,10 +34,21 @@ class RestTokenValidationFilterSpec extends Specification {
 
         then:
         response.status == 200
-        response.json.username == 'jimi'
-        response.json.token
-        response.json.roles.size() == 2
+        response.text == 'jimi'
+    }
 
+    void "role restrictions are applied when user does not have enough credentials"() {
+        given:
+        RestResponse authResponse = restBuilder.post("${baseUrl}/login?username=jimi&password=jimispassword")
+        String token = authResponse.json.token
+
+        when:
+        def response = restBuilder.get("${baseUrl}/secured/superAdmin") {
+            header 'X-Auth-Token', token
+        }
+
+        then:
+        response.status == 403
     }
 
 }
