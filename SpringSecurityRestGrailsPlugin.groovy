@@ -109,6 +109,11 @@ class SpringSecurityRestGrailsPlugin {
 
         /* tokenStorageService */
         if (conf.rest.token.storage.useMemcached) {
+
+            Properties systemProperties = System.properties
+            systemProperties.put("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.Log4JLogger")
+            System.setProperties(systemProperties)
+
             memcachedClient(MemcachedClientFactoryBean) {
                 servers = conf.rest.token.storage.memcached.hosts
                 protocol = 'BINARY'

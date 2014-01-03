@@ -54,7 +54,6 @@ class RestAuthenticationFilterSpec extends Specification {
         response.status == 403
     }
 
-    @Ignore
     void "authentication attempt with correct credentials returns a valid status code"() {
         when:
         RestResponse response = restBuilder.post("${baseUrl}/login?username=jimi&password=jimispassword")

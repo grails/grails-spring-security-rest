@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.storage
 
+import groovy.util.logging.Log4j
 import net.spy.memcached.MemcachedClient
 import org.springframework.security.core.userdetails.UserDetails
 
@@ -7,21 +8,28 @@ import org.springframework.security.core.userdetails.UserDetails
  * Stores and retrieves tokens in a memcached server. This implementation stores the whole {@link UserDetails} object
  * in memcached, leveraging it is serializable.
  */
+@Log4j
 class MemcachedTokenStorageService implements TokenStorageService {
 
     MemcachedClient memcachedClient
 
+    /** Expiration in seconds */
     Integer expiration = 3600
 
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
+        log.debug "Searching in Memcached for UserDetails of token ${tokenValue}"
         def userDetails = memcachedClient.get(tokenValue)
         if (userDetails) {
+            log.debug "UserDetails found: ${userDetails}"
             return userDetails
         }
         throw new TokenNotFoundException("Token ${tokenValue} not found")
     }
 
     void storeToken(String tokenValue, UserDetails details) {
+        log.debug "Storing user details for token: ${tokenValue} with expiration of ${expiration} seconds"
+        log.debug "UserDetails: ${details}"
+
         memcachedClient.set tokenValue, expiration, details
     }
 

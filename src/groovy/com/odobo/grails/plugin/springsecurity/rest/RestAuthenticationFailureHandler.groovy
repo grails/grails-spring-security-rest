@@ -1,5 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import groovy.util.logging.Log
+import groovy.util.logging.Log4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse
 /**
  * Sets the configured status code.
  */
+@Log4j
 class RestAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     /**
@@ -24,6 +27,7 @@ class RestAuthenticationFailureHandler implements AuthenticationFailureHandler {
      * @param exception the exception which was thrown to reject the authentication request.
      */
     void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        log.debug "Setting status code to ${statusCode}"
         response.setStatus(statusCode)
     }
 }

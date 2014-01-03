@@ -111,13 +111,13 @@ log4j = {
            'org.codehaus.groovy.grails.orm.hibernate',      // hibernate integration
            'org.springframework',
            'org.hibernate',
-           'net.sf.ehcache.hibernate'
+           'net.sf.ehcache.hibernate',
+           'net.spy.memcached'
 
     debug  'com.odobo',
            'org.springframework.security'
 
-    off    'org.openqa',
-           'net.spy.memcached'
+    off    'org.openqa'
 }
 
 

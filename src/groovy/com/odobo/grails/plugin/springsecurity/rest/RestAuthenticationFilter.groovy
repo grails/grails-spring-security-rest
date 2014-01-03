@@ -2,6 +2,7 @@ package com.odobo.grails.plugin.springsecurity.rest
 
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
+import groovy.util.logging.Log4j
 import org.springframework.security.authentication.AuthenticationDetailsSource
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletResponse
  *
  * If there is an authentication failure, the configured {@link AuthenticationFailureHandler} will render the response.
  */
+@Log4j
 class RestAuthenticationFilter extends GenericFilterBean {
 
     String usernameParameter
@@ -54,11 +56,15 @@ class RestAuthenticationFilter extends GenericFilterBean {
 
         def actualUri =  httpServletRequest.requestURI - httpServletRequest.contextPath
 
+        logger.debug "Actual URI is ${actualUri}; endpoint URL is ${endpointUrl}"
+
         //Only apply filter to the configured URL
         if (actualUri == endpointUrl) {
+            log.debug "Applying the filter to this request"
 
             //Only POST is supported
             if (httpServletRequest.method != 'POST') {
+                log.debug "${httpServletRequest.method} HTTP method is not supported. Setting status to ${HttpServletResponse.SC_METHOD_NOT_ALLOWED}"
                 httpServletResponse.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED)
                 return
             }
@@ -68,6 +74,7 @@ class RestAuthenticationFilter extends GenericFilterBean {
 
             //Request must contain parameters
             if (!username || !password) {
+                log.debug "Username and/or password parameters are missing. Setting status to ${HttpServletResponse.SC_BAD_REQUEST}"
                 httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST)
                 return
             }
@@ -76,30 +83,33 @@ class RestAuthenticationFilter extends GenericFilterBean {
             authenticationRequest.details = authenticationDetailsSource.buildDetails(request)
 
             try {
+
+                log.debug "Trying to authenticate the request"
                 Authentication authenticationResult = authenticationManager.authenticate(authenticationRequest)
 
                 if (authenticationResult.authenticated) {
+                    log.debug "Request authenticated. Storing the authentication result in the security context"
+                    log.debug "Authentication result: ${authenticationResult}"
 
                     SecurityContextHolder.context.setAuthentication(authenticationResult)
 
                     String tokenValue = tokenGenerator.generateToken()
+                    log.debug "Generated token: ${tokenValue}"
 
                     tokenStorageService.storeToken(tokenValue, authenticationResult.principal)
 
                     RestAuthenticationToken restAuthenticationToken = new RestAuthenticationToken(authenticationResult.principal, authenticationResult.credentials, authenticationResult.authorities, tokenValue)
-
                     authenticationSuccessHandler.onAuthenticationSuccess(request, response, restAuthenticationToken)
-
-                    return
                 }
 
             } catch (AuthenticationException ae) {
+                log.debug "Authentication failed: ${ae.message}"
                 authenticationFailureHandler.onAuthenticationFailure(request, response, ae)
-                return
             }
+        } else {
+            chain.doFilter(request, response)
         }
 
 
-        chain.doFilter(request, response)
     }
 }
