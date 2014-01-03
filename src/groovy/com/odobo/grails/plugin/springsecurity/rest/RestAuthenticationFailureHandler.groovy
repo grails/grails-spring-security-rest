@@ -8,10 +8,13 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 /**
- * TODO: write doc
+ * Sets the configured status code.
  */
 class RestAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
+    /**
+     * Configurable status code, by default: conf.rest.login.failureStatusCode?:HttpServletResponse.SC_FORBIDDEN
+     */
     Integer statusCode
 
     /**

@@ -21,12 +21,14 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 /**
- * This filter performs the initial authentication. It uses the configured {@link AuthenticationManager} bean, allowing
+ * This filter starts the initial authentication flow. It uses the configured {@link AuthenticationManager} bean, allowing
  * to use any authentication provider defined by other plugins or by the application.
  *
  * If the authentication manager authenticates the request, a token is generated using a {@link TokenGenerator} and
  * stored via {@link TokenStorageService}. Finally, a {@link AuthenticationSuccessHandler} is used to render the REST
  * response to the client.
+ *
+ * If there is an authentication failure, the configured {@link AuthenticationFailureHandler} will render the response.
  */
 class RestAuthenticationFilter extends GenericFilterBean {
 

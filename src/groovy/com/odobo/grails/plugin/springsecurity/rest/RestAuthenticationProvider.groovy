@@ -7,12 +7,17 @@ import org.springframework.security.core.AuthenticationException
 import org.springframework.util.Assert
 
 /**
- * Authenticates a request based on the token passed. This is called by the filter.
+ * Authenticates a request based on the token passed. This is called by {@link RestTokenValidationFilter}.
  */
 class RestAuthenticationProvider implements AuthenticationProvider {
 
     TokenStorageService tokenStorageService
 
+    /**
+     * Returns an authentication object based on the token value contained in the authentication parameter. To do so,
+     * it uses a {@link TokenStorageService}.
+     * @throws AuthenticationException
+     */
     Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         Assert.isInstanceOf(RestAuthenticationToken, authentication, "Only RestAuthenticationToken is supported")
