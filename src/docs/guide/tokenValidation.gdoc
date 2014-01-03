@@ -6,7 +6,8 @@ your application @\@Secured@, @springSecurityService.principal@ and so on.
 
 {note}
 @springSecurityService.currentUser@ expects a @grails.plugin.springsecurity.userdetails.GrailsUser@ to perform a DB query.
-However, this plugins stores in the security context a more generic @org.springframework.security.core.userdetails.User@.
+However, this plugins stores in the security context a more generic @org.springframework.security.core.userdetails.User@
+because it does not assume you are using domain classes to store the users.
 Use @springSecurityService.principal@ instead.
 {note}
 
