@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Spring Security REST Plugin 1.0.0.M4</title>
+        <title>Spring Security REST Plugin 1.0.0.RC1</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -60,7 +60,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Spring Security REST Plugin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
-                            <p><strong>Version:</strong> 1.0.0.M4</p>
+                            <p><strong>Version:</strong> 1.0.0.RC1</p>
                             
                         </div>
 
@@ -112,7 +112,7 @@ for <a href="../guide/single.html#tokenStorage" class="guide">token storage</a>.
 <li>15 January 2014 (estimated)</li>
 <ul class="star">
 <li>Initial release.</li>
-</ul></ul><p class="paragraph"/><h2>Getting started</h2><p class="paragraph"/>To use this plugin, add this to the <code>BuildConfig.groovy</code> file:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.0.0.M4'</pre></div>
+</ul></ul><p class="paragraph"/><h2>Getting started</h2><p class="paragraph"/>To use this plugin, add this to the <code>BuildConfig.groovy</code> file:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.0.0.RC1'</pre></div>
 
 
 <h1 id="authentication">2 Authentication Filter</h1>
@@ -178,7 +178,12 @@ the information from the mentioned domain classes.
 <h1 id="tokenValidation">5 Token Validation Filter</h1>
 The token validation filter looks for the token in a HTTP header and then tries to validate the token using the configured
 <a href="../guide/single.html#tokenStorage" class="guide">token storage</a> implementation.<p class="paragraph"/>If the validation is successful, the UserDetails object is stored in the security context. This allows you to use in
-your application <code>&#64;Secured</code>, <code>springSecurityService.currentUser</code> and so on.<p class="paragraph"/>The configuration properties are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr></table>
+your application <code>&#64;Secured</code>, <code>springSecurityService.principal</code> and so on.<p class="paragraph"/><blockquote class="note">
+<code>springSecurityService.currentUser</code> expects a <code>grails.plugin.springsecurity.userdetails.GrailsUser</code> to perform a DB query.
+However, this plugins stores in the security context a more generic <code>org.springframework.security.core.userdetails.User</code>
+because it does not assume you are using domain classes to store the users.
+Use <code>springSecurityService.principal</code> instead.
+</blockquote><p class="paragraph"/>The configuration properties are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr></table>
 
                     </div>
                 </td>
