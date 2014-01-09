@@ -20,6 +20,8 @@ class RequestParamsCredentialsExtractor implements CredentialsExtractor {
         String username = httpServletRequest.getParameter(usernameParameter)
         String password = httpServletRequest.getParameter(passwordParameter)
 
+        log.debug "Extracted credentials from request params. Username: ${username}, password: ${password?.size()?'[PROTECTED]':'[MISSING]'}"
+
         new UsernamePasswordAuthenticationToken(username, password)
     }
 

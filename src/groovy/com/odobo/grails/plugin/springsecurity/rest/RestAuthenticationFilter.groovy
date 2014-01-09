@@ -69,10 +69,6 @@ class RestAuthenticationFilter extends GenericFilterBean {
                 return
             }
 
-            String username = request.getParameter(usernameParameter)
-            String password = request.getParameter(passwordParameter)
-
-
             UsernamePasswordAuthenticationToken authenticationRequest = credentialsExtractor.extractCredentials(httpServletRequest)
 
             //Request must contain parameters
