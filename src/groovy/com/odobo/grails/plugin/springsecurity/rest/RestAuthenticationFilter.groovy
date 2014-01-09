@@ -34,8 +34,8 @@ import javax.servlet.http.HttpServletResponse
 @Log4j
 class RestAuthenticationFilter extends GenericFilterBean {
 
-    String usernameParameter
-    String passwordParameter
+    CredentialsExtractor credentialsExtractor
+
     String endpointUrl
 
     AuthenticationManager authenticationManager
@@ -72,14 +72,16 @@ class RestAuthenticationFilter extends GenericFilterBean {
             String username = request.getParameter(usernameParameter)
             String password = request.getParameter(passwordParameter)
 
+
+            UsernamePasswordAuthenticationToken authenticationRequest = credentialsExtractor.extractCredentials(httpServletRequest)
+
             //Request must contain parameters
-            if (!username || !password) {
+            if (!authenticationRequest.principal || !authenticationRequest.credentials) {
                 log.debug "Username and/or password parameters are missing. Setting status to ${HttpServletResponse.SC_BAD_REQUEST}"
                 httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST)
                 return
             }
 
-            Authentication authenticationRequest = new UsernamePasswordAuthenticationToken(username, password)
             authenticationRequest.details = authenticationDetailsSource.buildDetails(request)
 
             try {
