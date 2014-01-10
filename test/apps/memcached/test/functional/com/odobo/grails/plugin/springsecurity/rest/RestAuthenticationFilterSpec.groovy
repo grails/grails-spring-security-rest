@@ -1,25 +1,15 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
-import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
-import spock.lang.Ignore
-import spock.lang.Shared
-import spock.lang.Specification
 import spock.lang.Unroll
 
-class RestAuthenticationFilterSpec extends Specification {
-
-    @Shared
-    RestBuilder restBuilder = new RestBuilder()
-
-    @Shared
-    String baseUrl = "http://localhost:8080/memcached"
+class RestAuthenticationFilterSpec extends AbstractFilterSpec {
 
     @Unroll
-	void "#httpMethod requests without parameters generate #statusCode responses"() {
+	void "#httpMethod requests without parameters/JSON generate #statusCode responses"() {
 
         when:
-        def response = restBuilder."${httpMethod}"("${baseUrl}/login")
+        def response = sendEmptyRequest(httpMethod)
 
         then:
         response.status == statusCode
@@ -48,7 +38,7 @@ class RestAuthenticationFilterSpec extends Specification {
 
     void "authentication attempt with wrong credentials returns a failure status code"() {
         when:
-        def response = restBuilder.post("${baseUrl}/login?username=foo&password=bar")
+        def response = sendWrongCredentials()
 
         then:
         response.status == 403
@@ -56,12 +46,22 @@ class RestAuthenticationFilterSpec extends Specification {
 
     void "authentication attempt with correct credentials returns a valid status code"() {
         when:
-        RestResponse response = restBuilder.post("${baseUrl}/login?username=jimi&password=jimispassword")
+        RestResponse response = sendCorrectCredentials()
 
         then:
         response.status == 200
         response.json.username == 'jimi'
         response.json.token
         response.json.roles.size() == 2
+    }
+
+    private sendEmptyRequest(httpMethod) {
+        if (config.grails.plugin.springsecurity.rest.login.useRequestParamsCredentials == true) {
+            restBuilder."${httpMethod}"("${baseUrl}/login")
+        } else {
+            restBuilder."${httpMethod}"("${baseUrl}/login") {
+                json {  }
+            }
+        }
     }
 }

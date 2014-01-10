@@ -1,4 +1,6 @@
 import com.odobo.grails.plugin.springsecurity.rest.*
+import com.odobo.grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
+import com.odobo.grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
@@ -74,12 +76,21 @@ class SpringSecurityRestGrailsPlugin {
             authenticationSuccessHandler = ref('authenticationSuccessHandler')
             authenticationFailureHandler = ref('authenticationFailureHandler')
             authenticationDetailsSource = ref('authenticationDetailsSource')
-            usernameParameter = conf.rest.login.usernameParameter // j_username
-            passwordParameter = conf.rest.login.passwordParameter // j_password
+            credentialsExtractor = ref('credentialsExtractor')
             endpointUrl = conf.rest.login.endpointUrl
             tokenGenerator = ref('tokenGenerator')
             tokenStorageService = ref('tokenStorageService')
         }
+
+        if (conf.rest.login.useJsonCredentials) {
+            credentialsExtractor(DefaultJsonPayloadCredentialsExtractor)
+        } else if (conf.rest.login.useRequestParamsCredentials) {
+            credentialsExtractor(RequestParamsCredentialsExtractor) {
+                usernameParameter = conf.rest.login.usernameParameter // j_username
+                passwordParameter = conf.rest.login.passwordParameter // j_password
+            }
+        }
+
         authenticationSuccessHandler(RestAuthenticationSuccessHandler) {
             renderer = ref('restAuthenticationTokenJsonRenderer')
         }

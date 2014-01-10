@@ -1,6 +1,5 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
-import groovy.util.logging.Log
 import groovy.util.logging.Log4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
