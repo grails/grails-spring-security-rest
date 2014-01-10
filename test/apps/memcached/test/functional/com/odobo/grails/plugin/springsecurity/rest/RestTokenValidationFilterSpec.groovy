@@ -1,18 +1,8 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
-import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
-import spock.lang.Shared
-import spock.lang.Specification
-import spock.lang.Unroll
 
-class RestTokenValidationFilterSpec extends Specification {
-
-    @Shared
-    RestBuilder restBuilder = new RestBuilder()
-
-    @Shared
-    String baseUrl = "http://localhost:8080/memcached"
+class RestTokenValidationFilterSpec extends AbstractFilterSpec {
 
     void "accessing a secured controller without token returns 403"() {
         when:
@@ -24,7 +14,7 @@ class RestTokenValidationFilterSpec extends Specification {
 
     void "a valid user can access the secured controller"() {
         given:
-        RestResponse authResponse = restBuilder.post("${baseUrl}/login?username=jimi&password=jimispassword")
+        RestResponse authResponse = sendCorrectCredentials()
         String token = authResponse.json.token
 
         when:
@@ -39,7 +29,7 @@ class RestTokenValidationFilterSpec extends Specification {
 
     void "role restrictions are applied when user does not have enough credentials"() {
         given:
-        RestResponse authResponse = restBuilder.post("${baseUrl}/login?username=jimi&password=jimispassword")
+        RestResponse authResponse = sendCorrectCredentials()
         String token = authResponse.json.token
 
         when:

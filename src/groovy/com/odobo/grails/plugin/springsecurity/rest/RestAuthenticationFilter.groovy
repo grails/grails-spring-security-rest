@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.credentials.CredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.util.logging.Log4j
@@ -9,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.web.filter.GenericFilterBean
@@ -34,8 +34,8 @@ import javax.servlet.http.HttpServletResponse
 @Log4j
 class RestAuthenticationFilter extends GenericFilterBean {
 
-    String usernameParameter
-    String passwordParameter
+    CredentialsExtractor credentialsExtractor
+
     String endpointUrl
 
     AuthenticationManager authenticationManager
@@ -69,17 +69,15 @@ class RestAuthenticationFilter extends GenericFilterBean {
                 return
             }
 
-            String username = request.getParameter(usernameParameter)
-            String password = request.getParameter(passwordParameter)
+            UsernamePasswordAuthenticationToken authenticationRequest = credentialsExtractor.extractCredentials(httpServletRequest)
 
             //Request must contain parameters
-            if (!username || !password) {
+            if (!authenticationRequest.principal || !authenticationRequest.credentials) {
                 log.debug "Username and/or password parameters are missing. Setting status to ${HttpServletResponse.SC_BAD_REQUEST}"
                 httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST)
                 return
             }
 
-            Authentication authenticationRequest = new UsernamePasswordAuthenticationToken(username, password)
             authenticationRequest.details = authenticationDetailsSource.buildDetails(request)
 
             try {

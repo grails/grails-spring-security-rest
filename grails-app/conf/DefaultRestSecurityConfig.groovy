@@ -12,6 +12,8 @@ security {
             usernameParameter = 'username'
             passwordParameter = 'password'
             failureStatusCode = HttpServletResponse.SC_FORBIDDEN
+            useRequestParamsCredentials = true
+            useJsonCredentials = false
 
         }
 
