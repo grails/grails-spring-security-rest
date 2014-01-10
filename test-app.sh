@@ -8,6 +8,9 @@
         && for config in `ls grails-app/conf/Config*.groovy`; do
            cp $config grails-app/conf/Config.groovy \
            && ../../../grailsw test-app
+           if [ $? -ne 0 ]; then
+              exit $?
+           fi
            done
      done \
   && cd ../../../
