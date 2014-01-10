@@ -1,10 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
-import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
-import spock.lang.Shared
-import spock.lang.Specification
-import spock.lang.Unroll
 
 class RestTokenValidationFilterSpec extends AbstractFilterSpec {
 

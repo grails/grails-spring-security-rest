@@ -1,11 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
-import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import spock.lang.Ignore
-import spock.lang.Shared
-import spock.lang.Specification
 import spock.lang.Unroll
 
 class RestAuthenticationFilterSpec extends AbstractFilterSpec {

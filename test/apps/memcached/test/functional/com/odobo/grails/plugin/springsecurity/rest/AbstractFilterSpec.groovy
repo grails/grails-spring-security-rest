@@ -4,10 +4,6 @@ import grails.plugins.rest.client.RestBuilder
 import spock.lang.Shared
 import spock.lang.Specification
 
-
-/**
- * TODO: write doc
- */
 abstract class AbstractFilterSpec extends Specification {
 
 
