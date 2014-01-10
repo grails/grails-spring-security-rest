@@ -1,4 +1,4 @@
-package com.odobo.grails.plugin.springsecurity.rest
+package com.odobo.grails.plugin.springsecurity.rest.credentials
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 

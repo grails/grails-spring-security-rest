@@ -1,8 +1,7 @@
-package com.odobo.grails.plugin.springsecurity.rest
+package com.odobo.grails.plugin.springsecurity.rest.credentials
 
 import com.google.common.io.CharStreams
 import groovy.json.JsonSlurper
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 
 import javax.servlet.http.HttpServletRequest
 
