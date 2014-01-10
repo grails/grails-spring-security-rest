@@ -5,6 +5,7 @@ import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandom
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
+import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import net.spy.memcached.DefaultHashAlgorithm
 import net.spy.memcached.spring.MemcachedClientFactoryBean
@@ -62,13 +63,9 @@ class SpringSecurityRestGrailsPlugin {
         }
 
         ///*
-        //SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER
-        //SpringSecurityUtils.registerProvider 'fakeAuthenticationProvider'
-
-        //TODO to config file
-        conf.filterChain.filterNames = ['securityContextPersistenceFilter', 'authenticationProcessingFilter',
-                                        'anonymousAuthenticationFilter', 'restAuthenticationFilter',
-                                        'exceptionTranslationFilter', 'filterInvocationInterceptor']
+        SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.ANONYMOUS_FILTER.order + 1
+        SpringSecurityUtils.registerFilter 'corsFilter', SecurityFilterPosition.PRE_AUTH_FILTER.order + 1
+        SpringSecurityUtils.registerProvider 'restAuthenticationProvider'
 
         /* authenticationProcessingFilter */
         authenticationProcessingFilter(RestAuthenticationFilter) {
@@ -110,8 +107,8 @@ class SpringSecurityRestGrailsPlugin {
         authenticationEntryPoint(Http403ForbiddenEntryPoint)
         securityContextRepository(NullSecurityContextRepository)
 
-        /* restAuthenticationFilter */
-        restAuthenticationFilter(RestTokenValidationFilter) {
+        /* restTokenValidationFilter */
+        restTokenValidationFilter(RestTokenValidationFilter) {
             headerName = conf.rest.token.validation.headerName
             authenticationSuccessHandler = ref('authenticationSuccessHandler')
             authenticationFailureHandler = ref('authenticationFailureHandler')
@@ -159,6 +156,9 @@ class SpringSecurityRestGrailsPlugin {
 
         /* restAuthenticationTokenJsonRenderer */
         restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer)
+
+        /* corsFilter */
+        corsFilter(CorsFilter)
 
         //*/
 

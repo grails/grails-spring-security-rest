@@ -17,10 +17,13 @@ class CorsSpec extends AbstractRestSpec {
 
         given:
         RestTemplate restTemplate = new RestTemplate()
-        Set<HttpMethod> methods = restTemplate.optionsForAllow "${baseUrl}/login", []
+        def headers = restTemplate.execute("${baseUrl}/login", HttpMethod.OPTIONS, null, restTemplate.headersExtractor, [])
+        def methods = headers['Access-Control-Allow-Methods'].first()
+
+        println methods[0]
 
         expect:
-        methods
+        methods == 'GET, POST, PUT, DELETE, OPTIONS'
 
     }
 
