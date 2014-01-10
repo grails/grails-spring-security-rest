@@ -148,7 +148,7 @@ grails {
                     endpointUrl = '/login'
                     usernameParameter = 'username'
                     passwordParameter = 'password'
-                    useRequestParamsCredentials = true
+                    useJsonCredentials = true
 
                 }
 

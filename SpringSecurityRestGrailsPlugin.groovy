@@ -82,13 +82,13 @@ class SpringSecurityRestGrailsPlugin {
             tokenStorageService = ref('tokenStorageService')
         }
 
-        if (conf.rest.login.useRequestParamsCredentials) {
+        if (conf.rest.login.useJsonCredentials) {
+            credentialsExtractor(DefaultJsonPayloadCredentialsExtractor)
+        } else if (conf.rest.login.useRequestParamsCredentials) {
             credentialsExtractor(RequestParamsCredentialsExtractor) {
                 usernameParameter = conf.rest.login.usernameParameter // j_username
                 passwordParameter = conf.rest.login.passwordParameter // j_password
             }
-        } else if (conf.rest.login.useJsonCredentials) {
-            credentialsExtractor(DefaultJsonPayloadCredentialsExtractor)
         }
 
         authenticationSuccessHandler(RestAuthenticationSuccessHandler) {

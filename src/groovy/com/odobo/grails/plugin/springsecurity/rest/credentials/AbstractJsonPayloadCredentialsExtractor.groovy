@@ -11,8 +11,12 @@ import javax.servlet.http.HttpServletRequest
 abstract class AbstractJsonPayloadCredentialsExtractor implements CredentialsExtractor {
 
     Object getJsonBody(HttpServletRequest httpServletRequest) {
-        String body = CharStreams.toString(httpServletRequest.reader)
-        JsonSlurper slurper = new JsonSlurper()
-        slurper.parseText(body)
+        try {
+            String body = CharStreams.toString(httpServletRequest.reader)
+            JsonSlurper slurper = new JsonSlurper()
+            slurper.parseText(body)
+        } catch (exception) {
+            [:]
+        }
     }
 }
