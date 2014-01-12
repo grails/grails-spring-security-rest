@@ -24,6 +24,10 @@ grails.project.dependency.resolution = {
 
     plugins {
         compile ':spring-security-core:2.0-RC2'
+        runtime(":cors:1.1.4") {
+            exclude("spring-security-core")
+            exclude("spring-security-web")
+        }
 
         build(":release:3.0.1", ":rest-client-builder:1.0.3") {
             export = false

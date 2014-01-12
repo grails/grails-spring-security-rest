@@ -4,7 +4,7 @@ import grails.plugins.rest.client.RestBuilder
 import spock.lang.Shared
 import spock.lang.Specification
 
-abstract class AbstractFilterSpec extends Specification {
+abstract class AbstractRestSpec extends Specification {
 
 
     @Shared
@@ -16,7 +16,7 @@ abstract class AbstractFilterSpec extends Specification {
     @Shared
     String baseUrl = "http://localhost:8080/memcached"
 
-    private sendWrongCredentials() {
+    def sendWrongCredentials() {
         if (config.grails.plugin.springsecurity.rest.login.useRequestParamsCredentials == true) {
             restBuilder.post("${baseUrl}/login?username=foo&password=bar")
         } else {
@@ -29,7 +29,7 @@ abstract class AbstractFilterSpec extends Specification {
         }
     }
 
-    private sendCorrectCredentials() {
+    def sendCorrectCredentials() {
         if (config.grails.plugin.springsecurity.rest.login.useRequestParamsCredentials == true) {
             restBuilder.post("${baseUrl}/login?username=jimi&password=jimispassword")
         } else {

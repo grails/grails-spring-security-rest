@@ -3,7 +3,7 @@ package com.odobo.grails.plugin.springsecurity.rest
 import grails.plugins.rest.client.RestResponse
 import spock.lang.Unroll
 
-class RestAuthenticationFilterSpec extends AbstractFilterSpec {
+class RestAuthenticationFilterSpec extends AbstractRestSpec {
 
     @Unroll
 	void "#httpMethod requests without parameters/JSON generate #statusCode responses"() {
