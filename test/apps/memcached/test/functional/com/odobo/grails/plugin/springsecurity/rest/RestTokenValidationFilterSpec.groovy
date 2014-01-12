@@ -2,7 +2,7 @@ package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugins.rest.client.RestResponse
 
-class RestTokenValidationFilterSpec extends AbstractFilterSpec {
+class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
     void "accessing a secured controller without token returns 403"() {
         when:

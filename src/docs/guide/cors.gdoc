@@ -1,0 +1,15 @@
+This plugin comes pre-installed with the [CORS plugin|http://grails.org/plugin/cors], which enables
+[Cross-Origin Resource Sharing|http://www.w3.org/TR/cors/]. Refer to the
+[plugin documentation|https://github.com/davidtinker/grails-cors/blob/master/README.md] to learn how to configure it.
+
+The CORS plugin activates itself by default. If you don't want it for some environments, you can use
+@cors.enabled = false@ within the appropriate environment block in your @Config.groovy@.
+
+If you don't want CORS support at all, you can skip the plugin by excluding it
+when defining this plugin in your @BuildConfig.groovy@:
+
+{code}
+compile ':spring-security-rest:{{VERSION}}', {
+    exclude 'cors
+}
+{code}

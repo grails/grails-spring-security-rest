@@ -1,0 +1,27 @@
+If you need debug information, you can specify the following in @Config.groovy@:
+
+{code}
+log4j = {
+    ...
+
+    debug  'com.odobo'
+
+    ...
+}
+{code}
+
+You can also debug Spring Security in general:
+
+{code}
+log4j = {
+    ...
+
+    debug  'com.odobo',
+           'org.springframework.security'
+
+    ...
+}
+{code}
+
+
+

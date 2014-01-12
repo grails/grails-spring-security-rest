@@ -1,3 +1,5 @@
+#!/bin/sh
+
 git config gitflow.branch.master 'master'
 git config gitflow.branch.develop 'develop'
 git config gitflow.prefix.feature 'feature/'
