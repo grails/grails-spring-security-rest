@@ -6,3 +6,5 @@ tokenStorage:
   memcached: Memcached
   gorm: GORM
 tokenValidation: Token Validation Filter
+cors: CORS support
+debugging: Debugging
