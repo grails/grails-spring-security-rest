@@ -1,9 +1,4 @@
-import com.brandseye.cors.CorsFilter
-import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler
-import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFilter
-import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationProvider
-import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationSuccessHandler
-import com.odobo.grails.plugin.springsecurity.rest.RestTokenValidationFilter
+import com.odobo.grails.plugin.springsecurity.rest.*
 import com.odobo.grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
@@ -26,7 +21,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.0.0.RC2"
+    String version = "1.0.0"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
