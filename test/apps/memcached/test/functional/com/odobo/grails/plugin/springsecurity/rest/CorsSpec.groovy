@@ -1,13 +1,12 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
-import grails.plugins.rest.client.RestResponse
-import org.springframework.http.HttpMethod
-import org.springframework.web.client.RestTemplate
-import spock.lang.Specification
-
+import org.apache.http.HttpResponse
+import org.apache.http.client.HttpClient
+import org.apache.http.client.methods.HttpOptions
+import org.apache.http.impl.client.DefaultHttpClient
 
 /**
- * Specification to support CORS requests
+ * Specification to test CORS support
  *
  * @see https://github.com/alvarosanchez/grails-spring-security-rest/issues/4
  */
@@ -16,14 +15,16 @@ class CorsSpec extends AbstractRestSpec {
     void "OPTIONS requests are allowed"() {
 
         given:
-        RestTemplate restTemplate = new RestTemplate()
-        def headers = restTemplate.execute("${baseUrl}/login", HttpMethod.OPTIONS, null, restTemplate.headersExtractor, [])
-        def methods = headers['Access-Control-Allow-Methods'].first()
+        HttpClient client = new DefaultHttpClient()
+        HttpOptions options = new HttpOptions("${baseUrl}/login")
+        options.addHeader 'Origin', 'http://www.example.com'
+        options.addHeader 'Access-Control-Request-Method', 'POST'
 
-        println methods[0]
+        when:
+        HttpResponse response = client.execute(options)
 
-        expect:
-        methods == 'GET, POST, PUT, DELETE, OPTIONS'
+        then:
+        response.getHeaders('Access-Control-Allow-Origin').first().value == 'http://www.example.com'
 
     }
 

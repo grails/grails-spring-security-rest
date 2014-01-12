@@ -1,4 +1,9 @@
-import com.odobo.grails.plugin.springsecurity.rest.*
+import com.brandseye.cors.CorsFilter
+import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler
+import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationFilter
+import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationProvider
+import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationSuccessHandler
+import com.odobo.grails.plugin.springsecurity.rest.RestTokenValidationFilter
 import com.odobo.grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
@@ -64,7 +69,6 @@ class SpringSecurityRestGrailsPlugin {
 
         ///*
         SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.ANONYMOUS_FILTER.order + 1
-        SpringSecurityUtils.registerFilter 'corsFilter', SecurityFilterPosition.PRE_AUTH_FILTER.order + 1
         SpringSecurityUtils.registerProvider 'restAuthenticationProvider'
 
         /* authenticationProcessingFilter */
@@ -156,9 +160,6 @@ class SpringSecurityRestGrailsPlugin {
 
         /* restAuthenticationTokenJsonRenderer */
         restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer)
-
-        /* corsFilter */
-        corsFilter(CorsFilter)
 
         //*/
 
