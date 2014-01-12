@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5 Token Validation Filter 1.0.0</title>
+    <title>7 Debugging 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -68,18 +68,16 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/tokenStorage.html">&lt;&lt; <strong>4</strong><span>Token Storage</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/cors.html">&lt;&lt; <strong>6</strong><span>CORS support</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/cors.html"><strong>6</strong><span>CORS support</span> >></a></div>
-                
 
 
                 <div class="project">
-                    <h1>5 Token Validation Filter - Reference Documentation</h1>
+                    <h1>7 Debugging - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
@@ -92,22 +90,18 @@ function addJsClass() {
 
                 
 
-<h1 id="tokenValidation">5 Token Validation Filter</h1>
-The token validation filter looks for the token in a HTTP header and then tries to validate the token using the configured
-<a href="../guide/single.html#tokenStorage" class="guide">token storage</a> implementation.<p class="paragraph"/>If the validation is successful, the UserDetails object is stored in the security context. This allows you to use in
-your application <code>&#64;Secured</code>, <code>springSecurityService.principal</code> and so on.<p class="paragraph"/><blockquote class="note">
-<code>springSecurityService.currentUser</code> expects a <code>grails.plugin.springsecurity.userdetails.GrailsUser</code> to perform a DB query.
-However, this plugins stores in the security context a more generic <code>org.springframework.security.core.userdetails.User</code>
-because it does not assume you are using domain classes to store the users.
-Use <code>springSecurityService.principal</code> instead.
-</blockquote><p class="paragraph"/>The configuration properties are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr></table>
+<h1 id="debugging">7 Debugging</h1>
+If you need debug information, you can specify the following in <code>Config.groovy</code>:<p class="paragraph"/><div class="code"><pre>log4j = &#123;
+    ...<p class="paragraph"/>    debug  'com.odobo'<p class="paragraph"/>    &#8230;
+&#125;</pre></div><p class="paragraph"/>You can also debug Spring Security in general:<p class="paragraph"/><div class="code"><pre>log4j = &#123;
+    ...<p class="paragraph"/>    debug  'com.odobo',
+           'org.springframework.security'<p class="paragraph"/>    &#8230;
+&#125;</pre></div><p class="paragraph"/><p class="paragraph"/>
 
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/tokenStorage.html">&lt;&lt; <strong>4</strong><span>Token Storage</span></a></div>
-                
-                    <div class="toc-item next-right"><a href="../guide/cors.html"><strong>6</strong><span>CORS support</span> >></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/cors.html">&lt;&lt; <strong>6</strong><span>CORS support</span></a></div>
                 
                 <div style="clear:both"></div>
             </div>
