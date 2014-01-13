@@ -19,7 +19,7 @@ class SecureRandomTokenGenerator implements TokenGenerator {
     String generateToken() {
         String token = new BigInteger(160, this.random).toString(32)
         def tokenSize = token.size()
-        if (tokenSize < 32) token += RandomStringUtils.random(32 - tokenSize)
+        if (tokenSize < 32) token += RandomStringUtils.randomAlphanumeric(32 - tokenSize)
         return token
     }
 
