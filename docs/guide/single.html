@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Spring Security REST Plugin 1.0.0</title>
+        <title>Spring Security REST Plugin 1.0.1</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -64,7 +64,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Spring Security REST Plugin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
-                            <p><strong>Version:</strong> 1.0.0</p>
+                            <p><strong>Version:</strong> 1.0.1</p>
                             
                         </div>
 
@@ -119,7 +119,11 @@ for <a href="../guide/single.html#tokenStorage" class="guide">token storage</a>.
 <ul class="star">
 <li>12 January 2014</li>
 <ul class="star">
-<li><a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=1" target="blank">1.0.0</a></li>
+<li><a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=4&state=closed" target="blank">1.0.0</a></li>
+</ul>
+<li>12 January 2014</li>
+<ul class="star">
+<li><a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=1&state=closed" target="blank">1.0.0</a></li>
 </ul>
 <li>10 January 2014</li>
 <ul class="star">
@@ -128,7 +132,7 @@ for <a href="../guide/single.html#tokenStorage" class="guide">token storage</a>.
 <li>31 December 2013</li>
 <ul class="star">
 <li>Initial 1.0.0.RC1 release.</li>
-</ul></ul><p class="paragraph"/><h2>Getting started</h2><p class="paragraph"/>To use this plugin, add this to the <code>BuildConfig.groovy</code> file:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.0.0'</pre></div>
+</ul></ul><p class="paragraph"/><h2>Getting started</h2><p class="paragraph"/>To use this plugin, add this to the <code>BuildConfig.groovy</code> file:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.0.1'</pre></div>
 
 
 <h1 id="authentication">2 Authentication Filter</h1>
@@ -219,7 +223,7 @@ This plugin comes pre-installed with the <a href="http://grails.org/plugin/cors"
 <a href="http://www.w3.org/TR/cors/" target="blank">Cross-Origin Resource Sharing</a>. Refer to the
 <a href="https://github.com/davidtinker/grails-cors/blob/master/README.md" target="blank">plugin documentation</a> to learn how to configure it.<p class="paragraph"/>The CORS plugin activates itself by default. If you don't want it for some environments, you can use
 <code>cors.enabled = false</code> within the appropriate environment block in your <code>Config.groovy</code>.<p class="paragraph"/>If you don't want CORS support at all, you can skip the plugin by excluding it
-when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.0.0', &#123;
+when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.0.1', &#123;
     exclude 'cors
 &#125;</pre></div>
 
