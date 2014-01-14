@@ -81,7 +81,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
             if (!tokenValue) {
                 HttpServletResponse servletResponse = response
                 log.debug "Token header is missing. Sending a 400 Bad Request response"
-                servletResponse.sendError 400, "Token header is missing"
+                servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, "Token header is missing"
             }
         } else {
             log.debug "Continuing the filter chain"

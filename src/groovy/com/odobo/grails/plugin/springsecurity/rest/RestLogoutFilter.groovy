@@ -41,7 +41,7 @@ class RestLogoutFilter extends GenericFilterBean {
             //Only POST is supported
             if (httpServletRequest.method != 'POST') {
                 log.debug "${httpServletRequest.method} HTTP method is not supported. Setting status to ${HttpServletResponse.SC_METHOD_NOT_ALLOWED}"
-                httpServletResponse.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED)
+                httpServletResponse.setStatus HttpServletResponse.SC_METHOD_NOT_ALLOWED
                 return
             }
 
@@ -55,11 +55,11 @@ class RestLogoutFilter extends GenericFilterBean {
                     log.debug "Trying to remove the token"
                     tokenStorageService.removeToken tokenValue
                 } catch (TokenNotFoundException tnfe) {
-                    httpServletResponse.sendError 404, "Token not found"
+                    httpServletResponse.sendError HttpServletResponse.SC_NOT_FOUND, "Token not found"
                 }
             } else {
                 log.debug "Token header is missing. Sending a 400 Bad Request response"
-                httpServletResponse.sendError 400, "Token header is missing"
+                httpServletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, "Token header is missing"
             }
 
         } else {

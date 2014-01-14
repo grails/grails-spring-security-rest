@@ -1,5 +1,7 @@
 introduction: Introduction to the Spring Security REST plugin
-authentication: Authentication Filter
+authentication:
+  title: Authentication Endpoint
+  logout: Logout Endpoint
 tokenGeneration: Token Generation
 tokenStorage:
   title: Token Storage
