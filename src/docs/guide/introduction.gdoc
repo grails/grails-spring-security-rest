@@ -32,8 +32,10 @@ for [token storage|guide:tokenStorage].
 
 h4. Release History
 
-* 12 January 2014
-** [1.0.0|https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=4&state=closed]
+* 14 January 2014
+** [1.1.0|https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=2&state=closed]
+* 13 January 2014
+** [1.0.1|https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=4&state=closed]
 * 12 January 2014
 ** [1.0.0|https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=1&state=closed]
 * 10 January 2014
