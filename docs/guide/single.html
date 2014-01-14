@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Spring Security REST Plugin 1.0.1</title>
+        <title>Spring Security REST Plugin 1.1.0</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -25,7 +25,7 @@ function addJsClass(el) {
                             
                             <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:0"><a href="#authentication"><strong>2</strong><span>Authentication Filter</span></a></div>
+                            <div class="toc-item" style="margin-left:0"><a href="#authentication"><strong>2</strong><span>Authentication Endpoint</span></a></div>
                             
                             <div class="toc-item" style="margin-left:0"><a href="#tokenGeneration"><strong>3</strong><span>Token Generation</span></a></div>
                             
@@ -64,7 +64,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Spring Security REST Plugin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
-                            <p><strong>Version:</strong> 1.0.1</p>
+                            <p><strong>Version:</strong> 1.1.0</p>
                             
                         </div>
 
@@ -74,7 +74,9 @@ function addJsClass(el) {
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#introduction"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:0px"><a href="#authentication"><strong>2</strong><span>Authentication Filter</span></a></div>
+                            <div class="toc-item" style="margin-left:0px"><a href="#authentication"><strong>2</strong><span>Authentication Endpoint</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#logout"><strong>2.1</strong><span>Logout Endpoint</span></a></div>
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#tokenGeneration"><strong>3</strong><span>Token Generation</span></a></div>
                             
@@ -117,9 +119,13 @@ storing tokens gives you the chance to decide about expiration strategies.<p cla
 with ready-to-use <a href="../guide/single.html#tokenGeneration" class="guide">token generation strategies</a> and comes prepackaged with Memcached and GORM support
 for <a href="../guide/single.html#tokenStorage" class="guide">token storage</a>.<p class="paragraph"/><h4>Release History</h4>
 <ul class="star">
-<li>12 January 2014</li>
+<li>14 January 2014</li>
 <ul class="star">
-<li><a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=4&state=closed" target="blank">1.0.0</a></li>
+<li><a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=2&state=closed" target="blank">1.1.0</a></li>
+</ul>
+<li>13 January 2014</li>
+<ul class="star">
+<li><a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=4&state=closed" target="blank">1.0.1</a></li>
 </ul>
 <li>12 January 2014</li>
 <ul class="star">
@@ -132,10 +138,10 @@ for <a href="../guide/single.html#tokenStorage" class="guide">token storage</a>.
 <li>31 December 2013</li>
 <ul class="star">
 <li>Initial 1.0.0.RC1 release.</li>
-</ul></ul><p class="paragraph"/><h2>Getting started</h2><p class="paragraph"/>To use this plugin, add this to the <code>BuildConfig.groovy</code> file:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.0.1'</pre></div>
+</ul></ul><p class="paragraph"/><h2>Getting started</h2><p class="paragraph"/>To use this plugin, add this to the <code>BuildConfig.groovy</code> file:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.1.0'</pre></div>
 
 
-<h1 id="authentication">2 Authentication Filter</h1>
+<h1 id="authentication">2 Authentication Endpoint</h1>
 The <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html" target="blank">authentication filter</a>
 uses the default <code>authenticationManager</code> bean, which in turn uses all the registered authentication
 providers. See the <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/authenticationProviders.html" target="blank">Spring Security Core guide</a>
@@ -169,6 +175,13 @@ The default implementation looks like this:<p class="paragraph"/><div class="cod
 class DefaultJsonPayloadCredentialsExtractor <span class="java&#45;keyword">extends</span> AbstractJsonPayloadCredentialsExtractor &#123;<p class="paragraph"/>    UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) &#123;
         def jsonBody = getJsonBody(httpServletRequest)<p class="paragraph"/>        log.debug <span class="java&#45;quote">"Extracted credentials from request params. Username: $&#123;jsonBody.username&#125;, password: $&#123;jsonBody.password?.size()?'&#91;PROTECTED&#93;':'&#91;MISSING&#93;'&#125;"</span><p class="paragraph"/>        <span class="java&#45;keyword">new</span> UsernamePasswordAuthenticationToken(jsonBody.username, jsonBody.password)
     &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>Once you are done, register it in <code>resources.groovy</code> with the name <code>credentialsExtractor</code>.<p class="paragraph"/>
+
+
+<h2 id="logout">2.1 Logout Endpoint</h2>
+The <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html" target="blank">logout filter</a>
+exposes an endpoint for deleting tokens. It will read the token from an HTTP header. If found, will delete it from the
+storage, sending a 200 response. Otherwise, it will send a 404 response.<p class="paragraph"/>You can configure it in <code>Config.groovy</code> using this properties:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.logout.endpointUrl</code></td><td><code>/logout</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr></table>
+
 
 
 <h1 id="tokenGeneration">3 Token Generation</h1>
@@ -215,7 +228,10 @@ your application <code>&#64;Secured</code>, <code>springSecurityService.principa
 However, this plugins stores in the security context a more generic <code>org.springframework.security.core.userdetails.User</code>
 because it does not assume you are using domain classes to store the users.
 Use <code>springSecurityService.principal</code> instead.
-</blockquote><p class="paragraph"/>The configuration properties are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr></table>
+</blockquote><p class="paragraph"/><h2>Validation Endpoint</h2><p class="paragraph"/>There is also an endpoint available that you can call in case you want to know if a given token is valid. It looks for
+the token in a HTTP header as well, and if the token is still valid, it renders <a href="../guide/single.html#authentication" class="guide">its JSON representation</a>.
+If the token does not exist, it will render a <code>grails.plugin.springsecurity.rest.login.failureStatusCode</code> response
+(<code>403</code> by default).<p class="paragraph"/>The relevant configuration properties are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.endpointUrl</code></td><td><code>/validate</code></td></tr></table>
 
 
 <h1 id="cors">6 CORS support</h1>
@@ -223,7 +239,7 @@ This plugin comes pre-installed with the <a href="http://grails.org/plugin/cors"
 <a href="http://www.w3.org/TR/cors/" target="blank">Cross-Origin Resource Sharing</a>. Refer to the
 <a href="https://github.com/davidtinker/grails-cors/blob/master/README.md" target="blank">plugin documentation</a> to learn how to configure it.<p class="paragraph"/>The CORS plugin activates itself by default. If you don't want it for some environments, you can use
 <code>cors.enabled = false</code> within the appropriate environment block in your <code>Config.groovy</code>.<p class="paragraph"/>If you don't want CORS support at all, you can skip the plugin by excluding it
-when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.0.1', &#123;
+when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.1.0', &#123;
     exclude 'cors
 &#125;</pre></div>
 

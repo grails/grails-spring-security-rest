@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>2 Authentication Filter 1.0.1</title>
+    <title>2 Authentication Endpoint 1.1.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -27,7 +27,7 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>2</strong><span>Authentication Filter</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>2</strong><span>Authentication Endpoint</span></a>
                     </div>
                     
                     <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>3</strong><span>Token Generation</span></a>
@@ -79,20 +79,28 @@ function addJsClass() {
 
 
                 <div class="project">
-                    <h1>2 Authentication Filter - Reference Documentation</h1>
+                    <h1>2 Authentication Endpoint - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
-                    <p><strong>Version:</strong> 1.0.1</p>
+                    <p><strong>Version:</strong> 1.1.0</p>
 
                     
                 </div>
 
                 
+                <div id="table-of-content">
+                    <h2>Table of Contents</h2>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#logout"><strong>2.1</strong><span>Logout Endpoint</span></a>
+                    </div>
+                    
+                </div>
+                
 
                 
 
-<h1 id="authentication">2 Authentication Filter</h1>
+<h1 id="authentication">2 Authentication Endpoint</h1>
 The <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html" target="blank">authentication filter</a>
 uses the default <code>authenticationManager</code> bean, which in turn uses all the registered authentication
 providers. See the <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/authenticationProviders.html" target="blank">Spring Security Core guide</a>
@@ -126,6 +134,13 @@ The default implementation looks like this:<p class="paragraph"/><div class="cod
 class DefaultJsonPayloadCredentialsExtractor <span class="java&#45;keyword">extends</span> AbstractJsonPayloadCredentialsExtractor &#123;<p class="paragraph"/>    UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) &#123;
         def jsonBody = getJsonBody(httpServletRequest)<p class="paragraph"/>        log.debug <span class="java&#45;quote">"Extracted credentials from request params. Username: $&#123;jsonBody.username&#125;, password: $&#123;jsonBody.password?.size()?'&#91;PROTECTED&#93;':'&#91;MISSING&#93;'&#125;"</span><p class="paragraph"/>        <span class="java&#45;keyword">new</span> UsernamePasswordAuthenticationToken(jsonBody.username, jsonBody.password)
     &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>Once you are done, register it in <code>resources.groovy</code> with the name <code>credentialsExtractor</code>.<p class="paragraph"/>
+
+
+<h2 id="logout">2.1 Logout Endpoint</h2>
+The <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html" target="blank">logout filter</a>
+exposes an endpoint for deleting tokens. It will read the token from an HTTP header. If found, will delete it from the
+storage, sending a 200 response. Otherwise, it will send a 404 response.<p class="paragraph"/>You can configure it in <code>Config.groovy</code> using this properties:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.logout.endpointUrl</code></td><td><code>/logout</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr></table>
+
 
 
                 <div style="clear:both;margin-top:15px;"></div>

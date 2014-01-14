@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>6 CORS support 1.0.1</title>
+    <title>6 CORS support 1.1.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -27,7 +27,7 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>2</strong><span>Authentication Filter</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>2</strong><span>Authentication Endpoint</span></a>
                     </div>
                     
                     <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>3</strong><span>Token Generation</span></a>
@@ -83,7 +83,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
-                    <p><strong>Version:</strong> 1.0.1</p>
+                    <p><strong>Version:</strong> 1.1.0</p>
 
                     
                 </div>
@@ -97,7 +97,7 @@ This plugin comes pre-installed with the <a href="http://grails.org/plugin/cors"
 <a href="http://www.w3.org/TR/cors/" target="blank">Cross-Origin Resource Sharing</a>. Refer to the
 <a href="https://github.com/davidtinker/grails-cors/blob/master/README.md" target="blank">plugin documentation</a> to learn how to configure it.<p class="paragraph"/>The CORS plugin activates itself by default. If you don't want it for some environments, you can use
 <code>cors.enabled = false</code> within the appropriate environment block in your <code>Config.groovy</code>.<p class="paragraph"/>If you don't want CORS support at all, you can skip the plugin by excluding it
-when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.0.1', &#123;
+when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.1.0', &#123;
     exclude 'cors
 &#125;</pre></div>
 
