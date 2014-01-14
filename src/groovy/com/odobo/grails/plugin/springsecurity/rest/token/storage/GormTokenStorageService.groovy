@@ -2,8 +2,6 @@ package com.odobo.grails.plugin.springsecurity.rest.token.storage
 
 import grails.plugin.springsecurity.SpringSecurityUtils
 import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.codehaus.groovy.grails.commons.GrailsClass
-import org.codehaus.groovy.grails.commons.GrailsDomainClass
 import org.codehaus.groovy.grails.plugins.support.aware.GrailsApplicationAware
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
