@@ -17,6 +17,12 @@ security {
 
         }
 
+        logout {
+
+            endpointUrl = '/logout'
+
+        }
+
         token {
 
             generation {

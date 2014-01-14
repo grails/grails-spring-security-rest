@@ -21,6 +21,8 @@ class RestLogoutFilter extends GenericFilterBean {
 
     String endpointUrl
 
+    String headerName
+
     TokenStorageService tokenStorageService
 
     @Override
@@ -44,7 +46,7 @@ class RestLogoutFilter extends GenericFilterBean {
             }
 
             log.debug "Looking for a token value in the header '${headerName}'"
-            String tokenValue = servletRequest.getHeader(headerName)
+            String tokenValue = httpServletRequest.getHeader(headerName)
 
             if (tokenValue) {
                 log.debug "Token found: ${tokenValue}"
@@ -61,7 +63,7 @@ class RestLogoutFilter extends GenericFilterBean {
             }
 
         } else {
-            chain.doFilter(request, response, chain)
+            chain.doFilter(request, response)
         }
     }
 }
