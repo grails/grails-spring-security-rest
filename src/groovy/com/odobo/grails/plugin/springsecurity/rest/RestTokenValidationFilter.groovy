@@ -12,6 +12,7 @@ import javax.servlet.ServletException
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 /**
  * This filter starts the token validation flow. It extracts the token from the configured header name, and pass it to
@@ -29,6 +30,8 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
     AuthenticationSuccessHandler authenticationSuccessHandler
     AuthenticationFailureHandler authenticationFailureHandler
+
+    String endpointUrl
 
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -52,8 +55,8 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
                     authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult)
 
-                    log.debug "Continuing the filter chain"
-                    chain.doFilter(request, response)
+                    processFilterChain(request, response, chain, tokenValue)
+
                 }
 
             } catch (AuthenticationException ae) {
@@ -61,7 +64,27 @@ class RestTokenValidationFilter extends GenericFilterBean {
                 authenticationFailureHandler.onAuthenticationFailure(request, response, ae)
             }
         } else {
-            log.debug "Token not found. Continuing the filter chain"
+            log.debug "Token not found"
+            processFilterChain(request, response, chain, tokenValue)
+        }
+
+    }
+
+    private processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, String tokenValue) {
+        HttpServletRequest servletRequest = request
+
+        def actualUri =  servletRequest.requestURI - servletRequest.contextPath
+        logger.debug "Actual URI is ${actualUri}; validate endpoint URL is ${endpointUrl}"
+
+        if (actualUri == endpointUrl) {
+            log.debug "Validate endpoint has been called. Not processing the filter chain"
+            if (!tokenValue) {
+                HttpServletResponse servletResponse = response
+                log.debug "Token header is missing. Sending a 400 Bad Request response"
+                servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, "Token header is missing"
+            }
+        } else {
+            log.debug "Continuing the filter chain"
             chain.doFilter(request, response)
         }
 

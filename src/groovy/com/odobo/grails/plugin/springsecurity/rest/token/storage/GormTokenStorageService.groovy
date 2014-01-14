@@ -22,27 +22,16 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
 
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
         def conf = SpringSecurityUtils.securityConfig
-        String tokenClassName = conf.rest.tokenRepository.tokenDomainClassName
-        String tokenValuePropertyName = conf.rest.tokenRepository.tokenValuePropertyName
         String usernamePropertyName = conf.rest.tokenRepository.usernamePropertyName
-        def dc = grailsApplication.getDomainClass(tokenClassName)
+        def existingToken = findExistingToken(tokenValue)
 
-        //TODO check at startup, not here
-        if (!dc) {
-            throw new IllegalArgumentException("The specified token domain class '$tokenClassName' is not a domain class")
+        if (existingToken) {
+            def username = existingToken."${usernamePropertyName}"
+            return userDetailsService.loadUserByUsername(username)
         }
 
-        Class<?> tokenClass = dc.clazz
+        throw new TokenNotFoundException("Token ${tokenValue} not found")
 
-        tokenClass.withTransaction { status ->
-            def existingToken = tokenClass.findWhere((tokenValuePropertyName): tokenValue)
-
-            if (existingToken) {
-                def username = existingToken."${usernamePropertyName}"
-                return userDetailsService.loadUserByUsername(username)
-            }
-            throw new TokenNotFoundException("Token ${tokenValue} not found")
-        }
     }
 
     void storeToken(String tokenValue, UserDetails details) {
@@ -64,4 +53,34 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
             newTokenObject.save()
         }
     }
+
+    void removeToken(String tokenValue) throws TokenNotFoundException {
+        def existingToken = findExistingToken(tokenValue)
+
+        if (existingToken) {
+            existingToken.delete()
+        } else {
+            throw new TokenNotFoundException("Token ${tokenValue} not found")
+        }
+
+    }
+
+    private findExistingToken(String tokenValue) {
+        def conf = SpringSecurityUtils.securityConfig
+        String tokenClassName = conf.rest.tokenRepository.tokenDomainClassName
+        String tokenValuePropertyName = conf.rest.tokenRepository.tokenValuePropertyName
+        def dc = grailsApplication.getDomainClass(tokenClassName)
+
+        //TODO check at startup, not here
+        if (!dc) {
+            throw new IllegalArgumentException("The specified token domain class '$tokenClassName' is not a domain class")
+        }
+
+        Class<?> tokenClass = dc.clazz
+
+        tokenClass.withTransaction { status ->
+            return tokenClass.findWhere((tokenValuePropertyName): tokenValue)
+        }
+    }
+
 }

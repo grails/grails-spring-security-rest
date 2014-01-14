@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.0.1"
+    String version = "1.1.0"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -64,6 +64,7 @@ class SpringSecurityRestGrailsPlugin {
 
         ///*
         SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.ANONYMOUS_FILTER.order + 1
+        SpringSecurityUtils.registerFilter 'restLogoutFilter', SecurityFilterPosition.LOGOUT_FILTER.order - 1
         SpringSecurityUtils.registerProvider 'restAuthenticationProvider'
 
         /* authenticationProcessingFilter */
@@ -109,6 +110,7 @@ class SpringSecurityRestGrailsPlugin {
         /* restTokenValidationFilter */
         restTokenValidationFilter(RestTokenValidationFilter) {
             headerName = conf.rest.token.validation.headerName
+            endpointUrl = conf.rest.token.validation.endpointUrl
             authenticationSuccessHandler = ref('authenticationSuccessHandler')
             authenticationFailureHandler = ref('authenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')
@@ -155,6 +157,13 @@ class SpringSecurityRestGrailsPlugin {
 
         /* restAuthenticationTokenJsonRenderer */
         restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer)
+
+        /* restLogoutFilter */
+        restLogoutFilter(RestLogoutFilter) {
+            endpointUrl = conf.rest.logout.endpointUrl
+            headerName = conf.rest.token.validation.headerName
+            tokenStorageService = ref('tokenStorageService')
+        }
 
         //*/
 

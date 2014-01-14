@@ -17,6 +17,12 @@ security {
 
         }
 
+        logout {
+
+            endpointUrl = '/logout'
+
+        }
+
         token {
 
             generation {
@@ -47,6 +53,7 @@ security {
 
             validation {
                 headerName = 'X-Auth-Token'
+                endpointUrl = '/validate'
             }
 
         }

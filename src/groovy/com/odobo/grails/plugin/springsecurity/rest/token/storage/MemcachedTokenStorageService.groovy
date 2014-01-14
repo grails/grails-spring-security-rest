@@ -17,13 +17,12 @@ class MemcachedTokenStorageService implements TokenStorageService {
     Integer expiration = 3600
 
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
-        log.debug "Searching in Memcached for UserDetails of token ${tokenValue}"
-        def userDetails = memcachedClient.get(tokenValue)
+        def userDetails = findExistingUserDetails(tokenValue)
         if (userDetails) {
-            log.debug "UserDetails found: ${userDetails}"
             return userDetails
+        } else {
+            throw new TokenNotFoundException("Token ${tokenValue} not found")
         }
-        throw new TokenNotFoundException("Token ${tokenValue} not found")
     }
 
     void storeToken(String tokenValue, UserDetails details) {
@@ -33,4 +32,23 @@ class MemcachedTokenStorageService implements TokenStorageService {
         memcachedClient.set tokenValue, expiration, details
     }
 
+    void removeToken(String tokenValue) throws TokenNotFoundException {
+        def userDetails = findExistingUserDetails(tokenValue)
+        if (userDetails) {
+            memcachedClient.delete tokenValue
+        } else {
+            throw new TokenNotFoundException("Token ${tokenValue} not found")
+        }
+    }
+
+    private UserDetails findExistingUserDetails(String tokenValue) {
+        log.debug "Searching in Memcached for UserDetails of token ${tokenValue}"
+        def userDetails = memcachedClient.get(tokenValue)
+        if (userDetails) {
+            log.debug "UserDetails found: ${userDetails}"
+        } else {
+            log.debug "UserDetails not found"
+        }
+        return userDetails
+    }
 }
