@@ -11,6 +11,8 @@ because it does not assume you are using domain classes to store the users.
 Use @springSecurityService.principal@ instead.
 {note}
 
+h2. Validation Endpoint
+
 There is also an endpoint available that you can call in case you want to know if a given token is valid. It looks for
 the token in a HTTP header as well, and if the token is still valid, it renders [its JSON representation|guide:authentication].
 If the token does not exist, it will render a @grails.plugin.springsecurity.rest.login.failureStatusCode@ response

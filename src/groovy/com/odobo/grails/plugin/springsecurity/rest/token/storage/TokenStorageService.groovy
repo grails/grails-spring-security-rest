@@ -20,4 +20,9 @@ interface TokenStorageService {
      */
     void storeToken(String tokenValue, UserDetails details)
 
+    /**
+     * Removes a token from the storage.
+     * @throws TokenNotFoundException if the given token is not found in the storage
+     */
+    void removeToken(String tokenValue) throws TokenNotFoundException
 }

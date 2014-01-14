@@ -1,0 +1,11 @@
+The [logout filter|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html]
+exposes an endpoint for deleting tokens. It will read the token from an HTTP header. If found, will delete it from the
+storage, sending a 200 response. Otherwise, it will send a 404 response.
+
+You can configure it in @Config.groovy@ using this properties:
+
+{table}
+*Config key*                                                    | *Default value*
+@grails.plugin.springsecurity.rest.logout.endpointUrl@          | @/logout@
+@grails.plugin.springsecurity.rest.token.validation.headerName@ | @X-Auth-Token@
+{table}

@@ -64,6 +64,7 @@ class SpringSecurityRestGrailsPlugin {
 
         ///*
         SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.ANONYMOUS_FILTER.order + 1
+        SpringSecurityUtils.registerFilter 'restLogoutFilter', SecurityFilterPosition.LOGOUT_FILTER.order - 1
         SpringSecurityUtils.registerProvider 'restAuthenticationProvider'
 
         /* authenticationProcessingFilter */
@@ -156,6 +157,13 @@ class SpringSecurityRestGrailsPlugin {
 
         /* restAuthenticationTokenJsonRenderer */
         restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer)
+
+        /* restLogoutFilter */
+        restLogoutFilter(RestLogoutFilter) {
+            endpointUrl = conf.rest.logout.endpointUrl
+            headerName = conf.rest.token.validation.headerName
+            tokenStorageService = ref('tokenStorageService')
+        }
 
         //*/
 

@@ -60,7 +60,7 @@ class RestAuthenticationFilter extends GenericFilterBean {
 
         //Only apply filter to the configured URL
         if (actualUri == endpointUrl) {
-            log.debug "Applying the filter to this request"
+            log.debug "Applying authentication filter to this request"
 
             //Only POST is supported
             if (httpServletRequest.method != 'POST') {
