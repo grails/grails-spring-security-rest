@@ -11,9 +11,15 @@ because it does not assume you are using domain classes to store the users.
 Use @springSecurityService.principal@ instead.
 {note}
 
-The configuration properties are:
+There is also an endpoint available that you can call in case you want to know if a given token is valid. It looks for
+the token in a HTTP header as well, and if the token is still valid, it renders [its JSON representation|guide:authentication].
+If the token does not exist, it will render a @grails.plugin.springsecurity.rest.login.failureStatusCode@ response
+(@403@ by default).
+
+The relevant configuration properties are:
 
 {table}
 *Config key*                                                            | *Default value*
 @grails.plugin.springsecurity.rest.token.validation.headerName@         | @X-Auth-Token@
+@grails.plugin.springsecurity.rest.token.validation.endpointUrl@        | @/validate@
 {table}

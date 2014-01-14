@@ -47,6 +47,7 @@ security {
 
             validation {
                 headerName = 'X-Auth-Token'
+                endpointUrl = '/validate'
             }
 
         }

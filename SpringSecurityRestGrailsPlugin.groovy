@@ -109,6 +109,7 @@ class SpringSecurityRestGrailsPlugin {
         /* restTokenValidationFilter */
         restTokenValidationFilter(RestTokenValidationFilter) {
             headerName = conf.rest.token.validation.headerName
+            endpointUrl = conf.rest.token.validation.endpointUrl
             authenticationSuccessHandler = ref('authenticationSuccessHandler')
             authenticationFailureHandler = ref('authenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')
