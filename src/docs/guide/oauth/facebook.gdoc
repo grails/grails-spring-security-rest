@@ -1,0 +1,37 @@
+Define the following block in your @Config.groovy@:
+
+{code}
+grails {
+    plugin {
+        springsecurity {
+
+            rest {
+
+                oauth {
+
+                    frontendCallbackUrl = { String tokenValue -> "http://my.frontend-app.com/welcome#token=${tokenValue}" }
+
+                    facebook {
+
+                        client = org.pac4j.oauth.client.FacebookClient
+                        key = 'xxx'
+                        secret = 'yyy'
+                        scope = 'email,user_location'
+                        fields = 'id,name,first_name,middle_name,last_name,username'
+                        defaultRoles = ['ROLE_USER', 'ROLE_FACEBOOK']
+                    }
+                }
+            }
+        }
+    }
+}
+{code}
+
+The @scope@ is a comma-separated list, *without blanks*, of Facebook permissions. See the
+[Facebook documentation|https://developers.facebook.com/docs/reference/login/] for more details.
+
+@fields@ may contain a comma-separated list, *without blanks*, of
+[user fields|https://developers.facebook.com/docs/graph-api/reference/user/].
+
+Both @scope@ and @fields@ are optional, but it's highly recommendable to fine tune those lists so you don't ask for
+information you don't need.

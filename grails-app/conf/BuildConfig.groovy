@@ -11,6 +11,7 @@ grails.project.dependency.resolution = {
         mavenLocal()
         mavenCentral()
         mavenRepo 'http://repo.spring.io/milestone' // TODO remove
+        mavenRepo 'https://oss.sonatype.org/content/repositories/snapshots'
     }
 
     dependencies {
@@ -20,6 +21,7 @@ grails.project.dependency.resolution = {
 
         compile 'net.spy:spymemcached:2.10.3'
         compile 'com.google.guava:guava-io:r03'
+        compile 'org.pac4j:pac4j-oauth:1.5.0-SNAPSHOT'
     }
 
     plugins {
