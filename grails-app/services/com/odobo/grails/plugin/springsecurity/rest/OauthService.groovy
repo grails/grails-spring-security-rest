@@ -13,6 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 
+/**
+ * Deals with pac4j library to fetch a user profile from the selected OAuth provider, and stores it on the security context
+ */
 class OauthService {
 
     TokenGenerator tokenGenerator
@@ -23,31 +26,38 @@ class OauthService {
 
 
     private BaseOAuth20Client<OAuth20Profile> getClient(String provider) {
+        log.debug "Creating OAuth 2.0 client for provider: ${provider}"
         def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
         def ClientClass = providerConfig.client
 
         BaseOAuth20Client<OAuth20Profile> client = ClientClass.newInstance(providerConfig.key, providerConfig.secret)
-        client.callbackUrl = grailsLinkGenerator.link controller: 'oauth', action: 'callback', params: [provider: provider], mapping: 'oauth', absolute: true
+
+        String callbackUrl = grailsLinkGenerator.link controller: 'oauth', action: 'callback', params: [provider: provider], mapping: 'oauth', absolute: true
+        log.debug "Callback URL is: ${callbackUrl}"
+        client.callbackUrl = callbackUrl
+
         client.scope = providerConfig.scope
+
         return client
     }
 
     String storeAuthentication(String provider, WebContext context) {
         BaseOAuth20Client<OAuth20Profile> client = getClient(provider)
         OAuthCredentials credentials = client.getCredentials context
+
+        log.debug "Querying provider to fetch User ID"
         OAuth20Profile profile = client.getUserProfile credentials
 
         log.debug "User's ID: ${profile.id}"
 
         String tokenValue = tokenGenerator.generateToken()
-        log.debug "Generated token: ${tokenValue}"
+        log.debug "Generated REST authentication token: ${tokenValue}"
 
         UserDetails userDetails = userDetailsService.loadUserByUsername profile.id
 
+        log.debug "Storing token on the token storage"
         tokenStorageService.storeToken(tokenValue, userDetails)
-
         Authentication authenticationResult = new RestAuthenticationToken(userDetails, userDetails.password, userDetails.authorities, tokenValue)
-
         SecurityContextHolder.context.setAuthentication(authenticationResult)
 
         return tokenValue

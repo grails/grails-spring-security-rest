@@ -11,18 +11,30 @@ class OauthController {
     def oauthService
     def grailsApplication
 
+    /**
+     * Starts the OAuth 2.0 authentication flow, redirecting to the provider's Login URL
+     */
     def authenticate(String provider) {
         BaseOAuth20Client client = oauthService.getClient(provider)
         WebContext context = new J2EContext(request, response)
-        redirect url: client.getRedirectionUrl(context)
+
+        def redirectionUrl = client.getRedirectionUrl(context)
+        log.debug "Redirecting to ${redirectionUrl}"
+        redirect url: redirectionUrl
     }
 
-
+    /**
+     * Handles the OAuth 2.0 provider callback. It uses {@link OauthService} to generate and store a token for that user,
+     * and finally redirects to the configured frontend callback URL, where the token is in the URL. That way, the
+     * frontend application can store the REST API token locally for subsequent API calls.
+     */
     def callback(String provider) {
-        BaseOAuth20Client client = oauthService.getClient(provider)
         WebContext context = new J2EContext(request, response)
         String tokenValue = oauthService.storeAuthentication(provider, context)
-        redirect url: grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl.call(tokenValue)
+
+        def frontendCallbackUrl = grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl.call(tokenValue)
+        log.debug "Redirecting to ${redirectionUrl}"
+        redirect url: frontendCallbackUrl
     }
 
 
