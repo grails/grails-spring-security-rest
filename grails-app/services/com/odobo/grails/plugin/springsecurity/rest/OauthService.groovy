@@ -6,12 +6,9 @@ import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import org.pac4j.core.client.Client
 import org.pac4j.core.context.WebContext
-import org.pac4j.core.profile.CommonProfile
-import org.pac4j.oauth.client.BaseOAuth20Client
-import org.pac4j.oauth.credentials.OAuthCredentials
-import org.pac4j.oauth.profile.OAuth20Profile
+import org.pac4j.core.credentials.Credentials
+import org.pac4j.core.profile.UserProfile
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.User
@@ -30,7 +27,7 @@ class OauthService {
     LinkGenerator grailsLinkGenerator
 
 
-    private Client getClient(String provider) {
+    Client getClient(String provider) {
         log.debug "Creating OAuth client for provider: ${provider}"
         def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
         def ClientClass = providerConfig.client
@@ -49,10 +46,10 @@ class OauthService {
 
     String storeAuthentication(String provider, WebContext context) {
         Client client = getClient(provider)
-        OAuthCredentials credentials = client.getCredentials context
+        Credentials credentials = client.getCredentials context
 
         log.debug "Querying provider to fetch User ID"
-        CommonProfile profile = client.getUserProfile credentials
+        UserProfile profile = client.getUserProfile credentials, context
 
         log.debug "User's ID: ${profile.id}"
 

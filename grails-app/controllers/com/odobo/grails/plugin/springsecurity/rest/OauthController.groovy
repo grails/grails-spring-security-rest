@@ -4,9 +4,6 @@ import grails.plugin.springsecurity.annotation.Secured
 import org.pac4j.core.client.Client
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext
-import org.pac4j.core.exception.RequiresHttpAction
-import org.pac4j.oauth.client.BaseOAuth20Client
-import org.pac4j.oauth.credentials.OAuthCredentials
 
 @Secured(['permitAll'])
 class OauthController {
@@ -15,19 +12,19 @@ class OauthController {
     def grailsApplication
 
     /**
-     * Starts the OAuth 2.0 authentication flow, redirecting to the provider's Login URL
+     * Starts the OAuth authentication flow, redirecting to the provider's Login URL
      */
     def authenticate(String provider) {
         Client client = oauthService.getClient(provider)
         WebContext context = new J2EContext(request, response)
 
-        def redirectionUrl = client.getRedirectionUrl(context)
+        def redirectionUrl = client.getRedirectionUrl(context, false, false)
         log.debug "Redirecting to ${redirectionUrl}"
         redirect url: redirectionUrl
     }
 
     /**
-     * Handles the OAuth 2.0 provider callback. It uses {@link OauthService} to generate and store a token for that user,
+     * Handles the OAuth provider callback. It uses {@link OauthService} to generate and store a token for that user,
      * and finally redirects to the configured frontend callback URL, where the token is in the URL. That way, the
      * frontend application can store the REST API token locally for subsequent API calls.
      */
