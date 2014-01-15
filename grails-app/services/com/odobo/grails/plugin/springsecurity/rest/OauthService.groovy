@@ -1,5 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.oauth.OauthUser
+import com.odobo.grails.plugin.springsecurity.rest.oauth.OauthUserDetailsService
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import org.codehaus.groovy.grails.commons.GrailsApplication
@@ -11,8 +13,6 @@ import org.pac4j.core.profile.UserProfile
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 
 /**
@@ -25,6 +25,7 @@ class OauthService {
     UserDetailsService userDetailsService
     GrailsApplication grailsApplication
     LinkGenerator grailsLinkGenerator
+    OauthUserDetailsService oauthUserDetailsService
 
 
     Client getClient(String provider) {
@@ -58,15 +59,8 @@ class OauthService {
 
         def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
 
-        UserDetails userDetails
         List defaultRoles = providerConfig.defaultRoles.collect { new SimpleGrantedAuthority(it) }
-
-        try {
-            userDetails = userDetailsService.loadUserByUsername profile.id
-            userDetails.authorities.addAll defaultRoles
-        } catch (exception) {
-            userDetails = new User(profile.id, 'N/A', defaultRoles)
-        }
+        OauthUser userDetails = oauthUserDetailsService.loadUserByUserProfile(profile, defaultRoles)
 
         log.debug "Storing token on the token storage"
         tokenStorageService.storeToken(tokenValue, userDetails)

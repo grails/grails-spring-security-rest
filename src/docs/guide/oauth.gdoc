@@ -41,8 +41,36 @@ To start the OAuth authentication flow, from your frontend application, generate
 @<YOUR_GRAILS_APP>/oauth/authenticate/<provider>@. The user clicking on that link represents step 4 in the previous
 diagram.
 
-Upon successful OAuth authorisation (after step 6.1 in the above diagram), this plugin will use the configured
-@userDetailsService@ to load additional details (roles) passing the *profile ID*. Anyway, you can define a default list
-of roles that will be granted to the user, regardless of whether he was found by the @userDetailsService@ or not.
+Upon successful OAuth authorisation (after step 6.1 in the above diagram), an
+[OauthUser|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/oauth/OauthUser.html]
+will be stored in the security context. This is done by a bean named @oauthUserDetailsService@. The
+[default implementation|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/oauth/DefaultOauthUserDetailsService.html]
+delegates to the configured @userDetailsService@ bean, passing the profile ID as the username:
+
+{code}
+class DefaultOauthUserDetailsService implements OauthUserDetailsService {
+
+    @Delegate
+    UserDetailsService userDetailsService
+
+    OauthUser loadUserByUserProfile(UserProfile userProfile, Collection<GrantedAuthority> defaultRoles) {
+        UserDetails userDetails
+        OauthUser oauthUser
+
+        try {
+            userDetails = userDetailsService.loadUserByUsername userProfile.id
+            userDetails.authorities.addAll defaultRoles
+            oauthUser = new OauthUser(userDetails.username, userDetails.password, userDetails.authorities, userProfile)
+        } catch (exception) {
+            oauthUser = new OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
+        }
+        return oauthUser
+    }
+
+}
+{code}
+
+If you want to provide your own implementation, define it in @resources.groovy@ with bean name @oauthUserDetailsService@.
+Make sure you implements the interface @OauthUserDetailsService@
 
 Below are some examples on how to configure it for Google, Facebook and Twitter.
