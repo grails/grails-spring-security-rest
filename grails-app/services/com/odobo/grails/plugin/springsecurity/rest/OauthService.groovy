@@ -41,8 +41,7 @@ class OauthService {
         log.debug "Callback URL is: ${callbackUrl}"
         client.callbackUrl = callbackUrl
 
-        client.scope = providerConfig.scope
-
+        if (providerConfig.scope) client.scope = providerConfig.scope
         if (providerConfig.fields) client.fields = providerConfig.fields
 
         return client

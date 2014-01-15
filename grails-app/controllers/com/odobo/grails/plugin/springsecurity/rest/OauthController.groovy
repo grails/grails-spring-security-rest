@@ -4,7 +4,9 @@ import grails.plugin.springsecurity.annotation.Secured
 import org.pac4j.core.client.Client
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext
+import org.pac4j.core.exception.RequiresHttpAction
 import org.pac4j.oauth.client.BaseOAuth20Client
+import org.pac4j.oauth.credentials.OAuthCredentials
 
 @Secured(['permitAll'])
 class OauthController {
@@ -31,11 +33,15 @@ class OauthController {
      */
     def callback(String provider) {
         WebContext context = new J2EContext(request, response)
-        String tokenValue = oauthService.storeAuthentication(provider, context)
+        try {
+            String tokenValue = oauthService.storeAuthentication(provider, context)
 
-        def frontendCallbackUrl = grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl.call(tokenValue)
-        log.debug "Redirecting to ${frontendCallbackUrl}"
-        redirect url: frontendCallbackUrl
+            def frontendCallbackUrl = grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl.call(tokenValue)
+            log.debug "Redirecting to ${frontendCallbackUrl}"
+            redirect url: frontendCallbackUrl
+        } catch (Exception e) {
+            response.sendError e.cause.code
+        }
     }
 
 
