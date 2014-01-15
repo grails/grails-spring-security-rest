@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>6 CORS support 1.1.0</title>
+    <title>6 CORS support 1.2.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -42,7 +42,10 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>6</strong><span>CORS support</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>7</strong><span>Debugging</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>7</strong><span>Delegating authentication to OAuth providers</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>8</strong><span>Debugging</span></a>
                     </div>
                     
                 </div>
@@ -74,7 +77,7 @@ function addJsClass() {
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/debugging.html"><strong>7</strong><span>Debugging</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/oauth.html"><strong>7</strong><span>Delegating authentication to OAuth providers</span> >></a></div>
                 
 
 
@@ -83,7 +86,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
-                    <p><strong>Version:</strong> 1.1.0</p>
+                    <p><strong>Version:</strong> 1.2.0</p>
 
                     
                 </div>
@@ -97,7 +100,7 @@ This plugin comes pre-installed with the <a href="http://grails.org/plugin/cors"
 <a href="http://www.w3.org/TR/cors/" target="blank">Cross-Origin Resource Sharing</a>. Refer to the
 <a href="https://github.com/davidtinker/grails-cors/blob/master/README.md" target="blank">plugin documentation</a> to learn how to configure it.<p class="paragraph"/>The CORS plugin activates itself by default. If you don't want it for some environments, you can use
 <code>cors.enabled = false</code> within the appropriate environment block in your <code>Config.groovy</code>.<p class="paragraph"/>If you don't want CORS support at all, you can skip the plugin by excluding it
-when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.1.0', &#123;
+when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.2.0', &#123;
     exclude 'cors
 &#125;</pre></div>
 
@@ -106,7 +109,7 @@ when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="para
                 
                     <div class="toc-item prev-left"><a href="../guide/tokenValidation.html">&lt;&lt; <strong>5</strong><span>Token Validation Filter</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/debugging.html"><strong>7</strong><span>Debugging</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/oauth.html"><strong>7</strong><span>Delegating authentication to OAuth providers</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
