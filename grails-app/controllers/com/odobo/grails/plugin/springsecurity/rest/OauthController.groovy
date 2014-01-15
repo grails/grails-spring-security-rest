@@ -33,7 +33,7 @@ class OauthController {
         String tokenValue = oauthService.storeAuthentication(provider, context)
 
         def frontendCallbackUrl = grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl.call(tokenValue)
-        log.debug "Redirecting to ${redirectionUrl}"
+        log.debug "Redirecting to ${frontendCallbackUrl}"
         redirect url: frontendCallbackUrl
     }
 

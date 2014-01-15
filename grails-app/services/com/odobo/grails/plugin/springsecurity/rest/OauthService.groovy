@@ -9,7 +9,10 @@ import org.pac4j.oauth.client.BaseOAuth20Client
 import org.pac4j.oauth.credentials.OAuthCredentials
 import org.pac4j.oauth.profile.OAuth20Profile
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 
@@ -38,6 +41,8 @@ class OauthService {
 
         client.scope = providerConfig.scope
 
+        if (providerConfig.fields) client.fields = providerConfig.fields
+
         return client
     }
 
@@ -53,7 +58,17 @@ class OauthService {
         String tokenValue = tokenGenerator.generateToken()
         log.debug "Generated REST authentication token: ${tokenValue}"
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername profile.id
+        def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
+
+        UserDetails userDetails
+        List defaultRoles = providerConfig.defaultRoles.collect { new SimpleGrantedAuthority(it) }
+
+        try {
+            userDetails = userDetailsService.loadUserByUsername profile.id
+            userDetails.authorities.addAll defaultRoles
+        } catch (exception) {
+            userDetails = new User(profile.id, 'N/A', defaultRoles)
+        }
 
         log.debug "Storing token on the token storage"
         tokenStorageService.storeToken(tokenValue, userDetails)
