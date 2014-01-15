@@ -11,4 +11,7 @@ tokenValidation: Token Validation Filter
 cors: CORS support
 oauth:
   title: Delegating authentication to OAuth providers
+  google: Google
+  facebook: Facebook
+  twitter: Twitter
 debugging: Debugging
