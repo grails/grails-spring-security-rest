@@ -20,8 +20,8 @@ class DefaultOauthUserDetailsService implements OauthUserDetailsService {
 
         try {
             userDetails = userDetailsService.loadUserByUsername userProfile.id
-            userDetails.authorities.addAll defaultRoles
-            oauthUser = new OauthUser(userDetails.username, userDetails.password, userDetails.authorities, userProfile)
+            Collection<GrantedAuthority> allRoles = userDetails.authorities + defaultRoles
+            oauthUser = new OauthUser(userDetails.username, userDetails.password, allRoles, userProfile)
         } catch (exception) {
             oauthUser = new OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
         }
