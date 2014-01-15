@@ -4,7 +4,9 @@ import com.odobo.grails.plugin.springsecurity.rest.token.generation.TokenGenerat
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import org.pac4j.core.client.Client
 import org.pac4j.core.context.WebContext
+import org.pac4j.core.profile.CommonProfile
 import org.pac4j.oauth.client.BaseOAuth20Client
 import org.pac4j.oauth.credentials.OAuthCredentials
 import org.pac4j.oauth.profile.OAuth20Profile
@@ -28,12 +30,12 @@ class OauthService {
     LinkGenerator grailsLinkGenerator
 
 
-    private BaseOAuth20Client<OAuth20Profile> getClient(String provider) {
-        log.debug "Creating OAuth 2.0 client for provider: ${provider}"
+    private Client getClient(String provider) {
+        log.debug "Creating OAuth client for provider: ${provider}"
         def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
         def ClientClass = providerConfig.client
 
-        BaseOAuth20Client<OAuth20Profile> client = ClientClass.newInstance(providerConfig.key, providerConfig.secret)
+        Client client = ClientClass.newInstance(providerConfig.key, providerConfig.secret)
 
         String callbackUrl = grailsLinkGenerator.link controller: 'oauth', action: 'callback', params: [provider: provider], mapping: 'oauth', absolute: true
         log.debug "Callback URL is: ${callbackUrl}"
@@ -47,11 +49,11 @@ class OauthService {
     }
 
     String storeAuthentication(String provider, WebContext context) {
-        BaseOAuth20Client<OAuth20Profile> client = getClient(provider)
+        Client client = getClient(provider)
         OAuthCredentials credentials = client.getCredentials context
 
         log.debug "Querying provider to fetch User ID"
-        OAuth20Profile profile = client.getUserProfile credentials
+        CommonProfile profile = client.getUserProfile credentials
 
         log.debug "User's ID: ${profile.id}"
 

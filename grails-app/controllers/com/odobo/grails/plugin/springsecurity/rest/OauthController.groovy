@@ -1,6 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.annotation.Secured
+import org.pac4j.core.client.Client
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext
 import org.pac4j.oauth.client.BaseOAuth20Client
@@ -15,7 +16,7 @@ class OauthController {
      * Starts the OAuth 2.0 authentication flow, redirecting to the provider's Login URL
      */
     def authenticate(String provider) {
-        BaseOAuth20Client client = oauthService.getClient(provider)
+        Client client = oauthService.getClient(provider)
         WebContext context = new J2EContext(request, response)
 
         def redirectionUrl = client.getRedirectionUrl(context)
