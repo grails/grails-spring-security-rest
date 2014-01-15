@@ -9,4 +9,6 @@ tokenStorage:
   gorm: GORM
 tokenValidation: Token Validation Filter
 cors: CORS support
+oauth:
+  title: Delegating authentication to OAuth providers
 debugging: Debugging
