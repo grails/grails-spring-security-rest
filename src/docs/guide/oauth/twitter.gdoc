@@ -1,0 +1,28 @@
+Define the following block in your @Config.groovy@:
+
+{code}
+grails {
+    plugin {
+        springsecurity {
+
+            rest {
+
+                oauth {
+
+                    frontendCallbackUrl = { String tokenValue -> "http://my.frontend-app.com/welcome#token=${tokenValue}" }
+
+                    twitter {
+
+                        client = org.pac4j.oauth.client.TwitterClient
+                        key = 'xxx'
+                        secret = 'yyy'
+                        defaultRoles = ['ROLE_USER', 'ROLE_TWITTER']
+                    }
+                }
+            }
+        }
+    }
+}
+{code}
+
+There is no additional configuration for Twitter.

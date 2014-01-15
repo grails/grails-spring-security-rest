@@ -1,0 +1,76 @@
+This plugin is meant to be used in applications serving a REST API's to pure Javascript clients. The main authentication
+flow of this plugin is to allow you to authenticate your users against any Spring Security-compatible user directory
+(like a DB or an LDAP server).
+
+However, there might be situations where you want to delegate the authentication against a third-party provider, like
+Google or Facebook. Unfortunately, your pure Javascript front-end application cannot request the providers directly using
+OAuth, because then the access keys will be made public.
+
+So is this plugin's responsibility to provide endpoints so your Grails backend acts as a proxy for your front-end client.
+
+The flow is something like the following:
+
+!oauth.png!
+
+# The client application requests and endpoint that requires authentication, so the server responds with a 401 response (*).
+# The client redirects the user to the login form (*).
+# This time, instead of using username and password, the user clicks on "Login with Google" button.
+# Browser navigates to a Grails URL. Grails will generate a Google Login URL, giving Google a Grails callback URL.
+# Browser navigates to Google Login. User logs in, and Google redirects the browser to the Grails callback URL.
+# Browser navigates to that Grails callback URL. Then, Grails will use OAuth to fetch user information (like email) from Google. Based on that, will generate a REST API token and fetch and store principal information. The response from Grails will be a front-end URL where the token is a parameter.
+# The browser will navigate to that URL, and the Javascript logic will read the token from the URL and store it locally.
+# The client sends again a request to the protected resource, passing the token as an HTTP header (*).
+
+The steps flagged with (*) remain unchanged from the [normal flow|guide:authentication].
+
+To support OAuth, this plugin uses [Profile & Authentication Client for Java|https://github.com/leleuj/pac4j]. So you
+can use any OAuth (1.0 and 2.0) provider they support. This includes at the time of writing:
+
+* Dropbox.
+* Facebook.
+* GitHub.
+* Google.
+* LinkedIn.
+* Twitter.
+* Windows Live.
+* Wordpress.
+* Yahoo.
+* Paypal.
+
+To start the OAuth authentication flow, from your frontend application, generate a link to
+@<YOUR_GRAILS_APP>/oauth/authenticate/<provider>@. The user clicking on that link represents step 4 in the previous
+diagram.
+
+Upon successful OAuth authorisation (after step 6.1 in the above diagram), an
+[OauthUser|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/oauth/OauthUser.html]
+will be stored in the security context. This is done by a bean named @oauthUserDetailsService@. The
+[default implementation|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/oauth/DefaultOauthUserDetailsService.html]
+delegates to the configured @userDetailsService@ bean, passing the profile ID as the username:
+
+{code}
+class DefaultOauthUserDetailsService implements OauthUserDetailsService {
+
+    @Delegate
+    UserDetailsService userDetailsService
+
+    OauthUser loadUserByUserProfile(UserProfile userProfile, Collection<GrantedAuthority> defaultRoles) {
+        UserDetails userDetails
+        OauthUser oauthUser
+
+        try {
+            userDetails = userDetailsService.loadUserByUsername userProfile.id
+            userDetails.authorities.addAll defaultRoles
+            oauthUser = new OauthUser(userDetails.username, userDetails.password, userDetails.authorities, userProfile)
+        } catch (exception) {
+            oauthUser = new OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
+        }
+        return oauthUser
+    }
+
+}
+{code}
+
+If you want to provide your own implementation, define it in @resources.groovy@ with bean name @oauthUserDetailsService@.
+Make sure you implements the interface @OauthUserDetailsService@
+
+Below are some examples on how to configure it for Google, Facebook and Twitter.

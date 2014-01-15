@@ -1,6 +1,7 @@
 import com.odobo.grails.plugin.springsecurity.rest.*
 import com.odobo.grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
+import com.odobo.grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.1.0"
+    String version = "1.2.0"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -163,6 +164,11 @@ class SpringSecurityRestGrailsPlugin {
             endpointUrl = conf.rest.logout.endpointUrl
             headerName = conf.rest.token.validation.headerName
             tokenStorageService = ref('tokenStorageService')
+        }
+
+        /* oauthUserDetailsService */
+        oauthUserDetailsService(DefaultOauthUserDetailsService) {
+            userDetailsService = ref('userDetailsService')
         }
 
         //*/
