@@ -1,0 +1,59 @@
+h2. Why this token-based implementation? Can't I use HTTP basic authentication?
+
+In theory you can. The only restriction to be truly stateless is to not use HTTP sessions at all. So if you go with
+basic authentication, you need to transfer the credentials back and forth every time.
+
+Let's think about that. Keep in mind that your frontend is a pure HTML/Javascript application, consuming a REST API
+from the Grails side. So the first time, the Javascript application will make an API query and will receive a 403 response
+indicating that authentication is required. Then you present the user a form to enter credentials, you grab them, *encode*
+them with Base64 and in the next request, you send an HTTP header like @Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==@.
+
+Now remember you are doing RESTful application, so the session state is maintained in the client. That means that you
+would need to store that Base64 encoded string somewhere: cookies? HTML5 local storage? In any case, they are accessible
+using browser tools. And that's the point: there is a huge security risk because Base64 it's not encryption, just encoding.
+And it can be easily decoded.
+
+You could argue that someone can access the token in the browser. Yes, but having the token will not allow him to obtain
+user's credentials. The tokens are just not decodable. And they can be revoked if necessary.
+
+This is more or less the strategy used by OAuth: they use basically tokens in headers. More on this on the next question.
+
+There is also more reasons to be in favour of tokens:
+
+* With basic auth, every single API call would have to check credentials. In the token-based implementation, specially if you use Memcached, the authentication results are cached.
+* With basic auth, you are sending the credentials all the time. Ok, you can use SSL, but still I think it's more elegant to use tokens.
+
+Moreover, if you use tokens, you have the chance to implement expiration policies.
+
+A couple of link with further explanations on the token-based flow:
+
+* [http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services|http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services]
+* [http://blog.brunoscopelliti.com/authentication-to-a-restful-web-service-in-an-angularjs-web-app|http://blog.brunoscopelliti.com/authentication-to-a-restful-web-service-in-an-angularjs-web-app]
+
+h2. Why can't the API be secured with OAuth
+
+Because to do so, you would need to store consumer key and consumer secret in the browser. Seriously, you don't want
+to do that. The problem with OAuth is that it's designed for when the consumer is a server-side application. And it just
+does not work well with pure Javascript front-ends. In this scenario, your frontend would be the OAuth consumer and
+your Grails backend the OAuth provider
+
+A different story is to delegate the actual authentication to other OAuth providers: this scenario is possible, and
+actually [this plugin supports it|guide:oauth]. In this case, the consumer will be the Grails application, and it's
+absolutely fine to store consumer keys on the server, as they are never exposed to the browser.
+
+h2. Why you didn't use any of the existing OAuth plugins? Why pac4j?
+
+I'm aware of plugins like [OAuth|http://grails.org/plugin/oauth] and
+[Spring Security OAuth|http://grails.org/plugin/spring-security-oauth], but all of them rely on Spring Security Core's
+way of using HTTP sessions. So not acceptable.
+
+I chose pac4j because:
+# They support major OAuth 2.0 providers out-of-the-box, whereas Scribe does not.
+# It's deadly simple and works just fine.
+
+I'm also aware of a pac4j-spring-security module. See my previous response on HTTP sessions.
+
+h2. Dude, this is awesome. How can I compensate you?
+
+I doubt you can :). You may try giving me free beers the next time you see me in a conference. Or you can just express
+your gratitude via [Twitter|https://twitter.com/alvaro_sanchez]

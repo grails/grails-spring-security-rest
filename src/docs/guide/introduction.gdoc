@@ -20,7 +20,7 @@ this case, a token-based authentication may be a more suitable implementation, l
 
 As per the [REST definition|http://en.wikipedia.org/wiki/Representational_state_transfer], the client is transferring its
 state on every request so the server is truly stateless. The approach to store tokens on the server is just an alternative
-to use HTTP basic authentication (so credentials are not passed on every request). It also helps to perform the validation
+to use HTTP basic authentication ([see FAQ|guide:faq]) (so credentials are not passed on every request). It also helps to perform the validation
 step (#5 in the diagram) faster, because the tokens, and the associated principal information may be cached. Finally,
 storing tokens gives you the chance to decide about expiration strategies.
 
