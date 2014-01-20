@@ -50,5 +50,6 @@ h2. Getting started
 To use this plugin, add this to the @BuildConfig.groovy@ file:
 
 {code}
-compile ':spring-security-rest:{{VERSION}}'
+compile ":spring-security-core:2.0-RC2"
+compile ":spring-security-rest:{{VERSION}}"
 {code}
