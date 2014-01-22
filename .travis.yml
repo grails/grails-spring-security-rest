@@ -5,10 +5,6 @@ jdk:
 
 services: memcached
 
-branches:
-  only:
-    - master
-
 script: ./test-app.sh
 
 after_success: ./doc.sh
