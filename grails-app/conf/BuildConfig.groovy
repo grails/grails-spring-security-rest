@@ -25,7 +25,7 @@ grails.project.dependency.resolution = {
 
         String springSecurityVersion = '3.2.0.RC1'
 
-        compile "org.springframework.security:spring-security-acl:$springSecurityVersion", {
+        compile "org.springframework.security:spring-security-core:$springSecurityVersion", {
             excludes 'aopalliance', 'commons-logging', 'ehcache', 'fest-assert', 'hsqldb',
                     'jcl-over-slf4j', 'junit', 'logback-classic', 'mockito-core', 'spring-aop',
                     'spring-beans', 'spring-context', 'spring-context-support', 'spring-core',
