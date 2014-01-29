@@ -11,7 +11,7 @@ grails.project.dependency.resolution = {
         mavenLocal()
         mavenCentral()
         mavenRepo 'http://repo.spring.io/milestone' // TODO remove
-        //mavenRepo 'https://oss.sonatype.org/content/repositories/snapshots'
+        mavenRepo 'https://oss.sonatype.org/content/repositories/snapshots'
     }
 
     dependencies {
