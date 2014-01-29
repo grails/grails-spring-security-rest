@@ -10,7 +10,6 @@ grails.project.dependency.resolution = {
         grailsCentral()
         mavenLocal()
         mavenCentral()
-        mavenRepo 'http://repo.spring.io/milestone' // TODO remove
         mavenRepo 'https://oss.sonatype.org/content/repositories/snapshots'
     }
 
@@ -23,7 +22,7 @@ grails.project.dependency.resolution = {
         compile 'com.google.guava:guava-io:r03'
         compile 'org.pac4j:pac4j-oauth:1.5.0-SNAPSHOT'
 
-        String springSecurityVersion = '3.2.0.RC1'
+        String springSecurityVersion = '3.2.0.RELEASE'
 
         compile "org.springframework.security:spring-security-core:$springSecurityVersion", {
             excludes 'aopalliance', 'commons-logging', 'ehcache', 'fest-assert', 'hsqldb',
