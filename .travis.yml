@@ -3,6 +3,11 @@ language: groovy
 jdk:
 - oraclejdk7
 
+branches:
+  only:
+  - master
+  - develop
+
 services: memcached
 
 script: ./test-app.sh
