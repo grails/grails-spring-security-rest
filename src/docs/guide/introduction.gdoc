@@ -32,6 +32,8 @@ for [token storage|guide:tokenStorage].
 
 h4. Release History
 
+* 31 January 2014
+** [1.2.2|https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=5&amp;state=closed]
 * 15 January 2014
 ** [1.2.0|https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=3&amp;state=closed]
 * 14 January 2014
@@ -44,12 +46,3 @@ h4. Release History
 ** 1.0.0.RC2
 * 31 December 2013
 ** Initial 1.0.0.RC1 release.
-
-h2. Getting started
-
-To use this plugin, add this to the @BuildConfig.groovy@ file:
-
-{code}
-compile ":spring-security-core:2.0-RC2"
-compile ":spring-security-rest:{{VERSION}}"
-{code}
