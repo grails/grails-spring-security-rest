@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5 Token Validation Filter 1.2.2</title>
+    <title>5 Token Validation Filter 1.2.3</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -89,7 +89,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
-                    <p><strong>Version:</strong> 1.2.2</p>
+                    <p><strong>Version:</strong> 1.2.3</p>
 
                     
                 </div>
@@ -100,12 +100,11 @@ function addJsClass() {
 
 <h1 id="tokenValidation">5 Token Validation Filter</h1>
 The token validation filter looks for the token in a HTTP header and then tries to validate the token using the configured
-<a href="../guide/single.html#tokenStorage" class="guide">token storage</a> implementation.<p class="paragraph"/>If the validation is successful, the UserDetails object is stored in the security context. This allows you to use in
+<a href="../guide/single.html#tokenStorage" class="guide">token storage</a> implementation.<p class="paragraph"/>If the validation is successful, the principal object is stored in the security context. This allows you to use in
 your application <code>&#64;Secured</code>, <code>springSecurityService.principal</code> and so on.<p class="paragraph"/><blockquote class="note">
 <code>springSecurityService.currentUser</code> expects a <code>grails.plugin.springsecurity.userdetails.GrailsUser</code> to perform a DB query.
-However, this plugins stores in the security context a more generic <code>org.springframework.security.core.userdetails.User</code>
-because it does not assume you are using domain classes to store the users.
-Use <code>springSecurityService.principal</code> instead.
+However, this plugins stores in the security context just a principal <code>Object</code>, because it does not assume you are using
+domain classes to store the users. Use <code>springSecurityService.principal</code> instead.
 </blockquote><p class="paragraph"/><h2>Validation Endpoint</h2><p class="paragraph"/>There is also an endpoint available that you can call in case you want to know if a given token is valid. It looks for
 the token in a HTTP header as well, and if the token is still valid, it renders <a href="../guide/single.html#authentication" class="guide">its JSON representation</a>.
 If the token does not exist, it will render a <code>grails.plugin.springsecurity.rest.login.failureStatusCode</code> response
