@@ -3,7 +3,6 @@ package com.odobo.grails.plugin.springsecurity.rest.token.storage
 import grails.plugin.springsecurity.SpringSecurityUtils
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.plugins.support.aware.GrailsApplicationAware
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 
 /**
@@ -20,7 +19,7 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
 
     UserDetailsService userDetailsService
 
-    UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
+    Object loadUserByToken(String tokenValue) throws TokenNotFoundException {
         def conf = SpringSecurityUtils.securityConfig
         String usernamePropertyName = conf.rest.tokenRepository.usernamePropertyName
         def existingToken = findExistingToken(tokenValue)
@@ -34,7 +33,7 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
 
     }
 
-    void storeToken(String tokenValue, UserDetails details) {
+    void storeToken(String tokenValue, Object principal) {
         def conf = SpringSecurityUtils.securityConfig
         String tokenClassName = conf.rest.tokenRepository.tokenDomainClassName
         String tokenValuePropertyName = conf.rest.tokenRepository.tokenValuePropertyName
@@ -49,7 +48,7 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
         Class<?> tokenClass = dc.clazz
 
         tokenClass.withTransaction { status ->
-            def newTokenObject = tokenClass.newInstance((tokenValuePropertyName): tokenValue, (usernamePropertyName): details.username)
+            def newTokenObject = tokenClass.newInstance((tokenValuePropertyName): tokenValue, (usernamePropertyName): principal.username)
             newTokenObject.save()
         }
     }

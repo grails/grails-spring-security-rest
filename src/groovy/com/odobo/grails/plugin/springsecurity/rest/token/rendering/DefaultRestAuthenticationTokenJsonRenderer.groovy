@@ -5,6 +5,7 @@ import grails.converters.JSON
 import groovy.util.logging.Log4j
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.util.Assert
 
 /**
  * Generates a JSON response like the following: <code>{"username":"john.doe","token":"1a2b3c4d","roles":["ADMIN","USER"]}</code>
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails
 class DefaultRestAuthenticationTokenJsonRenderer implements RestAuthenticationTokenJsonRenderer {
 
     String generateJson(RestAuthenticationToken restAuthenticationToken) {
+        Assert.isInstanceOf(UserDetails, restAuthenticationToken.principal, "A UserDetails implementation is required")
         UserDetails userDetails = restAuthenticationToken.principal
 
         def result = [

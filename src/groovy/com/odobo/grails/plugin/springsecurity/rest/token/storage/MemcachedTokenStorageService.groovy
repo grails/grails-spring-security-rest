@@ -16,7 +16,7 @@ class MemcachedTokenStorageService implements TokenStorageService {
     /** Expiration in seconds */
     Integer expiration = 3600
 
-    UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
+    Object loadUserByToken(String tokenValue) throws TokenNotFoundException {
         def userDetails = findExistingUserDetails(tokenValue)
         if (userDetails) {
             return userDetails
@@ -25,11 +25,11 @@ class MemcachedTokenStorageService implements TokenStorageService {
         }
     }
 
-    void storeToken(String tokenValue, UserDetails details) {
-        log.debug "Storing user details for token: ${tokenValue} with expiration of ${expiration} seconds"
-        log.debug "UserDetails: ${details}"
+    void storeToken(String tokenValue, Object principal) {
+        log.debug "Storing principal for token: ${tokenValue} with expiration of ${expiration} seconds"
+        log.debug "Principal: ${principal}"
 
-        memcachedClient.set tokenValue, expiration, details
+        memcachedClient.set tokenValue, expiration, principal
     }
 
     void removeToken(String tokenValue) throws TokenNotFoundException {

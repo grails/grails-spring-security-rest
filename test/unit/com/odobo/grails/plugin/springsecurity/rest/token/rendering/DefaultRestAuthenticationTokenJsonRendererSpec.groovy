@@ -5,6 +5,7 @@ import grails.test.mixin.TestMixin
 import grails.test.mixin.web.ControllerUnitTestMixin
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
+import spock.lang.Issue
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -25,7 +26,6 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
 
         when:
         def jsonResult = renderer.generateJson(token)
-        println jsonResult
 
         then:
         jsonResult == generatedJson
@@ -35,6 +35,21 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"username":"john.doe","token":"1a2b3c4d","roles":["ADMIN","USER"]}'
         []                                                                          | '{"username":"john.doe","token":"1a2b3c4d","roles":[]}'
 	}
+
+    @Issue('https://github.com/alvarosanchez/grails-spring-security-rest/issues/18')
+    void "it checks if the principal is a UserDetails"() {
+        given:
+        def principal = 'john.doe'
+        def tokenValue = '1a2b3c4d'
+        RestAuthenticationToken token = new RestAuthenticationToken(principal, '', [], tokenValue)
+        DefaultRestAuthenticationTokenJsonRenderer renderer = new DefaultRestAuthenticationTokenJsonRenderer()
+
+        when:
+        renderer.generateJson(token)
+
+        then:
+        thrown IllegalArgumentException
+    }
 
 
 }
