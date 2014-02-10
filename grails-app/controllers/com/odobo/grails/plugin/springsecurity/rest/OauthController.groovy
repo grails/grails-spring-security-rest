@@ -8,17 +8,31 @@ import org.pac4j.core.context.WebContext
 @Secured(['permitAll'])
 class OauthController {
 
+    final CALLBACK_ATTR = "spring-security-rest-callback"
+
     def oauthService
     def grailsApplication
 
     /**
-     * Starts the OAuth authentication flow, redirecting to the provider's Login URL
+     * Starts the OAuth authentication flow, redirecting to the provider's Login URL. An optional callback parameter
+     * allows the frontend application to define the frontend callback URL on demand.
      */
-    def authenticate(String provider) {
+    def authenticate(String provider, String callback) {
         Client client = oauthService.getClient(provider)
         WebContext context = new J2EContext(request, response)
 
         def redirectionUrl = client.getRedirectionUrl(context, false, false)
+
+        if (callback) {
+            log.debug "Trying to store in the HTTP session a user specified callback URL: ${callback}"
+            try {
+                new URL(callback)
+                session[CALLBACK_ATTR] = callback
+            } catch (MalformedURLException mue) {
+                log.warn "The URL is malformed. Not storing it."
+            }
+        }
+
         log.debug "Redirecting to ${redirectionUrl}"
         redirect url: redirectionUrl
     }
@@ -33,11 +47,21 @@ class OauthController {
         try {
             String tokenValue = oauthService.storeAuthentication(provider, context)
 
-            def frontendCallbackUrl = grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl.call(tokenValue)
+            def frontendCallbackUrl
+
+            if (session[CALLBACK_ATTR]) {
+                log.debug "Found callback URL in the HTTP session"
+                frontendCallbackUrl = session[CALLBACK_ATTR] + tokenValue
+                session[CALLBACK_ATTR] = null
+            } else {
+                log.debug "Found callback URL in the configuration file"
+                frontendCallbackUrl = grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl.call(tokenValue)
+            }
+
             log.debug "Redirecting to ${frontendCallbackUrl}"
             redirect url: frontendCallbackUrl
         } catch (Exception e) {
-            response.sendError e.cause.code
+            e.cause.code ? response.sendError(e.cause.code) : response.sendError(500)
         }
     }
 
