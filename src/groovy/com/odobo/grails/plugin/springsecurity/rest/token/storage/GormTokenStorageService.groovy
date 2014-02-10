@@ -38,17 +38,15 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
         String tokenClassName = conf.rest.tokenRepository.tokenDomainClassName
         String tokenValuePropertyName = conf.rest.tokenRepository.tokenValuePropertyName
         String usernamePropertyName = conf.rest.tokenRepository.usernamePropertyName
-        def dc = grailsApplication.getDomainClass(tokenClassName)
+        def dc = grailsApplication.getClassForName(tokenClassName)
 
         //TODO check at startup, not here
         if (!dc) {
-            throw new IllegalArgumentException("The specified token domain class '$tokenClassName' is not a domain class")
+            throw new IllegalArgumentException("The specified token domain class '$tokenClassName' is not a domain class ")
         }
 
-        Class<?> tokenClass = dc.clazz
-
-        tokenClass.withTransaction { status ->
-            def newTokenObject = tokenClass.newInstance((tokenValuePropertyName): tokenValue, (usernamePropertyName): principal.username)
+        dc.withTransaction { status ->
+            def newTokenObject = dc.newInstance((tokenValuePropertyName): tokenValue, (usernamePropertyName): principal.username)
             newTokenObject.save()
         }
     }
@@ -68,17 +66,15 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
         def conf = SpringSecurityUtils.securityConfig
         String tokenClassName = conf.rest.tokenRepository.tokenDomainClassName
         String tokenValuePropertyName = conf.rest.tokenRepository.tokenValuePropertyName
-        def dc = grailsApplication.getDomainClass(tokenClassName)
+        def dc = grailsApplication.getClassForName(tokenClassName)
 
         //TODO check at startup, not here
         if (!dc) {
             throw new IllegalArgumentException("The specified token domain class '$tokenClassName' is not a domain class")
         }
 
-        Class<?> tokenClass = dc.clazz
-
-        tokenClass.withTransaction { status ->
-            return tokenClass.findWhere((tokenValuePropertyName): tokenValue)
+        dc.withTransaction { status ->
+            return dc.findWhere((tokenValuePropertyName): tokenValue)
         }
     }
 
