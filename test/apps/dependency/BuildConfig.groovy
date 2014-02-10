@@ -63,7 +63,7 @@ grails.project.dependency.resolution = {
         compile ':cache:1.1.1'
 
         compile ':spring-security-core:2.0-RC2'
-        compile ":spring-security-rest:1.2.2", {
+        compile ":spring-security-rest:latest.release", {
             excludes: 'spring-security-core'
         }
 

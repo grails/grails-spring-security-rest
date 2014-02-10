@@ -119,6 +119,8 @@ log4j = {
            'net.spy.memcached'
 
     debug  'com.odobo',
+           'org.pac4j',
+           'grails.app'
            'org.springframework.security'
 
     off    'org.openqa'
