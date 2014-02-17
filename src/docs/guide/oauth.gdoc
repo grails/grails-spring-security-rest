@@ -64,20 +64,29 @@ will be stored in the security context. This is done by a bean named @oauthUserD
 delegates to the configured @userDetailsService@ bean, passing the profile ID as the username:
 
 {code}
+/**
+ * Builds an {@link OauthUser}. Delegates to the default {@link UserDetailsService#loadUserByUsername(java.lang.String)}
+ * where the username passed is {@link UserProfile#getId()}. If the user is not found, it will create a new one with
+ * the the default roles.
+ */
+@Log4j
 class DefaultOauthUserDetailsService implements OauthUserDetailsService {
 
     @Delegate
     UserDetailsService userDetailsService
 
-    OauthUser loadUserByUserProfile(UserProfile userProfile, Collection<GrantedAuthority> defaultRoles) {
+    OauthUser loadUserByUserProfile(OAuth20Profile userProfile, Collection<GrantedAuthority> defaultRoles)
+            throws UsernameNotFoundException {
         UserDetails userDetails
         OauthUser oauthUser
 
         try {
+            log.debug "Trying to fetch user details for user profile: ${userProfile}"
             userDetails = userDetailsService.loadUserByUsername userProfile.id
-            userDetails.authorities.addAll defaultRoles
-            oauthUser = new OauthUser(userDetails.username, userDetails.password, userDetails.authorities, userProfile)
-        } catch (exception) {
+            Collection<GrantedAuthority> allRoles = userDetails.authorities + defaultRoles
+            oauthUser = new OauthUser(userDetails.username, userDetails.password, allRoles, userProfile)
+        } catch (UsernameNotFoundException unfe) {
+            log.debug "User not found. Creating a new one with default roles: ${defaultRoles}"
             oauthUser = new OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
         }
         return oauthUser
@@ -86,7 +95,12 @@ class DefaultOauthUserDetailsService implements OauthUserDetailsService {
 }
 {code}
 
+
 If you want to provide your own implementation, define it in @resources.groovy@ with bean name @oauthUserDetailsService@.
 Make sure you implements the interface @OauthUserDetailsService@
+
+If you want to do any additional post-OAuth authorisation check, you should do it on your @loadUserByUserProfile@
+implementation. This is useful if you want to allow your corporate users to log into your application using their Gmail
+account. In this case, you should decide based on OAuth20Profile.getEmail(), for instance.
 
 Below are some examples on how to configure it for Google, Facebook and Twitter.

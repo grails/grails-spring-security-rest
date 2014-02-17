@@ -61,7 +61,7 @@ class OauthController {
             log.debug "Redirecting to ${frontendCallbackUrl}"
             redirect url: frontendCallbackUrl
         } catch (Exception e) {
-            e.cause.code ? response.sendError(e.cause.code) : response.sendError(500)
+            e.cause?.code ? response.sendError(e.cause.code) : response.sendError(500)
         }
     }
 
