@@ -24,7 +24,7 @@ The flow is something like the following:
 The steps flagged with (*) remain unchanged from the [normal flow|guide:authentication].
 
 To support OAuth, this plugin uses [Profile & Authentication Client for Java|https://github.com/leleuj/pac4j]. So you
-can use any OAuth (1.0 and 2.0) provider they support. This includes at the time of writing:
+can use any OAuth 2.0 provider they support. This includes at the time of writing:
 
 * Dropbox.
 * Facebook.
@@ -36,6 +36,10 @@ can use any OAuth (1.0 and 2.0) provider they support. This includes at the time
 * Wordpress.
 * Yahoo.
 * Paypal.
+
+{note}
+Remember: only OAuth 2.0 providers are supported by this plugin at the moment.
+{note}
 
 To start the OAuth authentication flow, from your frontend application, generate a link to
 @<YOUR_GRAILS_APP>/oauth/authenticate/<provider>@. The user clicking on that link represents step 4 in the previous
@@ -101,6 +105,24 @@ Make sure you implements the interface @OauthUserDetailsService@
 
 If you want to do any additional post-OAuth authorisation check, you should do it on your @loadUserByUserProfile@
 implementation. This is useful if you want to allow your corporate users to log into your application using their Gmail
-account. In this case, you should decide based on OAuth20Profile.getEmail(), for instance.
+account. In this case, you should decide based on OAuth20Profile.getEmail(), for instance:
+
+{code}
+OauthUser loadUserByUserProfile(OAuth20Profile userProfile, Collection<GrantedAuthority> defaultRoles) throws UsernameNotFoundException {
+    if (userProfile.email.endsWith('example.org')) {
+        return new OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
+    } else {
+        throw new UsernameNotFoundException("User with email ${userProfile.email} now allowed. Only @example.org accounts are allowed.")
+    }
+}
+{code}
+
+In case of any OAuth authentication failure, the plugin will redirect back to the frontend application anyway, so it
+has a chance to render a proper error message and/or offer the user the option to try again. In that case, the token
+parameter will be empty, and both @error@ and @message@ params will be appended:
+
+{code}
+http://your-frontend-app.com/auth-success.html?token=&error=403&message=User+with+email+jimmy%40gmail.com+now+allowed.+Only+%40example.com+accounts+are+allowed
+{code}
 
 Below are some examples on how to configure it for Google, Facebook and Twitter.
