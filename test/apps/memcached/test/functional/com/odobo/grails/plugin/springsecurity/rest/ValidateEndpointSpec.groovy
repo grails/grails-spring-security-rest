@@ -5,13 +5,13 @@ import spock.lang.Specification
 
 class ValidateEndpointSpec extends AbstractRestSpec {
 
-    void "calling /validate with a valid token returns a JSON representation"() {
+    void "calling /api/validate with a valid token returns a JSON representation"() {
         given:
         RestResponse authResponse = sendCorrectCredentials()
         String token = authResponse.json.token
 
         when:
-        def response = restBuilder.get("${baseUrl}/validate") {
+        def response = restBuilder.get("${baseUrl}/api/validate") {
             header 'X-Auth-Token', token
         }
 
@@ -22,9 +22,9 @@ class ValidateEndpointSpec extends AbstractRestSpec {
         response.json.roles.size() == 2
     }
 
-    void "calling /validate with an invalid token returns 403"() {
+    void "calling /api/validate with an invalid token returns 403"() {
         when:
-        def response = restBuilder.get("${baseUrl}/validate") {
+        def response = restBuilder.get("${baseUrl}/api/validate") {
             header 'X-Auth-Token', 'something-else'
         }
 
@@ -32,9 +32,9 @@ class ValidateEndpointSpec extends AbstractRestSpec {
         response.status == 403
     }
 
-    void "calling /validate without token returns 400"() {
+    void "calling /api/validate without token returns 400"() {
         when:
-        def response = restBuilder.get("${baseUrl}/validate")
+        def response = restBuilder.get("${baseUrl}/api/validate")
 
         then:
         response.status == 400
