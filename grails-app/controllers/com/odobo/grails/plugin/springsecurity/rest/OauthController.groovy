@@ -4,6 +4,7 @@ import grails.plugin.springsecurity.annotation.Secured
 import org.pac4j.core.client.Client
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext
+import org.pac4j.oauth.client.BaseOAuth20Client
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 @Secured(['permitAll'])
@@ -19,10 +20,10 @@ class OauthController {
      * allows the frontend application to define the frontend callback URL on demand.
      */
     def authenticate(String provider, String callback) {
-        Client client = oauthService.getClient(provider)
+        BaseOAuth20Client client = oauthService.getClient(provider)
         WebContext context = new J2EContext(request, response)
 
-        def redirectionUrl = client.getRedirectionUrl(context, false, false)
+        def redirectionUrl = client.getRedirectionUrl(context, true, false)
 
         if (callback) {
             log.debug "Trying to store in the HTTP session a user specified callback URL: ${callback}"

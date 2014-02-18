@@ -54,7 +54,7 @@ class OauthService {
         Credentials credentials = client.getCredentials context
 
         log.debug "Querying provider to fetch User ID"
-        CommonProfile profile = client.getUserProfile credentials, context
+        CommonProfile profile = client.getUserProfile credentials, null
         log.debug "User's ID: ${profile.id}"
 
         def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
