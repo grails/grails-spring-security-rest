@@ -1,6 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest.credentials
 
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 
 import javax.servlet.http.HttpServletRequest
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest
 /**
  * Extracts credentials from a JSON request like: <code>{"username": "foo", "password": "bar"}</code>
  */
-@Log4j
+@Slf4j
 class DefaultJsonPayloadCredentialsExtractor extends AbstractJsonPayloadCredentialsExtractor {
 
     UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) {

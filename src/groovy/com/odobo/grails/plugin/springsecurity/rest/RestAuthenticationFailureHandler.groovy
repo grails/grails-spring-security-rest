@@ -1,6 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse
 /**
  * Sets the configured status code.
  */
-@Log4j
+@Slf4j
 class RestAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     /**

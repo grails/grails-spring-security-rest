@@ -3,7 +3,7 @@ package com.odobo.grails.plugin.springsecurity.rest
 import com.odobo.grails.plugin.springsecurity.rest.credentials.CredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.AuthenticationDetailsSource
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse
  *
  * If there is an authentication failure, the configured {@link AuthenticationFailureHandler} will render the response.
  */
-@Log4j
+@Slf4j
 class RestAuthenticationFilter extends GenericFilterBean {
 
     CredentialsExtractor credentialsExtractor

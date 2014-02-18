@@ -1,6 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest.oauth
 
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import org.pac4j.core.profile.UserProfile
 import org.pac4j.oauth.profile.OAuth20Profile
 import org.springframework.security.core.GrantedAuthority
@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
  * where the username passed is {@link UserProfile#getId()}. If the user is not found, it will create a new one with
  * the the default roles.
  */
-@Log4j
+@Slf4j
 class DefaultOauthUserDetailsService implements OauthUserDetailsService {
 
     @Delegate

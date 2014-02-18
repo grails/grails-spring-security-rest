@@ -80,7 +80,7 @@ If your JSON request format is different, you can plug your own implementation b
 The default implementation looks like this:
 
 {code}
-@Log4j
+@Slf4j
 class DefaultJsonPayloadCredentialsExtractor extends AbstractJsonPayloadCredentialsExtractor {
 
     UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) {

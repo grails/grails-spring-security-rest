@@ -6,13 +6,10 @@ import com.odobo.grails.plugin.springsecurity.rest.token.generation.TokenGenerat
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
-import org.pac4j.core.client.Client
 import org.pac4j.core.context.WebContext
 import org.pac4j.core.credentials.Credentials
 import org.pac4j.core.profile.CommonProfile
-import org.pac4j.core.profile.UserProfile
 import org.pac4j.oauth.client.BaseOAuth20Client
-import org.pac4j.oauth.credentials.OAuthCredentials
 import org.pac4j.oauth.profile.OAuth20Profile
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority

@@ -1,6 +1,5 @@
 package com.odobo.grails.plugin.springsecurity.rest.oauth
 
-import org.pac4j.core.profile.UserProfile
 import org.pac4j.oauth.profile.OAuth20Profile
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetailsService

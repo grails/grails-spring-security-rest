@@ -2,7 +2,7 @@ package com.odobo.grails.plugin.springsecurity.rest
 
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import org.springframework.web.filter.GenericFilterBean
 
 import javax.servlet.FilterChain
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse
  * Filter exposing an endpoint for deleting tokens. It will read the token from an HTTP header. If found, will delete it
  * from the storage, sending a 200 response. Otherwise, it will send a 404 response.
  */
-@Log4j
+@Slf4j
 class RestLogoutFilter extends GenericFilterBean {
 
     String endpointUrl

@@ -1,7 +1,4 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.storage
-
-import org.springframework.security.core.userdetails.UserDetails
-
 /**
  * Implementations of this interface are responsible to load user information from a token storage system, and to store
  * token information into it.

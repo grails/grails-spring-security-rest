@@ -1,6 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.storage
 
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import net.spy.memcached.MemcachedClient
 import org.springframework.security.core.userdetails.UserDetails
 
@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails
  * Stores and retrieves tokens in a memcached server. This implementation stores the whole {@link UserDetails} object
  * in memcached, leveraging it is serializable.
  */
-@Log4j
+@Slf4j
 class MemcachedTokenStorageService implements TokenStorageService {
 
     MemcachedClient memcachedClient

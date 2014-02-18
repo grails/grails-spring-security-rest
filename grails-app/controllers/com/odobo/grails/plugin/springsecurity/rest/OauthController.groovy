@@ -1,7 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.annotation.Secured
-import org.pac4j.core.client.Client
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext
 import org.pac4j.oauth.client.BaseOAuth20Client
