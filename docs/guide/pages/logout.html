@@ -101,7 +101,7 @@ function addJsClass() {
 <h2 id="logout">2.1 Logout Endpoint</h2>
 The <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html" target="blank">logout filter</a>
 exposes an endpoint for deleting tokens. It will read the token from an HTTP header. If found, will delete it from the
-storage, sending a 200 response. Otherwise, it will send a 404 response.<p class="paragraph"/>You can configure it in <code>Config.groovy</code> using this properties:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.logout.endpointUrl</code></td><td><code>/logout</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr></table>
+storage, sending a 200 response. Otherwise, it will send a 404 response.<p class="paragraph"/>You can configure it in <code>Config.groovy</code> using this properties:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.logout.endpointUrl</code></td><td><code>/api/logout</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr></table>
 
 
 
