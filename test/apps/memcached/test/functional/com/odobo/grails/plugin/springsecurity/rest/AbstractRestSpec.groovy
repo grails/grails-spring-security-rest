@@ -18,9 +18,9 @@ abstract class AbstractRestSpec extends Specification {
 
     def sendWrongCredentials() {
         if (config.grails.plugin.springsecurity.rest.login.useRequestParamsCredentials == true) {
-            restBuilder.post("${baseUrl}/login?username=foo&password=bar")
+            restBuilder.post("${baseUrl}/api/login?username=foo&password=bar")
         } else {
-            restBuilder.post("${baseUrl}/login") {
+            restBuilder.post("${baseUrl}/api/login") {
                 json {
                     username = 'foo'
                     password = 'bar'
@@ -31,9 +31,9 @@ abstract class AbstractRestSpec extends Specification {
 
     def sendCorrectCredentials() {
         if (config.grails.plugin.springsecurity.rest.login.useRequestParamsCredentials == true) {
-            restBuilder.post("${baseUrl}/login?username=jimi&password=jimispassword")
+            restBuilder.post("${baseUrl}/api/login?username=jimi&password=jimispassword")
         } else {
-            restBuilder.post("${baseUrl}/login") {
+            restBuilder.post("${baseUrl}/api/login") {
                 json {
                     username = 'jimi'
                     password = 'jimispassword'

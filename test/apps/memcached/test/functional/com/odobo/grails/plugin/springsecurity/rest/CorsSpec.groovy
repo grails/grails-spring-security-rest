@@ -16,7 +16,7 @@ class CorsSpec extends AbstractRestSpec {
 
         given:
         HttpClient client = new DefaultHttpClient()
-        HttpOptions options = new HttpOptions("${baseUrl}/login")
+        HttpOptions options = new HttpOptions("${baseUrl}/api/login")
         options.addHeader 'Origin', 'http://www.example.com'
         options.addHeader 'Access-Control-Request-Method', 'POST'
 

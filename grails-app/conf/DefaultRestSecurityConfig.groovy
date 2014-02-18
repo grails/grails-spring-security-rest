@@ -8,7 +8,7 @@ security {
 
         login {
 
-            endpointUrl = '/login'
+            endpointUrl = '/api/login'
             usernameParameter = 'username'
             passwordParameter = 'password'
             failureStatusCode = HttpServletResponse.SC_FORBIDDEN
@@ -19,7 +19,7 @@ security {
 
         logout {
 
-            endpointUrl = '/logout'
+            endpointUrl = '/api/logout'
 
         }
 

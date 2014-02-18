@@ -65,11 +65,12 @@ class SpringSecurityRestGrailsPlugin {
 
         ///*
         SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.ANONYMOUS_FILTER.order + 1
+        SpringSecurityUtils.registerFilter 'restAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order + 1
         SpringSecurityUtils.registerFilter 'restLogoutFilter', SecurityFilterPosition.LOGOUT_FILTER.order - 1
         SpringSecurityUtils.registerProvider 'restAuthenticationProvider'
 
-        /* authenticationProcessingFilter */
-        authenticationProcessingFilter(RestAuthenticationFilter) {
+        /* restAuthenticationFilter */
+        restAuthenticationFilter(RestAuthenticationFilter) {
             authenticationManager = ref('authenticationManager')
             authenticationSuccessHandler = ref('authenticationSuccessHandler')
             authenticationFailureHandler = ref('authenticationFailureHandler')

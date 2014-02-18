@@ -11,7 +11,7 @@ class RestLogoutFilterSpec extends AbstractRestSpec {
         String token = authResponse.json.token
 
         when:
-        def response = restBuilder.post("${baseUrl}/logout") {
+        def response = restBuilder.post("${baseUrl}/api/logout") {
             header 'X-Auth-Token', token
         }
 
@@ -19,7 +19,7 @@ class RestLogoutFilterSpec extends AbstractRestSpec {
         response.status == 200
 
         when:
-        response = restBuilder.get("${baseUrl}/validate") {
+        response = restBuilder.get("${baseUrl}/api/validate") {
             header 'X-Auth-Token', token
         }
 
@@ -29,7 +29,7 @@ class RestLogoutFilterSpec extends AbstractRestSpec {
 
     void "logout filter returns 404 if token is not found"() {
         when:
-        def response = restBuilder.post("${baseUrl}/logout") {
+        def response = restBuilder.post("${baseUrl}/api/logout") {
             header 'X-Auth-Token', 'whatever'
         }
 
@@ -38,9 +38,9 @@ class RestLogoutFilterSpec extends AbstractRestSpec {
 
     }
 
-    void "calling /logout without token returns 400"() {
+    void "calling /api/logout without token returns 400"() {
         when:
-        def response = restBuilder.post("${baseUrl}/logout")
+        def response = restBuilder.post("${baseUrl}/api/logout")
 
         then:
         response.status == 400
@@ -54,7 +54,7 @@ class RestLogoutFilterSpec extends AbstractRestSpec {
         String token = authResponse.json.token
 
         when:
-        def response = restBuilder."${httpMethod}"("${baseUrl}/logout") {
+        def response = restBuilder."${httpMethod}"("${baseUrl}/api/logout") {
             header 'X-Auth-Token', token
         }
 
