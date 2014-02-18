@@ -137,7 +137,7 @@ The default implementation expects a request like this:<p class="paragraph"/><di
     <span class="java&#45;quote">"password"</span>: <span class="java&#45;quote">"dontTellAnybody"</span>
 &#125;</pre></div><p class="paragraph"/>If your JSON request format is different, you can plug your own implementation by defining a class which extends
 <code><a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/AbstractJsonPayloadCredentialsExtractor.html" target="blank">AbstractJsonPayloadCredentialsExtractor</a></code>.
-The default implementation looks like this:<p class="paragraph"/><div class="code"><pre>@Log4j
+The default implementation looks like this:<p class="paragraph"/><div class="code"><pre>@Slf4j
 class DefaultJsonPayloadCredentialsExtractor <span class="java&#45;keyword">extends</span> AbstractJsonPayloadCredentialsExtractor &#123;<p class="paragraph"/>    UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) &#123;
         def jsonBody = getJsonBody(httpServletRequest)<p class="paragraph"/>        log.debug <span class="java&#45;quote">"Extracted credentials from request params. Username: $&#123;jsonBody.username&#125;, password: $&#123;jsonBody.password?.size()?'&#91;PROTECTED&#93;':'&#91;MISSING&#93;'&#125;"</span><p class="paragraph"/>        <span class="java&#45;keyword">new</span> UsernamePasswordAuthenticationToken(jsonBody.username, jsonBody.password)
     &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>Once you are done, register it in <code>resources.groovy</code> with the name <code>credentialsExtractor</code>.<p class="paragraph"/>

@@ -206,7 +206,7 @@ The default implementation expects a request like this:<p class="paragraph"/><di
     <span class="java&#45;quote">"password"</span>: <span class="java&#45;quote">"dontTellAnybody"</span>
 &#125;</pre></div><p class="paragraph"/>If your JSON request format is different, you can plug your own implementation by defining a class which extends
 <code><a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/AbstractJsonPayloadCredentialsExtractor.html" target="blank">AbstractJsonPayloadCredentialsExtractor</a></code>.
-The default implementation looks like this:<p class="paragraph"/><div class="code"><pre>@Log4j
+The default implementation looks like this:<p class="paragraph"/><div class="code"><pre>@Slf4j
 class DefaultJsonPayloadCredentialsExtractor <span class="java&#45;keyword">extends</span> AbstractJsonPayloadCredentialsExtractor &#123;<p class="paragraph"/>    UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) &#123;
         def jsonBody = getJsonBody(httpServletRequest)<p class="paragraph"/>        log.debug <span class="java&#45;quote">"Extracted credentials from request params. Username: $&#123;jsonBody.username&#125;, password: $&#123;jsonBody.password?.size()?'&#91;PROTECTED&#93;':'&#91;MISSING&#93;'&#125;"</span><p class="paragraph"/>        <span class="java&#45;keyword">new</span> UsernamePasswordAuthenticationToken(jsonBody.username, jsonBody.password)
     &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>Once you are done, register it in <code>resources.groovy</code> with the name <code>credentialsExtractor</code>.<p class="paragraph"/>
@@ -321,7 +321,7 @@ delegates to the configured <code>userDetailsService</code> bean, passing the pr
  &#42; where the username passed is &#123;@link UserProfile&#35;getId()&#125;. If the user is not found, it will create a <span class="java&#45;keyword">new</span> one with
  &#42; the the <span class="java&#45;keyword">default</span> roles.
  &#42;/
-@Log4j
+@Slf4j
 class DefaultOauthUserDetailsService <span class="java&#45;keyword">implements</span> OauthUserDetailsService &#123;<p class="paragraph"/>    @Delegate
     UserDetailsService userDetailsService<p class="paragraph"/>    OauthUser loadUserByUserProfile(OAuth20Profile userProfile, Collection&#60;GrantedAuthority&#62; defaultRoles)
             <span class="java&#45;keyword">throws</span> UsernameNotFoundException &#123;
@@ -357,13 +357,18 @@ Define the following block in your <code>Config.groovy</code>:<p class="paragrap
         springsecurity &#123;<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;<p class="paragraph"/>                oauth &#123;<p class="paragraph"/>                    frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;<p class="paragraph"/>                    google &#123;<p class="paragraph"/>                        client = org.pac4j.oauth.client.Google2Client
                         key = 'xxxx.apps.googleusercontent.com'
                         secret = 'xxx'
-                        scope = org.pac4j.oauth.client.Google2Client.Google2Scope.EMAIL
+                        scope = org.pac4j.oauth.client.Google2Client.Google2Scope.EMAIL_AND_PROFILE
                         defaultRoles = &#91;'ROLE_USER', 'ROLE_GOOGLE'&#93;<p class="paragraph"/>                    &#125;
                 &#125;
             &#125;
         &#125;
     &#125;
-&#125;</pre></div><p class="paragraph"/>The <code>scope</code> can be from any value of the enum org.pac4j.oauth.client.Google2Client.Google2Scope
+&#125;</pre></div><p class="paragraph"/><blockquote class="warning">
+The <code>scope</code> can be from any value of the enum <code>org.pac4j.oauth.client.Google2Client.Google2Scope</code>. But if you use the
+default <code>OauthUserDetailsService</code>, you need to use <code>EMAIL_AND_PROFILE</code>. That is because the default implementation
+uses the profile ID as the username, and that is only returned by Google if <code>EMAIL_AND_PROFILE</code> scope is used.
+</blockquote>
+
 
 
 <h2 id="facebook">7.2 Facebook</h2>
