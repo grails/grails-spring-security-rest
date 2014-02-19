@@ -104,18 +104,13 @@ Define the following block in your <code>Config.groovy</code>:<p class="paragrap
         springsecurity &#123;<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;<p class="paragraph"/>                oauth &#123;<p class="paragraph"/>                    frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;<p class="paragraph"/>                    google &#123;<p class="paragraph"/>                        client = org.pac4j.oauth.client.Google2Client
                         key = 'xxxx.apps.googleusercontent.com'
                         secret = 'xxx'
-                        scope = org.pac4j.oauth.client.Google2Client.Google2Scope.EMAIL_AND_PROFILE
+                        scope = org.pac4j.oauth.client.Google2Client.Google2Scope.EMAIL
                         defaultRoles = &#91;'ROLE_USER', 'ROLE_GOOGLE'&#93;<p class="paragraph"/>                    &#125;
                 &#125;
             &#125;
         &#125;
     &#125;
-&#125;</pre></div><p class="paragraph"/><blockquote class="warning">
-The <code>scope</code> can be from any value of the enum <code>org.pac4j.oauth.client.Google2Client.Google2Scope</code>. But if you use the
-default <code>OauthUserDetailsService</code>, you need to use <code>EMAIL_AND_PROFILE</code>. That is because the default implementation
-uses the profile ID as the username, and that is only returned by Google if <code>EMAIL_AND_PROFILE</code> scope is used.
-</blockquote>
-
+&#125;</pre></div><p class="paragraph"/>The <code>scope</code> can be from any value of the enum org.pac4j.oauth.client.Google2Client.Google2Scope
 
 
                 <div style="clear:both;margin-top:15px;"></div>

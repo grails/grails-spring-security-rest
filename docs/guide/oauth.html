@@ -128,7 +128,7 @@ OAuth, because then the access keys will be made public.<p class="paragraph"/>So
 <li>The browser will navigate to that URL, and the Javascript logic will read the token from the URL and store it locally.</li>
 <li>The client sends again a request to the protected resource, passing the token as an HTTP header (*).</li>
 </ol><p class="paragraph"/>The steps flagged with (*) remain unchanged from the <a href="../guide/single.html#authentication" class="guide">normal flow</a>.<p class="paragraph"/>To support OAuth, this plugin uses <a href="https://github.com/leleuj/pac4j" target="blank">Profile &#38; Authentication Client for Java</a>. So you
-can use any OAuth 2.0 provider they support. This includes at the time of writing:
+can use any OAuth (1.0 and 2.0) provider they support. This includes at the time of writing:
 <ul class="star">
 <li>Dropbox.</li>
 <li>Facebook.</li>
@@ -140,9 +140,7 @@ can use any OAuth 2.0 provider they support. This includes at the time of writin
 <li>Wordpress.</li>
 <li>Yahoo.</li>
 <li>Paypal.</li>
-</ul><p class="paragraph"/><blockquote class="note">
-Remember: only OAuth 2.0 providers are supported by this plugin at the moment.
-</blockquote><p class="paragraph"/>To start the OAuth authentication flow, from your frontend application, generate a link to
+</ul><p class="paragraph"/>To start the OAuth authentication flow, from your frontend application, generate a link to
 <code>&#60;YOUR_GRAILS_APP&#62;/oauth/authenticate/&#60;provider&#62;</code>. The user clicking on that link represents step 4 in the previous
 diagram.<p class="paragraph"/>Note that you can define the frontend callback URL in <code>Config.groovy</code> under
 <code>grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl</code>. You need to define a closure that will be called with
@@ -150,39 +148,19 @@ the token value as parameter:<p class="paragraph"/><div class="code"><pre>grails
 <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/oauth/OauthUser.html" target="blank">OauthUser</a>
 will be stored in the security context. This is done by a bean named <code>oauthUserDetailsService</code>. The
 <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/oauth/DefaultOauthUserDetailsService.html" target="blank">default implementation</a>
-delegates to the configured <code>userDetailsService</code> bean, passing the profile ID as the username:<p class="paragraph"/><div class="code"><pre>/&#42;&#42;
- &#42; Builds an &#123;<code>link OauthUser&#125;. Delegates to the <span class="java&#45;keyword">default</span> &#123;</code>link UserDetailsService&#35;loadUserByUsername(java.lang.<span class="java&#45;object">String</span>)&#125;
- &#42; where the username passed is &#123;@link UserProfile&#35;getId()&#125;. If the user is not found, it will create a <span class="java&#45;keyword">new</span> one with
- &#42; the the <span class="java&#45;keyword">default</span> roles.
- &#42;/
-@Slf4j
-class DefaultOauthUserDetailsService <span class="java&#45;keyword">implements</span> OauthUserDetailsService &#123;<p class="paragraph"/>    @Delegate
-    UserDetailsService userDetailsService<p class="paragraph"/>    OauthUser loadUserByUserProfile(OAuth20Profile userProfile, Collection&#60;GrantedAuthority&#62; defaultRoles)
-            <span class="java&#45;keyword">throws</span> UsernameNotFoundException &#123;
+delegates to the configured <code>userDetailsService</code> bean, passing the profile ID as the username:<p class="paragraph"/><div class="code"><pre>class DefaultOauthUserDetailsService <span class="java&#45;keyword">implements</span> OauthUserDetailsService &#123;<p class="paragraph"/>    @Delegate
+    UserDetailsService userDetailsService<p class="paragraph"/>    OauthUser loadUserByUserProfile(UserProfile userProfile, Collection&#60;GrantedAuthority&#62; defaultRoles) &#123;
         UserDetails userDetails
         OauthUser oauthUser<p class="paragraph"/>        <span class="java&#45;keyword">try</span> &#123;
-            log.debug <span class="java&#45;quote">"Trying to fetch user details <span class="java&#45;keyword">for</span> user profile: $&#123;userProfile&#125;"</span>
             userDetails = userDetailsService.loadUserByUsername userProfile.id
-            Collection&#60;GrantedAuthority&#62; allRoles = userDetails.authorities + defaultRoles
-            oauthUser = <span class="java&#45;keyword">new</span> OauthUser(userDetails.username, userDetails.password, allRoles, userProfile)
-        &#125; <span class="java&#45;keyword">catch</span> (UsernameNotFoundException unfe) &#123;
-            log.debug <span class="java&#45;quote">"User not found. Creating a <span class="java&#45;keyword">new</span> one with <span class="java&#45;keyword">default</span> roles: $&#123;defaultRoles&#125;"</span>
+            userDetails.authorities.addAll defaultRoles
+            oauthUser = <span class="java&#45;keyword">new</span> OauthUser(userDetails.username, userDetails.password, userDetails.authorities, userProfile)
+        &#125; <span class="java&#45;keyword">catch</span> (exception) &#123;
             oauthUser = <span class="java&#45;keyword">new</span> OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
         &#125;
         <span class="java&#45;keyword">return</span> oauthUser
-    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>
-If you want to provide your own implementation, define it in <code>resources.groovy</code> with bean name <code>oauthUserDetailsService</code>.
-Make sure you implements the interface <code>OauthUserDetailsService</code><p class="paragraph"/>If you want to do any additional post-OAuth authorisation check, you should do it on your <code>loadUserByUserProfile</code>
-implementation. This is useful if you want to allow your corporate users to log into your application using their Gmail
-account. In this case, you should decide based on OAuth20Profile.getEmail(), for instance:<p class="paragraph"/><div class="code"><pre>OauthUser loadUserByUserProfile(OAuth20Profile userProfile, Collection&#60;GrantedAuthority&#62; defaultRoles) <span class="java&#45;keyword">throws</span> UsernameNotFoundException &#123;
-    <span class="java&#45;keyword">if</span> (userProfile.email.endsWith('example.org')) &#123;
-        <span class="java&#45;keyword">return</span> <span class="java&#45;keyword">new</span> OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
-    &#125; <span class="java&#45;keyword">else</span> &#123;
-        <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> UsernameNotFoundException(<span class="java&#45;quote">"User with email $&#123;userProfile.email&#125; now allowed. Only @example.org accounts are allowed."</span>)
-    &#125;
-&#125;</pre></div><p class="paragraph"/>In case of any OAuth authentication failure, the plugin will redirect back to the frontend application anyway, so it
-has a chance to render a proper error message and/or offer the user the option to try again. In that case, the token
-parameter will be empty, and both <code>error</code> and <code>message</code> params will be appended:<p class="paragraph"/><div class="code"><pre>http://your&#45;frontend&#45;app.com/auth&#45;success.html?token=&#38;error=403&#38;message=User+with+email+jimmy%40gmail.com+now+allowed.+Only+%40example.com+accounts+are+allowed</pre></div><p class="paragraph"/>Below are some examples on how to configure it for Google, Facebook and Twitter.
+    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>If you want to provide your own implementation, define it in <code>resources.groovy</code> with bean name <code>oauthUserDetailsService</code>.
+Make sure you implements the interface <code>OauthUserDetailsService</code><p class="paragraph"/>Below are some examples on how to configure it for Google, Facebook and Twitter.
 
 
 <h2 id="google">7.1 Google</h2>
@@ -191,18 +169,13 @@ Define the following block in your <code>Config.groovy</code>:<p class="paragrap
         springsecurity &#123;<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;<p class="paragraph"/>                oauth &#123;<p class="paragraph"/>                    frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;<p class="paragraph"/>                    google &#123;<p class="paragraph"/>                        client = org.pac4j.oauth.client.Google2Client
                         key = 'xxxx.apps.googleusercontent.com'
                         secret = 'xxx'
-                        scope = org.pac4j.oauth.client.Google2Client.Google2Scope.EMAIL_AND_PROFILE
+                        scope = org.pac4j.oauth.client.Google2Client.Google2Scope.EMAIL
                         defaultRoles = &#91;'ROLE_USER', 'ROLE_GOOGLE'&#93;<p class="paragraph"/>                    &#125;
                 &#125;
             &#125;
         &#125;
     &#125;
-&#125;</pre></div><p class="paragraph"/><blockquote class="warning">
-The <code>scope</code> can be from any value of the enum <code>org.pac4j.oauth.client.Google2Client.Google2Scope</code>. But if you use the
-default <code>OauthUserDetailsService</code>, you need to use <code>EMAIL_AND_PROFILE</code>. That is because the default implementation
-uses the profile ID as the username, and that is only returned by Google if <code>EMAIL_AND_PROFILE</code> scope is used.
-</blockquote>
-
+&#125;</pre></div><p class="paragraph"/>The <code>scope</code> can be from any value of the enum org.pac4j.oauth.client.Google2Client.Google2Scope
 
 
 <h2 id="facebook">7.2 Facebook</h2>

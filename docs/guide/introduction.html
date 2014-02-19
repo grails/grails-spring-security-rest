@@ -97,12 +97,7 @@ function addJsClass() {
                 
 
 <h1 id="introduction">1 Introduction to the Spring Security REST plugin</h1>
-The Spring Security REST Grails plugin allows you to use Spring Security for a stateless, token-based, RESTful authentication.<p class="paragraph"/><blockquote class="note">
-This plugin depends on <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/newInV2.html" target="blank">Spring Security Core 2.x</a>.
-Make sure your application is compatible with that version first. There is a
-<a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues/15" target="blank">feature request</a>, that may be addressed in the
-future if there is enough community interest / love :)
-</blockquote><p class="paragraph"/>The default behaviour of Spring Security is to store the authenticated principal in the HTTP session. However, in a
+The Spring Security REST Grails plugin allows you to use Spring Security for a stateless, token-based, RESTful authentication.<p class="paragraph"/>The default behaviour of Spring Security is to store the authenticated principal in the HTTP session. However, in a
 RESTful scenario, we need to make sure our server is stateless.<p class="paragraph"/>If you are writing an API that will be used by other programs, you can use OAuth for this. But if you are exposing your API
 for a front-end Javascript client to implement a
 <a href="http://www.slideshare.net/alvarosanchezmariscal/developing-spi-applications-using-grails-and-angularjs" target="blank">Single Page Interface</a>,
