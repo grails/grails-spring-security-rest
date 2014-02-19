@@ -1,8 +1,10 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.rendering
 
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+import com.odobo.grails.plugin.springsecurity.rest.oauth.OauthUser
 import grails.test.mixin.TestMixin
 import grails.test.mixin.web.ControllerUnitTestMixin
+import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.codehaus.groovy.grails.commons.GrailsApplication
@@ -14,10 +16,10 @@ import spock.lang.Unroll
 
 @TestMixin(ControllerUnitTestMixin)
 class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
-    def config
-    def setup(){
+
+    def setupSpec() {
         def application = Mock(GrailsApplication)
-        config = new ConfigObject()
+        def config = new ConfigObject()
         application.getConfig() >> config
         ReflectionUtils.application = application
         SpringSecurityUtils.loadSecondaryConfig 'DefaultRestSecurityConfig'
@@ -69,10 +71,18 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         then:
         jsonResult == generatedJson
 
+        cleanup:
+        SpringSecurityUtils.securityConfig.rest.response.usernamePropertyName = "username"
+        SpringSecurityUtils.securityConfig.rest.response.tokenPropertyName = "token"
+        SpringSecurityUtils.securityConfig.rest.response.authoritiesPropertyName = "roles"
+
+
         where:
         roles                                                                       | generatedJson
         [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"login":"john.doe","access_token":"1a2b3c4d","authorities":["ADMIN","USER"]}'
         []                                                                          | '{"login":"john.doe","access_token":"1a2b3c4d","authorities":[]}'
+
+
     }
 
 
@@ -90,4 +100,32 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         then:
         thrown IllegalArgumentException
     }
+
+    @Issue('https://github.com/alvarosanchez/grails-spring-security-rest/issues/33')
+    void "it renders OAuth information if the principal is an OAuthUser"() {
+        given:
+        def username = 'john.doe'
+        def password = 'donttellanybody'
+        def tokenValue = '1a2b3c4d'
+        def roles = [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]
+
+        def profile = new CommonProfile()
+        profile.metaClass.with {
+            getDisplayName = { "John Doe" }
+            getEmail = { "john@doe.com" }
+        }
+
+        def userDetails = new OauthUser(username, password, roles, profile)
+
+        RestAuthenticationToken token = new RestAuthenticationToken(userDetails, password, roles, tokenValue)
+
+        DefaultRestAuthenticationTokenJsonRenderer renderer = new DefaultRestAuthenticationTokenJsonRenderer()
+
+        when:
+        def jsonResult = renderer.generateJson(token)
+
+        then:
+        jsonResult == '{"username":"john.doe","token":"1a2b3c4d","roles":["ADMIN","USER"],"email":"john@doe.com","displayName":"John Doe"}'
+    }
+
 }

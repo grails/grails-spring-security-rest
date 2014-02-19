@@ -2,14 +2,18 @@ package com.odobo.grails.plugin.springsecurity.rest.token.rendering
 
 import grails.plugin.springsecurity.SpringSecurityUtils
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
+import com.odobo.grails.plugin.springsecurity.rest.oauth.OauthUser
 import grails.converters.JSON
 import groovy.util.logging.Slf4j
+import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.util.Assert
 
 /**
- * Generates a JSON response like the following: <code>{"username":"john.doe","token":"1a2b3c4d","roles":["ADMIN","USER"]}</code>
+ * Generates a JSON response like the following: <code>{"username":"john.doe","token":"1a2b3c4d","roles":["ADMIN","USER"]}</code>.
+ * If the principal is an instance of {@link OauthUser}, also "email" ({@link CommonProfile#getEmail()}) and
+ * "displayName" ({@link CommonProfile#getDisplayName()}) will be rendered
  */
 @Slf4j
 class DefaultRestAuthenticationTokenJsonRenderer implements RestAuthenticationTokenJsonRenderer {
@@ -28,6 +32,14 @@ class DefaultRestAuthenticationTokenJsonRenderer implements RestAuthenticationTo
         result["$usernameProperty"] = userDetails.username
         result["$tokenProperty"] = restAuthenticationToken.tokenValue
         result["$authoritiesProperty"] = userDetails.authorities.collect {GrantedAuthority role -> role.authority }
+
+        if (userDetails instanceof OauthUser) {
+            CommonProfile profile = (userDetails as OauthUser).userProfile
+            result.with {
+                email = profile.email
+                displayName = profile.displayName
+            }
+        }
 
         def jsonResult = result as JSON
 
