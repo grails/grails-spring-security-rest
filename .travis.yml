@@ -12,7 +12,7 @@ services: memcached
 
 script: ./test-app.sh
 
-after_success: ./doc.sh
+after_success: if [[ $TRAVIS_BRANCH == "master" ]]; then ./doc.sh; fi
 
 env:
   global:
