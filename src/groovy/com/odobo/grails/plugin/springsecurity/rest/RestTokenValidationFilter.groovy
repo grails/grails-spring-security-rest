@@ -53,9 +53,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
                     log.debug "Authentication result: ${authenticationResult}"
                     SecurityContextHolder.context.setAuthentication(authenticationResult)
 
-                    authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult)
-
-                    processFilterChain(request, response, chain, tokenValue)
+                    processFilterChain(request, response, chain, tokenValue, authenticationResult)
 
                 }
 
@@ -65,12 +63,12 @@ class RestTokenValidationFilter extends GenericFilterBean {
             }
         } else {
             log.debug "Token not found"
-            processFilterChain(request, response, chain, tokenValue)
+            processFilterChain(request, response, chain, tokenValue, null)
         }
 
     }
 
-    private processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, String tokenValue) {
+    private processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, String tokenValue, RestAuthenticationToken authenticationResult) {
         HttpServletRequest servletRequest = request
 
         def actualUri =  servletRequest.requestURI - servletRequest.contextPath
@@ -82,6 +80,8 @@ class RestTokenValidationFilter extends GenericFilterBean {
                 HttpServletResponse servletResponse = response
                 log.debug "Token header is missing. Sending a 400 Bad Request response"
                 servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, "Token header is missing"
+            } else {
+                authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult)
             }
         } else {
             log.debug "Continuing the filter chain"
