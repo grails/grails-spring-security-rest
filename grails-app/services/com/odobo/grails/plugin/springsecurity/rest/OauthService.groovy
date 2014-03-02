@@ -9,7 +9,7 @@ import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import org.pac4j.core.context.WebContext
 import org.pac4j.core.credentials.Credentials
 import org.pac4j.core.profile.CommonProfile
-import org.pac4j.oauth.client.BaseOAuth20Client
+import org.pac4j.oauth.client.BaseOAuthClient
 import org.pac4j.oauth.profile.OAuth20Profile
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -29,12 +29,12 @@ class OauthService {
     OauthUserDetailsService oauthUserDetailsService
 
 
-    BaseOAuth20Client getClient(String provider) {
+    BaseOAuthClient getClient(String provider) {
         log.debug "Creating OAuth client for provider: ${provider}"
         def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
         def ClientClass = providerConfig.client
 
-        BaseOAuth20Client client = ClientClass.newInstance(providerConfig.key, providerConfig.secret)
+        BaseOAuthClient client = ClientClass.newInstance(providerConfig.key, providerConfig.secret)
 
         String callbackUrl = grailsLinkGenerator.link controller: 'oauth', action: 'callback', params: [provider: provider], mapping: 'oauth', absolute: true
         log.debug "Callback URL is: ${callbackUrl}"
@@ -47,7 +47,7 @@ class OauthService {
     }
 
     String storeAuthentication(String provider, WebContext context) {
-        BaseOAuth20Client client = getClient(provider)
+        BaseOAuthClient client = getClient(provider)
         Credentials credentials = client.getCredentials context
 
         log.debug "Querying provider to fetch User ID"
