@@ -1,5 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest.credentials
 
+import grails.plugin.springsecurity.SpringSecurityUtils
+
 import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 
@@ -16,7 +18,13 @@ class DefaultJsonPayloadCredentialsExtractor extends AbstractJsonPayloadCredenti
 
         log.debug "Extracted credentials from request params. Username: ${jsonBody.username}, password: ${jsonBody.password?.size()?'[PROTECTED]':'[MISSING]'}"
 
-        new UsernamePasswordAuthenticationToken(jsonBody.username, jsonBody.password)
+        // Retrieve from configuration username/email configuration
+        def conf = SpringSecurityUtils.securityConfig
+
+        String usernameParam = conf.rest.token.json.usernamePropertyName?:"username"
+        String passwordParam = conf.rest.token.json.passwordPropertyName?:"password"
+
+        new UsernamePasswordAuthenticationToken(jsonBody."$usernameParam", jsonBody."$passwordParam")
     }
 
 }
