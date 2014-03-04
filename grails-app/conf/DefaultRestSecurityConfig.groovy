@@ -11,6 +11,8 @@ security {
             endpointUrl = '/api/login'
             usernameParameter = 'username'
             passwordParameter = 'password'
+            usernamePropertyName = 'username'
+            passwordPropertyName = 'password'
             failureStatusCode = HttpServletResponse.SC_FORBIDDEN
             useRequestParamsCredentials = true
             useJsonCredentials = false

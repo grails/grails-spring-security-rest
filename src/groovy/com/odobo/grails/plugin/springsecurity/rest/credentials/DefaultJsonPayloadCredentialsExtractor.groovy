@@ -21,10 +21,10 @@ class DefaultJsonPayloadCredentialsExtractor extends AbstractJsonPayloadCredenti
         // Retrieve from configuration username/email configuration
         def conf = SpringSecurityUtils.securityConfig
 
-        String usernameParam = conf.rest.token.json.usernamePropertyName?:"username"
-        String passwordParam = conf.rest.token.json.passwordPropertyName?:"password"
+        String usernameParam = conf.rest.login.usernamePropertyName
+        String passwordParam = conf.rest.login.passwordPropertyName
 
-        new UsernamePasswordAuthenticationToken(jsonBody."$usernameParam", jsonBody."$passwordParam")
+        new UsernamePasswordAuthenticationToken(jsonBody."${usernameParam}", jsonBody."${passwordParam}")
     }
 
 }

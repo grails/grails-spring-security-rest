@@ -23,10 +23,12 @@ class CredentialsExtractorTestSpec extends Specification {
 
     void "credentials can be extracted from a JSON request"() {
         given:
-
         def request = new GrailsMockHttpServletRequest()
         request.json = '{"username": "foo", "password": "bar"}'
         def extractor = new DefaultJsonPayloadCredentialsExtractor()
+
+        and: "Spring security configuration"
+        SpringSecurityUtils.loadSecondaryConfig 'DefaultRestSecurityConfig'
 
         when:
         def token = extractor.extractCredentials(request)
@@ -70,16 +72,16 @@ class CredentialsExtractorTestSpec extends Specification {
 
     }
 
-    void "json credentials changed on the configuration"(){
+    void "credentials can be extracted from a JSON request with custom configuration"(){
 
         given:
         def request = new GrailsMockHttpServletRequest()
-        request.json = '{"new_username": "foo", "new_password": "bar"}'
+        request.json = '{"login": "foo", "pwd": "bar"}'
         def extractor = new DefaultJsonPayloadCredentialsExtractor()
 
         and: "Spring security configuration"
-        SpringSecurityUtils.securityConfig.rest.token.json.usernamePropertyName = "new_username"
-        SpringSecurityUtils.securityConfig.rest.token.json.passwordPropertyName = "new_password"
+        SpringSecurityUtils.securityConfig.rest.login.usernamePropertyName = "login"
+        SpringSecurityUtils.securityConfig.rest.login.passwordPropertyName = "pwd"
 
         when:
         def token = extractor.extractCredentials(request)
