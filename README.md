@@ -8,3 +8,11 @@ Grails plugin to implement a stateless, token-based, RESTful authentication usin
 
 * Documentation at [http://alvarosanchez.github.io/grails-spring-security-rest/](http://alvarosanchez.github.io/grails-spring-security-rest/).
 * Javadoc: [http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/index.html](http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/index.html).
+
+Contributors
+------------
+
+* [Alonso Torres](https://github.com/Alotor).
+* [Conall Laverty](https://github.com/conalllaverty).
+* [James Kleeh](https://github.com/Schlogen).
+* [Polawat Phetra](https://github.com/pphetra).
