@@ -57,9 +57,9 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
 
     private sendEmptyRequest(httpMethod) {
         if (config.grails.plugin.springsecurity.rest.login.useRequestParamsCredentials == true) {
-            restBuilder."${httpMethod}"("${baseUrl}/login")
+            restBuilder."${httpMethod}"("${baseUrl}/api/login")
         } else {
-            restBuilder."${httpMethod}"("${baseUrl}/login") {
+            restBuilder."${httpMethod}"("${baseUrl}/api/login") {
                 json {  }
             }
         }

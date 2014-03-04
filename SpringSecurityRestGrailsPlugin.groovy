@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.2.5"
+    String version = "1.3.0"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -65,14 +65,15 @@ class SpringSecurityRestGrailsPlugin {
 
         ///*
         SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.ANONYMOUS_FILTER.order + 1
+        SpringSecurityUtils.registerFilter 'restAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order + 1
         SpringSecurityUtils.registerFilter 'restLogoutFilter', SecurityFilterPosition.LOGOUT_FILTER.order - 1
         SpringSecurityUtils.registerProvider 'restAuthenticationProvider'
 
-        /* authenticationProcessingFilter */
-        authenticationProcessingFilter(RestAuthenticationFilter) {
+        /* restAuthenticationFilter */
+        restAuthenticationFilter(RestAuthenticationFilter) {
             authenticationManager = ref('authenticationManager')
-            authenticationSuccessHandler = ref('authenticationSuccessHandler')
-            authenticationFailureHandler = ref('authenticationFailureHandler')
+            authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
+            authenticationFailureHandler = ref('restAuthenticationFailureHandler')
             authenticationDetailsSource = ref('authenticationDetailsSource')
             credentialsExtractor = ref('credentialsExtractor')
             endpointUrl = conf.rest.login.endpointUrl
@@ -89,10 +90,10 @@ class SpringSecurityRestGrailsPlugin {
             }
         }
 
-        authenticationSuccessHandler(RestAuthenticationSuccessHandler) {
+        restAuthenticationSuccessHandler(RestAuthenticationSuccessHandler) {
             renderer = ref('restAuthenticationTokenJsonRenderer')
         }
-        authenticationFailureHandler(RestAuthenticationFailureHandler) {
+        restAuthenticationFailureHandler(RestAuthenticationFailureHandler) {
             statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_FORBIDDEN
         }
         rememberMeServices(NullRememberMeServices)
@@ -112,8 +113,8 @@ class SpringSecurityRestGrailsPlugin {
         restTokenValidationFilter(RestTokenValidationFilter) {
             headerName = conf.rest.token.validation.headerName
             endpointUrl = conf.rest.token.validation.endpointUrl
-            authenticationSuccessHandler = ref('authenticationSuccessHandler')
-            authenticationFailureHandler = ref('authenticationFailureHandler')
+            authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
+            authenticationFailureHandler = ref('restAuthenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')
         }
 

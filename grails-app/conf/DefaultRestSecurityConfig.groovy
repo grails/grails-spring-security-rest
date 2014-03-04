@@ -8,9 +8,11 @@ security {
 
         login {
 
-            endpointUrl = '/login'
+            endpointUrl = '/api/login'
             usernameParameter = 'username'
             passwordParameter = 'password'
+            usernamePropertyName = 'username'
+            passwordPropertyName = 'password'
             failureStatusCode = HttpServletResponse.SC_FORBIDDEN
             useRequestParamsCredentials = true
             useJsonCredentials = false
@@ -19,7 +21,7 @@ security {
 
         logout {
 
-            endpointUrl = '/logout'
+            endpointUrl = '/api/logout'
 
         }
 
@@ -36,7 +38,7 @@ security {
                 useMemcached = false
 
                 gorm {
-                    tokenDomainClassName = 'AuthenticationToken'
+                    tokenDomainClassName = null
                     tokenValuePropertyName = 'tokenValue'
                     usernamePropertyName = 'username'
                 }
@@ -53,7 +55,7 @@ security {
 
             validation {
                 headerName = 'X-Auth-Token'
-                endpointUrl = '/validate'
+                endpointUrl = '/api/validate'
             }
 
         }

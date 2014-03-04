@@ -1,7 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
@@ -10,7 +10,7 @@ import org.springframework.util.Assert
 /**
  * Authenticates a request based on the token passed. This is called by {@link RestTokenValidationFilter}.
  */
-@Log4j
+@Slf4j
 class RestAuthenticationProvider implements AuthenticationProvider {
 
     TokenStorageService tokenStorageService

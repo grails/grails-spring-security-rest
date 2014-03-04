@@ -1,9 +1,10 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.annotation.Secured
-import org.pac4j.core.client.Client
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext
+import org.pac4j.oauth.client.BaseOAuthClient
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 @Secured(['permitAll'])
 class OauthController {
@@ -18,10 +19,10 @@ class OauthController {
      * allows the frontend application to define the frontend callback URL on demand.
      */
     def authenticate(String provider, String callback) {
-        Client client = oauthService.getClient(provider)
+        BaseOAuthClient client = oauthService.getClient(provider)
         WebContext context = new J2EContext(request, response)
 
-        def redirectionUrl = client.getRedirectionUrl(context, false, false)
+        def redirectionUrl = client.getRedirectionUrl(context, true, false)
 
         if (callback) {
             log.debug "Trying to store in the HTTP session a user specified callback URL: ${callback}"
@@ -44,25 +45,45 @@ class OauthController {
      */
     def callback(String provider) {
         WebContext context = new J2EContext(request, response)
+        def frontendCallbackUrl
+        if (session[CALLBACK_ATTR]) {
+            log.debug "Found callback URL in the HTTP session"
+            frontendCallbackUrl = session[CALLBACK_ATTR]
+        } else {
+            log.debug "Found callback URL in the configuration file"
+            frontendCallbackUrl = grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl
+        }
+
         try {
             String tokenValue = oauthService.storeAuthentication(provider, context)
 
-            def frontendCallbackUrl
-
             if (session[CALLBACK_ATTR]) {
-                log.debug "Found callback URL in the HTTP session"
-                frontendCallbackUrl = session[CALLBACK_ATTR] + tokenValue
+                frontendCallbackUrl += tokenValue
                 session[CALLBACK_ATTR] = null
             } else {
-                log.debug "Found callback URL in the configuration file"
-                frontendCallbackUrl = grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl.call(tokenValue)
+                frontendCallbackUrl = frontendCallbackUrl.call(tokenValue)
             }
 
-            log.debug "Redirecting to ${frontendCallbackUrl}"
-            redirect url: frontendCallbackUrl
         } catch (Exception e) {
-            e.cause.code ? response.sendError(e.cause.code) : response.sendError(500)
+            String errorParams
+
+            if (e instanceof UsernameNotFoundException) {
+                errorParams = "&error=403&message=${e.message?.encodeAsURL()?:''}"
+            } else {
+                errorParams = "&error=${e.cause?.code?:500}&message=${e.message?.encodeAsURL()?:''}"
+            }
+
+            if (session[CALLBACK_ATTR]) {
+                frontendCallbackUrl += errorParams
+                session[CALLBACK_ATTR] = null
+            } else {
+                frontendCallbackUrl = frontendCallbackUrl.call(errorParams)
+            }
+
         }
+
+        log.debug "Redirecting to ${frontendCallbackUrl}"
+        redirect url: frontendCallbackUrl
     }
 
 

@@ -22,5 +22,5 @@ The relevant configuration properties are:
 {table}
 *Config key*                                                            | *Default value*
 @grails.plugin.springsecurity.rest.token.validation.headerName@         | @X-Auth-Token@
-@grails.plugin.springsecurity.rest.token.validation.endpointUrl@        | @/validate@
+@grails.plugin.springsecurity.rest.token.validation.endpointUrl@        | @/api/validate@
 {table}

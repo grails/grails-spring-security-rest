@@ -1,6 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest.credentials
 
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 
 import javax.servlet.http.HttpServletRequest
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest
 /**
  * Extracts credentials from request parameters
  */
-@Log4j
+@Slf4j
 class RequestParamsCredentialsExtractor implements CredentialsExtractor {
 
     String usernameParameter

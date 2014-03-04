@@ -6,6 +6,6 @@ You can configure it in @Config.groovy@ using this properties:
 
 {table}
 *Config key*                                                    | *Default value*
-@grails.plugin.springsecurity.rest.logout.endpointUrl@          | @/logout@
+@grails.plugin.springsecurity.rest.logout.endpointUrl@          | @/api/logout@
 @grails.plugin.springsecurity.rest.token.validation.headerName@ | @X-Auth-Token@
 {table}
