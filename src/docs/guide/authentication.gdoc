@@ -63,6 +63,8 @@ To enable it:
 {table}
 *Config key*                                                    | *Default value*
 @grails.plugin.springsecurity.rest.login.useJsonCredentials@    | @true@
+@grails.plugin.springsecurity.rest.login.usernamePropertyName@  | @username@
+@grails.plugin.springsecurity.rest.login.passwordPropertyName@  | @password@
 {table}
 
 
@@ -73,6 +75,22 @@ The default implementation expects a request like this:
     "username": "john.doe",
     "password": "dontTellAnybody"
 }
+{code}
+
+If you use @usernamePropertyName@ and @passwordPropertyName@ properties mentioned above, your JSON request can look like:
+
+{code}
+{
+    "login": "john.doe",
+    "pwd": "dontTellAnybody"
+}
+{code}
+
+With the following config:
+
+{code}
+grails.plugin.springsecurity.rest.login.usernamePropertyName = 'login'
+grails.plugin.springsecurity.rest.login.passwordPropertyName = 'pwd'
 {code}
 
 If your JSON request format is different, you can plug your own implementation by defining a class which extends
