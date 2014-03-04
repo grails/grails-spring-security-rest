@@ -13,6 +13,7 @@ Contributors
 ------------
 
 * [Alonso Torres](https://github.com/Alotor).
+* [Burt Beckwith](https://github.com/burtbeckwith).
 * [Conall Laverty](https://github.com/conalllaverty).
 * [James Kleeh](https://github.com/Schlogen).
 * [Polawat Phetra](https://github.com/pphetra).
