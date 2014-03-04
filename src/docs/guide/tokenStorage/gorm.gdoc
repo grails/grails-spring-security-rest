@@ -7,10 +7,14 @@ To use GORM, those are the relevant configuration properties:
 {table}
 *Config key*                                                                    | *Default value*
 @grails.plugin.springsecurity.rest.token.storage.useGorm@                       | @false@
-@grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName@     | @AuthenticationToken@
+@grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName@     | @null@
 @grails.plugin.springsecurity.rest.token.storage.gorm.tokenValuePropertyName@   | @tokenValue@
 @grails.plugin.springsecurity.rest.token.storage.gorm.usernamePropertyName@     | @username@
 {table}
+
+{note}
+Please note that for @tokenDomainClassName@ you must enter a fully qualified class name.
+{note}
 
 The domain class should look like this:
 

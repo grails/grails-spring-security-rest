@@ -38,7 +38,7 @@ security {
                 useMemcached = false
 
                 gorm {
-                    tokenDomainClassName = 'AuthenticationToken'
+                    tokenDomainClassName = null
                     tokenValuePropertyName = 'tokenValue'
                     usernamePropertyName = 'username'
                 }
