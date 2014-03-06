@@ -62,7 +62,7 @@ To enable it:
 
 {table}
 *Config key*                                                    | *Default value*
-@grails.plugin.springsecurity.rest.login.useJsonCredentials@    | @true@
+@grails.plugin.springsecurity.rest.login.useJsonCredentials@    | @false@
 @grails.plugin.springsecurity.rest.login.usernamePropertyName@  | @username@
 @grails.plugin.springsecurity.rest.login.passwordPropertyName@  | @password@
 {table}
