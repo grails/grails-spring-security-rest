@@ -19,6 +19,12 @@ security {
 
         }
 
+        response {
+            usernamePropertyName = 'username'
+            tokenPropertyName = 'token'
+            authoritiesPropertyName = 'roles'
+        }
+
         logout {
 
             endpointUrl = '/api/logout'

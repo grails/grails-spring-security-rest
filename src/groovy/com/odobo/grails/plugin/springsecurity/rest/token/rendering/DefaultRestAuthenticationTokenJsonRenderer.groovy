@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.rendering
 
+import grails.plugin.springsecurity.SpringSecurityUtils
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
 import grails.converters.JSON
 import groovy.util.logging.Slf4j
@@ -17,10 +18,16 @@ class DefaultRestAuthenticationTokenJsonRenderer implements RestAuthenticationTo
         Assert.isInstanceOf(UserDetails, restAuthenticationToken.principal, "A UserDetails implementation is required")
         UserDetails userDetails = restAuthenticationToken.principal
 
-        def result = [
-            username: userDetails.username,
-            token: restAuthenticationToken.tokenValue,
-            roles: userDetails.authorities.collect {GrantedAuthority role -> role.authority }]
+        def conf = SpringSecurityUtils.securityConfig
+
+        String usernameProperty = conf.rest.response.usernamePropertyName
+        String tokenProperty = conf.rest.response.tokenPropertyName
+        String authoritiesProperty = conf.rest.response.authoritiesPropertyName
+
+        def result = [:]
+        result["$usernameProperty"] = userDetails.username
+        result["$tokenProperty"] = restAuthenticationToken.tokenValue
+        result["$authoritiesProperty"] = userDetails.authorities.collect {GrantedAuthority role -> role.authority }
 
         def jsonResult = result as JSON
 
