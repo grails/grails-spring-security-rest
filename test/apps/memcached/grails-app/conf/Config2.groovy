@@ -150,6 +150,8 @@ grails {
                     passwordParameter = 'password'
                     useJsonCredentials = true
 
+                    failureStatusCode = 401
+
                 }
 
                 token {

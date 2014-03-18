@@ -22,14 +22,14 @@ class ValidateEndpointSpec extends AbstractRestSpec {
         response.json.roles.size() == 2
     }
 
-    void "calling /api/validate with an invalid token returns 403"() {
+    void "calling /api/validate with an invalid token returns 401"() {
         when:
         def response = restBuilder.get("${baseUrl}/api/validate") {
             header 'X-Auth-Token', 'something-else'
         }
 
         then:
-        response.status == 403
+        response.status == 401
     }
 
     void "calling /api/validate without token returns 400"() {
