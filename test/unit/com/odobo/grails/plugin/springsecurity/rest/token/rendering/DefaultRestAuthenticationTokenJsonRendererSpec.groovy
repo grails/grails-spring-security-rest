@@ -61,9 +61,9 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         DefaultRestAuthenticationTokenJsonRenderer renderer = new DefaultRestAuthenticationTokenJsonRenderer()
 
         and: "Spring security configuration"
-        SpringSecurityUtils.securityConfig.rest.response.usernamePropertyName = "login"
-        SpringSecurityUtils.securityConfig.rest.response.tokenPropertyName = "access_token"
-        SpringSecurityUtils.securityConfig.rest.response.authoritiesPropertyName = "authorities"
+        SpringSecurityUtils.securityConfig.rest.token.rendering.usernamePropertyName = "login"
+        SpringSecurityUtils.securityConfig.rest.token.rendering.tokenPropertyName = "access_token"
+        SpringSecurityUtils.securityConfig.rest.token.rendering.authoritiesPropertyName = "authorities"
 
         when:
         def jsonResult = renderer.generateJson(token)
@@ -72,9 +72,9 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         jsonResult == generatedJson
 
         cleanup:
-        SpringSecurityUtils.securityConfig.rest.response.usernamePropertyName = "username"
-        SpringSecurityUtils.securityConfig.rest.response.tokenPropertyName = "token"
-        SpringSecurityUtils.securityConfig.rest.response.authoritiesPropertyName = "roles"
+        SpringSecurityUtils.securityConfig.rest.token.rendering.usernamePropertyName = "username"
+        SpringSecurityUtils.securityConfig.rest.token.rendering.tokenPropertyName = "token"
+        SpringSecurityUtils.securityConfig.rest.token.rendering.authoritiesPropertyName = "roles"
 
 
         where:

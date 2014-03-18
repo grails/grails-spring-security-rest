@@ -7,28 +7,18 @@ security {
         active = true
 
         login {
-
             endpointUrl = '/api/login'
             usernameParameter = 'username'
             passwordParameter = 'password'
             usernamePropertyName = 'username'
             passwordPropertyName = 'password'
-            failureStatusCode = HttpServletResponse.SC_FORBIDDEN
+            failureStatusCode = HttpServletResponse.SC_FORBIDDEN    //403
             useRequestParamsCredentials = true
             useJsonCredentials = false
-
-        }
-
-        response {
-            usernamePropertyName = 'username'
-            tokenPropertyName = 'token'
-            authoritiesPropertyName = 'roles'
         }
 
         logout {
-
             endpointUrl = '/api/logout'
-
         }
 
         token {
@@ -39,7 +29,6 @@ security {
             }
 
             storage {
-
                 useGorm = false
                 useMemcached = false
 
@@ -64,8 +53,11 @@ security {
                 endpointUrl = '/api/validate'
             }
 
+            rendering {
+                usernamePropertyName = 'username'
+                tokenPropertyName = 'token'
+                authoritiesPropertyName = 'roles'
+            }
         }
-
     }
-
 }

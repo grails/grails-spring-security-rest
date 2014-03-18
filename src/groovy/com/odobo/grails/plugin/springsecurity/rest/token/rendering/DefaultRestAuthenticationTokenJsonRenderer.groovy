@@ -24,9 +24,9 @@ class DefaultRestAuthenticationTokenJsonRenderer implements RestAuthenticationTo
 
         def conf = SpringSecurityUtils.securityConfig
 
-        String usernameProperty = conf.rest.response.usernamePropertyName
-        String tokenProperty = conf.rest.response.tokenPropertyName
-        String authoritiesProperty = conf.rest.response.authoritiesPropertyName
+        String usernameProperty = conf.rest.token.rendering.usernamePropertyName
+        String tokenProperty = conf.rest.token.rendering.tokenPropertyName
+        String authoritiesProperty = conf.rest.token.rendering.authoritiesPropertyName
 
         def result = [:]
         result["$usernameProperty"] = userDetails.username
