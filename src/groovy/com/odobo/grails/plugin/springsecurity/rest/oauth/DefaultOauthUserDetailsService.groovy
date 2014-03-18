@@ -1,8 +1,8 @@
 package com.odobo.grails.plugin.springsecurity.rest.oauth
 
 import groovy.util.logging.Slf4j
+import org.pac4j.core.profile.CommonProfile
 import org.pac4j.core.profile.UserProfile
-import org.pac4j.oauth.profile.OAuth20Profile
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -19,7 +19,7 @@ class DefaultOauthUserDetailsService implements OauthUserDetailsService {
     @Delegate
     UserDetailsService userDetailsService
 
-    OauthUser loadUserByUserProfile(OAuth20Profile userProfile, Collection<GrantedAuthority> defaultRoles)
+    OauthUser loadUserByUserProfile(CommonProfile userProfile, Collection<GrantedAuthority> defaultRoles)
             throws UsernameNotFoundException {
         UserDetails userDetails
         OauthUser oauthUser

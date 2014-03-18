@@ -24,7 +24,7 @@ class RestLogoutFilterSpec extends AbstractRestSpec {
         }
 
         then:
-        response.status == 403
+        response.status == 401
     }
 
     void "logout filter returns 404 if token is not found"() {

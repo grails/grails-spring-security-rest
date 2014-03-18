@@ -56,7 +56,7 @@ class OauthService {
 
         def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
         List defaultRoles = providerConfig.defaultRoles.collect { new SimpleGrantedAuthority(it) }
-        OauthUser userDetails = oauthUserDetailsService.loadUserByUserProfile(profile as OAuth20Profile, defaultRoles)
+        OauthUser userDetails = oauthUserDetailsService.loadUserByUserProfile(profile, defaultRoles)
 
         String tokenValue = tokenGenerator.generateToken()
         log.debug "Generated REST authentication token: ${tokenValue}"

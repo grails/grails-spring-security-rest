@@ -22,6 +22,36 @@ that renders a response like this:
 }
 {code}
 
+This format can be customised with the following configuration keys:
+
+{table}
+*Config key*                                                                    | *Default value*
+@grails.plugin.springsecurity.rest.token.rendering.usernamePropertyName@        | @username@
+@grails.plugin.springsecurity.rest.token.rendering.tokenPropertyName@           | @token@
+@grails.plugin.springsecurity.rest.token.rendering.authoritiesPropertyName@     | @roles@
+{table}
+
+Eg, with the following configuration:
+
+{code}
+grails.plugin.springsecurity.rest.token.rendering.usernamePropertyName = 'login'
+grails.plugin.springsecurity.rest.token.rendering.tokenPropertyName = 'access_token'
+grails.plugin.springsecurity.rest.token.rendering.authoritiesPropertyName = 'permissions'
+{code}
+
+The output will look like:
+
+{code}
+{
+    "login": "john.doe",
+    "access_token": "1a2b3c4d",
+    "permissions": [
+        "ADMIN",
+        "USER"
+    ]
+}
+{code}
+
 If you want your own, simply create a class implementing
 [RestAuthenticationTokenJsonRenderer|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/rendering/RestAuthenticationTokenJsonRenderer.html]
 and wire it up in @resources.groovy@ with name @restAuthenticationTokenJsonRenderer@.
@@ -41,6 +71,15 @@ The following are the @Config.groovy@ properties available:
 @grails.plugin.springsecurity.rest.login.endpointUrl@       | @/api/login@
 @grails.plugin.springsecurity.rest.login.failureStatusCode@ | @403@
 {table}
+
+{note}
+This authentication filter will only be applied to the above configured URL. In the rest of the cases, the request will
+continue through the filter chain, reaching Spring Security Core filters. Bear in mind that, by default, Spring Security
+Core 2.x locks down all URL's unless a explicit securiy rule has been specified for each of them.
+
+See [Spring Security Core documentation|http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/single.html#requestMappings]
+for more information.
+{note}
 
 h2. Extracting credentials from the request
 
@@ -62,7 +101,7 @@ To enable it:
 
 {table}
 *Config key*                                                    | *Default value*
-@grails.plugin.springsecurity.rest.login.useJsonCredentials@    | @true@
+@grails.plugin.springsecurity.rest.login.useJsonCredentials@    | @false@
 @grails.plugin.springsecurity.rest.login.usernamePropertyName@  | @username@
 @grails.plugin.springsecurity.rest.login.passwordPropertyName@  | @password@
 {table}

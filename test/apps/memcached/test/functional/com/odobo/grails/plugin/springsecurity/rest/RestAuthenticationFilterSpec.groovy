@@ -29,7 +29,7 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
         def response = restBuilder."${httpMethod}"("${baseUrl}/nothingHere")
 
         then:
-        response.status == 403      // all URLs are locked down by default
+        response.status == 403      // all URLs are locked down by default in Spring Security Core
 
         where:
         httpMethod << ['get', 'post', 'put', 'delete']
@@ -41,7 +41,7 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
         def response = sendWrongCredentials()
 
         then:
-        response.status == 403
+        response.status == 401
     }
 
     void "authentication attempt with correct credentials returns a valid status code"() {
