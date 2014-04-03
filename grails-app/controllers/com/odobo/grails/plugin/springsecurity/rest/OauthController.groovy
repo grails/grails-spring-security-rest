@@ -1,6 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.annotation.Secured
+import org.pac4j.core.client.RedirectAction
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext
 import org.pac4j.oauth.client.BaseOAuthClient
@@ -22,7 +23,7 @@ class OauthController {
         BaseOAuthClient client = oauthService.getClient(provider)
         WebContext context = new J2EContext(request, response)
 
-        def redirectionUrl = client.getRedirectionUrl(context, true, false)
+        RedirectAction redirectAction = client.getRedirectAction(context, true, false)
 
         if (callback) {
             log.debug "Trying to store in the HTTP session a user specified callback URL: ${callback}"
@@ -34,8 +35,8 @@ class OauthController {
             }
         }
 
-        log.debug "Redirecting to ${redirectionUrl}"
-        redirect url: redirectionUrl
+        log.debug "Redirecting to ${redirectAction.location}"
+        redirect url: redirectAction.location
     }
 
     /**
