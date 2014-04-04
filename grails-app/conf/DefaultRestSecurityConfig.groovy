@@ -12,7 +12,7 @@ security {
             passwordParameter = 'password'
             usernamePropertyName = 'username'
             passwordPropertyName = 'password'
-            failureStatusCode = HttpServletResponse.SC_FORBIDDEN    //403
+            failureStatusCode = HttpServletResponse.SC_UNAUTHORIZED    //401
             useRequestParamsCredentials = true
             useJsonCredentials = false
         }

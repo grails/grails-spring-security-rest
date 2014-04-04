@@ -69,7 +69,7 @@ The following are the @Config.groovy@ properties available:
 {table}
 *Config key*                                                | *Default value*
 @grails.plugin.springsecurity.rest.login.endpointUrl@       | @/api/login@
-@grails.plugin.springsecurity.rest.login.failureStatusCode@ | @403@
+@grails.plugin.springsecurity.rest.login.failureStatusCode@ | @401@
 {table}
 
 {note}
