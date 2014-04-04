@@ -55,6 +55,14 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
         response.json.roles.size() == 2
     }
 
+    void "the content type header is properly set"() {
+        when:
+        RestResponse response = sendCorrectCredentials()
+
+        then:
+        response.headers.get('Content-Type').first() == 'application/json;charset=UTF-8'
+    }
+
     private sendEmptyRequest(httpMethod) {
         if (config.grails.plugin.springsecurity.rest.login.useRequestParamsCredentials == true) {
             restBuilder."${httpMethod}"("${baseUrl}/api/login")
