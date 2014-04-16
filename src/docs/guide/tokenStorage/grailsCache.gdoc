@@ -1,0 +1,8 @@
+To use [Grails Cache|http://grails.org/plugin/cache], simply define a cache name using the following configuration property:
+
+{table}
+*Config key*                                                            | *Default value*
+@grails.plugin.springsecurity.rest.token.storage.grailsCacheName@       | @null@
+{table}
+
+The cache name should correspond to a name specified in the [cache DSL|http://grails-plugins.github.io/grails-cache/docs/manual/guide/usage.html#dsl].
