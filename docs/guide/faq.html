@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>9 Frequently Asked Questions 1.3.2</title>
+    <title>9 Frequently Asked Questions 1.3.3</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -87,7 +87,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
-                    <p><strong>Version:</strong> 1.3.2</p>
+                    <p><strong>Version:</strong> 1.3.3</p>
 
                     
                 </div>
@@ -99,7 +99,7 @@ function addJsClass() {
 <h1 id="faq">9 Frequently Asked Questions</h1>
 <h2>Why this token-based implementation? Can't I use HTTP basic authentication?</h2><p class="paragraph"/>In theory you can. The only restriction to be truly stateless is to not use HTTP sessions at all. So if you go with
 basic authentication, you need to transfer the credentials back and forth every time.<p class="paragraph"/>Let's think about that. Keep in mind that your frontend is a pure HTML/Javascript application, consuming a REST API
-from the Grails side. So the first time, the Javascript application will make an API query and will receive a 403 response
+from the Grails side. So the first time, the Javascript application will make an API query and will receive a 401 response
 indicating that authentication is required. Then you present the user a form to enter credentials, you grab them, <strong class="bold">encode</strong>
 them with Base64 and in the next request, you send an HTTP header like <code>Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==</code>.<p class="paragraph"/>Now remember you are doing RESTful application, so the session state is maintained in the client. That means that you
 would need to store that Base64 encoded string somewhere: cookies? HTML5 local storage? In any case, they are accessible
