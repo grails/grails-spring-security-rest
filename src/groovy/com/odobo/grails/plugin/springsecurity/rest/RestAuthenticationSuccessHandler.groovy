@@ -23,6 +23,8 @@ class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
      * @param authentication the <tt>Authentication</tt> object which was created during the authentication process.
      */
     void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        response.contentType = 'application/json'
+        response.characterEncoding = 'UTF-8'
         response << renderer.generateJson(authentication)
     }
 }

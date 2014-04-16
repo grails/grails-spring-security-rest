@@ -4,7 +4,7 @@ In theory you can. The only restriction to be truly stateless is to not use HTTP
 basic authentication, you need to transfer the credentials back and forth every time.
 
 Let's think about that. Keep in mind that your frontend is a pure HTML/Javascript application, consuming a REST API
-from the Grails side. So the first time, the Javascript application will make an API query and will receive a 403 response
+from the Grails side. So the first time, the Javascript application will make an API query and will receive a 401 response
 indicating that authentication is required. Then you present the user a form to enter credentials, you grab them, *encode*
 them with Base64 and in the next request, you send an HTTP header like @Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==@.
 

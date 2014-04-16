@@ -42,7 +42,6 @@ grails.project.dependency.resolution = {
         mavenCentral()
 
         mavenRepo 'http://repo.spring.io/milestone' // TODO remove
-        mavenRepo 'https://oss.sonatype.org/content/repositories/snapshots'
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
