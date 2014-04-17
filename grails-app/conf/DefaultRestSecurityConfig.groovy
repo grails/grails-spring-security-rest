@@ -31,6 +31,7 @@ security {
             storage {
                 useGorm = false
                 useMemcached = false
+                useGrailsCache = false
 
                 gorm {
                     tokenDomainClassName = null

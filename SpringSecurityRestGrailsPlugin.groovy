@@ -144,12 +144,18 @@ class SpringSecurityRestGrailsPlugin {
                 memcachedClient = ref('memcachedClient')
                 expiration = conf.rest.token.storage.memcached.expiration
             }
-        } else if (conf.rest.token.storage.grailsCacheName) {
+        } else if (conf.rest.token.storage.useGrailsCache) {
             tokenStorageService(GrailsCacheTokenStorageService) {
                 grailsCacheManager = ref('grailsCacheManager')
                 cacheName = conf.rest.token.storage.grailsCacheName
             }
+        } else if (conf.rest.token.storage.useGorm) {
+            tokenStorageService(GormTokenStorageService) {
+                userDetailsService = ref('userDetailsService')
+            }
         } else {
+            println """WARNING: token storage strategy is not explicitly set. Falling back to GORM.
+Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/guide/tokenStorage.html for more details"""
             tokenStorageService(GormTokenStorageService) {
                 userDetailsService = ref('userDetailsService')
             }
