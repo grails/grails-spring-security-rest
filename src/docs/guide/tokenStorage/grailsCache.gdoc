@@ -1,7 +1,8 @@
-To use [Grails Cache|http://grails.org/plugin/cache], simply define a cache name using the following configuration property:
+To use [Grails Cache|http://grails.org/plugin/cache], simply define a cache name:
 
 {table}
 *Config key*                                                            | *Default value*
+@grails.plugin.springsecurity.rest.token.storage.useGrailsCache@        | @false@
 @grails.plugin.springsecurity.rest.token.storage.grailsCacheName@       | @null@
 {table}
 

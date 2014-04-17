@@ -1,16 +1,20 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.storage
 
 import groovy.util.logging.Slf4j
+import org.springframework.cache.Cache
 
 import javax.annotation.PostConstruct
 
+/**
+ * Uses <a href="http://grails.org/plugin/cache">Grails Cache plugin</a> to store and retrieve tokens.
+ */
 @Slf4j
 class GrailsCacheTokenStorageService implements TokenStorageService {
 
     def grailsCacheManager
-    def cacheName
+    String cacheName
 
-    private cache
+    Cache cache
 
     @Override
     void storeToken(String tokenValue, Object principal) {
