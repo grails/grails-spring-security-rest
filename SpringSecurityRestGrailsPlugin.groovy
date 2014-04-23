@@ -6,6 +6,7 @@ import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandom
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import net.spy.memcached.DefaultHashAlgorithm
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.3.3"
+    String version = "1.3.4"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -143,7 +144,18 @@ class SpringSecurityRestGrailsPlugin {
                 memcachedClient = ref('memcachedClient')
                 expiration = conf.rest.token.storage.memcached.expiration
             }
+        } else if (conf.rest.token.storage.useGrailsCache) {
+            tokenStorageService(GrailsCacheTokenStorageService) {
+                grailsCacheManager = ref('grailsCacheManager')
+                cacheName = conf.rest.token.storage.grailsCacheName
+            }
+        } else if (conf.rest.token.storage.useGorm) {
+            tokenStorageService(GormTokenStorageService) {
+                userDetailsService = ref('userDetailsService')
+            }
         } else {
+            println """WARNING: token storage strategy is not explicitly set. Falling back to GORM.
+Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/guide/tokenStorage.html for more details"""
             tokenStorageService(GormTokenStorageService) {
                 userDetailsService = ref('userDetailsService')
             }

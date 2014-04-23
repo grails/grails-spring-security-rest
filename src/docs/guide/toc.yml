@@ -7,6 +7,7 @@ tokenStorage:
   title: Token Storage
   memcached: Memcached
   gorm: GORM
+  grailsCache: Grails Cache
 tokenValidation: Token Validation Filter
 cors: CORS support
 oauth:
