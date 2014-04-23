@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>4.1 Memcached 1.3.4</title>
+    <title>4.3 Grails Cache 1.3.4</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -85,7 +85,7 @@ function addJsClass() {
 
 
                 <div class="project">
-                    <h1>4.1 Memcached - Reference Documentation</h1>
+                    <h1>4.3 Grails Cache - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
@@ -98,9 +98,9 @@ function addJsClass() {
 
                 
 
-<h2 id="memcached">4.1 Memcached</h2>
-To use Memcached, simply define the following configuration properties to match your environments accordingly:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useMemcached</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.memcached.hosts</code></td><td><code>localhost:11211</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.memcached.username</code></td><td><code>''</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.memcached.password</code></td><td><code>''</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.memcached.expiration</code></td><td><code>3600</code></td></tr></table><p class="paragraph"/>For development, if you have Memcached installed locally with the default settings, just define
-<code>grails.plugin.springsecurity.rest.token.storage.useMemcached = true</code>. It should work.
+<h2 id="grailsCache">4.3 Grails Cache</h2>
+To use <a href="http://grails.org/plugin/cache" target="blank">Grails Cache</a>, simply define a cache name:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useGrailsCache</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.grailsCacheName</code></td><td><code>null</code></td></tr></table><p class="paragraph"/>The cache name should correspond to a name specified in the <a href="http://grails-plugins.github.io/grails-cache/docs/manual/guide/usage.html#dsl" target="blank">cache DSL</a>.
+
 
 
                 <div style="clear:both;margin-top:15px;"></div>
