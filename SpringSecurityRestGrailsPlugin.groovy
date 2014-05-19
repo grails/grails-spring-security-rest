@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.3.4"
+    String version = "1.3.5-SNAPSHOT"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -65,38 +65,51 @@ class SpringSecurityRestGrailsPlugin {
         }
 
         ///*
-        SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.ANONYMOUS_FILTER.order + 1
-        SpringSecurityUtils.registerFilter 'restAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order + 1
-        SpringSecurityUtils.registerFilter 'restLogoutFilter', SecurityFilterPosition.LOGOUT_FILTER.order - 1
         SpringSecurityUtils.registerProvider 'restAuthenticationProvider'
 
         /* restAuthenticationFilter */
-        restAuthenticationFilter(RestAuthenticationFilter) {
-            authenticationManager = ref('authenticationManager')
-            authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
-            authenticationFailureHandler = ref('restAuthenticationFailureHandler')
-            authenticationDetailsSource = ref('authenticationDetailsSource')
-            credentialsExtractor = ref('credentialsExtractor')
-            endpointUrl = conf.rest.login.endpointUrl
-            tokenGenerator = ref('tokenGenerator')
-            tokenStorageService = ref('tokenStorageService')
-        }
+        if(conf.rest.login.enabled) {
+            SpringSecurityUtils.registerFilter 'restAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order + 1
+            SpringSecurityUtils.registerFilter 'restLogoutFilter', SecurityFilterPosition.LOGOUT_FILTER.order - 1
 
-        if (conf.rest.login.useJsonCredentials) {
-            credentialsExtractor(DefaultJsonPayloadCredentialsExtractor)
-        } else if (conf.rest.login.useRequestParamsCredentials) {
-            credentialsExtractor(RequestParamsCredentialsExtractor) {
-                usernameParameter = conf.rest.login.usernameParameter // j_username
-                passwordParameter = conf.rest.login.passwordParameter // j_password
+            restAuthenticationFilter(RestAuthenticationFilter) {
+                authenticationManager = ref('authenticationManager')
+                authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
+                authenticationFailureHandler = ref('restAuthenticationFailureHandler')
+                authenticationDetailsSource = ref('authenticationDetailsSource')
+                credentialsExtractor = ref('credentialsExtractor')
+                endpointUrl = conf.rest.login.endpointUrl
+                tokenGenerator = ref('tokenGenerator')
+                tokenStorageService = ref('tokenStorageService')
+            }
+
+            if (conf.rest.login.useJsonCredentials) {
+                credentialsExtractor(DefaultJsonPayloadCredentialsExtractor)
+            } else if (conf.rest.login.useRequestParamsCredentials) {
+                credentialsExtractor(RequestParamsCredentialsExtractor) {
+                    usernameParameter = conf.rest.login.usernameParameter // j_username
+                    passwordParameter = conf.rest.login.passwordParameter // j_password
+                }
+            }
+
+            restAuthenticationSuccessHandler(RestAuthenticationSuccessHandler) {
+                renderer = ref('restAuthenticationTokenJsonRenderer')
+            }
+            restAuthenticationFailureHandler(RestAuthenticationFailureHandler) {
+                statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_FORBIDDEN
+            }
+
+            /* restAuthenticationTokenJsonRenderer */
+            restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer)
+
+            /* restLogoutFilter */
+            restLogoutFilter(RestLogoutFilter) {
+                endpointUrl = conf.rest.logout.endpointUrl
+                headerName = conf.rest.token.validation.headerName
+                tokenStorageService = ref('tokenStorageService')
             }
         }
 
-        restAuthenticationSuccessHandler(RestAuthenticationSuccessHandler) {
-            renderer = ref('restAuthenticationTokenJsonRenderer')
-        }
-        restAuthenticationFailureHandler(RestAuthenticationFailureHandler) {
-            statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_FORBIDDEN
-        }
         rememberMeServices(NullRememberMeServices)
         exceptionTranslationFilter(ExceptionTranslationFilter, ref('authenticationEntryPoint'), ref('requestCache')) {
             accessDeniedHandler = ref('accessDeniedHandler')
@@ -111,12 +124,16 @@ class SpringSecurityRestGrailsPlugin {
         securityContextRepository(NullSecurityContextRepository)
 
         /* restTokenValidationFilter */
-        restTokenValidationFilter(RestTokenValidationFilter) {
-            headerName = conf.rest.token.validation.headerName
-            endpointUrl = conf.rest.token.validation.endpointUrl
-            authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
-            authenticationFailureHandler = ref('restAuthenticationFailureHandler')
-            restAuthenticationProvider = ref('restAuthenticationProvider')
+        if(conf.rest.token.validation.enabled && conf.rest.login.enabled) {
+            SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.ANONYMOUS_FILTER.order + 1
+
+            restTokenValidationFilter(RestTokenValidationFilter) {
+                headerName = conf.rest.token.validation.headerName
+                endpointUrl = conf.rest.token.validation.endpointUrl
+                authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
+                authenticationFailureHandler = ref('restAuthenticationFailureHandler')
+                restAuthenticationProvider = ref('restAuthenticationProvider')
+	        }
         }
 
         /* tokenStorageService */
@@ -166,16 +183,6 @@ Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/gui
 
         /* restAuthenticationProvider */
         restAuthenticationProvider(RestAuthenticationProvider) {
-            tokenStorageService = ref('tokenStorageService')
-        }
-
-        /* restAuthenticationTokenJsonRenderer */
-        restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer)
-
-        /* restLogoutFilter */
-        restLogoutFilter(RestLogoutFilter) {
-            endpointUrl = conf.rest.logout.endpointUrl
-            headerName = conf.rest.token.validation.headerName
             tokenStorageService = ref('tokenStorageService')
         }
 
