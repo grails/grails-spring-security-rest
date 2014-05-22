@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.3.5-SNAPSHOT"
+    String version = "1.3.4"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -92,22 +92,22 @@ class SpringSecurityRestGrailsPlugin {
                 }
             }
 
-            restAuthenticationSuccessHandler(RestAuthenticationSuccessHandler) {
-                renderer = ref('restAuthenticationTokenJsonRenderer')
-            }
-            restAuthenticationFailureHandler(RestAuthenticationFailureHandler) {
-                statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_FORBIDDEN
-            }
-
-            /* restAuthenticationTokenJsonRenderer */
-            restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer)
-
             /* restLogoutFilter */
             restLogoutFilter(RestLogoutFilter) {
                 endpointUrl = conf.rest.logout.endpointUrl
                 headerName = conf.rest.token.validation.headerName
                 tokenStorageService = ref('tokenStorageService')
             }
+        }
+
+        /* restAuthenticationTokenJsonRenderer */
+        restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer)
+
+        restAuthenticationSuccessHandler(RestAuthenticationSuccessHandler) {
+            renderer = ref('restAuthenticationTokenJsonRenderer')
+        }
+        restAuthenticationFailureHandler(RestAuthenticationFailureHandler) {
+            statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_FORBIDDEN
         }
 
         rememberMeServices(NullRememberMeServices)
@@ -124,16 +124,15 @@ class SpringSecurityRestGrailsPlugin {
         securityContextRepository(NullSecurityContextRepository)
 
         /* restTokenValidationFilter */
-        if(conf.rest.token.validation.enabled && conf.rest.login.enabled) {
-            SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.ANONYMOUS_FILTER.order + 1
+        SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.ANONYMOUS_FILTER.order + 1
 
-            restTokenValidationFilter(RestTokenValidationFilter) {
-                headerName = conf.rest.token.validation.headerName
-                endpointUrl = conf.rest.token.validation.endpointUrl
-                authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
-                authenticationFailureHandler = ref('restAuthenticationFailureHandler')
-                restAuthenticationProvider = ref('restAuthenticationProvider')
-	        }
+        restTokenValidationFilter(RestTokenValidationFilter) {
+            headerName = conf.rest.token.validation.headerName
+            endpointUrl = conf.rest.token.validation.endpointUrl
+            enabled = conf.rest.token.validation.enabled
+            authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
+            authenticationFailureHandler = ref('restAuthenticationFailureHandler')
+            restAuthenticationProvider = ref('restAuthenticationProvider')
         }
 
         /* tokenStorageService */

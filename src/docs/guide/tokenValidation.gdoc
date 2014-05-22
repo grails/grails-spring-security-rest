@@ -15,7 +15,7 @@ h2. Validation Endpoint
 There is also an endpoint available that you can call in case you want to know if a given token is valid. It looks for
 the token in a HTTP header as well, and if the token is still valid, it renders [its JSON representation|guide:authentication].
 If the token does not exist, it will render a @grails.plugin.springsecurity.rest.login.failureStatusCode@ response
-(@401@ by default).
+(@401@ by default). The validation endpoint can be disabled with the corresponding option.
 
 The relevant configuration properties are:
 
@@ -23,4 +23,5 @@ The relevant configuration properties are:
 *Config key*                                                            | *Default value*
 @grails.plugin.springsecurity.rest.token.validation.headerName@         | @X-Auth-Token@
 @grails.plugin.springsecurity.rest.token.validation.endpointUrl@        | @/api/validate@
+@grails.plugin.springsecurity.rest.token.validation.enabled@            | @true@
 {table}
