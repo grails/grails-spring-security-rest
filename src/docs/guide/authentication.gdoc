@@ -70,12 +70,14 @@ The following are the @Config.groovy@ properties available:
 *Config key*                                                | *Default value*
 @grails.plugin.springsecurity.rest.login.endpointUrl@       | @/api/login@
 @grails.plugin.springsecurity.rest.login.failureStatusCode@ | @401@
+@grails.plugin.springsecurity.rest.login.enabled@           | @true@
 {table}
 
 {note}
-This authentication filter will only be applied to the above configured URL. In the rest of the cases, the request will
-continue through the filter chain, reaching Spring Security Core filters. Bear in mind that, by default, Spring Security
-Core 2.x locks down all URL's unless a explicit securiy rule has been specified for each of them.
+This authentication filter will only be applied to the above configured URL and can also be disabled, in case a different approach
+for token creation is followed. In the rest of the cases, the request will continue through the filter chain, reaching Spring Security
+Core filters. Bear in mind that, by default, Spring Security Core 2.x locks down all URL's unless a explicit securiy rule has been
+specified for each of them.
 
 See [Spring Security Core documentation|http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/single.html#requestMappings]
 for more information.

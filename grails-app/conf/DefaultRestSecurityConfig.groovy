@@ -7,6 +7,7 @@ security {
         active = true
 
         login {
+            enabled = true
             endpointUrl = '/api/login'
             usernameParameter = 'username'
             passwordParameter = 'password'
@@ -50,6 +51,7 @@ security {
             }
 
             validation {
+                enabled = true
                 headerName = 'X-Auth-Token'
                 endpointUrl = '/api/validate'
             }
