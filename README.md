@@ -19,3 +19,4 @@ Contributors
 * [Dhiraj Mahapatro](https://github.com/dmahapatro).
 * [James Kleeh](https://github.com/Schlogen).
 * [Polawat Phetra](https://github.com/pphetra).
+* [Victor Saar](https://github.com/vsaar)
