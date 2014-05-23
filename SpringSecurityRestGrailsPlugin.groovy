@@ -68,7 +68,7 @@ class SpringSecurityRestGrailsPlugin {
         SpringSecurityUtils.registerProvider 'restAuthenticationProvider'
 
         /* restAuthenticationFilter */
-        if(conf.rest.login.enabled) {
+        if(conf.rest.login.active) {
             SpringSecurityUtils.registerFilter 'restAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order + 1
             SpringSecurityUtils.registerFilter 'restLogoutFilter', SecurityFilterPosition.LOGOUT_FILTER.order - 1
 
@@ -129,7 +129,7 @@ class SpringSecurityRestGrailsPlugin {
         restTokenValidationFilter(RestTokenValidationFilter) {
             headerName = conf.rest.token.validation.headerName
             endpointUrl = conf.rest.token.validation.endpointUrl
-            enabled = conf.rest.token.validation.enabled
+            active = conf.rest.token.validation.active
             authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')

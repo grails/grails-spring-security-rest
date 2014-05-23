@@ -32,7 +32,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
     AuthenticationFailureHandler authenticationFailureHandler
 
     String endpointUrl
-    Boolean enabled
+    Boolean active
 
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -75,7 +75,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
         def actualUri =  servletRequest.requestURI - servletRequest.contextPath
         logger.debug "Actual URI is ${actualUri}; validate endpoint URL is ${endpointUrl}"
 
-        if (enabled && actualUri == endpointUrl) {
+        if (active && actualUri == endpointUrl) {
             log.debug "Validate endpoint has been called. Not processing the filter chain"
             if (!tokenValue) {
                 HttpServletResponse servletResponse = response
