@@ -13,18 +13,18 @@ import javax.servlet.http.HttpServletRequest
 @Slf4j
 class DefaultJsonPayloadCredentialsExtractor extends AbstractJsonPayloadCredentialsExtractor {
 
+    String usernameParameter
+    String passwordParameter
+
     UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) {
         def jsonBody = getJsonBody(httpServletRequest)
 
-        log.debug "Extracted credentials from request params. Username: ${jsonBody.username}, password: ${jsonBody.password?.size()?'[PROTECTED]':'[MISSING]'}"
+        String username = jsonBody."${usernameParameter}"
+        String password = jsonBody."${passwordParameter}"
 
-        // Retrieve from configuration username/email configuration
-        def conf = SpringSecurityUtils.securityConfig
+        log.debug "Extracted credentials from JSON payload. Username: ${username}, password: ${password?.size()?'[PROTECTED]':'[MISSING]'}"
 
-        String usernameParam = conf.rest.login.usernamePropertyName
-        String passwordParam = conf.rest.login.passwordPropertyName
-
-        new UsernamePasswordAuthenticationToken(jsonBody."${usernameParam}", jsonBody."${passwordParam}")
+        new UsernamePasswordAuthenticationToken(username, password)
     }
 
 }

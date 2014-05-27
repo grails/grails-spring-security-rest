@@ -86,24 +86,13 @@ for more information.
 h2. Extracting credentials from the request
 
 The plugin supports 2 ways of extracting the username and password: using request parameters, and using a JSON payload.
-For backwards compatibility, request parameters is the default option.
-
-h3. From request parameters
-
-{table}
-*Config key*                                                            | *Default value*
-@grails.plugin.springsecurity.rest.login.useRequestParamsCredentials@   | @true@
-@grails.plugin.springsecurity.rest.login.usernameParameter@             | @username@
-@grails.plugin.springsecurity.rest.login.passwordParameter@             | @password@
-{table}
+To align with the RESTful principles, JSON payload is the default behaviour.
 
 h3. From a JSON request
 
-To enable it:
-
 {table}
 *Config key*                                                    | *Default value*
-@grails.plugin.springsecurity.rest.login.useJsonCredentials@    | @false@
+@grails.plugin.springsecurity.rest.login.useJsonCredentials@    | @true@
 @grails.plugin.springsecurity.rest.login.usernamePropertyName@  | @username@
 @grails.plugin.springsecurity.rest.login.passwordPropertyName@  | @password@
 {table}
@@ -142,12 +131,18 @@ The default implementation looks like this:
 @Slf4j
 class DefaultJsonPayloadCredentialsExtractor extends AbstractJsonPayloadCredentialsExtractor {
 
+    String usernameParameter
+    String passwordParameter
+
     UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) {
         def jsonBody = getJsonBody(httpServletRequest)
 
-        log.debug "Extracted credentials from request params. Username: ${jsonBody.username}, password: ${jsonBody.password?.size()?'[PROTECTED]':'[MISSING]'}"
+        String username = jsonBody."${usernameParameter}"
+        String password = jsonBody."${passwordParameter}"
 
-        new UsernamePasswordAuthenticationToken(jsonBody.username, jsonBody.password)
+        log.debug "Extracted credentials from JSON payload. Username: ${username}, password: ${password?.size()?'[PROTECTED]':'[MISSING]'}"
+
+        new UsernamePasswordAuthenticationToken(username, password)
     }
 
 }
@@ -155,3 +150,13 @@ class DefaultJsonPayloadCredentialsExtractor extends AbstractJsonPayloadCredenti
 
 Once you are done, register it in @resources.groovy@ with the name @credentialsExtractor@.
 
+h3. From request parameters
+
+Note that the name of the parameters can also be customised:
+
+{table}
+*Config key*                                                            | *Default value*
+@grails.plugin.springsecurity.rest.login.useRequestParamsCredentials@   | @false@
+@grails.plugin.springsecurity.rest.login.usernameParameter@             | @username@
+@grails.plugin.springsecurity.rest.login.passwordParameter@             | @password@
+{table}
