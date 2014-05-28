@@ -36,6 +36,7 @@ grails.project.dependency.resolution = {
 
     dependencies {
         test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
+        compile 'org.apache.httpcomponents:httpclient:4.3.3'
     }
 
     plugins {
