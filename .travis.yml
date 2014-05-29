@@ -15,7 +15,7 @@ services: memcached
 
 script: ./test-app.sh
 
-after_success: if [[ $TRAVIS_BRANCH == "master" ]] || [[ $TRAVIS_BRANCH =~  ^release.*$]]; then ./doc.sh; fi
+after_success: if [ $TRAVIS_BRANCH == "master" ] || [ $TRAVIS_BRANCH =~  ^release.*$ ]; then ./doc.sh; fi
 
 env:
   global:
