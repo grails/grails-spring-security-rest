@@ -4,12 +4,42 @@ import grails.plugins.rest.client.RestResponse
 
 class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
-    void "accessing a secured controller without token returns 403"() {
+    void "accessing a secured controller without token returns 400"() {
         when:
         def response = restBuilder.get("${baseUrl}/secured")
 
         then:
-        response.status == 403
+        response.status == 400
+    }
+
+    void "accessing a secured controller with wrong token, returns 401"() {
+        when:
+        def response = restBuilder.get("${baseUrl}/secured") {
+            header 'X-Auth-Token', 'whatever'
+        }
+
+        then:
+        response.status == 401
+
+    }
+
+    void "accessing a public controller without token returns 302"() {
+        when:
+        def response = restBuilder.post("${baseUrl}/public")
+
+        then:
+        response.status == 302
+    }
+
+    void "accessing a public controller with wrong token, returns 302"() {
+        when:
+        def response = restBuilder.post("${baseUrl}/public") {
+            header 'X-Auth-Token', 'whatever'
+        }
+
+        then:
+        response.status == 302
+
     }
 
     void "a valid user can access the secured controller"() {

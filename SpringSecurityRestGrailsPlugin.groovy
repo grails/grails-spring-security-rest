@@ -113,32 +113,32 @@ Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/gui
             renderer = ref('restAuthenticationTokenJsonRenderer')
         }
         restAuthenticationFailureHandler(RestAuthenticationFailureHandler) {
-            statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_FORBIDDEN
+            statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_UNAUTHORIZED
         }
-
-        rememberMeServices(NullRememberMeServices)
-        exceptionTranslationFilter(ExceptionTranslationFilter, ref('authenticationEntryPoint'), ref('requestCache')) {
-            accessDeniedHandler = ref('accessDeniedHandler')
-            authenticationTrustResolver = ref('authenticationTrustResolver')
-            throwableAnalyzer = ref('throwableAnalyzer')
-        }
-        accessDeniedHandler(AccessDeniedHandlerImpl) {
-            errorPage = null //403
-        }
-        requestCache(NullRequestCache)
-        authenticationEntryPoint(Http403ForbiddenEntryPoint)
-        securityContextRepository(NullSecurityContextRepository)
 
         /* restTokenValidationFilter */
         SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.ANONYMOUS_FILTER.order + 1
+        SpringSecurityUtils.registerFilter 'restExceptionTranslationFilter', SecurityFilterPosition.EXCEPTION_TRANSLATION_FILTER.order - 5
 
         restTokenValidationFilter(RestTokenValidationFilter) {
             headerName = conf.rest.token.validation.headerName
-            endpointUrl = conf.rest.token.validation.endpointUrl
+            validationEndpointUrl = conf.rest.token.validation.endpointUrl
             active = conf.rest.token.validation.active
             authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')
+        }
+
+        restExceptionTranslationFilter(ExceptionTranslationFilter, ref('restAuthenticationEntryPoint'), ref('restRequestCache')) {
+            accessDeniedHandler = ref('restAccessDeniedHandler')
+            authenticationTrustResolver = ref('authenticationTrustResolver')
+            throwableAnalyzer = ref('throwableAnalyzer')
+        }
+
+        restAuthenticationEntryPoint(Http403ForbiddenEntryPoint)
+        restRequestCache(NullRequestCache)
+        restAccessDeniedHandler(AccessDeniedHandlerImpl) {
+            errorPage = null //403
         }
 
         /* tokenStorageService */
