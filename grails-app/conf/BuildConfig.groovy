@@ -16,6 +16,7 @@ grails.project.dependency.resolution = {
     dependencies {
         compile 'net.spy:spymemcached:2.10.3'
         compile 'com.google.guava:guava-io:r03'
+        compile 'org.pac4j:pac4j-core:1.5.0'
         compile 'org.pac4j:pac4j-oauth:1.5.0'
     }
 
