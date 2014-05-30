@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>1 Introduction to the Spring Security REST plugin 1.3.4</title>
+    <title>1 Introduction to the Spring Security REST plugin 1.4.0.M1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -27,28 +27,31 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>2</strong><span>Authentication Endpoint</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>2</strong><span>Configuration</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>3</strong><span>Token Generation</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>3</strong><span>Authentication Endpoint</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>4</strong><span>Token Storage</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>4</strong><span>Token Generation</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>5</strong><span>Token Validation Filter</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>5</strong><span>Token Storage</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>6</strong><span>CORS support</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>6</strong><span>Token Validation Filter</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>7</strong><span>Delegating authentication to OAuth providers</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>7</strong><span>CORS support</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>8</strong><span>Debugging</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>8</strong><span>Delegating authentication to OAuth providers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>9</strong><span>Frequently Asked Questions</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>9</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>10</strong><span>Frequently Asked Questions</span></a>
                     </div>
                     
                 </div>
@@ -78,7 +81,7 @@ function addJsClass() {
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/authentication.html"><strong>2</strong><span>Authentication Endpoint</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/configuration.html"><strong>2</strong><span>Configuration</span> >></a></div>
                 
 
 
@@ -87,7 +90,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
-                    <p><strong>Version:</strong> 1.3.4</p>
+                    <p><strong>Version:</strong> 1.4.0.M1</p>
 
                     
                 </div>
@@ -120,9 +123,13 @@ state on every request so the server is truly stateless. The approach to store t
 to use HTTP basic authentication (<a href="../guide/single.html#faq" class="guide">see FAQ</a>) (so credentials are not passed on every request). It also helps to perform the validation
 step (#5 in the diagram) faster, because the tokens, and the associated principal information may be cached. Finally,
 storing tokens gives you the chance to decide about expiration strategies.<p class="paragraph"/>More information about this strategy can be found <a href="http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services" target="blank">on this post by James Ward</a>.<p class="paragraph"/>This plugin helps you to wire your existing Spring Security <a href="../guide/single.html#authentication" class="guide">authentication mechanism</a>, provides you
-with ready-to-use <a href="../guide/single.html#tokenGeneration" class="guide">token generation strategies</a> and comes prepackaged with Memcached and GORM support
-for <a href="../guide/single.html#tokenStorage" class="guide">token storage</a>.<p class="paragraph"/><h4>Release History</h4>
+with ready-to-use <a href="../guide/single.html#tokenGeneration" class="guide">token generation strategies</a> and comes prepackaged with Memcached, GORM and Grails
+Cache support for <a href="../guide/single.html#tokenStorage" class="guide">token storage</a>.<p class="paragraph"/><h4>Release History</h4>
 <ul class="star">
+<li>29 May 2014</li>
+<ul class="star">
+<li><a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=14&amp;state=closed" target="blank">1.4.0.M1</a></li>
+</ul>
 <li>23 April 2014</li>
 <ul class="star">
 <li><a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=13&amp;state=closed" target="blank">1.3.4</a></li>
@@ -187,7 +194,7 @@ for <a href="../guide/single.html#tokenStorage" class="guide">token storage</a>.
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/authentication.html"><strong>2</strong><span>Authentication Endpoint</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/configuration.html"><strong>2</strong><span>Configuration</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

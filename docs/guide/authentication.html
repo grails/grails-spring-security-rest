@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>2 Authentication Endpoint 1.3.4</title>
+    <title>3 Authentication Endpoint 1.4.0.M1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -27,28 +27,31 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>2</strong><span>Authentication Endpoint</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>2</strong><span>Configuration</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>3</strong><span>Token Generation</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>3</strong><span>Authentication Endpoint</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>4</strong><span>Token Storage</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>4</strong><span>Token Generation</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>5</strong><span>Token Validation Filter</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>5</strong><span>Token Storage</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>6</strong><span>CORS support</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>6</strong><span>Token Validation Filter</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>7</strong><span>Delegating authentication to OAuth providers</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>7</strong><span>CORS support</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>8</strong><span>Debugging</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>8</strong><span>Delegating authentication to OAuth providers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>9</strong><span>Frequently Asked Questions</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>9</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>10</strong><span>Frequently Asked Questions</span></a>
                     </div>
                     
                 </div>
@@ -74,22 +77,22 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/configuration.html">&lt;&lt; <strong>2</strong><span>Configuration</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/tokenGeneration.html"><strong>3</strong><span>Token Generation</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/tokenGeneration.html"><strong>4</strong><span>Token Generation</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>2 Authentication Endpoint - Reference Documentation</h1>
+                    <h1>3 Authentication Endpoint - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
-                    <p><strong>Version:</strong> 1.3.4</p>
+                    <p><strong>Version:</strong> 1.4.0.M1</p>
 
                     
                 </div>
@@ -98,7 +101,7 @@ function addJsClass() {
                 <div id="table-of-content">
                     <h2>Table of Contents</h2>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#logout"><strong>2.1</strong><span>Logout Endpoint</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#logout"><strong>3.1</strong><span>Logout Endpoint</span></a>
                     </div>
                     
                 </div>
@@ -106,7 +109,7 @@ function addJsClass() {
 
                 
 
-<h1 id="authentication">2 Authentication Endpoint</h1>
+<h1 id="authentication">3 Authentication Endpoint</h1>
 The <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html" target="blank">authentication filter</a>
 uses the default <code>authenticationManager</code> bean, which in turn uses all the registered authentication
 providers. See the <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/authenticationProviders.html" target="blank">Spring Security Core guide</a>
@@ -139,13 +142,14 @@ If you want to render additional information in your JSON response, you have to:
 <ol>
 <li>Configure an alternative <code>userDetailsService</code> bean that retrieves the additional information you want, and put it in a principal object.</li>
 <li>Configure an alternative <code>restAuthenticationTokenJsonRenderer</code> that reads that information from the <code>restAuthenticationToken.principal</code> object.</li>
-</ol><p class="paragraph"/></blockquote><p class="paragraph"/>The following are the <code>Config.groovy</code> properties available:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.endpointUrl</code></td><td><code>/api/login</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.failureStatusCode</code></td><td><code>401</code></td></tr></table><p class="paragraph"/><blockquote class="note">
-This authentication filter will only be applied to the above configured URL. In the rest of the cases, the request will
-continue through the filter chain, reaching Spring Security Core filters. Bear in mind that, by default, Spring Security
-Core 2.x locks down all URL's unless a explicit securiy rule has been specified for each of them.<p class="paragraph"/>See <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/single.html#requestMappings" target="blank">Spring Security Core documentation</a>
+</ol><p class="paragraph"/></blockquote><p class="paragraph"/>The following are the <code>Config.groovy</code> properties available:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.active</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.endpointUrl</code></td><td><code>/api/login</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.failureStatusCode</code></td><td><code>401</code></td></tr></table><p class="paragraph"/><blockquote class="note">
+This authentication filter will only be applied to the above configured URL and can also be disabled, in case a different approach
+for token creation is followed. In the rest of the cases, the request will continue through the filter chain, reaching Spring Security
+Core filters. Bear in mind that, by default, Spring Security Core 2.x locks down all URL's unless a explicit securiy rule has been
+specified for each of them.<p class="paragraph"/>See <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/single.html#requestMappings" target="blank">Spring Security Core documentation</a>
 for more information.
 </blockquote><p class="paragraph"/><h2>Extracting credentials from the request</h2><p class="paragraph"/>The plugin supports 2 ways of extracting the username and password: using request parameters, and using a JSON payload.
-For backwards compatibility, request parameters is the default option.<p class="paragraph"/><h3>From request parameters</h3><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.useRequestParamsCredentials</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.usernameParameter</code></td><td><code>username</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.passwordParameter</code></td><td><code>password</code></td></tr></table><p class="paragraph"/><h3>From a JSON request</h3><p class="paragraph"/>To enable it:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.useJsonCredentials</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.usernamePropertyName</code></td><td><code>username</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.passwordPropertyName</code></td><td><code>password</code></td></tr></table><p class="paragraph"/>
+To align with the RESTful principles, JSON payload is the default behaviour.<p class="paragraph"/><h3>From a JSON request</h3><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.useJsonCredentials</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.usernamePropertyName</code></td><td><code>username</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.passwordPropertyName</code></td><td><code>password</code></td></tr></table><p class="paragraph"/>
 The default implementation expects a request like this:<p class="paragraph"/><div class="code"><pre>&#123;
     <span class="java&#45;quote">"username"</span>: <span class="java&#45;quote">"john.doe"</span>,
     <span class="java&#45;quote">"password"</span>: <span class="java&#45;quote">"dontTellAnybody"</span>
@@ -156,12 +160,15 @@ The default implementation expects a request like this:<p class="paragraph"/><di
 grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.login.passwordPropertyName = 'pwd'</pre></div><p class="paragraph"/>If your JSON request format is different, you can plug your own implementation by defining a class which extends
 <code><a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/AbstractJsonPayloadCredentialsExtractor.html" target="blank">AbstractJsonPayloadCredentialsExtractor</a></code>.
 The default implementation looks like this:<p class="paragraph"/><div class="code"><pre>@Slf4j
-class DefaultJsonPayloadCredentialsExtractor <span class="java&#45;keyword">extends</span> AbstractJsonPayloadCredentialsExtractor &#123;<p class="paragraph"/>    UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) &#123;
-        def jsonBody = getJsonBody(httpServletRequest)<p class="paragraph"/>        log.debug <span class="java&#45;quote">"Extracted credentials from request params. Username: $&#123;jsonBody.username&#125;, password: $&#123;jsonBody.password?.size()?'&#91;PROTECTED&#93;':'&#91;MISSING&#93;'&#125;"</span><p class="paragraph"/>        <span class="java&#45;keyword">new</span> UsernamePasswordAuthenticationToken(jsonBody.username, jsonBody.password)
-    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>Once you are done, register it in <code>resources.groovy</code> with the name <code>credentialsExtractor</code>.<p class="paragraph"/>
+class DefaultJsonPayloadCredentialsExtractor <span class="java&#45;keyword">extends</span> AbstractJsonPayloadCredentialsExtractor &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> usernameParameter
+    <span class="java&#45;object">String</span> passwordParameter<p class="paragraph"/>    UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) &#123;
+        def jsonBody = getJsonBody(httpServletRequest)<p class="paragraph"/>        <span class="java&#45;object">String</span> username = jsonBody.<span class="java&#45;quote">"$&#123;usernameParameter&#125;"</span>
+        <span class="java&#45;object">String</span> password = jsonBody.<span class="java&#45;quote">"$&#123;passwordParameter&#125;"</span><p class="paragraph"/>        log.debug <span class="java&#45;quote">"Extracted credentials from JSON payload. Username: $&#123;username&#125;, password: $&#123;password?.size()?'&#91;PROTECTED&#93;':'&#91;MISSING&#93;'&#125;"</span><p class="paragraph"/>        <span class="java&#45;keyword">new</span> UsernamePasswordAuthenticationToken(username, password)
+    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>Once you are done, register it in <code>resources.groovy</code> with the name <code>credentialsExtractor</code>.<p class="paragraph"/><h3>From request parameters</h3><p class="paragraph"/>Note that the name of the parameters can also be customised:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.useRequestParamsCredentials</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.usernameParameter</code></td><td><code>username</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.passwordParameter</code></td><td><code>password</code></td></tr></table>
 
 
-<h2 id="logout">2.1 Logout Endpoint</h2>
+
+<h2 id="logout">3.1 Logout Endpoint</h2>
 The <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html" target="blank">logout filter</a>
 exposes an endpoint for deleting tokens. It will read the token from an HTTP header. If found, will delete it from the
 storage, sending a 200 response. Otherwise, it will send a 404 response.<p class="paragraph"/>You can configure it in <code>Config.groovy</code> using this properties:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.logout.endpointUrl</code></td><td><code>/api/logout</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr></table>
@@ -170,9 +177,9 @@ storage, sending a 200 response. Otherwise, it will send a 404 response.<p class
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/configuration.html">&lt;&lt; <strong>2</strong><span>Configuration</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/tokenGeneration.html"><strong>3</strong><span>Token Generation</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/tokenGeneration.html"><strong>4</strong><span>Token Generation</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
