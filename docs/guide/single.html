@@ -217,21 +217,24 @@ do you want to use:
 <li><a href="../guide/single.html#grailsCache" class="guide">Grails Cache</a>.</li>
 <li><a href="../guide/single.html#memcached" class="guide">Memcached</a></li>
 <li><a href="../guide/single.html#gorm" class="guide">GORM</a>.</li>
-</ol><p class="paragraph"/>All the other features can be used out-of-the-box with the default values, but please make sure you read the entire
-plugin documentation to understand how they work and how can they be configured.<p class="paragraph"/><h2>Using the plugin with an existing Spring Security-based application</h2><p class="paragraph"/><blockquote class="note">
+<li>Provide your own: implement</li>
+</ol><p class="paragraph"/><a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html" target="blank">TokenStorageService</a>
+and register it in <code>resources.groovy</code> as <code>tokenStorageService</code><p class="paragraph"/>All the other features can be used out-of-the-box with the default values, but please make sure you read the entire
+plugin documentation to understand how they work and how can they be configured.<p class="paragraph"/><h2>Plugin configuration</h2><p class="paragraph"/><blockquote class="note">
 This plugin depends on <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/newInV2.html" target="blank">Spring Security Core 2.x</a>.
 Make sure your application is compatible with that version first.
-</blockquote><p class="paragraph"/>When using this plugin in an application that already has traditional, form-based authentication, the most important
-thing is to separate the filter chains, so different filters are applied on each case.<p class="paragraph"/>The stateless, token-based approach of this plugin is incompatible with the HTTP session-based approach of Spring Security core.<p class="paragraph"/>To configure the chains properly, you can use the <code>grails.plugin.springsecurity.filterChain.chainMap</code> property:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.filterChain.chainMap = &#91;
-    '/api/&#42;&#42;': 'JOINED_FILTERS,&#45;exceptionTranslationFilter,&#45;securityContextPersistenceFilter',  // Stateless chain
-    '/&#42;&#42;': 'JOINED_FILTERS,&#45;restTokenValidationFilter,&#45;restExceptionTranslationFilter'          // Traditional chain
+</blockquote><p class="paragraph"/>This plugin is compatible by default with Spring Security core traditional, form-based authentication. The important thing
+to remember is: you have to separate the filter chains, so different filters are applied on each case.<p class="paragraph"/>The stateless, token-based approach of this plugin is incompatible with the HTTP session-based approach of Spring Security,
+core, so the trick is to identify what URL patterns have to be stateless, and what others have to be stateful (if any).<p class="paragraph"/>To configure the chains properly, you can use the <code>grails.plugin.springsecurity.filterChain.chainMap</code> property:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.filterChain.chainMap = &#91;
+    '/api/&#42;&#42;': 'JOINED_FILTERS,&#45;exceptionTranslationFilter,&#45;authenticationProcessingFilter,&#45;securityContextPersistenceFilter',  // Stateless chain
+    '/&#42;&#42;': 'JOINED_FILTERS,&#45;restTokenValidationFilter,&#45;restExceptionTranslationFilter'                                          // Traditional chain
 &#93;</pre></div><p class="paragraph"/>To understand this syntax, please read the
 <a href="http://grails-plugins.github.io/grails-spring-security-core/guide/filters.html" target="blank">Spring Security Core documentation</a>.
 Long story short: <code>JOINED_FILTERS</code> refers to all the configured filters. The minus (<code>-</code>) notation means all the previous values
 but the neglected one.<p class="paragraph"/>So the first chain applies all the filters except the stateful ones. The second one applies all the filters but the stateless ones.<p class="paragraph"/><blockquote class="note">
-Make sure that the stateless chain applies to the URL's where this plugin filters are listening. By default, <code>/api/login</code>
-for <a href="../guide/single.html#authentication" class="guide">authentication</a>, <code>/api/logout</code> for <a href="../guide/single.html#authentication" class="guide">logout</a> and
-<code>/api/validate</code> for <a href="../guide/single.html#tokenValidation" class="guide">token validation</a>.
+Make sure that the stateless chain applies not only to your REST controllers, but also to the URL's where this plugin
+filters are listening: by default, <code>/api/login</code> for <a href="../guide/single.html#authentication" class="guide">authentication</a>, <code>/api/logout</code> for
+<a href="../guide/single.html#authentication" class="guide">logout</a> and <code>/api/validate</code> for <a href="../guide/single.html#tokenValidation" class="guide">token validation</a>.
 </blockquote><p class="paragraph"/>The difference is that, in a traditional form-based authentication, Spring Security will respond with an HTTP 302 redirect
 to the login controller. That doesn't work for an API, so in the stateless approach, an HTTP 401 response will be sent back.
 
