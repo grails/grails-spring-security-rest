@@ -27,9 +27,10 @@ If the token does not exist, it will render a @grails.plugin.springsecurity.rest
 The relevant configuration properties are:
 
 {table}
-*Config key*                                                            | *Default value*
-@grails.plugin.springsecurity.rest.token.validation.headerName@         | @X-Auth-Token@
-@grails.plugin.springsecurity.rest.token.validation.endpointUrl@        | @/api/validate@
-@grails.plugin.springsecurity.rest.token.validation.enabled@            | @true@
-@grails.plugin.springsecurity.rest.token.validation.useBearerToken@     | @false@
+*Config key*                                                                        | *Default value*
+@grails.plugin.springsecurity.rest.token.validation.enabled@                        | @true@
+@grails.plugin.springsecurity.rest.token.validation.headerName@                     | @X-Auth-Token@
+@grails.plugin.springsecurity.rest.token.validation.endpointUrl@                    | @/api/validate@
+@grails.plugin.springsecurity.rest.token.validation.tokenHeaderMissingStatusCode@   | @401@
+@grails.plugin.springsecurity.rest.token.validation.useBearerToken@                 | @false@
 {table}

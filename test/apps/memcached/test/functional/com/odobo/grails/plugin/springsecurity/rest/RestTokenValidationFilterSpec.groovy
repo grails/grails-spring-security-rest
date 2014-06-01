@@ -5,12 +5,12 @@ import spock.lang.Issue
 
 class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
-    void "accessing a secured controller without token returns 400"() {
+    void "accessing a secured controller without token returns 401"() {
         when:
         def response = restBuilder.get("${baseUrl}/secured")
 
         then:
-        response.status == 400
+        response.status == 401
     }
 
     void "accessing a secured controller with wrong token, returns 401"() {

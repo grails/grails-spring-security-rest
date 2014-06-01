@@ -38,6 +38,8 @@ class RestTokenValidationFilter extends GenericFilterBean {
     Boolean active
     Boolean useBearerToken
 
+    Integer tokenHeaderMissingStatusCode
+
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest servletRequest = request as HttpServletRequest
@@ -101,8 +103,8 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
         if (active) {
             if (!tokenValue) {
-                log.debug "Token header is missing. Sending a 400 Bad Request response"
-                servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, "Token header is missing"
+                log.debug "Token header is missing. Sending a ${tokenHeaderMissingStatusCode} response"
+                servletResponse.sendError tokenHeaderMissingStatusCode, "Token header is missing"
             } else {
                 if (actualUri == validationEndpointUrl) {
                     log.debug "Validation endpoint called. Generating response."

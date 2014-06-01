@@ -31,12 +31,12 @@ class ValidateEndpointSpec extends AbstractRestSpec {
         response.status == 401
     }
 
-    void "calling /api/validate without token returns 400"() {
+    void "calling /api/validate without token returns 401"() {
         when:
         def response = restBuilder.get("${baseUrl}/api/validate")
 
         then:
-        response.status == 400
+        response.status == 401
     }
 
 

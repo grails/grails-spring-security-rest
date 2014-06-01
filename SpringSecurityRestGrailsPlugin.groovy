@@ -134,6 +134,7 @@ Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/gui
             validationEndpointUrl = conf.rest.token.validation.endpointUrl
             active = conf.rest.token.validation.active
             useBearerToken = conf.rest.token.validation.useBearerToken ?: false
+            tokenHeaderMissingStatusCode = conf.rest.token.validation.tokenHeaderMissingStatusCode  // 401
             authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')
