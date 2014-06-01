@@ -151,8 +151,8 @@ grails {
 
             filterChain {
                 chainMap = [
-                    '/secured/**': 'JOINED_FILTERS,-exceptionTranslationFilter,-securityContextPersistenceFilter',
-                    '/api/**': 'JOINED_FILTERS,-exceptionTranslationFilter',
+                    '/api/**': 'JOINED_FILTERS,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter',
+                    '/secured/**': 'JOINED_FILTERS,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter',
                     '/**': 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
                 ]
             }

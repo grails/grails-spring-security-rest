@@ -1,6 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugins.rest.client.RestResponse
+import spock.lang.Issue
 
 class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
@@ -69,6 +70,15 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
         then:
         response.status == 403
+    }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/67")
+    void "JSESSIONID cookie is not created when using the stateless chain"() {
+        when:
+        RestResponse authResponse = sendCorrectCredentials()
+
+        then:
+        !authResponse.headers.getFirst('Set-Cookie')
     }
 
 }
