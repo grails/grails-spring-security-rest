@@ -1,13 +1,10 @@
 package com.odobo.grails.plugin.springsecurity.rest.credentials
 
-import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.ReflectionUtils
+import grails.plugin.springsecurity.SpringSecurityUtils
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
-import org.springframework.mock.web.MockHttpServletRequest
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import spock.lang.Specification
-import spock.lang.Unroll
 
 /**
  * Specification of all the credentials extractors

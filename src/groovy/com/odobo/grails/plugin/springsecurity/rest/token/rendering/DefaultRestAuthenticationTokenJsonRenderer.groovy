@@ -1,9 +1,9 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.rendering
 
-import grails.plugin.springsecurity.SpringSecurityUtils
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
 import com.odobo.grails.plugin.springsecurity.rest.oauth.OauthUser
 import grails.converters.JSON
+import grails.plugin.springsecurity.SpringSecurityUtils
 import groovy.util.logging.Slf4j
 import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.core.GrantedAuthority

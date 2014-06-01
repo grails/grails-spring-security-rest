@@ -2,14 +2,14 @@ package com.odobo.grails.plugin.springsecurity.rest.token.rendering
 
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
 import com.odobo.grails.plugin.springsecurity.rest.oauth.OauthUser
+import grails.plugin.springsecurity.ReflectionUtils
+import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.test.mixin.TestMixin
 import grails.test.mixin.web.ControllerUnitTestMixin
+import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import grails.plugin.springsecurity.ReflectionUtils
-import grails.plugin.springsecurity.SpringSecurityUtils
 import spock.lang.Issue
 import spock.lang.Specification
 import spock.lang.Unroll

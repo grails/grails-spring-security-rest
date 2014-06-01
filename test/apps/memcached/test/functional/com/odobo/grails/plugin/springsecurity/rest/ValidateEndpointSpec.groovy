@@ -1,7 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugins.rest.client.RestResponse
-import spock.lang.Specification
 
 class ValidateEndpointSpec extends AbstractRestSpec {
 
