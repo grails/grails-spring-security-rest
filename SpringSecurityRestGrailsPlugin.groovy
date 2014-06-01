@@ -186,8 +186,6 @@ Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/gui
                 userDetailsService = ref('userDetailsService')
             }
         } else {
-            println """WARNING: token storage strategy is not explicitly set. Falling back to GORM.
-Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/guide/tokenStorage.html for more details"""
             tokenStorageService(GormTokenStorageService) {
                 userDetailsService = ref('userDetailsService')
             }
