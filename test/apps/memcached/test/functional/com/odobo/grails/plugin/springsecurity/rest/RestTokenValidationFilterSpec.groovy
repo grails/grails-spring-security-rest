@@ -1,7 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugins.rest.client.RestResponse
-import spock.lang.IgnoreRest
 import spock.lang.Issue
 
 class RestTokenValidationFilterSpec extends AbstractRestSpec {
@@ -74,7 +73,6 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
     }
 
     @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/67")
-    @IgnoreRest
     void "JSESSIONID cookie is not created when using the stateless chain"() {
         when:
         RestResponse authResponse = sendCorrectCredentials()
