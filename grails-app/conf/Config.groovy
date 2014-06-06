@@ -6,3 +6,7 @@ log4j = {
 }
 
 grails.doc.images = new File("src/docs/images")
+
+coverage {
+    exclusions = ["**/ApplicationResources*", "**/DefaultRestSecurityConfig*", "**/memcached/*Controller.groovy"]
+}

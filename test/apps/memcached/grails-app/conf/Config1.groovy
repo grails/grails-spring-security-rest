@@ -197,3 +197,7 @@ grails {
     }
 }
 
+coverage {
+    exclusions = ["**/ApplicationResources*", "**/DefaultRestSecurityConfig*", "**/memcached/*Controller.groovy"]
+}
+
