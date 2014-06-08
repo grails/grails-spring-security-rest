@@ -10,6 +10,13 @@ However, this plugins stores in the security context just a principal @Object@, 
 domain classes to store the users. Use @springSecurityService.principal@ instead.
 {note}
 
+h2. Bearer Token Specification
+
+When the @springsecurity.rest.token.validation.useBearerToken@ option is enabled, the plugin will use
+the Bearer Token specification for token passing.  Clients will be expected to pass their tokens either by using the
+@Authorization: Bearer <token>@ header, or via the @access_token@ query string.  When enabled, any value for @springsecurity.rest.token.validation.headerName@
+will be ignored.
+
 h2. Validation Endpoint
 
 There is also an endpoint available that you can call in case you want to know if a given token is valid. It looks for
@@ -24,4 +31,5 @@ The relevant configuration properties are:
 @grails.plugin.springsecurity.rest.token.validation.headerName@         | @X-Auth-Token@
 @grails.plugin.springsecurity.rest.token.validation.endpointUrl@        | @/api/validate@
 @grails.plugin.springsecurity.rest.token.validation.enabled@            | @true@
+@grails.plugin.springsecurity.rest.token.validation.useBearerToken@     | @false@
 {table}
