@@ -141,10 +141,10 @@ function windowTitle()
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestTokenValidationFilter.html#active" title="Property in RestTokenValidationFilter"><b>active</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestTokenValidationFilter.html">RestTokenValidationFilter</a>
 </dt><dd></dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html#authenticate(java.lang.String, java.lang.String)" title="Method in OauthController"><b>authenticate</b>(String, String)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html">OauthController</a>
-</dt><dd>Starts the OAuth authentication flow, redirecting to the provider's Login URL. </dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationProvider.html#authenticate(org.springframework.security.core.Authentication)" title="Method in RestAuthenticationProvider"><b>authenticate</b>(Authentication)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationProvider.html">RestAuthenticationProvider</a>
 </dt><dd>Returns an authentication object based on the token value contained in the authentication parameter. </dd>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html#authenticate(java.lang.String, java.lang.String)" title="Method in RestOauthController"><b>authenticate</b>(String, String)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html">RestOauthController</a>
+</dt><dd>Starts the OAuth authentication flow, redirecting to the provider's Login URL. </dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html#authenticationDetailsSource" title="Property in RestAuthenticationFilter"><b>authenticationDetailsSource</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html">RestAuthenticationFilter</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html#authenticationFailureHandler" title="Property in RestAuthenticationFilter"><b>authenticationFailureHandler</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html">RestAuthenticationFilter</a>
@@ -185,9 +185,9 @@ function windowTitle()
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GrailsCacheTokenStorageService.html#cacheName" title="Property in GrailsCacheTokenStorageService"><b>cacheName</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GrailsCacheTokenStorageService.html">GrailsCacheTokenStorageService</a>
 </dt><dd></dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html#CALLBACK_ATTR" title="Property in OauthController"><b>CALLBACK_ATTR</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html">OauthController</a>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html#CALLBACK_ATTR" title="Property in RestOauthController"><b>CALLBACK_ATTR</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html">RestOauthController</a>
 </dt><dd></dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html#callback(java.lang.String)" title="Method in OauthController"><b>callback</b>(String)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html">OauthController</a>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html#callback(java.lang.String)" title="Method in RestOauthController"><b>callback</b>(String)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html">RestOauthController</a>
 </dt><dd>Handles the OAuth provider callback. </dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/credentials/CredentialsExtractor.html" title="Interface in com.odobo.grails.plugin.springsecurity.rest.credentials"><b>CredentialsExtractor</b></a> - Interface in <a href="./com/odobo/grails/plugin/springsecurity/rest/credentials/package-summary.html">com.odobo.grails.plugin.springsecurity.rest.credentials</a>
 </dt><dd>Extracts username and password from the request and creates and org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -285,7 +285,7 @@ function windowTitle()
 </dt><dd>Generates a globally unique token.</dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/generation/UUIDTokenGenerator.html#generateToken()" title="Method in UUIDTokenGenerator"><b>generateToken</b>()</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/token/generation/UUIDTokenGenerator.html">UUIDTokenGenerator</a>
 </dt><dd>Generates a UUID based token</dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html#getClient(java.lang.String)" title="Method in OauthService"><b>getClient</b>(String)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html">OauthService</a>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html#getClient(java.lang.String)" title="Method in RestOauthService"><b>getClient</b>(String)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html">RestOauthService</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/credentials/AbstractJsonPayloadCredentialsExtractor.html#getJsonBody(javax.servlet.http.HttpServletRequest)" title="Method in AbstractJsonPayloadCredentialsExtractor"><b>getJsonBody</b>(HttpServletRequest)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/credentials/AbstractJsonPayloadCredentialsExtractor.html">AbstractJsonPayloadCredentialsExtractor</a>
 </dt><dd></dd>
@@ -295,9 +295,9 @@ function windowTitle()
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GormTokenStorageService.html#grailsApplication" title="Property in GormTokenStorageService"><b>grailsApplication</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GormTokenStorageService.html">GormTokenStorageService</a>
 </dt><dd>Dependency injection for the application.</dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html#grailsApplication" title="Property in OauthController"><b>grailsApplication</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html">OauthController</a>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html#grailsApplication" title="Property in RestOauthController"><b>grailsApplication</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html">RestOauthController</a>
 </dt><dd></dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html#grailsApplication" title="Property in OauthService"><b>grailsApplication</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html">OauthService</a>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html#grailsApplication" title="Property in RestOauthService"><b>grailsApplication</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html">RestOauthService</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GrailsCacheTokenStorageService.html#grailsCacheManager" title="Property in GrailsCacheTokenStorageService"><b>grailsCacheManager</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GrailsCacheTokenStorageService.html">GrailsCacheTokenStorageService</a>
 </dt><dd></dd>
@@ -305,7 +305,7 @@ function windowTitle()
 </dt><dd>Uses <a href="http://grails.org/plugin/cache">Grails Cache plugin</a> to store and retrieve tokens.</dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GrailsCacheTokenStorageService.html#GrailsCacheTokenStorageService()" title="Constructor in GrailsCacheTokenStorageService"><b>GrailsCacheTokenStorageService</b>()</b></a> - Constructor in <a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GrailsCacheTokenStorageService.html">GrailsCacheTokenStorageService</a>
 </dt><dd></dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html#grailsLinkGenerator" title="Property in OauthService"><b>grailsLinkGenerator</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html">OauthService</a>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html#grailsLinkGenerator" title="Property in RestOauthService"><b>grailsLinkGenerator</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html">RestOauthService</a>
 </dt><dd></dd>
 <dt><a href="DefaultPackage/SpringSecurityRestGrailsPlugin.html#grailsVersion" title="Property in SpringSecurityRestGrailsPlugin"><b>grailsVersion</b></a> - Property in <a href="DefaultPackage/SpringSecurityRestGrailsPlugin.html">SpringSecurityRestGrailsPlugin</a>
 </dt><dd></dd>
@@ -421,23 +421,13 @@ function windowTitle()
 
 <dl>
 
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html" title="Class in com.odobo.grails.plugin.springsecurity.rest"><b>OauthController</b></a> - Class in <a href="./com/odobo/grails/plugin/springsecurity/rest/package-summary.html">com.odobo.grails.plugin.springsecurity.rest</a>
-</dt><dd></dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html#OauthController()" title="Constructor in OauthController"><b>OauthController</b>()</b></a> - Constructor in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html">OauthController</a>
-</dt><dd></dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html" title="Class in com.odobo.grails.plugin.springsecurity.rest"><b>OauthService</b></a> - Class in <a href="./com/odobo/grails/plugin/springsecurity/rest/package-summary.html">com.odobo.grails.plugin.springsecurity.rest</a>
-</dt><dd>Deals with pac4j library to fetch a user profile from the selected OAuth provider, and stores it on the security context</dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html#oauthService" title="Property in OauthController"><b>oauthService</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthController.html">OauthController</a>
-</dt><dd></dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html#OauthService()" title="Constructor in OauthService"><b>OauthService</b>()</b></a> - Constructor in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html">OauthService</a>
-</dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/oauth/OauthUser.html" title="Class in com.odobo.grails.plugin.springsecurity.rest.oauth"><b>OauthUser</b></a> - Class in <a href="./com/odobo/grails/plugin/springsecurity/rest/oauth/package-summary.html">com.odobo.grails.plugin.springsecurity.rest.oauth</a>
 </dt><dd>A org.springframework.security.core.userdetails.UserDetails implementation that holds the org.pac4j.core.profile.CommonProfile returned by the OAuth provider</dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/oauth/OauthUser.html#OauthUser(java.lang.String, java.lang.String, java.util.Collection, org.pac4j.core.profile.CommonProfile)" title="Constructor in OauthUser"><b>OauthUser</b>(String, String, Collection, CommonProfile)</b></a> - Constructor in <a href="com/odobo/grails/plugin/springsecurity/rest/oauth/OauthUser.html">OauthUser</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/oauth/OauthUserDetailsService.html" title="Interface in com.odobo.grails.plugin.springsecurity.rest.oauth"><b>OauthUserDetailsService</b></a> - Interface in <a href="./com/odobo/grails/plugin/springsecurity/rest/oauth/package-summary.html">com.odobo.grails.plugin.springsecurity.rest.oauth</a>
 </dt><dd>Load users based on a org.pac4j.oauth.profile.OAuth20Profile</dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html#oauthUserDetailsService" title="Property in OauthService"><b>oauthUserDetailsService</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html">OauthService</a>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html#oauthUserDetailsService" title="Property in RestOauthService"><b>oauthUserDetailsService</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html">RestOauthService</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFailureHandler.html#onAuthenticationFailure(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)" title="Method in RestAuthenticationFailureHandler"><b>onAuthenticationFailure</b>(HttpServletRequest, HttpServletResponse, AuthenticationException)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFailureHandler.html">RestAuthenticationFailureHandler</a>
 </dt><dd>Called when an authentication attempt fails.</dd>
@@ -527,6 +517,16 @@ function windowTitle()
 </dt><dd>Filter exposing an endpoint for deleting tokens. </dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html#RestLogoutFilter()" title="Constructor in RestLogoutFilter"><b>RestLogoutFilter</b>()</b></a> - Constructor in <a href="com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html">RestLogoutFilter</a>
 </dt><dd></dd>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html" title="Class in com.odobo.grails.plugin.springsecurity.rest"><b>RestOauthController</b></a> - Class in <a href="./com/odobo/grails/plugin/springsecurity/rest/package-summary.html">com.odobo.grails.plugin.springsecurity.rest</a>
+</dt><dd></dd>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html#RestOauthController()" title="Constructor in RestOauthController"><b>RestOauthController</b>()</b></a> - Constructor in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html">RestOauthController</a>
+</dt><dd></dd>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html" title="Class in com.odobo.grails.plugin.springsecurity.rest"><b>RestOauthService</b></a> - Class in <a href="./com/odobo/grails/plugin/springsecurity/rest/package-summary.html">com.odobo.grails.plugin.springsecurity.rest</a>
+</dt><dd>Deals with pac4j library to fetch a user profile from the selected OAuth provider, and stores it on the security context</dd>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html#restOauthService" title="Property in RestOauthController"><b>restOauthService</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthController.html">RestOauthController</a>
+</dt><dd></dd>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html#RestOauthService()" title="Constructor in RestOauthService"><b>RestOauthService</b>()</b></a> - Constructor in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html">RestOauthService</a>
+</dt><dd></dd>
 <dt><a href="DefaultPackage/RestOauthUrlMappings.html" title="Class in RestOauthUrlMappings"><b>RestOauthUrlMappings</b></a> - Class in <a href="./RestOauthUrlMappings/package-summary.html">RestOauthUrlMappings</a>
 </dt><dd></dd>
 <dt><a href="DefaultPackage/RestOauthUrlMappings.html#RestOauthUrlMappings()" title="Constructor in RestOauthUrlMappings"><b>RestOauthUrlMappings</b>()</b></a> - Constructor in <a href="DefaultPackage/RestOauthUrlMappings.html">RestOauthUrlMappings</a>
@@ -557,7 +557,7 @@ function windowTitle()
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFailureHandler.html#statusCode" title="Property in RestAuthenticationFailureHandler"><b>statusCode</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFailureHandler.html">RestAuthenticationFailureHandler</a>
 </dt><dd>Configurable status code, by default: conf.rest.login.failureStatusCode?</dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html#storeAuthentication(java.lang.String, org.pac4j.core.context.WebContext)" title="Method in OauthService"><b>storeAuthentication</b>(String, WebContext)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html">OauthService</a>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html#storeAuthentication(java.lang.String, org.pac4j.core.context.WebContext)" title="Method in RestOauthService"><b>storeAuthentication</b>(String, WebContext)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html">RestOauthService</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GormTokenStorageService.html#storeToken(java.lang.String, java.lang.Object)" title="Method in GormTokenStorageService"><b>storeToken</b>(String, Object)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GormTokenStorageService.html">GormTokenStorageService</a>
 </dt><dd></dd>
@@ -583,9 +583,9 @@ function windowTitle()
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/generation/TokenGenerator.html" title="Interface in com.odobo.grails.plugin.springsecurity.rest.token.generation"><b>TokenGenerator</b></a> - Interface in <a href="./com/odobo/grails/plugin/springsecurity/rest/token/generation/package-summary.html">com.odobo.grails.plugin.springsecurity.rest.token.generation</a>
 </dt><dd>Implementations of this interface must provide a token generation strategy</dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html#tokenGenerator" title="Property in OauthService"><b>tokenGenerator</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html">OauthService</a>
-</dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html#tokenGenerator" title="Property in RestAuthenticationFilter"><b>tokenGenerator</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html">RestAuthenticationFilter</a>
+</dt><dd></dd>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html#tokenGenerator" title="Property in RestOauthService"><b>tokenGenerator</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html">RestOauthService</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestTokenValidationFilter.html#tokenHeaderMissingStatusCode" title="Property in RestTokenValidationFilter"><b>tokenHeaderMissingStatusCode</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestTokenValidationFilter.html">RestTokenValidationFilter</a>
 </dt><dd></dd>
@@ -596,13 +596,13 @@ function windowTitle()
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html" title="Interface in com.odobo.grails.plugin.springsecurity.rest.token.storage"><b>TokenStorageService</b></a> - Interface in <a href="./com/odobo/grails/plugin/springsecurity/rest/token/storage/package-summary.html">com.odobo.grails.plugin.springsecurity.rest.token.storage</a>
 </dt><dd>Implementations of this interface are responsible to load user information from a token storage system, and to store
  token information into it.</dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html#tokenStorageService" title="Property in OauthService"><b>tokenStorageService</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html">OauthService</a>
-</dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html#tokenStorageService" title="Property in RestAuthenticationFilter"><b>tokenStorageService</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html">RestAuthenticationFilter</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationProvider.html#tokenStorageService" title="Property in RestAuthenticationProvider"><b>tokenStorageService</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationProvider.html">RestAuthenticationProvider</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html#tokenStorageService" title="Property in RestLogoutFilter"><b>tokenStorageService</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html">RestLogoutFilter</a>
+</dt><dd></dd>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html#tokenStorageService" title="Property in RestOauthService"><b>tokenStorageService</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html">RestOauthService</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationToken.html#tokenValue" title="Property in RestAuthenticationToken"><b>tokenValue</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationToken.html">RestAuthenticationToken</a>
 </dt><dd></dd>
@@ -620,7 +620,7 @@ function windowTitle()
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GormTokenStorageService.html#userDetailsService" title="Property in GormTokenStorageService"><b>userDetailsService</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GormTokenStorageService.html">GormTokenStorageService</a>
 </dt><dd></dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html#userDetailsService" title="Property in OauthService"><b>userDetailsService</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/OauthService.html">OauthService</a>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html#userDetailsService" title="Property in RestOauthService"><b>userDetailsService</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestOauthService.html">RestOauthService</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/credentials/DefaultJsonPayloadCredentialsExtractor.html#usernameParameter" title="Property in DefaultJsonPayloadCredentialsExtractor"><b>usernameParameter</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/credentials/DefaultJsonPayloadCredentialsExtractor.html">DefaultJsonPayloadCredentialsExtractor</a>
 </dt><dd></dd>
