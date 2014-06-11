@@ -54,6 +54,7 @@ security {
                 endpointUrl = '/api/validate'
                 useBearerToken = false
                 tokenHeaderMissingStatusCode = HttpServletResponse.SC_UNAUTHORIZED    //401
+                enableAnonymousAccess = false
             }
 
             rendering {

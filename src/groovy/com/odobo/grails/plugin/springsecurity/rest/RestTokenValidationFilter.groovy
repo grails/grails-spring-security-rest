@@ -1,6 +1,8 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import grails.plugin.springsecurity.authentication.GrailsAnonymousAuthenticationToken
 import groovy.util.logging.Slf4j
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
@@ -39,6 +41,8 @@ class RestTokenValidationFilter extends GenericFilterBean {
     Boolean useBearerToken
 
     Integer tokenHeaderMissingStatusCode
+
+    Boolean enableAnonymousAccess
 
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -99,12 +103,24 @@ class RestTokenValidationFilter extends GenericFilterBean {
         HttpServletResponse servletResponse = response as HttpServletResponse
 
         def actualUri =  servletRequest.requestURI - servletRequest.contextPath
-        logger.debug "Actual URI is ${actualUri}; validate endpoint URL is ${validationEndpointUrl}"
 
         if (active) {
             if (!tokenValue) {
-                log.debug "Token header is missing. Sending a ${tokenHeaderMissingStatusCode} response"
-                servletResponse.sendError tokenHeaderMissingStatusCode, "Token header is missing"
+                log.debug "Token header is missing"
+                if (enableAnonymousAccess) {
+                    log.debug "Anonymous access is enabled"
+                    Authentication authentication = SecurityContextHolder.context.authentication
+                    if (authentication && authentication instanceof GrailsAnonymousAuthenticationToken) {
+                        log.debug "Request is already authenticated as anonymous request. Continuing the filter chain"
+                        chain.doFilter(request, response)
+                    } else {
+                        log.debug "However, request is not authenticated as anonymous. Sending a ${tokenHeaderMissingStatusCode} response"
+                        servletResponse.sendError tokenHeaderMissingStatusCode, "Token header is missing"
+                    }
+                } else {
+                    log.debug "Sending a ${tokenHeaderMissingStatusCode} response"
+                    servletResponse.sendError tokenHeaderMissingStatusCode, "Token header is missing"
+                }
             } else {
                 if (actualUri == validationEndpointUrl) {
                     log.debug "Validation endpoint called. Generating response."

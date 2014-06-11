@@ -130,6 +130,7 @@ class SpringSecurityRestGrailsPlugin {
             validationEndpointUrl = conf.rest.token.validation.endpointUrl
             active = conf.rest.token.validation.active
             useBearerToken = conf.rest.token.validation.useBearerToken ?: false
+            enableAnonymousAccess = conf.rest.token.validation.enableAnonymousAccess
             tokenHeaderMissingStatusCode = conf.rest.token.validation.tokenHeaderMissingStatusCode  // 401
             authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')
