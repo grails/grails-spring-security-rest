@@ -108,10 +108,38 @@ your application <code>&#64;Secured</code>, <code>springSecurityService.principa
 <code>springSecurityService.currentUser</code> expects a <code>grails.plugin.springsecurity.userdetails.GrailsUser</code> to perform a DB query.
 However, this plugins stores in the security context just a principal <code>Object</code>, because it does not assume you are using
 domain classes to store the users. Use <code>springSecurityService.principal</code> instead.
-</blockquote><p class="paragraph"/><h2>Validation Endpoint</h2><p class="paragraph"/>There is also an endpoint available that you can call in case you want to know if a given token is valid. It looks for
+</blockquote><p class="paragraph"/><h2>Anonymous access</h2><p class="paragraph"/>If you want to enable anonymous access to URL's where this plugin's filters are applied, you need to:
+<ol>
+<li>Configure <code>enableAnonymousAccess = true</code> (see table below).</li>
+<li>Make sure that the <code>anonymousAuthenticationFilter</code> is applied before <code>restTokenValidationFilter</code>. See <a href="../guide/single.html#configuration" class="guide">how to configure filters</a> for more details.</li>
+</ol><p class="paragraph"/>For example, with this configuration:<p class="paragraph"/><div class="code"><pre>grails &#123;
+    plugin &#123;
+        springsecurity &#123;
+            filterChain &#123;
+                chainMap = &#91;
+                    '/api/guest/&#42;&#42;': 'anonymousAuthenticationFilter,restTokenValidationFilter,restExceptionTranslationFilter,filterInvocationInterceptor',
+                    '/api/&#42;&#42;': 'JOINED_FILTERS,&#45;anonymousAuthenticationFilter,&#45;exceptionTranslationFilter,&#45;authenticationProcessingFilter,&#45;securityContextPersistenceFilter',
+                    '/&#42;&#42;': 'JOINED_FILTERS,&#45;restTokenValidationFilter,&#45;restExceptionTranslationFilter'
+                &#93;
+            &#125;<p class="paragraph"/>            //Other Spring Security settings
+            //...<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;
+                token &#123;
+                    validation &#123;
+                        enableAnonymousAccess = <span class="java&#45;keyword">true</span>
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;</pre></div><p class="paragraph"/>The following chains are configured:
+<ol>
+<li><code>/api/guest/&#42;*</code> is a stateless chain that allows anonymous access when no token is sent. If however a token is on the request, it will be validated.</li>
+<li><code>/api/&#42;*</code> is a stateless chain that doesn't allow anonymous access. Thus, the token will always be required, and if missing, a Bad Request reponse will be sent back to the client.</li>
+<li><code>/&#42;*</code> (read: everything else) is a traditional stateful chain.</li>
+</ol><p class="paragraph"/><h2>Validation Endpoint</h2><p class="paragraph"/>There is also an endpoint available that you can call in case you want to know if a given token is valid. It looks for
 the token in a HTTP header as well, and if the token is still valid, it renders <a href="../guide/single.html#authentication" class="guide">its JSON representation</a>.
 If the token does not exist, it will render a <code>grails.plugin.springsecurity.rest.login.failureStatusCode</code> response
-(<code>401</code> by default). The validation endpoint can be disabled with the corresponding option.<p class="paragraph"/>The relevant configuration properties are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.active</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.endpointUrl</code></td><td><code>/api/validate</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.tokenHeaderMissingStatusCode</code></td><td><code>401</code></td></tr></table>
+(<code>401</code> by default). The validation endpoint can be disabled with the corresponding option.<p class="paragraph"/>The relevant configuration properties are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.active</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.endpointUrl</code></td><td><code>/api/validate</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.tokenHeaderMissingStatusCode</code></td><td><code>401</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.enableAnonymousAccess</code></td><td><code>false</code></td></tr></table>
 
 
                 <div style="clear:both;margin-top:15px;"></div>
