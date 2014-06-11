@@ -91,4 +91,27 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
     }
 
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/74")
+    void "anonymous access works when enabled"() {
+        when:
+        def response = restBuilder.get("${baseUrl}/anonymous")
+
+        then:
+        response.text == 'Hi'
+        response.status == 200
+
+    }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/74")
+    void "in an anonymous chain, if a token is sent, is validated"() {
+        when:
+        def response = restBuilder.post("${baseUrl}/anonymous") {
+            header 'X-Auth-Token', 'whatever'
+        }
+
+        then:
+        response.status == 401
+
+    }
+
 }

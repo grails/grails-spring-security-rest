@@ -17,6 +17,48 @@ the Bearer Token specification for token passing.  Clients will be expected to p
 @Authorization: Bearer <token>@ header, or via the @access_token@ query string.  When enabled, any value for @springsecurity.rest.token.validation.headerName@
 will be ignored.
 
+h2. Anonymous access
+
+If you want to enable anonymous access to URL's where this plugin's filters are applied, you need to:
+
+# Configure @enableAnonymousAccess = true@ (see table below).
+# Make sure that the @anonymousAuthenticationFilter@ is applied before @restTokenValidationFilter@. See [how to configure filters|guide:configuration] for more details.
+
+For example, with this configuration:
+
+{code}
+grails {
+    plugin {
+        springsecurity {
+            filterChain {
+                chainMap = [
+                    '/api/guest/**': 'anonymousAuthenticationFilter,restTokenValidationFilter,restExceptionTranslationFilter,filterInvocationInterceptor',
+                    '/api/**': 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter',
+                    '/**': 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
+                ]
+            }
+
+            //Other Spring Security settings
+            //...
+
+            rest {
+                token {
+                    validation {
+                        enableAnonymousAccess = true
+                    }
+                }
+            }
+        }
+    }
+}
+{code}
+
+The following chains are configured:
+
+# @/api/guest/\**@ is a stateless chain that allows anonymous access when no token is sent. If however a token is on the request, it will be validated.
+# @/api/\**@ is a stateless chain that doesn't allow anonymous access. Thus, the token will always be required, and if missing, a Bad Request reponse will be sent back to the client.
+# @/\**@ (read: everything else) is a traditional stateful chain.
+
 h2. Validation Endpoint
 
 There is also an endpoint available that you can call in case you want to know if a given token is valid. It looks for
@@ -33,4 +75,5 @@ The relevant configuration properties are:
 @grails.plugin.springsecurity.rest.token.validation.endpointUrl@                    | @/api/validate@
 @grails.plugin.springsecurity.rest.token.validation.tokenHeaderMissingStatusCode@   | @401@
 @grails.plugin.springsecurity.rest.token.validation.useBearerToken@                 | @false@
+@grails.plugin.springsecurity.rest.token.validation.enableAnonymousAccess@          | @false@
 {table}
