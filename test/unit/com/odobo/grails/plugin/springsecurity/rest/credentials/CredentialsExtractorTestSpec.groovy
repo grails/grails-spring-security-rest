@@ -22,7 +22,7 @@ class CredentialsExtractorTestSpec extends Specification {
         given:
         def request = new GrailsMockHttpServletRequest()
         request.json = '{"username": "foo", "password": "bar"}'
-        def extractor = new DefaultJsonPayloadCredentialsExtractor(usernameParameter: 'username', passwordParameter: 'password')
+        def extractor = new DefaultJsonPayloadCredentialsExtractor(usernamePropertyName: 'username', passwordPropertyName: 'password')
 
         and: "Spring security configuration"
         SpringSecurityUtils.loadSecondaryConfig 'DefaultRestSecurityConfig'
@@ -41,7 +41,7 @@ class CredentialsExtractorTestSpec extends Specification {
         given:
         def request = new GrailsMockHttpServletRequest()
         request.json = '{"different": "format", "of": "JSON"}'
-        def extractor = new DefaultJsonPayloadCredentialsExtractor(usernameParameter: 'username', passwordParameter: 'password')
+        def extractor = new DefaultJsonPayloadCredentialsExtractor(usernamePropertyName: 'username', passwordPropertyName: 'password')
 
         when:
         def token = extractor.extractCredentials(request)
@@ -58,7 +58,7 @@ class CredentialsExtractorTestSpec extends Specification {
         given:
         def request = new GrailsMockHttpServletRequest()
         request.parameters = [username: 'foo', password: 'bar']
-        def extractor = new RequestParamsCredentialsExtractor(usernameParameter: 'username', passwordParameter: 'password')
+        def extractor = new RequestParamsCredentialsExtractor(usernamePropertyName: 'username', passwordPropertyName: 'password')
 
         when:
         def token = extractor.extractCredentials(request)
@@ -74,7 +74,7 @@ class CredentialsExtractorTestSpec extends Specification {
         given:
         def request = new GrailsMockHttpServletRequest()
         request.json = '{"login": "foo", "pwd": "bar"}'
-        def extractor = new DefaultJsonPayloadCredentialsExtractor(usernameParameter: 'login', passwordParameter: 'pwd')
+        def extractor = new DefaultJsonPayloadCredentialsExtractor(usernamePropertyName: 'login', passwordPropertyName: 'pwd')
 
         when:
         def token = extractor.extractCredentials(request)

@@ -87,17 +87,13 @@ class SpringSecurityRestGrailsPlugin {
             }
 
             def paramsClosure = {
-                usernameParameter = conf.rest.login.usernameParameter // username
-                passwordParameter = conf.rest.login.passwordParameter // password
+                usernamePropertyName = conf.rest.login.usernamePropertyName // username
+                passwordPropertyName = conf.rest.login.passwordPropertyName // password
             }
 
             if (conf.rest.login.useRequestParamsCredentials) {
                 credentialsExtractor(RequestParamsCredentialsExtractor, paramsClosure)
             } else if (conf.rest.login.useJsonCredentials) {
-                credentialsExtractor(DefaultJsonPayloadCredentialsExtractor, paramsClosure)
-            } else {
-                println """WARNING: credentials extraction strategy is not explicitly set. Falling back to JSON.
-Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/guide/authentication.html for more details"""
                 credentialsExtractor(DefaultJsonPayloadCredentialsExtractor, paramsClosure)
             }
 

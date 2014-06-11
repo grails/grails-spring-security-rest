@@ -136,14 +136,14 @@ The default implementation looks like this:
 @Slf4j
 class DefaultJsonPayloadCredentialsExtractor extends AbstractJsonPayloadCredentialsExtractor {
 
-    String usernameParameter
-    String passwordParameter
+    String usernamePropertyName
+    String passwordPropertyName
 
     UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) {
         def jsonBody = getJsonBody(httpServletRequest)
 
-        String username = jsonBody."${usernameParameter}"
-        String password = jsonBody."${passwordParameter}"
+        String username = jsonBody."${usernamePropertyName}"
+        String password = jsonBody."${passwordPropertyName}"
 
         log.debug "Extracted credentials from JSON payload. Username: ${username}, password: ${password?.size()?'[PROTECTED]':'[MISSING]'}"
 
@@ -162,6 +162,6 @@ Note that the name of the parameters can also be customised:
 {table}
 *Config key*                                                            | *Default value*
 @grails.plugin.springsecurity.rest.login.useRequestParamsCredentials@   | @false@
-@grails.plugin.springsecurity.rest.login.usernameParameter@             | @username@
-@grails.plugin.springsecurity.rest.login.passwordParameter@             | @password@
+@grails.plugin.springsecurity.rest.login.usernamePropertyName@          | @username@
+@grails.plugin.springsecurity.rest.login.passwordPropertyName@          | @password@
 {table}

@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletRequest
 @Slf4j
 class DefaultJsonPayloadCredentialsExtractor extends AbstractJsonPayloadCredentialsExtractor {
 
-    String usernameParameter
-    String passwordParameter
+    String usernamePropertyName
+    String passwordPropertyName
 
     UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) {
         def jsonBody = getJsonBody(httpServletRequest)
 
-        String username = jsonBody."${usernameParameter}"
-        String password = jsonBody."${passwordParameter}"
+        String username = jsonBody."${usernamePropertyName}"
+        String password = jsonBody."${passwordPropertyName}"
 
         log.debug "Extracted credentials from JSON payload. Username: ${username}, password: ${password?.size()?'[PROTECTED]':'[MISSING]'}"
 
