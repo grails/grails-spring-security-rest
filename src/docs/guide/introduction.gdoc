@@ -39,6 +39,10 @@ Cache support for [token storage|guide:tokenStorage].
 
 h4. Release History
 
+* 11 June 2014
+** [1.4.0.M3|https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=16&amp;state=closed]
+* 1 June 2014
+** [1.4.0.M2|https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=15&amp;state=closed]
 * 29 May 2014
 ** [1.4.0.M1|https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=14&amp;state=closed]
 * 23 April 2014

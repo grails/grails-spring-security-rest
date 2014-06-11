@@ -16,17 +16,13 @@ import net.spy.memcached.transcoders.SerializingTranscoder
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
 import org.springframework.security.web.access.ExceptionTranslationFilter
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
-import org.springframework.security.web.authentication.NullRememberMeServices
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository
-import org.springframework.security.web.context.NullSecurityContextRepository
-import org.springframework.security.web.context.SecurityContextPersistenceFilter
 import org.springframework.security.web.savedrequest.NullRequestCache
 
 import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.4.0.M2"
+    String version = "1.4.0.M3"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
