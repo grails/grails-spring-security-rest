@@ -31,6 +31,11 @@ This format can be customised with the following configuration keys:
 @grails.plugin.springsecurity.rest.token.rendering.authoritiesPropertyName@     | @roles@
 {table}
 
+{note}
+When @rest.token.useBearerToken == true@ the @tokenPropertyName@ cannot be overridden, and will default to
+@access_token@
+{/note}
+
 Eg, with the following configuration:
 
 {code}
