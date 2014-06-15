@@ -54,6 +54,7 @@ security {
                 active = true
                 headerName = 'X-Auth-Token'
                 endpointUrl = '/api/validate'
+                useBearerToken = false
             }
 
             rendering {
