@@ -46,7 +46,7 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
     void "a valid user can access the secured controller"() {
         given:
         RestResponse authResponse = sendCorrectCredentials()
-        String token = authResponse.json.token
+        String token = authResponse.json.access_token
 
         when:
         def response = restBuilder.get("${baseUrl}/secured") {
@@ -61,7 +61,7 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
     void "role restrictions are applied when user does not have enough credentials"() {
         given:
         RestResponse authResponse = sendCorrectCredentials()
-        String token = authResponse.json.token
+        String token = authResponse.json.access_token
 
         when:
         def response = restBuilder.get("${baseUrl}/secured/superAdmin") {
@@ -76,7 +76,7 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
     void "JSESSIONID cookie is not created when using the stateless chain"() {
         when:
         RestResponse authResponse = sendCorrectCredentials()
-        String token = authResponse.json.token
+        String token = authResponse.json.access_token
 
         then:
         !authResponse.headers.getFirst('Set-Cookie')

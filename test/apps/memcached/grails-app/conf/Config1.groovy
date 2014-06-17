@@ -164,6 +164,7 @@ grails {
                     }
                     validation {
                         enableAnonymousAccess = true
+                        useBearerToken = false
                     }
                 }
 

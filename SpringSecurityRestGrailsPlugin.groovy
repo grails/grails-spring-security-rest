@@ -3,7 +3,6 @@ import com.odobo.grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloa
 import com.odobo.grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
-import com.odobo.grails.plugin.springsecurity.rest.token.rendering.BearerTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
@@ -105,16 +104,19 @@ class SpringSecurityRestGrailsPlugin {
         restAuthenticationSuccessHandler(RestAuthenticationSuccessHandler) {
             renderer = ref('restAuthenticationTokenJsonRenderer')
         }
+        restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer) {
+            usernamePropertyName = conf.rest.token.rendering.usernamePropertyName
+            tokenPropertyName = conf.rest.token.rendering.tokenPropertyName
+            authoritiesPropertyName = conf.rest.token.rendering.authoritiesPropertyName
+            useBearerToken = conf.rest.token.validation.useBearerToken
+        }
 
         if( conf.rest.token.validation.useBearerToken ) {
             restAuthenticationFailureHandler(BearerTokenAuthenticationFailureHandler)
-            restAuthenticationTokenJsonRenderer(BearerTokenJsonRenderer)
-
         } else {
             restAuthenticationFailureHandler(RestAuthenticationFailureHandler) {
                 statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_UNAUTHORIZED
             }
-            restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer)
         }
 
         /* restTokenValidationFilter */
@@ -125,7 +127,7 @@ class SpringSecurityRestGrailsPlugin {
             headerName = conf.rest.token.validation.headerName
             validationEndpointUrl = conf.rest.token.validation.endpointUrl
             active = conf.rest.token.validation.active
-            useBearerToken = conf.rest.token.validation.useBearerToken ?: false
+            useBearerToken = conf.rest.token.validation.useBearerToken
             enableAnonymousAccess = conf.rest.token.validation.enableAnonymousAccess
             tokenHeaderMissingStatusCode = conf.rest.token.validation.tokenHeaderMissingStatusCode  // 401
             authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')

@@ -52,14 +52,14 @@ security {
                 active = true
                 headerName = 'X-Auth-Token'
                 endpointUrl = '/api/validate'
-                useBearerToken = false
                 tokenHeaderMissingStatusCode = HttpServletResponse.SC_UNAUTHORIZED    //401
                 enableAnonymousAccess = false
+                useBearerToken = true
             }
 
             rendering {
                 usernamePropertyName = 'username'
-                tokenPropertyName = 'token'
+                tokenPropertyName = 'access_token'
                 authoritiesPropertyName = 'roles'
             }
         }

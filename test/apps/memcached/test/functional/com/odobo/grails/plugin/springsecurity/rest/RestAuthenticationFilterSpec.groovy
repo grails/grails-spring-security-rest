@@ -55,7 +55,7 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
         then:
         response.status == 200
         response.json.username == 'jimi'
-        response.json.token
+        response.json.access_token
         response.json.roles.size() == 2
     }
 

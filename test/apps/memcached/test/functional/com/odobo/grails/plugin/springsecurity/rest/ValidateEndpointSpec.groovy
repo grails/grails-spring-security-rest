@@ -7,7 +7,7 @@ class ValidateEndpointSpec extends AbstractRestSpec {
     void "calling /api/validate with a valid token returns a JSON representation"() {
         given:
         RestResponse authResponse = sendCorrectCredentials()
-        String token = authResponse.json.token
+        String token = authResponse.json.access_token
 
         when:
         def response = restBuilder.get("${baseUrl}/api/validate") {
@@ -17,7 +17,7 @@ class ValidateEndpointSpec extends AbstractRestSpec {
         then:
         response.status == 200
         response.json.username == 'jimi'
-        response.json.token
+        response.json.access_token
         response.json.roles.size() == 2
     }
 
