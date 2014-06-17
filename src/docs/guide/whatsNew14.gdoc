@@ -1,0 +1,33 @@
+h2. Full compatibility with Spring Security core.
+
+Up to previous releases, this plugin was overriding "stateful" Spring Security core beans, to ensure a stateless behaviour.
+After some users reported issues integrating this plugin with existing installations, version 1.4 now follows a more
+friendly approach.
+
+A [new chapter|guide:configuration] has been created explaining how to configure the filter chains appropriately.
+
+h2. OAuth 2.0 implicit grant behaviour by default
+
+There is already one standard for the concept of "access tokens": [OAuth 2.0|http://tools.ietf.org/html/rfc6749] and its
+bearer tokens. Version 1.4 adopts it by default, more specifically the
+[implicit grant flow|http://tools.ietf.org/html/rfc6749#section-4.2].
+
+This affects basically to the default format of the expected requests and the generated responses by default. However
+everything can be configured to have the old behaviour, or even replaced completely with your own implementation.
+
+h2. Credentials are extracted from JSON by default
+
+It makes more sense in a REST application. The old behaviour can still be used by using the corresponding configuration
+property.
+
+h2. Anonymous access is allowed
+
+In case you want to enable anonymous access (read: not authenticated) to certain URL patterns, you can do so. Take a
+look at the [new chapter in the documentation|guide:tokenValidation].
+
+h2. Other minor changes
+
+* The HTTP status code returned when the token header is required but missing, is now configurable.
+* Upgraded dependencies:
+** @spring-security-core:2.0-RC3@.
+** @cors:1.1.6@.
