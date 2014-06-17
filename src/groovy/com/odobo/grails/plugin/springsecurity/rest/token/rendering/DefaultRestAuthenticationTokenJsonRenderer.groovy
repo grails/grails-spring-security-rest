@@ -18,20 +18,22 @@ import org.springframework.util.Assert
 @Slf4j
 class DefaultRestAuthenticationTokenJsonRenderer implements RestAuthenticationTokenJsonRenderer {
 
-    String generateJson(RestAuthenticationToken restAuthenticationToken) {
-        Assert.isInstanceOf(UserDetails, restAuthenticationToken.principal, "A UserDetails implementation is required")
-        UserDetails userDetails = restAuthenticationToken.principal
+    /**
+     * Collect the user details which should be returned with the token, and return them as a map.
+     * @param userDetails
+     * @return
+     */
+    protected collectUserProperties( UserDetails userDetails ) {
 
         def conf = SpringSecurityUtils.securityConfig
 
         String usernameProperty = conf.rest.token.rendering.usernamePropertyName
-        String tokenProperty = conf.rest.token.rendering.tokenPropertyName
         String authoritiesProperty = conf.rest.token.rendering.authoritiesPropertyName
 
-        def result = [:]
-        result["$usernameProperty"] = userDetails.username
-        result["$tokenProperty"] = restAuthenticationToken.tokenValue
-        result["$authoritiesProperty"] = userDetails.authorities.collect {GrantedAuthority role -> role.authority }
+        def result = [
+                (usernameProperty) : userDetails.username,
+                (authoritiesProperty) : userDetails.authorities.collect {GrantedAuthority role -> role.authority }
+        ]
 
         if (userDetails instanceof OauthUser) {
             CommonProfile profile = (userDetails as OauthUser).userProfile
@@ -40,6 +42,19 @@ class DefaultRestAuthenticationTokenJsonRenderer implements RestAuthenticationTo
                 displayName = profile.displayName
             }
         }
+
+        result
+    }
+
+    String generateJson(RestAuthenticationToken restAuthenticationToken) {
+        Assert.isInstanceOf(UserDetails, restAuthenticationToken.principal, "A UserDetails implementation is required")
+        UserDetails userDetails = restAuthenticationToken.principal
+
+        def conf = SpringSecurityUtils.securityConfig
+        String tokenProperty = conf.rest.token.rendering.tokenPropertyName
+
+        def result = collectUserProperties( userDetails )
+        result["$tokenProperty"] = restAuthenticationToken.tokenValue
 
         def jsonResult = result as JSON
 

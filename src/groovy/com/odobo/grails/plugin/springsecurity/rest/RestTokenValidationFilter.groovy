@@ -36,14 +36,33 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
     String validationEndpointUrl
     Boolean active
+    Boolean useBearerToken
 
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest servletRequest = request as HttpServletRequest
         HttpServletResponse servletResponse = response as HttpServletResponse
 
-        log.debug "Looking for a token value in the header '${headerName}'"
-        String tokenValue = servletRequest.getHeader(headerName)
+        String tokenValue
+
+        if( useBearerToken ) {
+            log.debug "Looking for bearer token in Authorization header or query-string"
+
+            if( servletRequest.getHeader( 'Authorization')?.startsWith( 'Bearer ') ) {
+                log.debug "Found bearer token in Authorization header"
+                tokenValue = servletRequest.getHeader( 'Authorization').substring(7)
+
+            } else {
+                tokenValue = getQueryAsMap( servletRequest.queryString )['access_token']
+            }
+
+        } else {
+
+            log.debug "Looking for a token value in the header '${headerName}'"
+            tokenValue = servletRequest.getHeader(headerName)
+
+        }
+
 
         if (tokenValue) {
             log.debug "Token found: ${tokenValue}"
@@ -98,5 +117,17 @@ class RestTokenValidationFilter extends GenericFilterBean {
             chain.doFilter(request, response)
         }
 
+    }
+
+    /**
+     * Returns the specified queryString as a map.
+     * @param queryString
+     * @return
+     */
+    private Map<String,String> getQueryAsMap( String queryString ) {
+        queryString.split('&').inject([:]) { map, token ->
+            token.split('=').with { map[it[0]] = it[1] }
+            map
+        }
     }
 }

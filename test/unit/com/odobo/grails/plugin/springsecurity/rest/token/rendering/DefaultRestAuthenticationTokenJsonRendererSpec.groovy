@@ -45,8 +45,8 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
 
         where:
         roles                                                                       | generatedJson
-        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"username":"john.doe","token":"1a2b3c4d","roles":["ADMIN","USER"]}'
-        []                                                                          | '{"username":"john.doe","token":"1a2b3c4d","roles":[]}'
+        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"username":"john.doe","roles":["ADMIN","USER"],"token":"1a2b3c4d"}'
+        []                                                                          | '{"username":"john.doe","roles":[],"token":"1a2b3c4d"}'
     }
 
     void "Render json with custom properties"() {
@@ -79,8 +79,8 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
 
         where:
         roles                                                                       | generatedJson
-        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"login":"john.doe","access_token":"1a2b3c4d","authorities":["ADMIN","USER"]}'
-        []                                                                          | '{"login":"john.doe","access_token":"1a2b3c4d","authorities":[]}'
+        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"login":"john.doe","authorities":["ADMIN","USER"],"access_token":"1a2b3c4d"}'
+        []                                                                          | '{"login":"john.doe","authorities":[],"access_token":"1a2b3c4d"}'
 
 
     }
@@ -125,7 +125,7 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         def jsonResult = renderer.generateJson(token)
 
         then:
-        jsonResult == '{"username":"john.doe","token":"1a2b3c4d","roles":["ADMIN","USER"],"email":"john@doe.com","displayName":"John Doe"}'
+        jsonResult == '{"username":"john.doe","roles":["ADMIN","USER"],"email":"john@doe.com","displayName":"John Doe","token":"1a2b3c4d"}'
     }
 
 }
