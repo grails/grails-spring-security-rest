@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>6 Token Validation Filter 1.4.0.M3</title>
+    <title>7 Token Validation Filter 1.4.0.M3</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -27,31 +27,34 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>2</strong><span>Configuration</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew14.html"><strong>2</strong><span>What's new in 1.4?</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>3</strong><span>Authentication Endpoint</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>4</strong><span>Token Generation</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>4</strong><span>Authentication Endpoint</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>5</strong><span>Token Storage</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>5</strong><span>Token Generation</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>6</strong><span>Token Validation Filter</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>6</strong><span>Token Storage</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>7</strong><span>CORS support</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>7</strong><span>Token Validation Filter</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>8</strong><span>Delegating authentication to OAuth providers</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>8</strong><span>CORS support</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>9</strong><span>Debugging</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>9</strong><span>Delegating authentication to OAuth providers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>10</strong><span>Frequently Asked Questions</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>10</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>11</strong><span>Frequently Asked Questions</span></a>
                     </div>
                     
                 </div>
@@ -77,18 +80,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/tokenStorage.html">&lt;&lt; <strong>5</strong><span>Token Storage</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/tokenStorage.html">&lt;&lt; <strong>6</strong><span>Token Storage</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/cors.html"><strong>7</strong><span>CORS support</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/cors.html"><strong>8</strong><span>CORS support</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>6 Token Validation Filter - Reference Documentation</h1>
+                    <h1>7 Token Validation Filter - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
@@ -101,7 +104,7 @@ function addJsClass() {
 
                 
 
-<h1 id="tokenValidation">6 Token Validation Filter</h1>
+<h1 id="tokenValidation">7 Token Validation Filter</h1>
 The token validation filter looks for the token in a HTTP header and then tries to validate the token using the configured
 <a href="../guide/single.html#tokenStorage" class="guide">token storage</a> implementation.<p class="paragraph"/>If the validation is successful, the principal object is stored in the security context. This allows you to use in
 your application <code>&#64;Secured</code>, <code>springSecurityService.principal</code> and so on.<p class="paragraph"/><blockquote class="note">
@@ -147,9 +150,9 @@ If the token does not exist, it will render a <code>grails.plugin.springsecurity
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/tokenStorage.html">&lt;&lt; <strong>5</strong><span>Token Storage</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/tokenStorage.html">&lt;&lt; <strong>6</strong><span>Token Storage</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/cors.html"><strong>7</strong><span>CORS support</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/cors.html"><strong>8</strong><span>CORS support</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

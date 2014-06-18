@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>8 Delegating authentication to OAuth providers 1.4.0.M3</title>
+    <title>9 Delegating authentication to OAuth providers 1.4.0.M3</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -27,31 +27,34 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>2</strong><span>Configuration</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew14.html"><strong>2</strong><span>What's new in 1.4?</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>3</strong><span>Authentication Endpoint</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>4</strong><span>Token Generation</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>4</strong><span>Authentication Endpoint</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>5</strong><span>Token Storage</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>5</strong><span>Token Generation</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>6</strong><span>Token Validation Filter</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>6</strong><span>Token Storage</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>7</strong><span>CORS support</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>7</strong><span>Token Validation Filter</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>8</strong><span>Delegating authentication to OAuth providers</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>8</strong><span>CORS support</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>9</strong><span>Debugging</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>9</strong><span>Delegating authentication to OAuth providers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>10</strong><span>Frequently Asked Questions</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>10</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>11</strong><span>Frequently Asked Questions</span></a>
                     </div>
                     
                 </div>
@@ -77,18 +80,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/cors.html">&lt;&lt; <strong>7</strong><span>CORS support</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/cors.html">&lt;&lt; <strong>8</strong><span>CORS support</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/debugging.html"><strong>9</strong><span>Debugging</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/debugging.html"><strong>10</strong><span>Debugging</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>8 Delegating authentication to OAuth providers - Reference Documentation</h1>
+                    <h1>9 Delegating authentication to OAuth providers - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
@@ -101,13 +104,13 @@ function addJsClass() {
                 <div id="table-of-content">
                     <h2>Table of Contents</h2>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#google"><strong>8.1</strong><span>Google</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#google"><strong>9.1</strong><span>Google</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#facebook"><strong>8.2</strong><span>Facebook</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#facebook"><strong>9.2</strong><span>Facebook</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#twitter"><strong>8.3</strong><span>Twitter</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#twitter"><strong>9.3</strong><span>Twitter</span></a>
                     </div>
                     
                 </div>
@@ -115,7 +118,7 @@ function addJsClass() {
 
                 
 
-<h1 id="oauth">8 Delegating authentication to OAuth providers</h1>
+<h1 id="oauth">9 Delegating authentication to OAuth providers</h1>
 This plugin is meant to be used in applications serving a REST API's to pure Javascript clients. The main authentication
 flow of this plugin is to allow you to authenticate your users against any Spring Security-compatible user directory
 (like a DB or an LDAP server).<p class="paragraph"/>However, there might be situations where you want to delegate the authentication against a third-party provider, like
@@ -188,7 +191,7 @@ has a chance to render a proper error message and/or offer the user the option t
 parameter will be empty, and both <code>error</code> and <code>message</code> params will be appended:<p class="paragraph"/><div class="code"><pre>http://your&#45;frontend&#45;app.com/auth&#45;success.html?token=&#38;error=403&#38;message=User+with+email+jimmy%40gmail.com+now+allowed.+Only+%40example.com+accounts+are+allowed</pre></div><p class="paragraph"/>Below are some examples on how to configure it for Google, Facebook and Twitter.
 
 
-<h2 id="google">8.1 Google</h2>
+<h2 id="google">9.1 Google</h2>
 Define the following block in your <code>Config.groovy</code>:<p class="paragraph"/><div class="code"><pre>grails &#123;
     plugin &#123;
         springsecurity &#123;<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;<p class="paragraph"/>                oauth &#123;<p class="paragraph"/>                    frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;<p class="paragraph"/>                    google &#123;<p class="paragraph"/>                        client = org.pac4j.oauth.client.Google2Client
@@ -208,7 +211,7 @@ uses the profile ID as the username, and that is only returned by Google if <cod
 
 
 
-<h2 id="facebook">8.2 Facebook</h2>
+<h2 id="facebook">9.2 Facebook</h2>
 Define the following block in your <code>Config.groovy</code>:<p class="paragraph"/><div class="code"><pre>grails &#123;
     plugin &#123;
         springsecurity &#123;<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;<p class="paragraph"/>                oauth &#123;<p class="paragraph"/>                    frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;<p class="paragraph"/>                    facebook &#123;<p class="paragraph"/>                        client = org.pac4j.oauth.client.FacebookClient
@@ -228,7 +231,7 @@ Define the following block in your <code>Config.groovy</code>:<p class="paragrap
 information you don't need.
 
 
-<h2 id="twitter">8.3 Twitter</h2>
+<h2 id="twitter">9.3 Twitter</h2>
 Define the following block in your <code>Config.groovy</code>:<p class="paragraph"/><div class="code"><pre>grails &#123;
     plugin &#123;
         springsecurity &#123;<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;<p class="paragraph"/>                oauth &#123;<p class="paragraph"/>                    frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;<p class="paragraph"/>                    twitter &#123;<p class="paragraph"/>                        client = org.pac4j.oauth.client.TwitterClient
@@ -245,9 +248,9 @@ Define the following block in your <code>Config.groovy</code>:<p class="paragrap
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/cors.html">&lt;&lt; <strong>7</strong><span>CORS support</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/cors.html">&lt;&lt; <strong>8</strong><span>CORS support</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/debugging.html"><strong>9</strong><span>Debugging</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/debugging.html"><strong>10</strong><span>Debugging</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

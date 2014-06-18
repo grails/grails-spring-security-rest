@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>3 Configuration 1.4.0.M3</title>
+    <title>2 What's new in 1.4? 1.4.0.M3</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -80,18 +80,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/whatsNew14.html">&lt;&lt; <strong>2</strong><span>What's new in 1.4?</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/authentication.html"><strong>4</strong><span>Authentication Endpoint</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>3 Configuration - Reference Documentation</h1>
+                    <h1>2 What's new in 1.4? - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
@@ -104,40 +104,29 @@ function addJsClass() {
 
                 
 
-<h1 id="configuration">3 Configuration</h1>
-Once the plugin is installed, the minimum configuration is to select what <a href="../guide/single.html#tokenStorage" class="guide">token storage</a> strategy
-do you want to use:
-<ol>
-<li><a href="../guide/single.html#grailsCache" class="guide">Grails Cache</a>.</li>
-<li><a href="../guide/single.html#memcached" class="guide">Memcached</a></li>
-<li><a href="../guide/single.html#gorm" class="guide">GORM</a>.</li>
-<li>Provide your own: implement</li>
-</ol><p class="paragraph"/><a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html" target="blank">TokenStorageService</a>
-and register it in <code>resources.groovy</code> as <code>tokenStorageService</code><p class="paragraph"/>All the other features can be used out-of-the-box with the default values, but please make sure you read the entire
-plugin documentation to understand how they work and how can they be configured.<p class="paragraph"/><h2>Plugin configuration</h2><p class="paragraph"/><blockquote class="note">
-This plugin depends on <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/newInV2.html" target="blank">Spring Security Core 2.x</a>.
-Make sure your application is compatible with that version first.
-</blockquote><p class="paragraph"/>This plugin is compatible by default with Spring Security core traditional, form-based authentication. The important thing
-to remember is: you have to separate the filter chains, so different filters are applied on each case.<p class="paragraph"/>The stateless, token-based approach of this plugin is incompatible with the HTTP session-based approach of Spring Security,
-core, so the trick is to identify what URL patterns have to be stateless, and what others have to be stateful (if any).<p class="paragraph"/>To configure the chains properly, you can use the <code>grails.plugin.springsecurity.filterChain.chainMap</code> property:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.filterChain.chainMap = &#91;
-    '/api/&#42;&#42;': 'JOINED_FILTERS,&#45;exceptionTranslationFilter,&#45;authenticationProcessingFilter,&#45;securityContextPersistenceFilter',  // Stateless chain
-    '/&#42;&#42;': 'JOINED_FILTERS,&#45;restTokenValidationFilter,&#45;restExceptionTranslationFilter'                                          // Traditional chain
-&#93;</pre></div><p class="paragraph"/>To understand this syntax, please read the
-<a href="http://grails-plugins.github.io/grails-spring-security-core/guide/filters.html" target="blank">Spring Security Core documentation</a>.
-Long story short: <code>JOINED_FILTERS</code> refers to all the configured filters. The minus (<code>-</code>) notation means all the previous values
-but the neglected one.<p class="paragraph"/>So the first chain applies all the filters except the stateful ones. The second one applies all the filters but the stateless ones.<p class="paragraph"/><blockquote class="note">
-Make sure that the stateless chain applies not only to your REST controllers, but also to the URL's where this plugin
-filters are listening: by default, <code>/api/login</code> for <a href="../guide/single.html#authentication" class="guide">authentication</a>, <code>/api/logout</code> for
-<a href="../guide/single.html#authentication" class="guide">logout</a> and <code>/api/validate</code> for <a href="../guide/single.html#tokenValidation" class="guide">token validation</a>.
-</blockquote><p class="paragraph"/>The difference is that, in a traditional form-based authentication, Spring Security will respond with an HTTP 302 redirect
-to the login controller. That doesn't work for an API, so in the stateless approach, an HTTP 401 response will be sent back.
+<h1 id="whatsNew14">2 What's new in 1.4?</h1>
+<h2>Full compatibility with Spring Security core.</h2><p class="paragraph"/>Up to previous releases, this plugin was overriding "stateful" Spring Security core beans, to ensure a stateless behaviour.
+After some users reported issues integrating this plugin with existing installations, version 1.4 now follows a more
+friendly approach.<p class="paragraph"/>A <a href="../guide/single.html#configuration" class="guide">new chapter</a> has been created explaining how to configure the filter chains appropriately.<p class="paragraph"/><h2>OAuth 2.0 implicit grant behaviour by default</h2><p class="paragraph"/>There is already one standard for the concept of "access tokens": <a href="http://tools.ietf.org/html/rfc6749" target="blank">OAuth 2.0</a> and its
+bearer tokens. Version 1.4 adopts it by default, more specifically the
+<a href="http://tools.ietf.org/html/rfc6749#section-4.2" target="blank">implicit grant flow</a>.<p class="paragraph"/>This affects basically to the default format of the expected requests and the generated responses by default. However
+everything can be configured to have the old behaviour, or even replaced completely with your own implementation.<p class="paragraph"/><h2>Credentials are extracted from JSON by default</h2><p class="paragraph"/>It makes more sense in a REST application. The old behaviour can still be used by using the corresponding configuration
+property.<p class="paragraph"/><h2>Anonymous access is allowed</h2><p class="paragraph"/>In case you want to enable anonymous access (read: not authenticated) to certain URL patterns, you can do so. Take a
+look at the <a href="../guide/single.html#tokenValidation" class="guide">new chapter in the documentation</a>.<p class="paragraph"/><h2>Other minor changes</h2>
+<ul class="star">
+<li>The HTTP status code returned when the token header is required but missing, is now configurable.</li>
+<li>Upgraded dependencies:</li>
+<ul class="star">
+<li><code>spring-security-core:2.0-RC3</code>.</li>
+<li><code>cors:1.1.6</code>.</li>
+</ul></ul><p class="paragraph"/>
 
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/whatsNew14.html">&lt;&lt; <strong>2</strong><span>What's new in 1.4?</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/authentication.html"><strong>4</strong><span>Authentication Endpoint</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

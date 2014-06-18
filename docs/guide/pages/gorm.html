@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5.2 GORM 1.4.0.M3</title>
+    <title>6.2 GORM 1.4.0.M3</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -27,31 +27,34 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/configuration.html"><strong>2</strong><span>Configuration</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/whatsNew14.html"><strong>2</strong><span>What's new in 1.4?</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/authentication.html"><strong>3</strong><span>Authentication Endpoint</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/configuration.html"><strong>3</strong><span>Configuration</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenGeneration.html"><strong>4</strong><span>Token Generation</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/authentication.html"><strong>4</strong><span>Authentication Endpoint</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenStorage.html"><strong>5</strong><span>Token Storage</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenGeneration.html"><strong>5</strong><span>Token Generation</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenValidation.html"><strong>6</strong><span>Token Validation Filter</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenStorage.html"><strong>6</strong><span>Token Storage</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/cors.html"><strong>7</strong><span>CORS support</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenValidation.html"><strong>7</strong><span>Token Validation Filter</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/oauth.html"><strong>8</strong><span>Delegating authentication to OAuth providers</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/cors.html"><strong>8</strong><span>CORS support</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/debugging.html"><strong>9</strong><span>Debugging</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/oauth.html"><strong>9</strong><span>Delegating authentication to OAuth providers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>10</strong><span>Frequently Asked Questions</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/debugging.html"><strong>10</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>11</strong><span>Frequently Asked Questions</span></a>
                     </div>
                     
                 </div>
@@ -77,18 +80,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>4</strong><span>Token Generation</span></a></div>
+                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>5</strong><span>Token Generation</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../../guide/tokenValidation.html"><strong>6</strong><span>Token Validation Filter</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/tokenValidation.html"><strong>7</strong><span>Token Validation Filter</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>5.2 GORM - Reference Documentation</h1>
+                    <h1>6.2 GORM - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
@@ -101,7 +104,7 @@ function addJsClass() {
 
                 
 
-<h2 id="gorm">5.2 GORM</h2>
+<h2 id="gorm">6.2 GORM</h2>
 To use GORM, those are the relevant configuration properties:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useGorm</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName</code></td><td><code>null</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.gorm.tokenValuePropertyName</code></td><td><code>tokenValue</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.gorm.usernamePropertyName</code></td><td><code>username</code></td></tr></table><p class="paragraph"/><blockquote class="note">
 Please note that for <code>tokenDomainClassName</code> you must enter a fully qualified class name.
 </blockquote><p class="paragraph"/>The domain class should look like this:<p class="paragraph"/><div class="code"><pre>class AuthenticationToken &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> tokenValue
@@ -116,9 +119,9 @@ the information from the mentioned domain classes.
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>4</strong><span>Token Generation</span></a></div>
+                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>5</strong><span>Token Generation</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../../guide/tokenValidation.html"><strong>6</strong><span>Token Validation Filter</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/tokenValidation.html"><strong>7</strong><span>Token Validation Filter</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
