@@ -1,7 +1,9 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.plugin.springsecurity.authentication.GrailsAnonymousAuthenticationToken
 import groovy.util.logging.Slf4j
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
@@ -51,15 +53,15 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
         String tokenValue
 
-        if( useBearerToken ) {
+        if (useBearerToken) {
             log.debug "Looking for bearer token in Authorization header or query-string"
 
-            if( servletRequest.getHeader( 'Authorization')?.startsWith( 'Bearer ') ) {
+            if (servletRequest.getHeader('Authorization')?.startsWith('Bearer ')) {
                 log.debug "Found bearer token in Authorization header"
-                tokenValue = servletRequest.getHeader( 'Authorization').substring(7)
+                tokenValue = servletRequest.getHeader('Authorization').substring(7)
 
             } else {
-                tokenValue = getQueryAsMap( servletRequest.queryString )['access_token']
+                tokenValue = getQueryAsMap(servletRequest.queryString)['access_token']
             }
 
         } else {
@@ -70,10 +72,10 @@ class RestTokenValidationFilter extends GenericFilterBean {
         }
 
 
-        if (tokenValue) {
-            log.debug "Token found: ${tokenValue}"
+        try {
+            if (tokenValue) {
+                log.debug "Token found: ${tokenValue}"
 
-            try {
                 log.debug "Trying to authenticate the token"
                 RestAuthenticationToken authenticationRequest = new RestAuthenticationToken(tokenValue)
                 RestAuthenticationToken authenticationResult = restAuthenticationProvider.authenticate(authenticationRequest) as RestAuthenticationToken
@@ -87,13 +89,13 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
                 }
 
-            } catch (AuthenticationException ae) {
-                log.debug "Authentication failed: ${ae.message}"
-                authenticationFailureHandler.onAuthenticationFailure(servletRequest, servletResponse, ae)
+            } else {
+                log.debug "Token not found"
+                processFilterChain(request, response, chain, tokenValue, null)
             }
-        } else {
-            log.debug "Token not found"
-            processFilterChain(request, response, chain, tokenValue, null)
+        } catch (AuthenticationException ae) {
+            log.debug "Authentication failed: ${ae.message}"
+            authenticationFailureHandler.onAuthenticationFailure(servletRequest, servletResponse, ae)
         }
 
     }
@@ -102,7 +104,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
         HttpServletRequest servletRequest = request as HttpServletRequest
         HttpServletResponse servletResponse = response as HttpServletResponse
 
-        def actualUri =  servletRequest.requestURI - servletRequest.contextPath
+        def actualUri = servletRequest.requestURI - servletRequest.contextPath
 
         if (active) {
             if (!tokenValue) {
@@ -114,12 +116,11 @@ class RestTokenValidationFilter extends GenericFilterBean {
                         log.debug "Request is already authenticated as anonymous request. Continuing the filter chain"
                         chain.doFilter(request, response)
                     } else {
-                        log.debug "However, request is not authenticated as anonymous. Sending a ${tokenHeaderMissingStatusCode} response"
-                        servletResponse.sendError tokenHeaderMissingStatusCode, "Token header is missing"
+                        log.debug "However, request is not authenticated as anonymous"
+                        throw new AuthenticationCredentialsNotFoundException("Token header is missing")
                     }
                 } else {
-                    log.debug "Sending a ${tokenHeaderMissingStatusCode} response"
-                    servletResponse.sendError tokenHeaderMissingStatusCode, "Token header is missing"
+                    throw new AuthenticationCredentialsNotFoundException("Token header is missing")
                 }
             } else {
                 if (actualUri == validationEndpointUrl) {
@@ -142,8 +143,8 @@ class RestTokenValidationFilter extends GenericFilterBean {
      * @param queryString
      * @return
      */
-    private Map<String,String> getQueryAsMap( String queryString ) {
-        queryString.split('&').inject([:]) { map, token ->
+    private Map<String, String> getQueryAsMap(String queryString) {
+        queryString?.split('&').inject([:]) { map, token ->
             token.split('=').with { map[it[0]] = it[1] }
             map
         }

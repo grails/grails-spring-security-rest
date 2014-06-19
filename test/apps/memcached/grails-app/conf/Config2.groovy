@@ -130,6 +130,7 @@ log4j = {
 
 }
 
+
 grails {
     plugin {
         springsecurity {
@@ -142,6 +143,7 @@ grails {
                     '/**': 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
                 ]
             }
+
             rest {
                 token {
                     storage {
@@ -149,37 +151,7 @@ grails {
                     }
                     validation {
                         enableAnonymousAccess = true
-                        useBearerToken = false
-                    }
-                }
-
-                oauth {
-                    frontendCallbackUrl = {String tokenValue -> "http://example.org#token=${tokenValue}" }
-
-                    google {
-                        client = Google2Client
-                        key = '1093785205845-hl3jv0rd8jfohkn55jchgmnpvdpsnal4.apps.googleusercontent.com'
-                        secret = 'sWXY3VMm4wKAGoRZg8r3ftZc'
-                        scope = Google2Client.Google2Scope.EMAIL_AND_PROFILE
-                        defaultRoles = ['ROLE_USER', 'ROLE_GOOGLE']
-                    }
-
-                    facebook {
-                        client = FacebookClient
-                        key = '585495051532332'
-                        secret = 'f6bfaff8c66a3fd7b1e9ec4c986fda8b'
-
-                        //https://developers.facebook.com/docs/reference/login/
-                        scope = 'email,user_location'
-                        fields = 'id,name,first_name,middle_name,last_name,username'
-                        defaultRoles = ['ROLE_USER', 'ROLE_FACEBOOK']
-                    }
-
-                    twitter {
-                        client = TwitterClient
-                        key = 'A2hwgEMfNIp7OF2f05Gqw'
-                        secret = 'BUpumhJGeNskn53Ssr3QQuesKg8lOIEWaLO4pCdgeTw'
-                        defaultRoles = ['ROLE_USER', 'ROLE_TWITTER']
+                        useBearerToken = true
                     }
                 }
             }

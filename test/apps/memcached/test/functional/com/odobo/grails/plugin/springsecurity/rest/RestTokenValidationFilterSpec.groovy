@@ -1,8 +1,11 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugins.rest.client.RestResponse
+import grails.util.Holders
+import spock.lang.IgnoreIf
 import spock.lang.Issue
 
+@IgnoreIf({ Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
 class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
     void "accessing a secured controller without token returns 401"() {

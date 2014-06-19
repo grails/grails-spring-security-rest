@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
 import org.springframework.security.core.AuthenticationException
@@ -30,13 +31,13 @@ class BearerTokenAuthenticationFailureHandler implements AuthenticationFailureHa
         String headerValue
 
         //response code is determined by authentication failure reason
-        if( e instanceof AuthenticationCredentialsNotFoundException ) {
-            //no credentials were provided.  Add no additional information
-            headerValue = 'Bearer'
-        } else {
+        if(e instanceof TokenNotFoundException) {
             //The user supplied credentials, but they did not match an account,
             // or there was an underlying authentication issue.
             headerValue = 'Bearer error="invalid_token"'
+        } else {
+            //no credentials were provided.  Add no additional information
+            headerValue = 'Bearer'
         }
 
         log.debug "Sending status code 401 and header WWW-Authenticate: ${headerValue}"

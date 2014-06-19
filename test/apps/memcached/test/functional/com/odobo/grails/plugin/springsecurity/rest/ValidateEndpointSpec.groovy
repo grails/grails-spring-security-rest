@@ -1,7 +1,10 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugins.rest.client.RestResponse
+import grails.util.Holders
+import spock.lang.IgnoreIf
 
+@IgnoreIf({ Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
 class ValidateEndpointSpec extends AbstractRestSpec {
 
     void "calling /api/validate with a valid token returns a JSON representation"() {

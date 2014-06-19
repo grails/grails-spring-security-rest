@@ -1,8 +1,11 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugins.rest.client.RestResponse
+import grails.util.Holders
+import spock.lang.IgnoreIf
 import spock.lang.Unroll
 
+@IgnoreIf({ Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
 class RestLogoutFilterSpec extends AbstractRestSpec {
 
     void "logout filter can remove a token"() {
