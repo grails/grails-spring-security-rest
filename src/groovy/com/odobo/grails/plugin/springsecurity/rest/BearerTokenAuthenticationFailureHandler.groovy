@@ -28,20 +28,26 @@ class BearerTokenAuthenticationFailureHandler implements AuthenticationFailureHa
     @Override
     void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
 
-        String headerValue
+        if (!response.containsHeader('WWW-Authenticate')) {
+            String headerValue
 
-        //response code is determined by authentication failure reason
-        if(e instanceof TokenNotFoundException) {
-            //The user supplied credentials, but they did not match an account,
-            // or there was an underlying authentication issue.
-            headerValue = 'Bearer error="invalid_token"'
-        } else {
-            //no credentials were provided.  Add no additional information
-            headerValue = 'Bearer'
+            //response code is determined by authentication failure reason
+            if(e instanceof TokenNotFoundException) {
+                //The user supplied credentials, but they did not match an account,
+                // or there was an underlying authentication issue.
+                headerValue = 'Bearer error="invalid_token"'
+            } else {
+                //no credentials were provided.  Add no additional information
+                headerValue = 'Bearer'
+            }
+
+            response.addHeader('WWW-Authenticate', headerValue)
         }
 
-        log.debug "Sending status code 401 and header WWW-Authenticate: ${headerValue}"
-        response.status = 401
-        response.addHeader( 'WWW-Authenticate', headerValue )
+        if (response.status == 200) {
+            response.status = 401
+        }
+
+        log.debug "Sending status code ${response.status} and header WWW-Authenticate: ${response.getHeader('WWW-Authenticate')}"
     }
 }

@@ -101,24 +101,6 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
     }
 
-    private boolean matchesBearerSpecPreconditions(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
-        boolean matches = true
-        if (servletRequest.contentType != 'application/x-www-form-urlencoded') {
-            log.debug "Invalid Content-Type: '${servletRequest.contentType}'. 'application/x-www-form-urlencoded' is mandatory"
-            servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, "Content-Type 'application/x-www-form-urlencoded' is mandatory when sending form-encoded body parameter requests with the access token (RFC 6750)"
-            matches = false
-        } else if (servletRequest.parts.size() > 1) {
-            log.debug "Invalid request: it contains ${servletRequest.parts.size()}"
-            servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, "HTTP request entity-body has to be single-part when sending form-encoded body parameter requests with the access token (RFC 6750)"
-            matches = false
-        } else if (servletRequest.get) {
-            log.debug "Invalid HTTP method: GET"
-            servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, "GET HTTP method must not be used when sending form-encoded body parameter requests with the access token (RFC 6750)"
-            matches = false
-        }
-        return matches
-    }
-
     private processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, String tokenValue, RestAuthenticationToken authenticationResult) {
         HttpServletRequest servletRequest = request as HttpServletRequest
         HttpServletResponse servletResponse = response as HttpServletResponse
@@ -127,7 +109,6 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
         if (active) {
             if (!tokenValue) {
-                log.debug "Token header is missing"
                 if (enableAnonymousAccess) {
                     log.debug "Anonymous access is enabled"
                     Authentication authentication = SecurityContextHolder.context.authentication
@@ -136,10 +117,10 @@ class RestTokenValidationFilter extends GenericFilterBean {
                         chain.doFilter(request, response)
                     } else {
                         log.debug "However, request is not authenticated as anonymous"
-                        throw new AuthenticationCredentialsNotFoundException("Token header is missing")
+                        throw new AuthenticationCredentialsNotFoundException("Token is missing")
                     }
                 } else {
-                    throw new AuthenticationCredentialsNotFoundException("Token header is missing")
+                    throw new AuthenticationCredentialsNotFoundException("Token is missing")
                 }
             } else {
                 if (actualUri == validationEndpointUrl) {
@@ -155,6 +136,29 @@ class RestTokenValidationFilter extends GenericFilterBean {
             chain.doFilter(request, response)
         }
 
+    }
+
+    private boolean matchesBearerSpecPreconditions(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+        boolean matches = true
+        String message = ''
+        if (servletRequest.contentType != 'application/x-www-form-urlencoded') {
+            log.debug "Invalid Content-Type: '${servletRequest.contentType}'. 'application/x-www-form-urlencoded' is mandatory"
+            message = "Content-Type 'application/x-www-form-urlencoded' is mandatory when sending form-encoded body parameter requests with the access token (RFC 6750)"
+            matches = false
+        } else if (servletRequest.parts.size() > 1) {
+            log.debug "Invalid request: it contains ${servletRequest.parts.size()}"
+            message = "HTTP request entity-body has to be single-part when sending form-encoded body parameter requests with the access token (RFC 6750)"
+            matches = false
+        } else if (servletRequest.get) {
+            log.debug "Invalid HTTP method: GET"
+            message = "GET HTTP method must not be used when sending form-encoded body parameter requests with the access token (RFC 6750)"
+            matches = false
+        }
+        if (!matches) {
+            servletResponse.addHeader('WWW-Authenticate', 'Bearer error="invalid_request"')
+            servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, message
+        }
+        return matches
     }
 
     /**

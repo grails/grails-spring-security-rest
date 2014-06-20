@@ -84,6 +84,7 @@ class BearerTokenSpec extends AbstractRestSpec {
 
         then:
         response.status == 400
+        response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer error="invalid_request"'
     }
 
     void "GET HTTP method must not be used when sending form-encoded body parameter requests with the access token"() {
@@ -94,6 +95,7 @@ class BearerTokenSpec extends AbstractRestSpec {
 
         then:
         response.status == 400
+        response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer error="invalid_request"'
     }
 
 }
