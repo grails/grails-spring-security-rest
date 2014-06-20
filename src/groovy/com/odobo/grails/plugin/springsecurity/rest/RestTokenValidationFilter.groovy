@@ -44,8 +44,6 @@ class RestTokenValidationFilter extends GenericFilterBean {
     Boolean active
     Boolean useBearerToken
 
-    Integer tokenHeaderMissingStatusCode
-
     Boolean enableAnonymousAccess
 
     @Override

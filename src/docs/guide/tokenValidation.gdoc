@@ -1,4 +1,4 @@
-The token validation filter looks for the token in a HTTP header and then tries to validate the token using the configured
+The token validation filter looks for the token in the request and then tries to validate it using the configured
 [token storage|guide:tokenStorage] implementation.
 
 If the validation is successful, the principal object is stored in the security context. This allows you to use in
@@ -10,14 +10,43 @@ However, this plugins stores in the security context just a principal @Object@, 
 domain classes to store the users. Use @springSecurityService.principal@ instead.
 {note}
 
-h2. Bearer Token Specification
+This plugin supports [RFC 6750 Bearer Token|http://tools.ietf.org/html/rfc6750] specification out-of-the-box.
 
-When the @springsecurity.rest.token.validation.useBearerToken@ option is enabled, the plugin will use
-the Bearer Token specification for token passing.  Clients will be expected to pass their tokens either by using the
-@Authorization: Bearer <token>@ header, or via the @access_token@ query string.  When enabled, any value for @springsecurity.rest.token.validation.headerName@
-will be ignored.
+h2. Sending tokens in the request
+
+The token can be sent in the @Authorization@ request reader:
+
+{code}
+GET /protectedResource HTTP/1.1
+Host: server.example.com
+Authorization: Bearer 3bicek1gc63oai6tfjkhog4kqn8ojd6a
+{code}
+
+Or using form-encoded body parameters:
+
+{code}
+POST /protectedResource HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+access_token=3bicek1gc63oai6tfjkhog4kqn8ojd6a
+{code}
+
+Note that in this case, @GET@ HTTP method is not supported.
+
+If you disable the bearer token support, you can customise it further:
+
+{code}
+grails.plugin.springsecurity.rest.token.validation.useBearerToken = false
+grails.plugin.springsecurity.rest.token.validation.headerName = 'X-Auth-Token'
+{code}
 
 h2. Anonymous access
+
+{note}
+Bearer token support must be disabled for anonymous access to work. Otherwise, the requests will be considered as bad
+requests.
+{note}
 
 If you want to enable anonymous access to URL's where this plugin's filters are applied, you need to:
 
@@ -64,16 +93,13 @@ h2. Validation Endpoint
 There is also an endpoint available that you can call in case you want to know if a given token is valid. It looks for
 the token in a HTTP header as well, and if the token is still valid, it renders [its JSON representation|guide:authentication].
 If the token does not exist, it will render a @grails.plugin.springsecurity.rest.login.failureStatusCode@ response
-(@401@ by default). The validation endpoint can be disabled with the corresponding option.
+(@401@ by default).
 
-The relevant configuration properties are:
+The relevant configuration properties for the validation endpoint are:
 
 {table}
 *Config key*                                                                        | *Default value*
 @grails.plugin.springsecurity.rest.token.validation.active@                         | @true@
 @grails.plugin.springsecurity.rest.token.validation.headerName@                     | @X-Auth-Token@
 @grails.plugin.springsecurity.rest.token.validation.endpointUrl@                    | @/api/validate@
-@grails.plugin.springsecurity.rest.token.validation.tokenHeaderMissingStatusCode@   | @401@
-@grails.plugin.springsecurity.rest.token.validation.useBearerToken@                 | @false@
-@grails.plugin.springsecurity.rest.token.validation.enableAnonymousAccess@          | @false@
 {table}
