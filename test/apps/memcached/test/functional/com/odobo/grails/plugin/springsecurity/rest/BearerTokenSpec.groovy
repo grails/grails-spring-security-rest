@@ -8,9 +8,9 @@ import spock.lang.IgnoreRest
 import spock.lang.Issue
 
 @IgnoreIf({ !Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
+@Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/73")
 class BearerTokenSpec extends AbstractRestSpec {
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/75")
     void "access token response is compliant with the specification"() {
         when:
         RestResponse response = sendCorrectCredentials()
@@ -25,7 +25,6 @@ class BearerTokenSpec extends AbstractRestSpec {
 
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/73")
     void "authorisation header is checked to read token value"() {
         given:
         RestResponse authResponse = sendCorrectCredentials()
@@ -40,7 +39,6 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.status == 200
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/73")
     void "Form-Encoded body parameter can be used"() {
         given:
         RestResponse authResponse = sendCorrectCredentials()
@@ -56,7 +54,6 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.status == 200
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/73")
     void "if credentials are required but missing, the response contains WWW-Authenticate header"() {
         when:
         ErrorResponse response = restBuilder.post("${baseUrl}/secured") {
@@ -68,7 +65,6 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer'
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/73")
     void "if the token is invalid, it is indicated in the header"() {
         when:
         ErrorResponse response = restBuilder.get("${baseUrl}/secured") {
@@ -80,5 +76,24 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer error="invalid_token"'
     }
 
+    void "Content-Type 'application/x-www-form-urlencoded' is mandatory when sending form-encoded body parameter requests with the access token"() {
+        when:
+        ErrorResponse response = restBuilder.post("${baseUrl}/secured") {
+            contentType 'text/plain'
+        }
+
+        then:
+        response.status == 400
+    }
+
+    void "GET HTTP method must not be used when sending form-encoded body parameter requests with the access token"() {
+        when:
+        ErrorResponse response = restBuilder.get("${baseUrl}/secured") {
+            contentType 'application/x-www-form-urlencoded'
+        }
+
+        then:
+        response.status == 400
+    }
 
 }

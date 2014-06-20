@@ -8,11 +8,12 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
+import spock.lang.IgnoreRest
 import spock.lang.Specification
 
-class RestTokenValidationFilterSpec extends Specification {
+class RestTokenValidationFilterUnitSpec extends Specification {
 
-    def filter = new RestTokenValidationFilter()
+    def filter = new RestTokenValidationFilter(active: true)
 
     def request  = new MockHttpServletRequest()
     def response = new MockHttpServletResponse()
@@ -24,7 +25,7 @@ class RestTokenValidationFilterSpec extends Specification {
     }
 
     void "authentication passes when using valid token with custom header"() {
-
+        given:
         filter.restAuthenticationProvider = new StubRestAuthenticationProvider(
                 validToken: token,
                 username: 'user',
@@ -42,14 +43,13 @@ class RestTokenValidationFilterSpec extends Specification {
         notThrown( TokenNotFoundException )
 
         where:
-
         token = 'mytokenvalue'
         headerName << [ 'AuthToken', 'FooBarHeader' ]
 
     }
 
     void "authentication fails when using invalid token with custom header"() {
-
+        given:
         filter.restAuthenticationProvider = new StubRestAuthenticationProvider(
                 validToken: token,
                 username: 'user',
@@ -62,18 +62,17 @@ class RestTokenValidationFilterSpec extends Specification {
         filter.doFilter( request, response, chain )
 
         then:
-
         1 * filter.authenticationFailureHandler.onAuthenticationFailure( request, response, _ as AuthenticationException )
 
         where:
-
         token = 'mytokenvalue'
         headerName << [ 'AuthToken', 'FooBarHeader' ]
-
     }
 
+    @IgnoreRest
     void "authentication succeeds when using valid token in Authorization header with bearer token"() {
-
+        given:
+        def token = 'abcdefghijklmnopqrstuvwxyz'
         filter.useBearerToken = true
         filter.restAuthenticationProvider = new StubRestAuthenticationProvider(
                 validToken: token,
@@ -86,18 +85,14 @@ class RestTokenValidationFilterSpec extends Specification {
         filter.doFilter( request, response, chain )
 
         then:
-
         response.status == 200
         0 * filter.authenticationFailureHandler.onAuthenticationFailure( _, _, _ )
         notThrown( TokenNotFoundException )
-
-        where:
-
-        token = 'abcdefghijklmnopqrstuvwxyz'
     }
 
     void "authentication fails when using invalid token in Authorization header with bearer token"() {
-
+        given:
+        def token = 'abcdefghijklmnopqrstuvwxyz'
         filter.useBearerToken = true
         filter.restAuthenticationProvider = new StubRestAuthenticationProvider(
                 validToken: token,
@@ -110,17 +105,13 @@ class RestTokenValidationFilterSpec extends Specification {
         filter.doFilter( request, response, chain )
 
         then:
-
         1 * filter.authenticationFailureHandler.onAuthenticationFailure( request, response, _ as AuthenticationException )
-
-        where:
-
-        token = 'abcdefghijklmnopqrstuvwxyz'
     }
 
 
     void "authentication succeeds when using valid token in query string with bearer token"() {
-
+        given:
+        def token = 'abcdefghijklmnopqrstuvwxyz'
         filter.useBearerToken = true
         filter.restAuthenticationProvider = new StubRestAuthenticationProvider(
                 validToken: token,
@@ -133,18 +124,14 @@ class RestTokenValidationFilterSpec extends Specification {
         filter.doFilter( request, response, chain )
 
         then:
-
         response.status == 200
         0 * filter.authenticationFailureHandler.onAuthenticationFailure( _, _, _ )
         notThrown( TokenNotFoundException )
-
-        where:
-
-        token = 'abcdefghijklmnopqrstuvwxyz'
     }
 
     void "authentication fails when using invalid token in query string with bearer token"() {
-
+        given:
+        def token = 'abcdefghijklmnopqrstuvwxyz'
         filter.useBearerToken = true
         filter.restAuthenticationProvider = new StubRestAuthenticationProvider(
                 validToken: token,
@@ -153,17 +140,11 @@ class RestTokenValidationFilterSpec extends Specification {
         )
 
         when:
-
         request.queryString = "access_token=${token}invalidinvalid"
         filter.doFilter( request, response, chain )
 
         then:
-
         1 * filter.authenticationFailureHandler.onAuthenticationFailure( request, response, _ as AuthenticationException )
-
-        where:
-
-        token = 'abcdefghijklmnopqrstuvwxyz'
     }
 }
 
