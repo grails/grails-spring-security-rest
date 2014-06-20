@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>2 What's new in 1.4? 1.4.0.M3</title>
+    <title>2 What's new in 1.4? 1.4.0.RC1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -42,19 +42,22 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>6</strong><span>Token Storage</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>7</strong><span>Token Validation Filter</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenRendering.html"><strong>7</strong><span>Token Rendering</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>8</strong><span>CORS support</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>8</strong><span>Token Validation Filter</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>9</strong><span>Delegating authentication to OAuth providers</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>9</strong><span>CORS support</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>10</strong><span>Debugging</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>10</strong><span>Delegating authentication to OAuth providers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>11</strong><span>Frequently Asked Questions</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>11</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>12</strong><span>Frequently Asked Questions</span></a>
                     </div>
                     
                 </div>
@@ -95,7 +98,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
-                    <p><strong>Version:</strong> 1.4.0.M3</p>
+                    <p><strong>Version:</strong> 1.4.0.RC1</p>
 
                     
                 </div>
@@ -107,14 +110,12 @@ function addJsClass() {
 <h1 id="whatsNew14">2 What's new in 1.4?</h1>
 <h2>Full compatibility with Spring Security core.</h2><p class="paragraph"/>Up to previous releases, this plugin was overriding "stateful" Spring Security core beans, to ensure a stateless behaviour.
 After some users reported issues integrating this plugin with existing installations, version 1.4 now follows a more
-friendly approach.<p class="paragraph"/>A <a href="../guide/single.html#configuration" class="guide">new chapter</a> has been created explaining how to configure the filter chains appropriately.<p class="paragraph"/><h2>OAuth 2.0 implicit grant behaviour by default</h2><p class="paragraph"/>There is already one standard for the concept of "access tokens": <a href="http://tools.ietf.org/html/rfc6749" target="blank">OAuth 2.0</a> and its
-bearer tokens. Version 1.4 adopts it by default, more specifically the
-<a href="http://tools.ietf.org/html/rfc6749#section-4.2" target="blank">implicit grant flow</a>.<p class="paragraph"/>This affects basically to the default format of the expected requests and the generated responses by default. However
-everything can be configured to have the old behaviour, or even replaced completely with your own implementation.<p class="paragraph"/><h2>Credentials are extracted from JSON by default</h2><p class="paragraph"/>It makes more sense in a REST application. The old behaviour can still be used by using the corresponding configuration
+friendly approach.<p class="paragraph"/>A <a href="../guide/single.html#configuration" class="guide">new chapter</a> has been created explaining how to configure the filter chains appropriately.<p class="paragraph"/><h2>RFC 6750 Bearer Token support by default</h2><p class="paragraph"/>Now, the token validation and rendering aligns with the <a href="http://tools.ietf.org/html/rfc6750" target="blank">RFC 6750 Bearer Token</a> spec.
+If you want to keep the old behaviour, simply disable it by setting
+<code>grails.plugin.springsecurity.rest.token.validation.useBearerToken = false</code><p class="paragraph"/><h2>Credentials are extracted from JSON by default</h2><p class="paragraph"/>It makes more sense in a REST application. The old behaviour can still be used by using the corresponding configuration
 property.<p class="paragraph"/><h2>Anonymous access is allowed</h2><p class="paragraph"/>In case you want to enable anonymous access (read: not authenticated) to certain URL patterns, you can do so. Take a
 look at the <a href="../guide/single.html#tokenValidation" class="guide">new chapter in the documentation</a>.<p class="paragraph"/><h2>Other minor changes</h2>
 <ul class="star">
-<li>The HTTP status code returned when the token header is required but missing, is now configurable.</li>
 <li>Upgraded dependencies:</li>
 <ul class="star">
 <li><code>spring-security-core:2.0-RC3</code>.</li>

@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Spring Security REST Plugin 1.4.0.M3</title>
+        <title>Spring Security REST Plugin 1.4.0.RC1</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -35,15 +35,17 @@ function addJsClass(el) {
                             
                             <div class="toc-item" style="margin-left:0"><a href="#tokenStorage"><strong>6</strong><span>Token Storage</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:0"><a href="#tokenValidation"><strong>7</strong><span>Token Validation Filter</span></a></div>
+                            <div class="toc-item" style="margin-left:0"><a href="#tokenRendering"><strong>7</strong><span>Token Rendering</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:0"><a href="#cors"><strong>8</strong><span>CORS support</span></a></div>
+                            <div class="toc-item" style="margin-left:0"><a href="#tokenValidation"><strong>8</strong><span>Token Validation Filter</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:0"><a href="#oauth"><strong>9</strong><span>Delegating authentication to OAuth providers</span></a></div>
+                            <div class="toc-item" style="margin-left:0"><a href="#cors"><strong>9</strong><span>CORS support</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:0"><a href="#debugging"><strong>10</strong><span>Debugging</span></a></div>
+                            <div class="toc-item" style="margin-left:0"><a href="#oauth"><strong>10</strong><span>Delegating authentication to OAuth providers</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:0"><a href="#faq"><strong>11</strong><span>Frequently Asked Questions</span></a></div>
+                            <div class="toc-item" style="margin-left:0"><a href="#debugging"><strong>11</strong><span>Debugging</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#faq"><strong>12</strong><span>Frequently Asked Questions</span></a></div>
                             
                         </div>
                     </div>
@@ -72,7 +74,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Spring Security REST Plugin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
-                            <p><strong>Version:</strong> 1.4.0.M3</p>
+                            <p><strong>Version:</strong> 1.4.0.RC1</p>
                             
                         </div>
 
@@ -100,21 +102,23 @@ function addJsClass(el) {
                             
                             <div class="toc-item" style="margin-left:10px"><a href="#grailsCache"><strong>6.3</strong><span>Grails Cache</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:0px"><a href="#tokenValidation"><strong>7</strong><span>Token Validation Filter</span></a></div>
+                            <div class="toc-item" style="margin-left:0px"><a href="#tokenRendering"><strong>7</strong><span>Token Rendering</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:0px"><a href="#cors"><strong>8</strong><span>CORS support</span></a></div>
+                            <div class="toc-item" style="margin-left:0px"><a href="#tokenValidation"><strong>8</strong><span>Token Validation Filter</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:0px"><a href="#oauth"><strong>9</strong><span>Delegating authentication to OAuth providers</span></a></div>
+                            <div class="toc-item" style="margin-left:0px"><a href="#cors"><strong>9</strong><span>CORS support</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:10px"><a href="#google"><strong>9.1</strong><span>Google</span></a></div>
+                            <div class="toc-item" style="margin-left:0px"><a href="#oauth"><strong>10</strong><span>Delegating authentication to OAuth providers</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:10px"><a href="#facebook"><strong>9.2</strong><span>Facebook</span></a></div>
+                            <div class="toc-item" style="margin-left:10px"><a href="#google"><strong>10.1</strong><span>Google</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:10px"><a href="#twitter"><strong>9.3</strong><span>Twitter</span></a></div>
+                            <div class="toc-item" style="margin-left:10px"><a href="#facebook"><strong>10.2</strong><span>Facebook</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:0px"><a href="#debugging"><strong>10</strong><span>Debugging</span></a></div>
+                            <div class="toc-item" style="margin-left:10px"><a href="#twitter"><strong>10.3</strong><span>Twitter</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:0px"><a href="#faq"><strong>11</strong><span>Frequently Asked Questions</span></a></div>
+                            <div class="toc-item" style="margin-left:0px"><a href="#debugging"><strong>11</strong><span>Debugging</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#faq"><strong>12</strong><span>Frequently Asked Questions</span></a></div>
                             
                             <div style="clear:both" ></div>
                         </div>
@@ -148,6 +152,10 @@ storing tokens gives you the chance to decide about expiration strategies.<p cla
 with ready-to-use <a href="../guide/single.html#tokenGeneration" class="guide">token generation strategies</a> and comes prepackaged with Memcached, GORM and Grails
 Cache support for <a href="../guide/single.html#tokenStorage" class="guide">token storage</a>.<p class="paragraph"/><h4>Release History</h4>
 <ul class="star">
+<li>20 June 2014</li>
+<ul class="star">
+<li><a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=17&amp;state=closed" target="blank">1.4.0.RC1</a></li>
+</ul>
 <li>11 June 2014</li>
 <ul class="star">
 <li><a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues?milestone=16&amp;state=closed" target="blank">1.4.0.M3</a></li>
@@ -225,14 +233,12 @@ Cache support for <a href="../guide/single.html#tokenStorage" class="guide">toke
 <h1 id="whatsNew14">2 What's new in 1.4?</h1>
 <h2>Full compatibility with Spring Security core.</h2><p class="paragraph"/>Up to previous releases, this plugin was overriding "stateful" Spring Security core beans, to ensure a stateless behaviour.
 After some users reported issues integrating this plugin with existing installations, version 1.4 now follows a more
-friendly approach.<p class="paragraph"/>A <a href="../guide/single.html#configuration" class="guide">new chapter</a> has been created explaining how to configure the filter chains appropriately.<p class="paragraph"/><h2>OAuth 2.0 implicit grant behaviour by default</h2><p class="paragraph"/>There is already one standard for the concept of "access tokens": <a href="http://tools.ietf.org/html/rfc6749" target="blank">OAuth 2.0</a> and its
-bearer tokens. Version 1.4 adopts it by default, more specifically the
-<a href="http://tools.ietf.org/html/rfc6749#section-4.2" target="blank">implicit grant flow</a>.<p class="paragraph"/>This affects basically to the default format of the expected requests and the generated responses by default. However
-everything can be configured to have the old behaviour, or even replaced completely with your own implementation.<p class="paragraph"/><h2>Credentials are extracted from JSON by default</h2><p class="paragraph"/>It makes more sense in a REST application. The old behaviour can still be used by using the corresponding configuration
+friendly approach.<p class="paragraph"/>A <a href="../guide/single.html#configuration" class="guide">new chapter</a> has been created explaining how to configure the filter chains appropriately.<p class="paragraph"/><h2>RFC 6750 Bearer Token support by default</h2><p class="paragraph"/>Now, the token validation and rendering aligns with the <a href="http://tools.ietf.org/html/rfc6750" target="blank">RFC 6750 Bearer Token</a> spec.
+If you want to keep the old behaviour, simply disable it by setting
+<code>grails.plugin.springsecurity.rest.token.validation.useBearerToken = false</code><p class="paragraph"/><h2>Credentials are extracted from JSON by default</h2><p class="paragraph"/>It makes more sense in a REST application. The old behaviour can still be used by using the corresponding configuration
 property.<p class="paragraph"/><h2>Anonymous access is allowed</h2><p class="paragraph"/>In case you want to enable anonymous access (read: not authenticated) to certain URL patterns, you can do so. Take a
 look at the <a href="../guide/single.html#tokenValidation" class="guide">new chapter in the documentation</a>.<p class="paragraph"/><h2>Other minor changes</h2>
 <ul class="star">
-<li>The HTTP status code returned when the token header is required but missing, is now configurable.</li>
 <li>Upgraded dependencies:</li>
 <ul class="star">
 <li><code>spring-security-core:2.0-RC3</code>.</li>
@@ -247,9 +253,8 @@ do you want to use:
 <li><a href="../guide/single.html#grailsCache" class="guide">Grails Cache</a>.</li>
 <li><a href="../guide/single.html#memcached" class="guide">Memcached</a></li>
 <li><a href="../guide/single.html#gorm" class="guide">GORM</a>.</li>
-<li>Provide your own: implement</li>
-</ol><p class="paragraph"/><a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html" target="blank">TokenStorageService</a>
-and register it in <code>resources.groovy</code> as <code>tokenStorageService</code><p class="paragraph"/>All the other features can be used out-of-the-box with the default values, but please make sure you read the entire
+<li>Provide your own: implement <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html" target="blank">TokenStorageService</a> and register it in <code>resources.groovy</code> as <code>tokenStorageService</code></li>
+</ol><p class="paragraph"/>All the other features can be used out-of-the-box with the default values, but please make sure you read the entire
 plugin documentation to understand how they work and how can they be configured.<p class="paragraph"/><h2>Plugin configuration</h2><p class="paragraph"/><blockquote class="note">
 This plugin depends on <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/newInV2.html" target="blank">Spring Security Core 2.x</a>.
 Make sure your application is compatible with that version first.
@@ -275,43 +280,15 @@ uses the default <code>authenticationManager</code> bean, which in turn uses all
 providers. See the <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/authenticationProviders.html" target="blank">Spring Security Core guide</a>
 for more information about how to define your own providers. Note that you can easily plug any Spring Security sub-plugin
 (like the LDAP one) to use a different authentication strategy.<p class="paragraph"/>If the authentication is successful, a <a href="../guide/single.html#tokenGeneration" class="guide">token generator</a> is used to generate a token, and a
-<a href="../guide/single.html#tokenStorage" class="guide">token storage</a> implementation is used to store the token.<p class="paragraph"/>Finally, the JSON response sent back to the client is rendered by a <code>restAuthenticationTokenJsonRenderer</code> bean. The plugin
-offers you a <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/rendering/DefaultRestAuthenticationTokenJsonRenderer.html" target="blank">default implementation</a>
-that renders a response like this:<p class="paragraph"/><div class="code"><pre>&#123;
-    <span class="java&#45;quote">"username"</span>: <span class="java&#45;quote">"john.doe"</span>,
-    <span class="java&#45;quote">"token"</span>: <span class="java&#45;quote">"1a2b3c4d"</span>,
-    <span class="java&#45;quote">"roles"</span>: &#91;
-        <span class="java&#45;quote">"ADMIN"</span>,
-        <span class="java&#45;quote">"USER"</span>
-    &#93;
-&#125;</pre></div><p class="paragraph"/>This format can be customised with the following configuration keys:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.rendering.usernamePropertyName</code></td><td><code>username</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.rendering.tokenPropertyName</code></td><td><code>token</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.rendering.authoritiesPropertyName</code></td><td><code>roles</code></td></tr></table><p class="paragraph"/><blockquote class="note">
-When <code>rest.token.useBearerToken == true</code> the <code>tokenPropertyName</code> cannot be overridden, and will default to
-<code>access_token</code>
-{/note}<p class="paragraph"/>Eg, with the following configuration:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.token.rendering.usernamePropertyName = 'login'
-grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.token.rendering.tokenPropertyName = 'access_token'
-grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.token.rendering.authoritiesPropertyName = 'permissions'</pre></div><p class="paragraph"/>The output will look like:<p class="paragraph"/><div class="code"><pre>&#123;
-    <span class="java&#45;quote">"login"</span>: <span class="java&#45;quote">"john.doe"</span>,
-    <span class="java&#45;quote">"access_token"</span>: <span class="java&#45;quote">"1a2b3c4d"</span>,
-    <span class="java&#45;quote">"permissions"</span>: &#91;
-        <span class="java&#45;quote">"ADMIN"</span>,
-        <span class="java&#45;quote">"USER"</span>
-    &#93;
-&#125;</pre></div><p class="paragraph"/>If you want your own, simply create a class implementing
-<a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/rendering/RestAuthenticationTokenJsonRenderer.html" target="blank">RestAuthenticationTokenJsonRenderer</a>
-and wire it up in <code>resources.groovy</code> with name <code>restAuthenticationTokenJsonRenderer</code>.<p class="paragraph"/></blockquote>
-The principal object stored in the security context, and passed to the JSON renderer, is coming from the configured
-authentication providers. In most cases, this will be a <code>UserDetails</code> object retrieved using the <code>userDetailsService</code> bean.
-If you want to render additional information in your JSON response, you have to:
-<ol>
-<li>Configure an alternative <code>userDetailsService</code> bean that retrieves the additional information you want, and put it in a principal object.</li>
-<li>Configure an alternative <code>restAuthenticationTokenJsonRenderer</code> that reads that information from the <code>restAuthenticationToken.principal</code> object.</li>
-</ol><p class="paragraph"/><blockquote class="note"><p class="paragraph"/>The following are the <code>Config.groovy</code> properties available:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.active</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.endpointUrl</code></td><td><code>/api/login</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.failureStatusCode</code></td><td><code>401</code></td></tr></table><p class="paragraph"/></blockquote>
+<a href="../guide/single.html#tokenStorage" class="guide">token storage</a> implementation is used to store the token. Finally, the JSON response sent back to the
+client is rendered by a <code>restAuthenticationTokenJsonRenderer</code> bean. See the <a href="../guide/single.html#tokenRendering" class="guide">token rendering documentation</a>
+for more details.<p class="paragraph"/><blockquote class="note">
 This authentication filter will only be applied to the above configured URL and can also be disabled, in case a different approach
 for token creation is followed. In the rest of the cases, the request will continue through the filter chain, reaching Spring Security
 Core filters. Bear in mind that, by default, Spring Security Core 2.x locks down all URL's unless a explicit securiy rule has been
 specified for each of them.<p class="paragraph"/>See <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/single.html#requestMappings" target="blank">Spring Security Core documentation</a>
 for more information.
-<blockquote class="note">null</blockquote><p class="paragraph"/><h2>Extracting credentials from the request</h2><p class="paragraph"/>The plugin supports 2 ways of extracting the username and password: using request parameters, and using a JSON payload.
+</blockquote><p class="paragraph"/>The following are the <code>Config.groovy</code> properties available:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.active</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.endpointUrl</code></td><td><code>/api/login</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.failureStatusCode</code></td><td><code>401</code></td></tr></table><p class="paragraph"/><h2>Extracting credentials from the request</h2><p class="paragraph"/>The plugin supports 2 ways of extracting the username and password: using request parameters, and using a JSON payload.
 To align with the RESTful principles, JSON payload is the default behaviour.<p class="paragraph"/><h3>From a JSON request</h3><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.useJsonCredentials</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.usernamePropertyName</code></td><td><code>username</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.passwordPropertyName</code></td><td><code>password</code></td></tr></table><p class="paragraph"/>
 The default implementation expects a request like this:<p class="paragraph"/><div class="code"><pre>&#123;
     <span class="java&#45;quote">"username"</span>: <span class="java&#45;quote">"john.doe"</span>,
@@ -328,7 +305,6 @@ class DefaultJsonPayloadCredentialsExtractor <span class="java&#45;keyword">exte
         def jsonBody = getJsonBody(httpServletRequest)<p class="paragraph"/>        <span class="java&#45;object">String</span> username = jsonBody.<span class="java&#45;quote">"$&#123;usernamePropertyName&#125;"</span>
         <span class="java&#45;object">String</span> password = jsonBody.<span class="java&#45;quote">"$&#123;passwordPropertyName&#125;"</span><p class="paragraph"/>        log.debug <span class="java&#45;quote">"Extracted credentials from JSON payload. Username: $&#123;username&#125;, password: $&#123;password?.size()?'&#91;PROTECTED&#93;':'&#91;MISSING&#93;'&#125;"</span><p class="paragraph"/>        <span class="java&#45;keyword">new</span> UsernamePasswordAuthenticationToken(username, password)
     &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>Once you are done, register it in <code>resources.groovy</code> with the name <code>credentialsExtractor</code>.<p class="paragraph"/><h3>From request parameters</h3><p class="paragraph"/>Note that the name of the parameters can also be customised:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.useRequestParamsCredentials</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.usernamePropertyName</code></td><td><code>username</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.passwordPropertyName</code></td><td><code>password</code></td></tr></table>
-
 
 
 <h2 id="logout">4.1 Logout Endpoint</h2>
@@ -379,17 +355,62 @@ To use <a href="http://grails.org/plugin/cache" target="blank">Grails Cache</a>,
 
 
 
-<h1 id="tokenValidation">7 Token Validation Filter</h1>
-The token validation filter looks for the token in a HTTP header and then tries to validate the token using the configured
+<h1 id="tokenRendering">7 Token Rendering</h1>
+By default, this plugin renders the token in <a href="http://tools.ietf.org/html/rfc6750" target="blank">RFC 6750 Bearer Token</a> format:<p class="paragraph"/><div class="code"><pre>HTTP/1.1 200 OK
+Content&#45;Type: application/json;charset=UTF&#45;8
+Cache&#45;Control: no&#45;store
+Pragma: no&#45;cache<p class="paragraph"/>&#123;
+    <span class="java&#45;quote">"access_token"</span>:<span class="java&#45;quote">"3bicek1gc63oai6tfjkhog4kqn8ojd6a"</span>,
+    <span class="java&#45;quote">"token_type"</span>:<span class="java&#45;quote">"Bearer"</span>,
+    <span class="java&#45;quote">"username"</span>: <span class="java&#45;quote">"john.doe"</span>,
+    <span class="java&#45;quote">"roles"</span>: &#91;
+        <span class="java&#45;quote">"ROLE_ADMIN"</span>,
+        <span class="java&#45;quote">"ROLE_USER"</span>
+    &#93;
+&#125;</pre></div><p class="paragraph"/><blockquote class="note">
+As per the RFC, <code>access_token</code> and <code>token_type</code> property names cannot be customised.
+</blockquote><p class="paragraph"/>The JSON structure can be customised with the following configuration keys:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.rendering.usernamePropertyName</code></td><td><code>username</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.rendering.authoritiesPropertyName</code></td><td><code>roles</code></td></tr></table><p class="paragraph"/>Eg, with the following configuration:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.token.rendering.usernamePropertyName = 'login'
+grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.token.rendering.authoritiesPropertyName = 'permissions'</pre></div><p class="paragraph"/>The output will look like:<p class="paragraph"/><div class="code"><pre>&#123;
+    <span class="java&#45;quote">"access_token"</span>:<span class="java&#45;quote">"3bicek1gc63oai6tfjkhog4kqn8ojd6a"</span>,
+    <span class="java&#45;quote">"token_type"</span>:<span class="java&#45;quote">"Bearer"</span>,
+    <span class="java&#45;quote">"login"</span>: <span class="java&#45;quote">"john.doe"</span>,
+    <span class="java&#45;quote">"permissions"</span>: &#91;
+        <span class="java&#45;quote">"ROLE_ADMIN"</span>,
+        <span class="java&#45;quote">"ROLE_USER"</span>
+    &#93;
+&#125;</pre></div><p class="paragraph"/><h2>Disabling bearer tokens support for full response customisation</h2><p class="paragraph"/>In order to fully customise the response, you need first to disable bearer tokens support by setting
+<code>grails.plugin.springsecurity.rest.token.validation.useBearerToken = false</code>. That will enable you to use this additional
+property:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.rendering.tokenPropertyName</code></td><td><code>access_token</code></td></tr></table><p class="paragraph"/><blockquote class="warning">
+Disabling bearer token support impacts the way tokens are extracted from the HTTP request. Please, read carefully
+<a href="../guide/single.html#tokenValidation" class="guide">the chapter about token validation</a> first.
+</blockquote><p class="paragraph"/>If you want your own implementation, simply create a class implementing
+<a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/rendering/RestAuthenticationTokenJsonRenderer.html" target="blank">RestAuthenticationTokenJsonRenderer</a>
+and wire it up in <code>resources.groovy</code> with name <code>restAuthenticationTokenJsonRenderer</code>.<p class="paragraph"/><blockquote class="note">
+The principal object stored in the security context, and passed to the JSON renderer, is coming from the configured
+authentication providers. In most cases, this will be a <code>UserDetails</code> object retrieved using the <code>userDetailsService</code> bean.
+If you want to render additional information in your JSON response, you have to:
+<ol>
+<li>Configure an alternative <code>userDetailsService</code> bean that retrieves the additional information you want, and put it in a principal object.</li>
+<li>Configure an alternative <code>restAuthenticationTokenJsonRenderer</code> that reads that information from the <code>restAuthenticationToken.principal</code> object.</li>
+</ol><p class="paragraph"/></blockquote>
+
+
+<h1 id="tokenValidation">8 Token Validation Filter</h1>
+The token validation filter looks for the token in the request and then tries to validate it using the configured
 <a href="../guide/single.html#tokenStorage" class="guide">token storage</a> implementation.<p class="paragraph"/>If the validation is successful, the principal object is stored in the security context. This allows you to use in
 your application <code>&#64;Secured</code>, <code>springSecurityService.principal</code> and so on.<p class="paragraph"/><blockquote class="note">
 <code>springSecurityService.currentUser</code> expects a <code>grails.plugin.springsecurity.userdetails.GrailsUser</code> to perform a DB query.
 However, this plugins stores in the security context just a principal <code>Object</code>, because it does not assume you are using
 domain classes to store the users. Use <code>springSecurityService.principal</code> instead.
-</blockquote><p class="paragraph"/><h2>Bearer Token Specification</h2><p class="paragraph"/>When the <code>springsecurity.rest.token.validation.useBearerToken</code> option is enabled, the plugin will use
-the Bearer Token specification for token passing.  Clients will be expected to pass their tokens either by using the
-<code>Authorization: Bearer &#60;token&#62;</code> header, or via the <code>access_token</code> query string.  When enabled, any value for <code>springsecurity.rest.token.validation.headerName</code>
-will be ignored.<p class="paragraph"/><h2>Anonymous access</h2><p class="paragraph"/>If you want to enable anonymous access to URL's where this plugin's filters are applied, you need to:
+</blockquote><p class="paragraph"/>This plugin supports <a href="http://tools.ietf.org/html/rfc6750" target="blank">RFC 6750 Bearer Token</a> specification out-of-the-box.<p class="paragraph"/><h2>Sending tokens in the request</h2><p class="paragraph"/>The token can be sent in the <code>Authorization</code> request reader:<p class="paragraph"/><div class="code"><pre>GET /protectedResource HTTP/1.1
+Host: server.example.com
+Authorization: Bearer 3bicek1gc63oai6tfjkhog4kqn8ojd6a</pre></div><p class="paragraph"/>Or using form-encoded body parameters:<p class="paragraph"/><div class="code"><pre>POST /protectedResource HTTP/1.1
+Host: server.example.com
+Content&#45;Type: application/x&#45;www&#45;form&#45;urlencoded<p class="paragraph"/>access_token=3bicek1gc63oai6tfjkhog4kqn8ojd6a</pre></div><p class="paragraph"/>Note that in this case, <code>GET</code> HTTP method is not supported.<p class="paragraph"/>If you disable the bearer token support, you can customise it further:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.token.validation.useBearerToken = <span class="java&#45;keyword">false</span>
+grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.token.validation.headerName = 'X&#45;Auth&#45;Token'</pre></div><p class="paragraph"/><h2>Anonymous access</h2><p class="paragraph"/><blockquote class="note">
+Bearer token support must be disabled for anonymous access to work. Otherwise, the requests will be considered as bad
+requests.
+</blockquote><p class="paragraph"/>If you want to enable anonymous access to URL's where this plugin's filters are applied, you need to:
 <ol>
 <li>Configure <code>enableAnonymousAccess = true</code> (see table below).</li>
 <li>Make sure that the <code>anonymousAuthenticationFilter</code> is applied before <code>restTokenValidationFilter</code>. See <a href="../guide/single.html#configuration" class="guide">how to configure filters</a> for more details.</li>
@@ -420,20 +441,20 @@ will be ignored.<p class="paragraph"/><h2>Anonymous access</h2><p class="paragra
 </ol><p class="paragraph"/><h2>Validation Endpoint</h2><p class="paragraph"/>There is also an endpoint available that you can call in case you want to know if a given token is valid. It looks for
 the token in a HTTP header as well, and if the token is still valid, it renders <a href="../guide/single.html#authentication" class="guide">its JSON representation</a>.
 If the token does not exist, it will render a <code>grails.plugin.springsecurity.rest.login.failureStatusCode</code> response
-(<code>401</code> by default). The validation endpoint can be disabled with the corresponding option.<p class="paragraph"/>The relevant configuration properties are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.active</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.endpointUrl</code></td><td><code>/api/validate</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.tokenHeaderMissingStatusCode</code></td><td><code>401</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.useBearerToken</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.enableAnonymousAccess</code></td><td><code>false</code></td></tr></table>
+(<code>401</code> by default).<p class="paragraph"/>The relevant configuration properties for the validation endpoint are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.active</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.endpointUrl</code></td><td><code>/api/validate</code></td></tr></table>
 
 
-<h1 id="cors">8 CORS support</h1>
+<h1 id="cors">9 CORS support</h1>
 This plugin comes pre-installed with the <a href="http://grails.org/plugin/cors" target="blank">CORS plugin</a>, which enables
 <a href="http://www.w3.org/TR/cors/" target="blank">Cross-Origin Resource Sharing</a>. Refer to the
 <a href="https://github.com/davidtinker/grails-cors/blob/master/README.md" target="blank">plugin documentation</a> to learn how to configure it.<p class="paragraph"/>The CORS plugin activates itself by default. If you don't want it for some environments, you can use
 <code>cors.enabled = false</code> within the appropriate environment block in your <code>Config.groovy</code>.<p class="paragraph"/>If you don't want CORS support at all, you can skip the plugin by excluding it
-when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.4.0.M3', &#123;
+when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.4.0.RC1', &#123;
     exclude 'cors
 &#125;</pre></div>
 
 
-<h1 id="oauth">9 Delegating authentication to OAuth providers</h1>
+<h1 id="oauth">10 Delegating authentication to OAuth providers</h1>
 This plugin is meant to be used in applications serving a REST API's to pure Javascript clients. The main authentication
 flow of this plugin is to allow you to authenticate your users against any Spring Security-compatible user directory
 (like a DB or an LDAP server).<p class="paragraph"/>However, there might be situations where you want to delegate the authentication against a third-party provider, like
@@ -506,7 +527,7 @@ has a chance to render a proper error message and/or offer the user the option t
 parameter will be empty, and both <code>error</code> and <code>message</code> params will be appended:<p class="paragraph"/><div class="code"><pre>http://your&#45;frontend&#45;app.com/auth&#45;success.html?token=&#38;error=403&#38;message=User+with+email+jimmy%40gmail.com+now+allowed.+Only+%40example.com+accounts+are+allowed</pre></div><p class="paragraph"/>Below are some examples on how to configure it for Google, Facebook and Twitter.
 
 
-<h2 id="google">9.1 Google</h2>
+<h2 id="google">10.1 Google</h2>
 Define the following block in your <code>Config.groovy</code>:<p class="paragraph"/><div class="code"><pre>grails &#123;
     plugin &#123;
         springsecurity &#123;<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;<p class="paragraph"/>                oauth &#123;<p class="paragraph"/>                    frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;<p class="paragraph"/>                    google &#123;<p class="paragraph"/>                        client = org.pac4j.oauth.client.Google2Client
@@ -526,7 +547,7 @@ uses the profile ID as the username, and that is only returned by Google if <cod
 
 
 
-<h2 id="facebook">9.2 Facebook</h2>
+<h2 id="facebook">10.2 Facebook</h2>
 Define the following block in your <code>Config.groovy</code>:<p class="paragraph"/><div class="code"><pre>grails &#123;
     plugin &#123;
         springsecurity &#123;<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;<p class="paragraph"/>                oauth &#123;<p class="paragraph"/>                    frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;<p class="paragraph"/>                    facebook &#123;<p class="paragraph"/>                        client = org.pac4j.oauth.client.FacebookClient
@@ -546,7 +567,7 @@ Define the following block in your <code>Config.groovy</code>:<p class="paragrap
 information you don't need.
 
 
-<h2 id="twitter">9.3 Twitter</h2>
+<h2 id="twitter">10.3 Twitter</h2>
 Define the following block in your <code>Config.groovy</code>:<p class="paragraph"/><div class="code"><pre>grails &#123;
     plugin &#123;
         springsecurity &#123;<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;<p class="paragraph"/>                oauth &#123;<p class="paragraph"/>                    frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;<p class="paragraph"/>                    twitter &#123;<p class="paragraph"/>                        client = org.pac4j.oauth.client.TwitterClient
@@ -561,7 +582,7 @@ Define the following block in your <code>Config.groovy</code>:<p class="paragrap
 &#125;</pre></div><p class="paragraph"/>There is no additional configuration for Twitter.
 
 
-<h1 id="debugging">10 Debugging</h1>
+<h1 id="debugging">11 Debugging</h1>
 If you need debug information, you can specify the following entries in <code>Config.groovy</code>:<p class="paragraph"/><div class="code"><pre>log4j = &#123;
     ...<p class="paragraph"/>    debug  'com.odobo',
            'grails.app.controllers.com.odobo',
@@ -572,7 +593,7 @@ If you need debug information, you can specify the following entries in <code>Co
 
 
 
-<h1 id="faq">11 Frequently Asked Questions</h1>
+<h1 id="faq">12 Frequently Asked Questions</h1>
 <h2>Why this token-based implementation? Can't I use HTTP basic authentication?</h2><p class="paragraph"/>In theory you can. The only restriction to be truly stateless is to not use HTTP sessions at all. So if you go with
 basic authentication, you need to transfer the credentials back and forth every time.<p class="paragraph"/>Let's think about that. Keep in mind that your frontend is a pure HTML/Javascript application, consuming a REST API
 from the Grails side. So the first time, the Javascript application will make an API query and will receive a 401 response
@@ -581,7 +602,8 @@ them with Base64 and in the next request, you send an HTTP header like <code>Aut
 would need to store that Base64 encoded string somewhere: cookies? HTML5 local storage? In any case, they are accessible
 using browser tools. And that's the point: there is a huge security risk because Base64 it's not encryption, just encoding.
 And it can be easily decoded.<p class="paragraph"/>You could argue that someone can access the token in the browser. Yes, but having the token will not allow him to obtain
-user's credentials. The tokens are just not decodable. And they can be revoked if necessary.<p class="paragraph"/>This is more or less the strategy used by OAuth: they use basically tokens in headers. More on this on the next question.<p class="paragraph"/>There is also more reasons to be in favour of tokens:
+user's credentials. The tokens are just not decodable. And they can be revoked if necessary.<p class="paragraph"/>Fortunately for you, a token-based solution is not a magic idea that I only got; it's actually a specification:
+<a href="http://tools.ietf.org/html/rfc6750" target="blank">RFC 6750 - The OAuth 2.0 Authorization Framework: Bearer Token Usage</a>.<p class="paragraph"/>There is also more reasons to be in favour of tokens:
 <ul class="star">
 <li>With basic auth, every single API call would have to check credentials. In the token-based implementation, specially if you use Memcached, the authentication results are cached.</li>
 <li>With basic auth, you are sending the credentials all the time. Ok, you can use SSL, but still I think it's more elegant to use tokens.</li>
@@ -589,19 +611,22 @@ user's credentials. The tokens are just not decodable. And they can be revoked i
 <ul class="star">
 <li><a href="http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services" target="blank">http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services</a></li>
 <li><a href="http://blog.brunoscopelliti.com/authentication-to-a-restful-web-service-in-an-angularjs-web-app" target="blank">http://blog.brunoscopelliti.com/authentication-to-a-restful-web-service-in-an-angularjs-web-app</a></li>
-</ul><p class="paragraph"/><h2>Why can't the API be secured with OAuth</h2><p class="paragraph"/>Because to do so, you would need to store consumer key and consumer secret in the browser. Seriously, you don't want
+</ul><p class="paragraph"/><h2>Why can't the API be secured with OAuth?</h2><p class="paragraph"/><a href="http://tools.ietf.org/html/rfc6749" target="blank">RFC 6749 - OAuth 2.0</a> specification does cover this scenario in what they call
+"public clients":<p class="paragraph"/><div class="code"><pre>Clients incapable of maintaining the confidentiality of their credentials (e.g., clients executing on the device used by the
+resource owner, such as an installed <span class="java&#45;keyword">native</span> application or a web browser&#45;based application), and incapable of secure client
+authentication via any other means.</pre></div><p class="paragraph"/>Using OAuth, you would need to store consumer key and consumer secret in the browser. Seriously, you don't want
 to do that. The problem with OAuth is that it's designed for when the consumer is a server-side application. And it just
 does not work well with pure Javascript front-ends. In this scenario, your frontend would be the OAuth consumer and
-your Grails backend the OAuth provider<p class="paragraph"/>A different story is to delegate the actual authentication to other OAuth providers: this scenario is possible, and
-actually <a href="../guide/single.html#oauth" class="guide">this plugin supports it</a>. In this case, the consumer will be the Grails application, and it's
-absolutely fine to store consumer keys on the server, as they are never exposed to the browser.<p class="paragraph"/><h2>Why you didn't use any of the existing OAuth plugins? Why pac4j?</h2><p class="paragraph"/>I'm aware of plugins like <a href="http://grails.org/plugin/oauth" target="blank">OAuth</a> and
+your Grails backend the OAuth provider.<p class="paragraph"/>The OAuth 2.0 specification supports public clients with the implicit grant. This plugin supports that by default when
+you <a href="../guide/single.html#oauth" class="guide">delegate the authentication to another OAuth provider</a>. If it's you who are authenticating the users
+(via DB, LDAP, etc), the token-based flow of this plugin is  <em class="italic">OAuth-ish</em> .<p class="paragraph"/><h2>Why you didn't use any of the existing OAuth plugins? Why pac4j?</h2><p class="paragraph"/>I'm aware of plugins like <a href="http://grails.org/plugin/oauth" target="blank">OAuth</a> and
 <a href="http://grails.org/plugin/spring-security-oauth" target="blank">Spring Security OAuth</a>, but all of them rely on Spring Security Core's
 way of using HTTP sessions. So not acceptable.<p class="paragraph"/>I chose pac4j because:
 <ol>
 <li>They support major OAuth 2.0 providers out-of-the-box, whereas Scribe does not.</li>
 <li>It's deadly simple and works just fine.</li>
 </ol><p class="paragraph"/>I'm also aware of a pac4j-spring-security module. See my previous response on HTTP sessions.<p class="paragraph"/><h2>Dude, this is awesome. How can I compensate you?</h2><p class="paragraph"/>I doubt you can :). You may try giving me free beers the next time you see me in a conference. Or you can just express
-your gratitude via <a href="https://twitter.com/alvaro_sanchez" target="blank">Twitter</a>
+your gratitude via <a href="https://twitter.com/alvaro_sanchez" target="blank">Twitter</a>.
 
                     </div>
                 </td>
