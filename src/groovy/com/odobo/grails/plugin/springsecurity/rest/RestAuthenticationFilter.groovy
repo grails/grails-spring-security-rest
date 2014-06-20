@@ -48,6 +48,8 @@ class RestAuthenticationFilter extends GenericFilterBean {
     TokenGenerator tokenGenerator
     TokenStorageService tokenStorageService
 
+    Boolean useBearerToken
+
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 

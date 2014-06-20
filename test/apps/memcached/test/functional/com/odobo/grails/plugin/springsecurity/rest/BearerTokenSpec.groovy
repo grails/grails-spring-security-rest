@@ -4,6 +4,7 @@ import grails.plugins.rest.client.ErrorResponse
 import grails.plugins.rest.client.RestResponse
 import grails.util.Holders
 import spock.lang.IgnoreIf
+import spock.lang.IgnoreRest
 import spock.lang.Issue
 
 @IgnoreIf({ !Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
@@ -40,9 +41,27 @@ class BearerTokenSpec extends AbstractRestSpec {
     }
 
     @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/73")
+    void "Form-Encoded body parameter can be used"() {
+        given:
+        RestResponse authResponse = sendCorrectCredentials()
+        String token = authResponse.json.access_token
+
+        when:
+        def response = restBuilder.post("${baseUrl}/secured") {
+            contentType 'application/x-www-form-urlencoded'
+            body "access_token=${token}".toString()
+        }
+
+        then:
+        response.status == 200
+    }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/73")
     void "if credentials are required but missing, the response contains WWW-Authenticate header"() {
         when:
-        ErrorResponse response = restBuilder.get("${baseUrl}/secured")
+        ErrorResponse response = restBuilder.post("${baseUrl}/secured") {
+            contentType 'application/x-www-form-urlencoded'
+        }
 
         then:
         response.status == 401
