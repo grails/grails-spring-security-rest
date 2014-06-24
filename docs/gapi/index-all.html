@@ -139,6 +139,10 @@ function windowTitle()
 </dt><dd>Base class for JSON-based credentials extractors. </dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/credentials/AbstractJsonPayloadCredentialsExtractor.html#AbstractJsonPayloadCredentialsExtractor()" title="Constructor in AbstractJsonPayloadCredentialsExtractor"><b>AbstractJsonPayloadCredentialsExtractor</b>()</b></a> - Constructor in <a href="com/odobo/grails/plugin/springsecurity/rest/credentials/AbstractJsonPayloadCredentialsExtractor.html">AbstractJsonPayloadCredentialsExtractor</a>
 </dt><dd></dd>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/AbstractRestFilter.html" title="Class in com.odobo.grails.plugin.springsecurity.rest"><b>AbstractRestFilter</b></a> - Class in <a href="./com/odobo/grails/plugin/springsecurity/rest/package-summary.html">com.odobo.grails.plugin.springsecurity.rest</a>
+</dt><dd></dd>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/AbstractRestFilter.html#AbstractRestFilter()" title="Constructor in AbstractRestFilter"><b>AbstractRestFilter</b>()</b></a> - Constructor in <a href="com/odobo/grails/plugin/springsecurity/rest/AbstractRestFilter.html">AbstractRestFilter</a>
+</dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestTokenValidationFilter.html#active" title="Property in RestTokenValidationFilter"><b>active</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestTokenValidationFilter.html">RestTokenValidationFilter</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationProvider.html#authenticate(org.springframework.security.core.Authentication)" title="Method in RestAuthenticationProvider"><b>authenticate</b>(Authentication)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationProvider.html">RestAuthenticationProvider</a>
@@ -269,6 +273,8 @@ function windowTitle()
 
 <dl>
 
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/AbstractRestFilter.html#findBearerToken(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)" title="Method in AbstractRestFilter"><b>findBearerToken</b>(HttpServletRequest, HttpServletResponse)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/AbstractRestFilter.html">AbstractRestFilter</a>
+</dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GormTokenStorageService.html#findExistingToken(java.lang.String)" title="Method in GormTokenStorageService"><b>findExistingToken</b>(String)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/GormTokenStorageService.html">GormTokenStorageService</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/MemcachedTokenStorageService.html#findExistingUserDetails(java.lang.String)" title="Method in MemcachedTokenStorageService"><b>findExistingUserDetails</b>(String)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/MemcachedTokenStorageService.html">MemcachedTokenStorageService</a>
@@ -405,8 +411,8 @@ function windowTitle()
 
 <dt><a href="DefaultPackage/RestOauthUrlMappings.html#mappings" title="Property in RestOauthUrlMappings"><b>mappings</b></a> - Property in <a href="DefaultPackage/RestOauthUrlMappings.html">RestOauthUrlMappings</a>
 </dt><dd></dd>
-<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestTokenValidationFilter.html#matchesBearerSpecPreconditions(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)" title="Method in RestTokenValidationFilter"><b>matchesBearerSpecPreconditions</b>(HttpServletRequest, HttpServletResponse)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/RestTokenValidationFilter.html">RestTokenValidationFilter</a>
-</dt><dd></dd>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/AbstractRestFilter.html#matchesBearerSpecPreconditions(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)" title="Method in AbstractRestFilter"><b>matchesBearerSpecPreconditions</b>(HttpServletRequest, HttpServletResponse)</b></a> - Method in <a href="com/odobo/grails/plugin/springsecurity/rest/AbstractRestFilter.html">AbstractRestFilter</a>
+</dt><dd>Checks if the requests matches RFC 6750 Bearer Token specification</dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/MemcachedTokenStorageService.html#memcachedClient" title="Property in MemcachedTokenStorageService"><b>memcachedClient</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/MemcachedTokenStorageService.html">MemcachedTokenStorageService</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/storage/MemcachedTokenStorageService.html" title="Class in com.odobo.grails.plugin.springsecurity.rest.token.storage"><b>MemcachedTokenStorageService</b></a> - Class in <a href="./com/odobo/grails/plugin/springsecurity/rest/token/storage/package-summary.html">com.odobo.grails.plugin.springsecurity.rest.token.storage</a>
@@ -633,6 +639,8 @@ function windowTitle()
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/token/rendering/DefaultRestAuthenticationTokenJsonRenderer.html#useBearerToken" title="Property in DefaultRestAuthenticationTokenJsonRenderer"><b>useBearerToken</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/token/rendering/DefaultRestAuthenticationTokenJsonRenderer.html">DefaultRestAuthenticationTokenJsonRenderer</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html#useBearerToken" title="Property in RestAuthenticationFilter"><b>useBearerToken</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html">RestAuthenticationFilter</a>
+</dt><dd></dd>
+<dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html#useBearerToken" title="Property in RestLogoutFilter"><b>useBearerToken</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html">RestLogoutFilter</a>
 </dt><dd></dd>
 <dt><a href="com/odobo/grails/plugin/springsecurity/rest/RestTokenValidationFilter.html#useBearerToken" title="Property in RestTokenValidationFilter"><b>useBearerToken</b></a> - Property in <a href="com/odobo/grails/plugin/springsecurity/rest/RestTokenValidationFilter.html">RestTokenValidationFilter</a>
 </dt><dd></dd>
