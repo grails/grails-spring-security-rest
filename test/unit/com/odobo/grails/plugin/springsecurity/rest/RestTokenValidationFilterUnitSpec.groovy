@@ -1,6 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
+import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.springframework.mock.web.MockFilterChain
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
@@ -15,7 +16,7 @@ class RestTokenValidationFilterUnitSpec extends Specification {
 
     def filter = new RestTokenValidationFilter(active: true)
 
-    def request  = new MockHttpServletRequest()
+    def request  = new GrailsMockHttpServletRequest()
     def response = new MockHttpServletResponse()
     def chain = new MockFilterChain()
 
@@ -69,7 +70,6 @@ class RestTokenValidationFilterUnitSpec extends Specification {
         headerName << [ 'AuthToken', 'FooBarHeader' ]
     }
 
-    @IgnoreRest
     void "authentication succeeds when using valid token in Authorization header with bearer token"() {
         given:
         def token = 'abcdefghijklmnopqrstuvwxyz'
@@ -120,7 +120,10 @@ class RestTokenValidationFilterUnitSpec extends Specification {
         )
 
         when:
-        request.queryString = "access_token=${token}"
+        //request.queryString = "access_token=${token}"
+        request.addParameter 'access_token', token
+        request.contentType = 'application/x-www-form-urlencoded'
+        request.method = 'POST'
         filter.doFilter( request, response, chain )
 
         then:
@@ -141,6 +144,7 @@ class RestTokenValidationFilterUnitSpec extends Specification {
 
         when:
         request.queryString = "access_token=${token}invalidinvalid"
+        request.contentType = 'application/x-www-form-urlencoded; charset=UTF-8'
         filter.doFilter( request, response, chain )
 
         then:

@@ -5,6 +5,7 @@ import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundEx
 import grails.plugin.springsecurity.authentication.GrailsAnonymousAuthenticationToken
 import groovy.json.JsonSlurper
 import groovy.util.logging.Slf4j
+import org.springframework.http.MediaType
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
@@ -139,7 +140,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
     private boolean matchesBearerSpecPreconditions(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         boolean matches = true
         String message = ''
-        if (servletRequest.contentType != 'application/x-www-form-urlencoded') {
+        if (!MediaType.parseMediaType(servletRequest.contentType).isCompatibleWith(MediaType.APPLICATION_FORM_URLENCODED)) {
             log.debug "Invalid Content-Type: '${servletRequest.contentType}'. 'application/x-www-form-urlencoded' is mandatory"
             message = "Content-Type 'application/x-www-form-urlencoded' is mandatory when sending form-encoded body parameter requests with the access token (RFC 6750)"
             matches = false

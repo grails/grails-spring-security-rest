@@ -98,4 +98,6 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer error="invalid_request"'
     }
 
+
+
 }
