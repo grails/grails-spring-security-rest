@@ -17,36 +17,40 @@ import javax.servlet.http.HttpServletResponse
  * from the storage, sending a 200 response. Otherwise, it will send a 404 response.
  */
 @Slf4j
-class RestLogoutFilter extends GenericFilterBean {
+class RestLogoutFilter extends AbstractRestFilter {
 
     String endpointUrl
 
     String headerName
 
+    Boolean useBearerToken
+
     TokenStorageService tokenStorageService
 
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = request
-        HttpServletResponse httpServletResponse = response
+        HttpServletRequest servletRequest = request as HttpServletRequest
+        HttpServletResponse servletResponse = response as HttpServletResponse
 
-        def actualUri =  httpServletRequest.requestURI - httpServletRequest.contextPath
-
-        logger.debug "Actual URI is ${actualUri}; endpoint URL is ${endpointUrl}"
+        def actualUri =  servletRequest.requestURI - servletRequest.contextPath
 
         //Only apply filter to the configured URL
         if (actualUri == endpointUrl) {
-            log.debug "Applying logout filter to this request"
 
             //Only POST is supported
-            if (httpServletRequest.method != 'POST') {
-                log.debug "${httpServletRequest.method} HTTP method is not supported. Setting status to ${HttpServletResponse.SC_METHOD_NOT_ALLOWED}"
-                httpServletResponse.setStatus HttpServletResponse.SC_METHOD_NOT_ALLOWED
+            if (servletRequest.method != 'POST') {
+                log.debug "${servletRequest.method} HTTP method is not supported. Setting status to ${HttpServletResponse.SC_METHOD_NOT_ALLOWED}"
+                servletResponse.setStatus HttpServletResponse.SC_METHOD_NOT_ALLOWED
                 return
             }
 
-            log.debug "Looking for a token value in the header '${headerName}'"
-            String tokenValue = httpServletRequest.getHeader(headerName)
+            String tokenValue
+            if (useBearerToken) {
+                tokenValue = findBearerToken(servletRequest, servletResponse)
+            } else {
+                log.debug "Looking for a token value in the header '${headerName}'"
+                tokenValue = servletRequest.getHeader(headerName)
+            }
 
             if (tokenValue) {
                 log.debug "Token found: ${tokenValue}"
@@ -55,11 +59,11 @@ class RestLogoutFilter extends GenericFilterBean {
                     log.debug "Trying to remove the token"
                     tokenStorageService.removeToken tokenValue
                 } catch (TokenNotFoundException tnfe) {
-                    httpServletResponse.sendError HttpServletResponse.SC_NOT_FOUND, "Token not found"
+                    servletResponse.sendError HttpServletResponse.SC_NOT_FOUND, "Token not found"
                 }
             } else {
-                log.debug "Token header is missing. Sending a 400 Bad Request response"
-                httpServletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, "Token header is missing"
+                log.debug "Token is missing. Sending a 400 Bad Request response"
+                servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, "Token header is missing"
             }
 
         } else {

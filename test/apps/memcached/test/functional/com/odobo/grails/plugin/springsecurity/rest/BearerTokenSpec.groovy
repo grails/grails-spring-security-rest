@@ -98,6 +98,37 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer error="invalid_request"'
     }
 
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/81")
+    void "authorisation header is checked to read token value for logout"() {
+        given:
+        RestResponse authResponse = sendCorrectCredentials()
+        String token = authResponse.json.access_token
+
+        when:
+        def response = restBuilder.post("${baseUrl}/api/logout") {
+            header 'Authorization', "Bearer ${token}"
+        }
+
+        then:
+        response.status == 200
+    }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/81")
+    void "Form-Encoded body parameter can be used for logout"() {
+        given:
+        RestResponse authResponse = sendCorrectCredentials()
+        String token = authResponse.json.access_token
+
+        when:
+        def response = restBuilder.post("${baseUrl}/api/logout") {
+            contentType 'application/x-www-form-urlencoded'
+            body "access_token=${token}".toString()
+        }
+
+        then:
+        response.status == 200
+    }
+
 
 
 }

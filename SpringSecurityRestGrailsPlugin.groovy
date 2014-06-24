@@ -98,6 +98,7 @@ class SpringSecurityRestGrailsPlugin {
                 endpointUrl = conf.rest.logout.endpointUrl
                 headerName = conf.rest.token.validation.headerName
                 tokenStorageService = ref('tokenStorageService')
+                useBearerToken = conf.rest.token.validation.useBearerToken
             }
         }
 
