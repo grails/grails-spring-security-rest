@@ -7,6 +7,8 @@ import org.pac4j.core.context.WebContext
 import org.pac4j.oauth.client.BaseOAuthClient
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 
+import java.nio.charset.StandardCharsets
+
 @Secured(['permitAll'])
 class OauthController {
 
@@ -28,8 +30,8 @@ class OauthController {
         if (callback) {
             log.debug "Trying to store in the HTTP session a user specified callback URL: ${callback}"
             try {
-                new URL(callback)
-                session[CALLBACK_ATTR] = callback
+                String decodedCallback = new String(callback.decodeBase64(), StandardCharsets.UTF_8);
+                session[CALLBACK_ATTR] = new URL(decodedCallback).toString()
             } catch (MalformedURLException mue) {
                 log.warn "The URL is malformed. Not storing it."
             }
