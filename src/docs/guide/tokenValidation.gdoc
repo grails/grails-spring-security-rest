@@ -43,11 +43,6 @@ grails.plugin.springsecurity.rest.token.validation.headerName = 'X-Auth-Token'
 
 h2. Anonymous access
 
-{note}
-Bearer token support must be disabled for anonymous access to work. Otherwise, the requests will be considered as bad
-requests.
-{note}
-
 If you want to enable anonymous access to URL's where this plugin's filters are applied, you need to:
 
 # Configure @enableAnonymousAccess = true@ (see table below).
