@@ -20,10 +20,8 @@ import javax.servlet.http.HttpServletResponse
 class RestLogoutFilter extends AbstractRestFilter {
 
     String endpointUrl
-
     String headerName
-
-    Boolean useBearerToken
+    TokenReader tokenReader
 
     TokenStorageService tokenStorageService
 
@@ -44,13 +42,7 @@ class RestLogoutFilter extends AbstractRestFilter {
                 return
             }
 
-            String tokenValue
-            if (useBearerToken) {
-                tokenValue = findBearerToken(servletRequest, servletResponse)
-            } else {
-                log.debug "Looking for a token value in the header '${headerName}'"
-                tokenValue = servletRequest.getHeader(headerName)
-            }
+            String tokenValue = tokenReader.findToken( servletRequest )
 
             if (tokenValue) {
                 log.debug "Token found: ${tokenValue}"

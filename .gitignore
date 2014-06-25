@@ -7,3 +7,6 @@ target/
 *.log
 /*.zip
 /plugin.xml
+
+web-app
+grails-app/i18n
