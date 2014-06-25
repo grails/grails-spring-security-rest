@@ -1,6 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.annotation.Secured
+import org.apache.commons.codec.binary.Base64
 import org.pac4j.core.client.RedirectAction
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext
@@ -26,14 +27,15 @@ class OauthController {
         WebContext context = new J2EContext(request, response)
 
         RedirectAction redirectAction = client.getRedirectAction(context, true, false)
-
         if (callback) {
-            log.debug "Trying to store in the HTTP session a user specified callback URL: ${callback}"
-            try {
-                String decodedCallback = new String(callback.decodeBase64(), StandardCharsets.UTF_8);
-                session[CALLBACK_ATTR] = new URL(decodedCallback).toString()
+            try {                
+                if (Base64.isBase64(callback.getBytes())){
+                    callback = new String(callback.decodeBase64(), StandardCharsets.UTF_8);
+                }
+                log.debug "Trying to store in the HTTP session a user specified callback URL: ${callback}"
+                session[CALLBACK_ATTR] = new URL(callback).toString()
             } catch (MalformedURLException mue) {
-                log.warn "The URL is malformed. Not storing it."
+                log.warn "The URL is malformed, is it base64 encoded? Not storing it."
             }
         }
 
