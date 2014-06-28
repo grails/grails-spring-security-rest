@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse
  * from the storage, sending a 200 response. Otherwise, it will send a 404 response.
  */
 @Slf4j
-class RestLogoutFilter extends AbstractRestFilter {
+class RestLogoutFilter {
 
     String endpointUrl
     String headerName
