@@ -98,7 +98,7 @@ class SpringSecurityRestGrailsPlugin {
                 endpointUrl = conf.rest.logout.endpointUrl
                 headerName = conf.rest.token.validation.headerName
                 tokenStorageService = ref('tokenStorageService')
-                tokenReader = ref('restTokenReader')
+                tokenReader = ref('tokenReader')
             }
         }
 
@@ -114,15 +114,17 @@ class SpringSecurityRestGrailsPlugin {
         }
 
         if( conf.rest.token.validation.useBearerToken ) {
-            restTokenReader(BearerTokenReader)
+            tokenReader(BearerTokenReader)
             restAuthenticationFailureHandler(BearerTokenAuthenticationFailureHandler)
             restAuthenticationEntryPoint(BearerTokenAuthenticationEntryPoint) {
-                tokenReader = ref('restTokenReader')
+                tokenReader = ref('tokenReader')
             }
 
         } else {
             restAuthenticationEntryPoint(Http403ForbiddenEntryPoint)
-            restTokenReader(RestTokenReader)
+            tokenReader(HttpHeaderTokenReader) {
+                headerName = conf.rest.token.validation.headerName
+            }
             restAuthenticationFailureHandler(RestAuthenticationFailureHandler) {
                 statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_UNAUTHORIZED
             }
@@ -136,7 +138,7 @@ class SpringSecurityRestGrailsPlugin {
             headerName = conf.rest.token.validation.headerName
             validationEndpointUrl = conf.rest.token.validation.endpointUrl
             active = conf.rest.token.validation.active
-            tokenReader = ref('restTokenReader')
+            tokenReader = ref('tokenReader')
             enableAnonymousAccess = conf.rest.token.validation.enableAnonymousAccess
             authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')

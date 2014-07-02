@@ -48,9 +48,9 @@ class RestTokenValidationFilter extends GenericFilterBean {
         def httpRequest = request as HttpServletRequest
         def httpResponse = response as HttpServletResponse
 
-        String tokenValue = tokenReader.findToken( httpRequest )
 
         try {
+            String tokenValue = tokenReader.findToken(httpRequest, httpResponse)
             if (tokenValue) {
                 log.debug "Token found: ${tokenValue}"
 
@@ -97,8 +97,8 @@ class RestTokenValidationFilter extends GenericFilterBean {
             } else {
                 log.debug "Continuing the filter chain"
                 chain.doFilter(request, response)
-                return
             }
+            return
 
         } else if( enableAnonymousAccess ) {
 

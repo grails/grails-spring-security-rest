@@ -1,11 +1,17 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
-/**
- * Created by ajbrown on 6/24/14.
- */
 public interface TokenReader {
 
-    def String findToken( HttpServletRequest request )
+    /**
+     * Reads a token (if any) from the request
+     *
+     * @param request the HTTP request
+     * @param response the response, in case any status code has to be sent
+     * @return the token when found, null otherwise
+     */
+    String findToken(HttpServletRequest request, HttpServletResponse response)
+
 }

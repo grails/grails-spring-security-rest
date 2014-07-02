@@ -40,7 +40,7 @@ class RestTokenValidationFilterUnitSpec extends Specification {
 
         then:
         response.status == 200
-        1 * filter.tokenReader.findToken( request ) >> token
+        1 * filter.tokenReader.findToken(request, response) >> token
         0 * filter.authenticationFailureHandler.onAuthenticationFailure( _, _, _ )
         notThrown( TokenNotFoundException )
 
@@ -60,7 +60,7 @@ class RestTokenValidationFilterUnitSpec extends Specification {
         filter.doFilter( request, response, chain )
 
         then:
-        1 * filter.tokenReader.findToken( request ) >> null
+        1 * filter.tokenReader.findToken(request, response) >> null
         1 * filter.authenticationFailureHandler.onAuthenticationFailure( request, response, _ as AuthenticationException )
 
         where:

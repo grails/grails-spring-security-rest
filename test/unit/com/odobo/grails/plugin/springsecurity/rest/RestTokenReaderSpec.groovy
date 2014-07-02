@@ -1,12 +1,14 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import org.springframework.mock.web.MockHttpServletRequest
+import org.springframework.mock.web.MockHttpServletResponse
 import spock.lang.Specification
 
 class RestTokenReaderSpec extends Specification {
 
-    def tokenReader = new RestTokenReader()
+    def tokenReader = new HttpHeaderTokenReader()
     def request = new MockHttpServletRequest()
+    def response = new MockHttpServletResponse()
 
 
     def "token value can be read from a custom header in a #method request"() {
@@ -18,8 +20,7 @@ class RestTokenReaderSpec extends Specification {
         request.method = method
 
         expect:
-
-        tokenReader.findToken( request ) == token
+        tokenReader.findToken(request, response) == token
 
         where:
         method << [ 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS' ]
