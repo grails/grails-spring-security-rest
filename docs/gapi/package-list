@@ -2,6 +2,7 @@ DefaultPackage
 com.odobo.grails.plugin.springsecurity.rest
 com.odobo.grails.plugin.springsecurity.rest.credentials
 com.odobo.grails.plugin.springsecurity.rest.oauth
+com.odobo.grails.plugin.springsecurity.rest.rfc6750
 com.odobo.grails.plugin.springsecurity.rest.token.generation
 com.odobo.grails.plugin.springsecurity.rest.token.rendering
 com.odobo.grails.plugin.springsecurity.rest.token.storage
