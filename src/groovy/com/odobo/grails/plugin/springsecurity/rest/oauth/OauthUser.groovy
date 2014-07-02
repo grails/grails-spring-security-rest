@@ -2,6 +2,7 @@ package com.odobo.grails.plugin.springsecurity.rest.oauth
 
 import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.SpringSecurityCoreVersion
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 
@@ -9,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails
  * A {@link UserDetails} implementation that holds the {@link CommonProfile} returned by the OAuth provider
  */
 class OauthUser extends User {
+
+    private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID
 
     CommonProfile userProfile
 
