@@ -41,6 +41,10 @@ grails.plugin.springsecurity.rest.token.validation.useBearerToken = false
 grails.plugin.springsecurity.rest.token.validation.headerName = 'X-Auth-Token'
 {code}
 
+If you still want to have full access and read the token from a different part of the request, you can implement a
+[TokenReader|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/TokenReader.html]
+and register it in your @resources.groovy@  as @tokenReader@.
+
 h2. Anonymous access
 
 If you want to enable anonymous access to URL's where this plugin's filters are applied, you need to:
