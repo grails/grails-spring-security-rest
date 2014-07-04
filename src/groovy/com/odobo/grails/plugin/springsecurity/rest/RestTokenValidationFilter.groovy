@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader
 import grails.plugin.springsecurity.authentication.GrailsAnonymousAuthenticationToken
 import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
@@ -45,9 +46,8 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        def httpRequest = request as HttpServletRequest
-        def httpResponse = response as HttpServletResponse
-
+        HttpServletRequest httpRequest = request as HttpServletRequest
+        HttpServletResponse httpResponse = response as HttpServletResponse
 
         try {
             String tokenValue = tokenReader.findToken(httpRequest, httpResponse)
@@ -73,24 +73,24 @@ class RestTokenValidationFilter extends GenericFilterBean {
             }
         } catch (AuthenticationException ae) {
             log.debug "Authentication failed: ${ae.message}"
-            authenticationFailureHandler.onAuthenticationFailure( httpRequest, httpResponse, ae)
+            authenticationFailureHandler.onAuthenticationFailure(httpRequest, httpResponse, ae)
         }
 
     }
 
     private processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, String tokenValue, RestAuthenticationToken authenticationResult) {
-        def httpRequest = request as HttpServletRequest
-        def httpResponse = response as HttpServletResponse
+        HttpServletRequest httpRequest = request as HttpServletRequest
+        HttpServletResponse httpResponse = response as HttpServletResponse
 
         def actualUri = httpRequest.requestURI - httpRequest.contextPath
 
-        if( !active ) {
+        if (!active) {
             log.debug "Token validation is disabled. Continuing the filter chain"
             chain.doFilter(request, response)
             return
         }
 
-        if( tokenValue ) {
+        if (tokenValue) {
             if (actualUri == validationEndpointUrl) {
                 log.debug "Validation endpoint called. Generating response."
                 authenticationSuccessHandler.onAuthenticationSuccess(httpRequest, httpResponse, authenticationResult)
@@ -98,23 +98,19 @@ class RestTokenValidationFilter extends GenericFilterBean {
                 log.debug "Continuing the filter chain"
                 chain.doFilter(request, response)
             }
-            return
-
-        } else if( enableAnonymousAccess ) {
-
+        } else if (enableAnonymousAccess) {
             log.debug "Anonymous access is enabled"
             Authentication authentication = SecurityContextHolder.context.authentication
             if (authentication && authentication instanceof GrailsAnonymousAuthenticationToken) {
                 log.debug "Request is already authenticated as anonymous request. Continuing the filter chain"
                 chain.doFilter(request, response)
-                return
-
             } else {
                 log.debug "However, request is not authenticated as anonymous"
                 throw new AuthenticationCredentialsNotFoundException("Token is missing")
             }
+        } else {
+            throw new AuthenticationCredentialsNotFoundException("Token is missing")
         }
 
-        throw new AuthenticationCredentialsNotFoundException("Token is missing")
     }
 }

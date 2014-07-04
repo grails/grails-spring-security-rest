@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.util.logging.Slf4j

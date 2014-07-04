@@ -1,9 +1,7 @@
-package com.odobo.grails.plugin.springsecurity.rest
+package com.odobo.grails.plugin.springsecurity.rest.token.bearer
 
-import com.odobo.grails.plugin.springsecurity.rest.rfc6750.BearerTokenReader
-import groovy.transform.CompileStatic
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
 import groovy.util.logging.Log4j
-import org.springframework.http.MediaType
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
 
@@ -12,10 +10,9 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 /**
- * Handles prompting the client for authentication when using the BearerToken authentication scheme.
+ * Handles prompting the client for authentication when using bearer tokens.
  */
 @Log4j
-@CompileStatic
 class BearerTokenAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     BearerTokenReader tokenReader
@@ -25,13 +22,13 @@ class BearerTokenAuthenticationEntryPoint implements AuthenticationEntryPoint {
             throws IOException, ServletException {
         def tokenValue = tokenReader.findToken(request, response)
 
-        if( tokenValue ) {
-            response.addHeader( 'WWW-Authenticate', 'Bearer error="invalid_token"' )
+        if (tokenValue) {
+            response.addHeader('WWW-Authenticate', 'Bearer error="invalid_token"')
         } else {
-            response.addHeader( 'WWW-Authenticate', 'Bearer' )
+            response.addHeader('WWW-Authenticate', 'Bearer')
         }
 
-        if( response.status in 200..299 ) {
+        if (response.status in 200..299) {
             response.status = HttpServletResponse.SC_UNAUTHORIZED
         }
     }

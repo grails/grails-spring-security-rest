@@ -1,10 +1,10 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
-import org.springframework.security.authentication.BadCredentialsException
 import spock.lang.Specification
 
 class BearerTokenAuthenticationFailureHandlerSpec extends Specification {

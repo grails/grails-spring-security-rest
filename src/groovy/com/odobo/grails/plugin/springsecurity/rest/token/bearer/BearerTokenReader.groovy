@@ -1,6 +1,6 @@
-package com.odobo.grails.plugin.springsecurity.rest.rfc6750
+package com.odobo.grails.plugin.springsecurity.rest.token.bearer
 
-import com.odobo.grails.plugin.springsecurity.rest.TokenReader
+import com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader
 import groovy.util.logging.Slf4j
 import org.springframework.http.MediaType
 
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 /**
- * RFC 6750 implementation of a {@link TokenReader}
+ * RFC 6750 implementation of a {@link com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader}
  */
 @Slf4j
 class BearerTokenReader implements TokenReader {

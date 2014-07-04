@@ -1,4 +1,4 @@
-package com.odobo.grails.plugin.springsecurity.rest
+package com.odobo.grails.plugin.springsecurity.rest.token.reader
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse

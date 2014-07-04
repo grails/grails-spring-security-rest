@@ -1,15 +1,14 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.springframework.mock.web.MockFilterChain
-import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
-import spock.lang.IgnoreRest
 import spock.lang.Specification
 
 class RestTokenValidationFilterUnitSpec extends Specification {

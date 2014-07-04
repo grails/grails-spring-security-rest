@@ -1,8 +1,8 @@
 package com.odobo.grails.plugin.springsecurity.rest.rfc6750
 
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.springframework.http.MediaType
-import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import spock.lang.Specification
 import spock.lang.Unroll

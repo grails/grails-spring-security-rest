@@ -2,7 +2,10 @@ import com.odobo.grails.plugin.springsecurity.rest.*
 import com.odobo.grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
-import com.odobo.grails.plugin.springsecurity.rest.rfc6750.BearerTokenReader
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
+import com.odobo.grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
