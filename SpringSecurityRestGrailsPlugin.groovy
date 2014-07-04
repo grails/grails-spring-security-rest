@@ -2,6 +2,10 @@ import com.odobo.grails.plugin.springsecurity.rest.*
 import com.odobo.grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
+import com.odobo.grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
@@ -79,7 +83,6 @@ class SpringSecurityRestGrailsPlugin {
                 endpointUrl = conf.rest.login.endpointUrl
                 tokenGenerator = ref('tokenGenerator')
                 tokenStorageService = ref('tokenStorageService')
-                useBearerToken = conf.rest.token.validation.useBearerToken
             }
 
             def paramsClosure = {
@@ -98,7 +101,7 @@ class SpringSecurityRestGrailsPlugin {
                 endpointUrl = conf.rest.logout.endpointUrl
                 headerName = conf.rest.token.validation.headerName
                 tokenStorageService = ref('tokenStorageService')
-                useBearerToken = conf.rest.token.validation.useBearerToken
+                tokenReader = ref('tokenReader')
             }
         }
 
@@ -114,8 +117,17 @@ class SpringSecurityRestGrailsPlugin {
         }
 
         if( conf.rest.token.validation.useBearerToken ) {
+            tokenReader(BearerTokenReader)
             restAuthenticationFailureHandler(BearerTokenAuthenticationFailureHandler)
+            restAuthenticationEntryPoint(BearerTokenAuthenticationEntryPoint) {
+                tokenReader = ref('tokenReader')
+            }
+
         } else {
+            restAuthenticationEntryPoint(Http403ForbiddenEntryPoint)
+            tokenReader(HttpHeaderTokenReader) {
+                headerName = conf.rest.token.validation.headerName
+            }
             restAuthenticationFailureHandler(RestAuthenticationFailureHandler) {
                 statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_UNAUTHORIZED
             }
@@ -129,7 +141,7 @@ class SpringSecurityRestGrailsPlugin {
             headerName = conf.rest.token.validation.headerName
             validationEndpointUrl = conf.rest.token.validation.endpointUrl
             active = conf.rest.token.validation.active
-            useBearerToken = conf.rest.token.validation.useBearerToken
+            tokenReader = ref('tokenReader')
             enableAnonymousAccess = conf.rest.token.validation.enableAnonymousAccess
             authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')
@@ -142,7 +154,6 @@ class SpringSecurityRestGrailsPlugin {
             throwableAnalyzer = ref('throwableAnalyzer')
         }
 
-        restAuthenticationEntryPoint(Http403ForbiddenEntryPoint)
         restRequestCache(NullRequestCache)
         restAccessDeniedHandler(AccessDeniedHandlerImpl) {
             errorPage = null //403

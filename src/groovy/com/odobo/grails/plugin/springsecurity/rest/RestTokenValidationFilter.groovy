@@ -1,11 +1,8 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
-import com.google.common.io.CharStreams
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
+import com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader
 import grails.plugin.springsecurity.authentication.GrailsAnonymousAuthenticationToken
-import groovy.json.JsonSlurper
 import groovy.util.logging.Slf4j
-import org.springframework.http.MediaType
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
@@ -32,7 +29,7 @@ import javax.servlet.http.HttpServletResponse
  * {@link AuthenticationSuccessHandler}. Otherwise, an {@link AuthenticationFailureHandler} is called.
  */
 @Slf4j
-class RestTokenValidationFilter extends AbstractRestFilter {
+class RestTokenValidationFilter extends GenericFilterBean {
 
     String headerName
 
@@ -41,27 +38,19 @@ class RestTokenValidationFilter extends AbstractRestFilter {
     AuthenticationSuccessHandler authenticationSuccessHandler
     AuthenticationFailureHandler authenticationFailureHandler
 
+    TokenReader tokenReader
     String validationEndpointUrl
     Boolean active
-    Boolean useBearerToken
 
     Boolean enableAnonymousAccess
 
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest servletRequest = request as HttpServletRequest
-        HttpServletResponse servletResponse = response as HttpServletResponse
-
-        String tokenValue
-
-        if (useBearerToken) {
-            tokenValue = findBearerToken(servletRequest, servletResponse)
-        } else {
-            log.debug "Looking for a token value in the header '${headerName}'"
-            tokenValue = servletRequest.getHeader(headerName)
-        }
+        HttpServletRequest httpRequest = request as HttpServletRequest
+        HttpServletResponse httpResponse = response as HttpServletResponse
 
         try {
+            String tokenValue = tokenReader.findToken(httpRequest, httpResponse)
             if (tokenValue) {
                 log.debug "Token found: ${tokenValue}"
 
@@ -84,57 +73,44 @@ class RestTokenValidationFilter extends AbstractRestFilter {
             }
         } catch (AuthenticationException ae) {
             log.debug "Authentication failed: ${ae.message}"
-            authenticationFailureHandler.onAuthenticationFailure(servletRequest, servletResponse, ae)
+            authenticationFailureHandler.onAuthenticationFailure(httpRequest, httpResponse, ae)
         }
 
     }
 
     private processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, String tokenValue, RestAuthenticationToken authenticationResult) {
-        HttpServletRequest servletRequest = request as HttpServletRequest
-        HttpServletResponse servletResponse = response as HttpServletResponse
+        HttpServletRequest httpRequest = request as HttpServletRequest
+        HttpServletResponse httpResponse = response as HttpServletResponse
 
-        def actualUri = servletRequest.requestURI - servletRequest.contextPath
+        def actualUri = httpRequest.requestURI - httpRequest.contextPath
 
-        if (active) {
-            if (!tokenValue) {
-                if (enableAnonymousAccess) {
-                    log.debug "Anonymous access is enabled"
-                    Authentication authentication = SecurityContextHolder.context.authentication
-                    if (authentication && authentication instanceof GrailsAnonymousAuthenticationToken) {
-                        log.debug "Request is already authenticated as anonymous request. Continuing the filter chain"
-                        chain.doFilter(request, response)
-                    } else {
-                        log.debug "However, request is not authenticated as anonymous"
-                        throw new AuthenticationCredentialsNotFoundException("Token is missing")
-                    }
-                } else {
-                    throw new AuthenticationCredentialsNotFoundException("Token is missing")
-                }
-            } else {
-                if (actualUri == validationEndpointUrl) {
-                    log.debug "Validation endpoint called. Generating response."
-                    authenticationSuccessHandler.onAuthenticationSuccess(servletRequest, servletResponse, authenticationResult)
-                } else {
-                    log.debug "Continuing the filter chain"
-                    chain.doFilter(request, response)
-                }
-            }
-        } else {
+        if (!active) {
             log.debug "Token validation is disabled. Continuing the filter chain"
             chain.doFilter(request, response)
+            return
         }
 
-    }
-
-    /**
-     * Returns the specified queryString as a map.
-     * @param queryString
-     * @return
-     */
-    private Map<String, String> getQueryAsMap(String queryString) {
-        queryString?.split('&').inject([:]) { map, token ->
-            token?.split('=').with { map[it[0]] = it[1] }
-            map
+        if (tokenValue) {
+            if (actualUri == validationEndpointUrl) {
+                log.debug "Validation endpoint called. Generating response."
+                authenticationSuccessHandler.onAuthenticationSuccess(httpRequest, httpResponse, authenticationResult)
+            } else {
+                log.debug "Continuing the filter chain"
+                chain.doFilter(request, response)
+            }
+        } else if (enableAnonymousAccess) {
+            log.debug "Anonymous access is enabled"
+            Authentication authentication = SecurityContextHolder.context.authentication
+            if (authentication && authentication instanceof GrailsAnonymousAuthenticationToken) {
+                log.debug "Request is already authenticated as anonymous request. Continuing the filter chain"
+                chain.doFilter(request, response)
+            } else {
+                log.debug "However, request is not authenticated as anonymous"
+                throw new AuthenticationCredentialsNotFoundException("Token is missing")
+            }
+        } else {
+            throw new AuthenticationCredentialsNotFoundException("Token is missing")
         }
+
     }
 }

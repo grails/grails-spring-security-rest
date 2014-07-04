@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.util.logging.Slf4j
@@ -17,13 +18,11 @@ import javax.servlet.http.HttpServletResponse
  * from the storage, sending a 200 response. Otherwise, it will send a 404 response.
  */
 @Slf4j
-class RestLogoutFilter extends AbstractRestFilter {
+class RestLogoutFilter extends GenericFilterBean {
 
     String endpointUrl
-
     String headerName
-
-    Boolean useBearerToken
+    TokenReader tokenReader
 
     TokenStorageService tokenStorageService
 
@@ -44,13 +43,7 @@ class RestLogoutFilter extends AbstractRestFilter {
                 return
             }
 
-            String tokenValue
-            if (useBearerToken) {
-                tokenValue = findBearerToken(servletRequest, servletResponse)
-            } else {
-                log.debug "Looking for a token value in the header '${headerName}'"
-                tokenValue = servletRequest.getHeader(headerName)
-            }
+            String tokenValue = tokenReader.findToken(servletRequest, servletResponse)
 
             if (tokenValue) {
                 log.debug "Token found: ${tokenValue}"
