@@ -147,7 +147,16 @@ the information from the mentioned domain classes.
 
 
 <h2 id="grailsCache">6.3 Grails Cache</h2>
-To use <a href="http://grails.org/plugin/cache" target="blank">Grails Cache</a>, simply define a cache name:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useGrailsCache</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.grailsCacheName</code></td><td><code>null</code></td></tr></table><p class="paragraph"/>The cache name should correspond to a name specified in the <a href="http://grails-plugins.github.io/grails-cache/docs/manual/guide/usage.html#dsl" target="blank">cache DSL</a>.
+To use <a href="http://grails.org/plugin/cache" target="blank">Grails Cache</a>, simply define a cache name:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useGrailsCache</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.grailsCacheName</code></td><td><code>null</code></td></tr></table><p class="paragraph"/>The cache name should correspond to a name specified in the <a href="http://grails-plugins.github.io/grails-cache/docs/manual/guide/usage.html#dsl" target="blank">cache DSL</a>.<p class="paragraph"/><blockquote class="note">
+<strong class="bold">Token expiration / eviction / TTL</strong><p class="paragraph"/>By default, Spring Cache abstraction
+<a href="http://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/cache.html#cache-specific-config" target="blank">does not support expiration</a>.
+It depends on the specific support of the actual providers. Grails has several plugins for this:
+<ul class="star">
+<li><a href="http://grails-plugins.github.io/grails-cache/guide/usage.html#dsl" target="blank">Core</a>: unsupported.</li>
+<li><a href="http://grails-plugins.github.io/grails-cache-ehcache/guide/usage.html#dsl" target="blank">Ehcache</a>: supported.</li>
+<li><a href="http://grails-plugins.github.io/grails-cache-redis/guide/usage.html#dsl" target="blank">Redis</a>: unsupported.</li>
+<li><a href="http://grails.org/plugin/cache-gemfire" target="blank">Gemfire</a>: unsupported.</li>
+</ul><p class="paragraph"/></blockquote>
 
 
 
