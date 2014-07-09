@@ -163,7 +163,7 @@ class SpringSecurityRestGrailsPlugin {
         if (conf.rest.token.storage.useMemcached) {
 
             Properties systemProperties = System.properties
-            systemProperties.put("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.Log4JLogger")
+            systemProperties.put("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.SLF4JLogger")
             System.setProperties(systemProperties)
 
             memcachedClient(MemcachedClientFactoryBean) {
