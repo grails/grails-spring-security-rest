@@ -2,6 +2,7 @@ package com.odobo.grails.plugin.springsecurity.rest.token.bearer
 
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
 import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
 
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse
 /**
  * Handles prompting the client for authentication when using bearer tokens.
  */
-@Log4j
+@Slf4j
 class BearerTokenAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     BearerTokenReader tokenReader
