@@ -20,6 +20,8 @@ import org.springframework.security.core.userdetails.UserDetailsService
  */
 class RestOauthService {
 
+    static transactional = false
+
     TokenGenerator tokenGenerator
     TokenStorageService tokenStorageService
     UserDetailsService userDetailsService
