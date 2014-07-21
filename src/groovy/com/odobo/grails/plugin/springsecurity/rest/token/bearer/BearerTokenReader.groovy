@@ -45,7 +45,7 @@ class BearerTokenReader implements TokenReader {
     private boolean matchesBearerSpecPreconditions(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         boolean matches = true
         String message = ''
-        if (!MediaType.parseMediaType(servletRequest.contentType).isCompatibleWith(MediaType.APPLICATION_FORM_URLENCODED)) {
+        if (servletRequest.contentType && !MediaType.parseMediaType(servletRequest.contentType).isCompatibleWith(MediaType.APPLICATION_FORM_URLENCODED)) {
             log.debug "Invalid Content-Type: '${servletRequest.contentType}'. 'application/x-www-form-urlencoded' is mandatory"
             message = "Content-Type 'application/x-www-form-urlencoded' is mandatory when sending form-encoded body parameter requests with the access token (RFC 6750)"
             matches = false
@@ -58,10 +58,7 @@ class BearerTokenReader implements TokenReader {
             message = "GET HTTP method must not be used when sending form-encoded body parameter requests with the access token (RFC 6750)"
             matches = false
         }
-        if (!matches) {
-            servletResponse.addHeader('WWW-Authenticate', 'Bearer error="invalid_request"')
-            servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, message
-        }
+
         return matches
     }
 
