@@ -30,3 +30,8 @@ Contributors
 * [James Kleeh](https://github.com/Schlogen).
 * [Polawat Phetra](https://github.com/pphetra).
 * [Victor Saar](https://github.com/vsaar).
+
+License
+-------
+
+This software is licensed under the terms of the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
