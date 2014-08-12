@@ -8,11 +8,11 @@ import org.pac4j.oauth.client.BaseOAuthClient
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 @Secured(['permitAll'])
-class OauthController {
+class RestOauthController {
 
     final CALLBACK_ATTR = "spring-security-rest-callback"
 
-    def oauthService
+    def restOauthService
     def grailsApplication
 
     /**
@@ -20,7 +20,7 @@ class OauthController {
      * allows the frontend application to define the frontend callback URL on demand.
      */
     def authenticate(String provider, String callback) {
-        BaseOAuthClient client = oauthService.getClient(provider)
+        BaseOAuthClient client = restOauthService.getClient(provider)
         WebContext context = new J2EContext(request, response)
 
         RedirectAction redirectAction = client.getRedirectAction(context, true, false)
@@ -40,7 +40,7 @@ class OauthController {
     }
 
     /**
-     * Handles the OAuth provider callback. It uses {@link OauthService} to generate and store a token for that user,
+     * Handles the OAuth provider callback. It uses {@link RestOauthService} to generate and store a token for that user,
      * and finally redirects to the configured frontend callback URL, where the token is in the URL. That way, the
      * frontend application can store the REST API token locally for subsequent API calls.
      */
@@ -56,7 +56,7 @@ class OauthController {
         }
 
         try {
-            String tokenValue = oauthService.storeAuthentication(provider, context)
+            String tokenValue = restOauthService.storeAuthentication(provider, context)
 
             if (session[CALLBACK_ATTR]) {
                 frontendCallbackUrl += tokenValue

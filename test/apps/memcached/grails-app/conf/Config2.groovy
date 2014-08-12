@@ -1,3 +1,7 @@
+import org.pac4j.oauth.client.FacebookClient
+import org.pac4j.oauth.client.Google2Client
+import org.pac4j.oauth.client.TwitterClient
+
 // locations to search for config files that get merged into the main config;
 // config files can be ConfigSlurper scripts, Java properties files, or classes
 // in the classpath in ConfigSlurper format
@@ -114,56 +118,43 @@ log4j = {
            'net.sf.ehcache.hibernate',
            'net.spy.memcached'
 
+    off    'org.openqa',
+           'grails.app.taglib.org.grails.plugin.resource',
+           'org.grails.plugin.resource'
+
     debug  'com.odobo',
+           'org.pac4j',
+           'grails.app',
            'org.springframework.security'
 
-    off    'org.openqa'
+
 }
 
-
-// Added by the Spring Security Core plugin:
-//grails.plugin.springsecurity.userLookup.userDomainClassName = 'org.example.grails.User'
-//grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'org.example.grails.UserRole'
-//grails.plugin.springsecurity.authority.className = 'org.example.grails.Role'
-//grails.plugin.springsecurity.controllerAnnotations.staticRules = [
-//	'/':                              ['permitAll'],
-//	'/index':                         ['permitAll'],
-//	'/index.gsp':                     ['permitAll'],
-//	'/**/js/**':                      ['permitAll'],
-//	'/**/css/**':                     ['permitAll'],
-//	'/**/images/**':                  ['permitAll'],
-//	'/**/favicon.ico':                ['permitAll']
-//]
 
 grails {
     plugin {
         springsecurity {
 
+            filterChain {
+                chainMap = [
+                    '/api/**': 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter',
+                    '/secured/**': 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter',
+                    '/anonymous/**': 'anonymousAuthenticationFilter,restTokenValidationFilter,restExceptionTranslationFilter,filterInvocationInterceptor',
+                    '/**': 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
+                ]
+            }
+
             rest {
-
-                active = true
-
-                login {
-
-                    endpointUrl = '/api/login'
-                    usernameParameter = 'username'
-                    passwordParameter = 'password'
-                    useJsonCredentials = true
-
-                    failureStatusCode = 401
-
-                }
-
                 token {
-
                     storage {
                         useMemcached = true
                     }
-
+                    validation {
+                        enableAnonymousAccess = true
+                        useBearerToken = true
+                    }
                 }
-
             }
-
         }
     }
 }

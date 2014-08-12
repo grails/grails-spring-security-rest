@@ -16,17 +16,22 @@ grails.project.dependency.resolution = {
     dependencies {
         compile 'net.spy:spymemcached:2.10.3'
         compile 'com.google.guava:guava-io:r03'
+        compile 'org.pac4j:pac4j-core:1.5.0'
         compile 'org.pac4j:pac4j-oauth:1.5.0'
     }
 
     plugins {
-        compile ':spring-security-core:2.0-RC2'
-        runtime(":cors:1.1.4") {
+        compile ':spring-security-core:2.0-RC4'
+        runtime(":cors:1.1.6") {
             exclude("spring-security-core")
             exclude("spring-security-web")
         }
 
         build(":release:3.0.1", ":rest-client-builder:1.0.3") {
+            export = false
+        }
+
+        build(":improx:0.3") {
             export = false
         }
 

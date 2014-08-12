@@ -7,14 +7,13 @@ security {
         active = true
 
         login {
+            active = true
             endpointUrl = '/api/login'
-            usernameParameter = 'username'
-            passwordParameter = 'password'
             usernamePropertyName = 'username'
             passwordPropertyName = 'password'
             failureStatusCode = HttpServletResponse.SC_UNAUTHORIZED    //401
-            useRequestParamsCredentials = true
-            useJsonCredentials = false
+            useJsonCredentials = true
+            useRequestParamsCredentials = false
         }
 
         logout {
@@ -50,13 +49,17 @@ security {
             }
 
             validation {
+                active = true
                 headerName = 'X-Auth-Token'
                 endpointUrl = '/api/validate'
+                tokenHeaderMissingStatusCode = HttpServletResponse.SC_UNAUTHORIZED    //401
+                enableAnonymousAccess = false
+                useBearerToken = true
             }
 
             rendering {
                 usernamePropertyName = 'username'
-                tokenPropertyName = 'token'
+                tokenPropertyName = 'access_token'
                 authoritiesPropertyName = 'roles'
             }
         }

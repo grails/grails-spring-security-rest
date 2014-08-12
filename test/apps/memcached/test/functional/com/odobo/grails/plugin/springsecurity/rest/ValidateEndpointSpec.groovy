@@ -1,14 +1,16 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugins.rest.client.RestResponse
-import spock.lang.Specification
+import grails.util.Holders
+import spock.lang.IgnoreIf
 
+@IgnoreIf({ Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
 class ValidateEndpointSpec extends AbstractRestSpec {
 
     void "calling /api/validate with a valid token returns a JSON representation"() {
         given:
         RestResponse authResponse = sendCorrectCredentials()
-        String token = authResponse.json.token
+        String token = authResponse.json.access_token
 
         when:
         def response = restBuilder.get("${baseUrl}/api/validate") {
@@ -18,7 +20,7 @@ class ValidateEndpointSpec extends AbstractRestSpec {
         then:
         response.status == 200
         response.json.username == 'jimi'
-        response.json.token
+        response.json.access_token
         response.json.roles.size() == 2
     }
 
@@ -32,12 +34,12 @@ class ValidateEndpointSpec extends AbstractRestSpec {
         response.status == 401
     }
 
-    void "calling /api/validate without token returns 400"() {
+    void "calling /api/validate without token returns 401"() {
         when:
         def response = restBuilder.get("${baseUrl}/api/validate")
 
         then:
-        response.status == 400
+        response.status == 401
     }
 
 

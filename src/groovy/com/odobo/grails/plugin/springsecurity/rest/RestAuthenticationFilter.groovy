@@ -51,8 +51,8 @@ class RestAuthenticationFilter extends GenericFilterBean {
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        HttpServletRequest httpServletRequest = request
-        HttpServletResponse httpServletResponse = response
+        HttpServletRequest httpServletRequest = request as HttpServletRequest
+        HttpServletResponse httpServletResponse = response as HttpServletResponse
 
         def actualUri =  httpServletRequest.requestURI - httpServletRequest.contextPath
 
@@ -78,7 +78,7 @@ class RestAuthenticationFilter extends GenericFilterBean {
                 return
             }
 
-            authenticationRequest.details = authenticationDetailsSource.buildDetails(request)
+            authenticationRequest.details = authenticationDetailsSource.buildDetails(httpServletRequest)
 
             try {
 
@@ -97,12 +97,12 @@ class RestAuthenticationFilter extends GenericFilterBean {
                     tokenStorageService.storeToken(tokenValue, authenticationResult.principal)
 
                     RestAuthenticationToken restAuthenticationToken = new RestAuthenticationToken(authenticationResult.principal, authenticationResult.credentials, authenticationResult.authorities, tokenValue)
-                    authenticationSuccessHandler.onAuthenticationSuccess(request, response, restAuthenticationToken)
+                    authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, restAuthenticationToken)
                 }
 
             } catch (AuthenticationException ae) {
                 log.debug "Authentication failed: ${ae.message}"
-                authenticationFailureHandler.onAuthenticationFailure(request, response, ae)
+                authenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, ae)
             }
         } else {
             chain.doFilter(request, response)

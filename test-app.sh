@@ -1,8 +1,5 @@
 #!/bin/bash
 
-rm -rf $HOME/.grails/ivy-cache/org.grails.plugins
-rm -rf $HOME/.m2/repository/org/grails/plugins
-
 ./grailsw test-app \
   && cd test/apps \
   && for app in `ls .`; do

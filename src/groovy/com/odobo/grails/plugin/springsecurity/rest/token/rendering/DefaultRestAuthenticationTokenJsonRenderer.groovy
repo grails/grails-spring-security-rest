@@ -1,9 +1,9 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.rendering
 
-import grails.plugin.springsecurity.SpringSecurityUtils
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
 import com.odobo.grails.plugin.springsecurity.rest.oauth.OauthUser
 import grails.converters.JSON
+import grails.plugin.springsecurity.SpringSecurityUtils
 import groovy.util.logging.Slf4j
 import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.core.GrantedAuthority
@@ -18,20 +18,22 @@ import org.springframework.util.Assert
 @Slf4j
 class DefaultRestAuthenticationTokenJsonRenderer implements RestAuthenticationTokenJsonRenderer {
 
+    String usernamePropertyName
+    String tokenPropertyName
+    String authoritiesPropertyName
+
+    Boolean useBearerToken
+
     String generateJson(RestAuthenticationToken restAuthenticationToken) {
         Assert.isInstanceOf(UserDetails, restAuthenticationToken.principal, "A UserDetails implementation is required")
-        UserDetails userDetails = restAuthenticationToken.principal
+        UserDetails userDetails = restAuthenticationToken.principal as UserDetails
 
-        def conf = SpringSecurityUtils.securityConfig
+        def result = [
+            (usernamePropertyName) : userDetails.username,
+            (authoritiesPropertyName) : userDetails.authorities.collect {GrantedAuthority role -> role.authority }
+        ]
 
-        String usernameProperty = conf.rest.token.rendering.usernamePropertyName
-        String tokenProperty = conf.rest.token.rendering.tokenPropertyName
-        String authoritiesProperty = conf.rest.token.rendering.authoritiesPropertyName
-
-        def result = [:]
-        result["$usernameProperty"] = userDetails.username
-        result["$tokenProperty"] = restAuthenticationToken.tokenValue
-        result["$authoritiesProperty"] = userDetails.authorities.collect {GrantedAuthority role -> role.authority }
+        result["$tokenPropertyName"] = restAuthenticationToken.tokenValue
 
         if (userDetails instanceof OauthUser) {
             CommonProfile profile = (userDetails as OauthUser).userProfile
@@ -39,6 +41,10 @@ class DefaultRestAuthenticationTokenJsonRenderer implements RestAuthenticationTo
                 email = profile.email
                 displayName = profile.displayName
             }
+        }
+
+        if (useBearerToken) {
+            result.token_type = 'Bearer'
         }
 
         def jsonResult = result as JSON
