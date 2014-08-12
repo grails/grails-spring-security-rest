@@ -41,7 +41,6 @@ grails.project.dependency.resolution = {
         grailsCentral()
         mavenCentral()
 
-        mavenRepo 'http://repo.spring.io/milestone' // TODO remove
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
@@ -61,7 +60,7 @@ grails.project.dependency.resolution = {
         compile ":scaffolding:2.0.1"
         compile ':cache:1.1.1'
 
-        compile ':spring-security-core:2.0-RC2'
+        compile ':spring-security-core:2.0-RC3'
         compile ":spring-security-rest:latest.release", {
             excludes: 'spring-security-core'
         }

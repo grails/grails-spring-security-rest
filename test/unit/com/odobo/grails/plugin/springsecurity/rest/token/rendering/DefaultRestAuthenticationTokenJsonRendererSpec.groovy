@@ -2,20 +2,25 @@ package com.odobo.grails.plugin.springsecurity.rest.token.rendering
 
 import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
 import com.odobo.grails.plugin.springsecurity.rest.oauth.OauthUser
+import grails.converters.JSON
+import grails.plugin.springsecurity.ReflectionUtils
+import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.test.mixin.TestMixin
 import grails.test.mixin.web.ControllerUnitTestMixin
+import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import grails.plugin.springsecurity.ReflectionUtils
-import grails.plugin.springsecurity.SpringSecurityUtils
 import spock.lang.Issue
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 @TestMixin(ControllerUnitTestMixin)
 class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
+
+    @Shared
+    DefaultRestAuthenticationTokenJsonRenderer renderer
 
     def setupSpec() {
         def application = Mock(GrailsApplication)
@@ -23,6 +28,10 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         application.getConfig() >> config
         ReflectionUtils.application = application
         SpringSecurityUtils.loadSecondaryConfig 'DefaultRestSecurityConfig'
+
+        renderer = new DefaultRestAuthenticationTokenJsonRenderer(authoritiesPropertyName: 'roles',
+                                                                  tokenPropertyName: 'access_token',
+                                                                  usernamePropertyName: 'username')
     }
 
     @Unroll
@@ -35,8 +44,6 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
 
         RestAuthenticationToken token = new RestAuthenticationToken(userDetails, password, roles, tokenValue)
 
-        DefaultRestAuthenticationTokenJsonRenderer renderer = new DefaultRestAuthenticationTokenJsonRenderer()
-
         when:
         def jsonResult = renderer.generateJson(token)
 
@@ -45,11 +52,11 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
 
         where:
         roles                                                                       | generatedJson
-        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"username":"john.doe","roles":["ADMIN","USER"],"token":"1a2b3c4d"}'
-        []                                                                          | '{"username":"john.doe","roles":[],"token":"1a2b3c4d"}'
+        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"username":"john.doe","roles":["ADMIN","USER"],"access_token":"1a2b3c4d"}'
+        []                                                                          | '{"username":"john.doe","roles":[],"access_token":"1a2b3c4d"}'
     }
 
-    void "Render json with custom properties"() {
+    void "Render JSON with custom properties"() {
         given:
         def username = 'john.doe'
         def password = 'donttellanybody'
@@ -58,29 +65,21 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
 
         RestAuthenticationToken token = new RestAuthenticationToken(userDetails, password, roles, tokenValue)
 
-        DefaultRestAuthenticationTokenJsonRenderer renderer = new DefaultRestAuthenticationTokenJsonRenderer()
-
-        and: "Spring security configuration"
-        SpringSecurityUtils.securityConfig.rest.token.rendering.usernamePropertyName = "login"
-        SpringSecurityUtils.securityConfig.rest.token.rendering.tokenPropertyName = "access_token"
-        SpringSecurityUtils.securityConfig.rest.token.rendering.authoritiesPropertyName = "authorities"
+        RestAuthenticationTokenJsonRenderer customRenderer =
+                new DefaultRestAuthenticationTokenJsonRenderer(authoritiesPropertyName: 'authorities',
+                                                               tokenPropertyName: 'token',
+                                                               usernamePropertyName: 'login')
 
         when:
-        def jsonResult = renderer.generateJson(token)
+        def jsonResult = customRenderer.generateJson(token)
 
         then:
         jsonResult == generatedJson
 
-        cleanup:
-        SpringSecurityUtils.securityConfig.rest.token.rendering.usernamePropertyName = "username"
-        SpringSecurityUtils.securityConfig.rest.token.rendering.tokenPropertyName = "token"
-        SpringSecurityUtils.securityConfig.rest.token.rendering.authoritiesPropertyName = "roles"
-
-
         where:
         roles                                                                       | generatedJson
-        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"login":"john.doe","authorities":["ADMIN","USER"],"access_token":"1a2b3c4d"}'
-        []                                                                          | '{"login":"john.doe","authorities":[],"access_token":"1a2b3c4d"}'
+        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"login":"john.doe","authorities":["ADMIN","USER"],"token":"1a2b3c4d"}'
+        []                                                                          | '{"login":"john.doe","authorities":[],"token":"1a2b3c4d"}'
 
 
     }
@@ -92,7 +91,6 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         def principal = 'john.doe'
         def tokenValue = '1a2b3c4d'
         RestAuthenticationToken token = new RestAuthenticationToken(principal, '', [], tokenValue)
-        DefaultRestAuthenticationTokenJsonRenderer renderer = new DefaultRestAuthenticationTokenJsonRenderer()
 
         when:
         renderer.generateJson(token)
@@ -119,13 +117,31 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
 
         RestAuthenticationToken token = new RestAuthenticationToken(userDetails, password, roles, tokenValue)
 
-        DefaultRestAuthenticationTokenJsonRenderer renderer = new DefaultRestAuthenticationTokenJsonRenderer()
-
         when:
         def jsonResult = renderer.generateJson(token)
 
         then:
-        jsonResult == '{"username":"john.doe","roles":["ADMIN","USER"],"email":"john@doe.com","displayName":"John Doe","token":"1a2b3c4d"}'
+        jsonResult == '{"username":"john.doe","roles":["ADMIN","USER"],"access_token":"1a2b3c4d","email":"john@doe.com","displayName":"John Doe"}'
+    }
+
+    def "it renders valid Bearer tokens"() {
+        given:
+        def tokenValue = "abcdefghijklmnopqrstuvwxyz1234567890"
+        def principal = new User('test', 'test', [])
+        def token = new RestAuthenticationToken( principal, null, null, tokenValue )
+        renderer.useBearerToken = true
+
+        when:
+        def result = renderer.generateJson( token )
+        def json = JSON.parse( result )
+
+        then:
+        result.size()
+        json.access_token == tokenValue
+        json.token_type == 'Bearer'
+
+        cleanup:
+        renderer.useBearerToken = false
     }
 
 }

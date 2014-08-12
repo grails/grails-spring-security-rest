@@ -2,8 +2,11 @@ import com.odobo.grails.plugin.springsecurity.rest.*
 import com.odobo.grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
+import com.odobo.grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
-import com.odobo.grails.plugin.springsecurity.rest.token.rendering.BearerTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
@@ -16,15 +19,13 @@ import net.spy.memcached.transcoders.SerializingTranscoder
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
 import org.springframework.security.web.access.ExceptionTranslationFilter
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
-import org.springframework.security.web.authentication.NullRememberMeServices
-import org.springframework.security.web.context.NullSecurityContextRepository
 import org.springframework.security.web.savedrequest.NullRequestCache
 
 import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.3.4"
+    String version = "1.4.0"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -85,17 +86,13 @@ class SpringSecurityRestGrailsPlugin {
             }
 
             def paramsClosure = {
-                usernameParameter = conf.rest.login.usernameParameter // username
-                passwordParameter = conf.rest.login.passwordParameter // password
+                usernamePropertyName = conf.rest.login.usernamePropertyName // username
+                passwordPropertyName = conf.rest.login.passwordPropertyName // password
             }
 
             if (conf.rest.login.useRequestParamsCredentials) {
                 credentialsExtractor(RequestParamsCredentialsExtractor, paramsClosure)
             } else if (conf.rest.login.useJsonCredentials) {
-                credentialsExtractor(DefaultJsonPayloadCredentialsExtractor, paramsClosure)
-            } else {
-                println """WARNING: credentials extraction strategy is not explicitly set. Falling back to JSON.
-Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/guide/authentication.html for more details"""
                 credentialsExtractor(DefaultJsonPayloadCredentialsExtractor, paramsClosure)
             }
 
@@ -104,6 +101,7 @@ Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/gui
                 endpointUrl = conf.rest.logout.endpointUrl
                 headerName = conf.rest.token.validation.headerName
                 tokenStorageService = ref('tokenStorageService')
+                tokenReader = ref('tokenReader')
             }
         }
 
@@ -111,16 +109,28 @@ Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/gui
         restAuthenticationSuccessHandler(RestAuthenticationSuccessHandler) {
             renderer = ref('restAuthenticationTokenJsonRenderer')
         }
+        restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer) {
+            usernamePropertyName = conf.rest.token.rendering.usernamePropertyName
+            tokenPropertyName = conf.rest.token.rendering.tokenPropertyName
+            authoritiesPropertyName = conf.rest.token.rendering.authoritiesPropertyName
+            useBearerToken = conf.rest.token.validation.useBearerToken
+        }
 
         if( conf.rest.token.validation.useBearerToken ) {
+            tokenReader(BearerTokenReader)
             restAuthenticationFailureHandler(BearerTokenAuthenticationFailureHandler)
-            restAuthenticationTokenJsonRenderer(BearerTokenJsonRenderer)
+            restAuthenticationEntryPoint(BearerTokenAuthenticationEntryPoint) {
+                tokenReader = ref('tokenReader')
+            }
 
         } else {
+            restAuthenticationEntryPoint(Http403ForbiddenEntryPoint)
+            tokenReader(HttpHeaderTokenReader) {
+                headerName = conf.rest.token.validation.headerName
+            }
             restAuthenticationFailureHandler(RestAuthenticationFailureHandler) {
                 statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_UNAUTHORIZED
             }
-            restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer)
         }
 
         /* restTokenValidationFilter */
@@ -131,7 +141,8 @@ Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/gui
             headerName = conf.rest.token.validation.headerName
             validationEndpointUrl = conf.rest.token.validation.endpointUrl
             active = conf.rest.token.validation.active
-            useBearerToken = conf.rest.token.validation.useBearerToken ?: false
+            tokenReader = ref('tokenReader')
+            enableAnonymousAccess = conf.rest.token.validation.enableAnonymousAccess
             authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')
@@ -143,7 +154,6 @@ Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/gui
             throwableAnalyzer = ref('throwableAnalyzer')
         }
 
-        restAuthenticationEntryPoint(Http403ForbiddenEntryPoint)
         restRequestCache(NullRequestCache)
         restAccessDeniedHandler(AccessDeniedHandlerImpl) {
             errorPage = null //403
@@ -153,7 +163,7 @@ Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/gui
         if (conf.rest.token.storage.useMemcached) {
 
             Properties systemProperties = System.properties
-            systemProperties.put("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.Log4JLogger")
+            systemProperties.put("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.SLF4JLogger")
             System.setProperties(systemProperties)
 
             memcachedClient(MemcachedClientFactoryBean) {
@@ -184,8 +194,6 @@ Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/gui
                 userDetailsService = ref('userDetailsService')
             }
         } else {
-            println """WARNING: token storage strategy is not explicitly set. Falling back to GORM.
-Please, read http://alvarosanchez.github.io/grails-spring-security-rest/docs/guide/tokenStorage.html for more details"""
             tokenStorageService(GormTokenStorageService) {
                 userDetailsService = ref('userDetailsService')
             }

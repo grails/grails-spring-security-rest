@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletRequest
 @Slf4j
 class RequestParamsCredentialsExtractor implements CredentialsExtractor {
 
-    String usernameParameter
-    String passwordParameter
+    String usernamePropertyName
+    String passwordPropertyName
 
     UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) {
-        String username = httpServletRequest.getParameter(usernameParameter)
-        String password = httpServletRequest.getParameter(passwordParameter)
+        String username = httpServletRequest.getParameter(usernamePropertyName)
+        String password = httpServletRequest.getParameter(passwordPropertyName)
 
         log.debug "Extracted credentials from request params. Username: ${username}, password: ${password?.size()?'[PROTECTED]':'[MISSING]'}"
 

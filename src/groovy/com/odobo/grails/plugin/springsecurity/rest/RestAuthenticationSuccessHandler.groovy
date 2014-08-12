@@ -25,6 +25,8 @@ class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         response.contentType = 'application/json'
         response.characterEncoding = 'UTF-8'
+        response.addHeader 'Cache-Control', 'no-store'
+        response.addHeader 'Pragma', 'no-cache'
         response << renderer.generateJson(authentication)
     }
 }

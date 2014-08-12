@@ -1,9 +1,11 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugins.rest.client.RestResponse
-import spock.lang.IgnoreRest
+import grails.util.Holders
+import spock.lang.IgnoreIf
 import spock.lang.Unroll
 
+@IgnoreIf({ Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
 class RestAuthenticationFilterSpec extends AbstractRestSpec {
 
     @Unroll
@@ -56,7 +58,7 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
         then:
         response.status == 200
         response.json.username == 'jimi'
-        response.json.token
+        response.json.access_token
         response.json.roles.size() == 2
     }
 

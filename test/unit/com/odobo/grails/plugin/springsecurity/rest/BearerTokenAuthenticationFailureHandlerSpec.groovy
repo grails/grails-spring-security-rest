@@ -1,9 +1,10 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
-import org.springframework.security.authentication.BadCredentialsException
 import spock.lang.Specification
 
 class BearerTokenAuthenticationFailureHandlerSpec extends Specification {
@@ -11,7 +12,7 @@ class BearerTokenAuthenticationFailureHandlerSpec extends Specification {
     def handler = new BearerTokenAuthenticationFailureHandler()
 
     def "it will send a 401 status and WWW-Authenticate header when no credentials were provided"() {
-
+        given:
         def request  = new MockHttpServletRequest()
         def response = new MockHttpServletResponse()
 
@@ -25,12 +26,12 @@ class BearerTokenAuthenticationFailureHandlerSpec extends Specification {
     }
 
     def "it will send a 401 status and WWW-Authenticate header with an error param when credentials are invalid"() {
-
+        given:
         def request  = new MockHttpServletRequest()
         def response = new MockHttpServletResponse()
 
         when:
-        def exception = new BadCredentialsException( 'Bad credentials :-(' )
+        def exception = new TokenNotFoundException( 'Bad token :-(' )
         handler.onAuthenticationFailure( request, response, exception )
 
         then:
