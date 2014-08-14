@@ -82,17 +82,18 @@ class RestAuthenticationFilter extends GenericFilterBean {
                 try {
                     log.debug "Trying to authenticate the request"
                     authenticationResult = authenticationManager.authenticate(authenticationRequest)
+              
+                    if (authenticationResult.authenticated) {
+                        log.debug "Request authenticated. Storing the authentication result in the security context"
+                        log.debug "Authentication result: ${authenticationResult}"
+    
+                        SecurityContextHolder.context.setAuthentication(authenticationResult)
+                    }
                 } catch (AuthenticationException ae) {
                     log.debug "Authentication failed: ${ae.message}"
                     authenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, ae)
                 }
-                
-                if (authenticationResult.authenticated) {
-                    log.debug "Request authenticated. Storing the authentication result in the security context"
-                    log.debug "Authentication result: ${authenticationResult}"
-
-                    SecurityContextHolder.context.setAuthentication(authenticationResult)
-                }
+            
             }else{
                 log.debug "Username and/or password parameters are missing."
                 if(!authentication){
@@ -105,7 +106,7 @@ class RestAuthenticationFilter extends GenericFilterBean {
                 }
             }
 
-            if (authenticationResult.authenticated) {
+            if (authenticationResult?.authenticated) {
                 String tokenValue = tokenGenerator.generateToken()
                 log.debug "Generated token: ${tokenValue}"
 
