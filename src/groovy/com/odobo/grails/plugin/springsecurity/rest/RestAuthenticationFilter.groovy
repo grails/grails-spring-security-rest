@@ -69,41 +69,54 @@ class RestAuthenticationFilter extends GenericFilterBean {
                 return
             }
 
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication()
+            Authentication authenticationResult
+
             UsernamePasswordAuthenticationToken authenticationRequest = credentialsExtractor.extractCredentials(httpServletRequest)
-
-            //Request must contain parameters
-            if (!authenticationRequest.principal || !authenticationRequest.credentials) {
-                log.debug "Username and/or password parameters are missing. Setting status to ${HttpServletResponse.SC_BAD_REQUEST}"
-                httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST)
-                return
-            }
-
-            authenticationRequest.details = authenticationDetailsSource.buildDetails(httpServletRequest)
-
-            try {
-
-                log.debug "Trying to authenticate the request"
-                Authentication authenticationResult = authenticationManager.authenticate(authenticationRequest)
-
+        
+            boolean authenticationRequestIsCorrect = (authenticationRequest.principal && authenticationRequest.credentials)
+            
+            if(authenticationRequestIsCorrect){
+                authenticationRequest.details = authenticationDetailsSource.buildDetails(httpServletRequest)
+                
+                try {
+                    log.debug "Trying to authenticate the request"
+                    authenticationResult = authenticationManager.authenticate(authenticationRequest)
+                } catch (AuthenticationException ae) {
+                    log.debug "Authentication failed: ${ae.message}"
+                    authenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, ae)
+                }
+                
                 if (authenticationResult.authenticated) {
                     log.debug "Request authenticated. Storing the authentication result in the security context"
                     log.debug "Authentication result: ${authenticationResult}"
 
                     SecurityContextHolder.context.setAuthentication(authenticationResult)
-
-                    String tokenValue = tokenGenerator.generateToken()
-                    log.debug "Generated token: ${tokenValue}"
-
-                    tokenStorageService.storeToken(tokenValue, authenticationResult.principal)
-
-                    RestAuthenticationToken restAuthenticationToken = new RestAuthenticationToken(authenticationResult.principal, authenticationResult.credentials, authenticationResult.authorities, tokenValue)
-                    authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, restAuthenticationToken)
                 }
-
-            } catch (AuthenticationException ae) {
-                log.debug "Authentication failed: ${ae.message}"
-                authenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, ae)
+            }else{
+                log.debug "Username and/or password parameters are missing."
+                if(!authentication){
+                    log.debug "Setting status to ${HttpServletResponse.SC_BAD_REQUEST}"
+                    httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST)
+                    return
+                }else{
+                    log.debug "Using authentication already in security context."
+                    authenticationResult = authentication
+                }
             }
+
+            if (authenticationResult.authenticated) {
+                String tokenValue = tokenGenerator.generateToken()
+                log.debug "Generated token: ${tokenValue}"
+
+                tokenStorageService.storeToken(tokenValue, authenticationResult.principal)
+
+                RestAuthenticationToken restAuthenticationToken = new RestAuthenticationToken(authenticationResult.principal, authenticationResult.credentials, authenticationResult.authorities, tokenValue)
+                authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, restAuthenticationToken)
+            }else{
+                log.debug "Not authenticated. Rest authentication token not generated."
+            }
+
         } else {
             chain.doFilter(request, response)
         }
