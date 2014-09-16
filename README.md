@@ -30,6 +30,7 @@ Contributors
 * [Dhiraj Mahapatro](https://github.com/dmahapatro).
 * [James Kleeh](https://github.com/Schlogen).
 * [Jonas Ladenfors](https://github.com/jladenfors).
+* [Philippe Gibert](https://github.com/giboow).
 * [Polawat Phetra](https://github.com/pphetra).
 * [Victor Saar](https://github.com/vsaar).
 
