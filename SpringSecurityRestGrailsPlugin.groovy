@@ -169,9 +169,7 @@ class SpringSecurityRestGrailsPlugin {
             memcachedClient(MemcachedClientFactoryBean) {
                 servers = conf.rest.token.storage.memcached.hosts
                 protocol = 'BINARY'
-                transcoder = { SerializingTranscoder st ->
-                    compressionThreshold = 1024
-                }
+                transcoder = new CustomSerializingTranscoder()
                 opTimeout = 1000
                 timeoutExceptionThreshold = 1998
                 hashAlg = DefaultHashAlgorithm.KETAMA_HASH
