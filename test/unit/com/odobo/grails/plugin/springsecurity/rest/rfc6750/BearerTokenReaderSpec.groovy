@@ -111,4 +111,14 @@ class BearerTokenReaderSpec extends Specification {
         where:
         method << [ 'GET' ]
     }
+
+    @Unroll
+    def "when the mediatype is null still works"() {
+        given:
+        request.contentType = null
+
+        expect:
+        !tokenReader.findToken(request, response)
+    }
+
 }
