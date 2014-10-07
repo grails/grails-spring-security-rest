@@ -19,62 +19,33 @@ class GormApiKeyStorageService implements ApiKeyStorageService, GrailsApplicatio
 
     UserDetailsService userDetailsService
 
-    Object loadUserByToken(String tokenValue) throws ApiKeyNotFoundException {
+    Object loadUserByApiKey(String apiKeyValue) throws ApiKeyNotFoundException {
         def conf = SpringSecurityUtils.securityConfig
-        String usernamePropertyName = conf.rest.token.storage.gorm.usernamePropertyName
-        def existingToken = findExistingToken(tokenValue)
+        String usernamePropertyName = conf.rest.apiKey.storage.gorm.usernamePropertyName
+        def existingApiKey = findExistingApiKey(apiKeyValue)
 
-        if (existingToken) {
-            def username = existingToken."${usernamePropertyName}"
+        if (existingApiKey) {
+            def username = existingApiKey."${usernamePropertyName}"
             return userDetailsService.loadUserByUsername(username)
         }
 
-        throw new ApiKeyNotFoundException("Api Key ${tokenValue} not found")
+        throw new ApiKeyNotFoundException("Api Key ${apiKeyValue} not found")
 
     }
 
-    void storeToken(String tokenValue, Object principal) {
+    private findExistingApiKey(String apiKeyValue) {
         def conf = SpringSecurityUtils.securityConfig
-        String tokenClassName = conf.rest.apikey.storage.gorm.apiKeyDomainClassName
-        String tokenValuePropertyName = conf.rest.apikey.storage.gorm.apiKeyValuePropertyName
-        String usernamePropertyName = conf.rest.apikey.storage.gorm.usernamePropertyName
-        def dc = grailsApplication.getClassForName(tokenClassName)
+        String apiKeyClassName = conf.rest.apiKey.storage.gorm.apiKeyDomainClassName
+        String apiKeyValuePropertyName = conf.rest.apiKey.storage.gorm.apiKeyValuePropertyName
+        def dc = grailsApplication.getClassForName(apiKeyClassName)
 
         //TODO check at startup, not here
         if (!dc) {
-            throw new IllegalArgumentException("The specified api key domain class '$tokenClassName' is not a domain class ")
+            throw new IllegalArgumentException("The specified token domain class '$apiKeyClassName' is not a domain class")
         }
 
         dc.withTransaction { status ->
-            def newTokenObject = dc.newInstance((tokenValuePropertyName): tokenValue, (usernamePropertyName): principal.username)
-            newTokenObject.save()
-        }
-    }
-
-    void removeToken(String tokenValue) throws ApiKeyNotFoundException {
-        def existingToken = findExistingToken(tokenValue)
-
-        if (existingToken) {
-            existingToken.delete()
-        } else {
-            throw new ApiKeyNotFoundException("Api Key ${tokenValue} not found")
-        }
-
-    }
-
-    private findExistingToken(String tokenValue) {
-        def conf = SpringSecurityUtils.securityConfig
-        String tokenClassName = conf.rest.apikey.storage.gorm.apiKeyDomainClassName
-        String tokenValuePropertyName = conf.rest.apikey.storage.gorm.apiKeyValuePropertyName
-        def dc = grailsApplication.getClassForName(tokenClassName)
-
-        //TODO check at startup, not here
-        if (!dc) {
-            throw new IllegalArgumentException("The specified token domain class '$tokenClassName' is not a domain class")
-        }
-
-        dc.withTransaction { status ->
-            return dc.findWhere((tokenValuePropertyName): tokenValue)
+            return dc.findWhere((apiKeyValuePropertyName): apiKeyValue)
         }
     }
 

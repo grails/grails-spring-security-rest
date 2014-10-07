@@ -36,10 +36,10 @@ class RestApiKeyAuthenticationProvider implements AuthenticationProvider {
 
         if (authenticationRequest.apiKeyValue) {
             log.debug "Trying to validate token ${authenticationRequest.apiKeyValue}"
-            def userDetails = apiKeyStorageService.loadUserByToken(authenticationRequest.apiKeyValue)
+            def userDetails = apiKeyStorageService.loadUserByApiKey(authenticationRequest.apiKeyValue)
 
-            log.debug "Authentication result: ${authenticationResult}"
             authenticationResult = new RestApiKeyAuthenticationToken(userDetails, userDetails.password, userDetails.authorities, authenticationRequest.apiKeyValue)
+            log.debug "Authentication result: ${authenticationResult}"
         }
 
         return authenticationResult

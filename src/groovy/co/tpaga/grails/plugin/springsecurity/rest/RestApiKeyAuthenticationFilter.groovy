@@ -67,6 +67,9 @@ class RestApiKeyValidationFilter extends GenericFilterBean {
                     SecurityContextHolder.context.setAuthentication(authenticationResult)
 
                     processFilterChain(request, response, chain, apiKeyValue, authenticationResult)
+
+                    log.debug "Removing authentication after filter chain"
+                    SecurityContextHolder.context.setAuthentication(null)
                 }
 
             } else {
@@ -80,7 +83,7 @@ class RestApiKeyValidationFilter extends GenericFilterBean {
 
     }
 
-    private processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, String tokenValue, RestApiKeyAuthenticationToken authenticationResult) {
+    private processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, String apiKeyValue, RestApiKeyAuthenticationToken authenticationResult) {
         HttpServletRequest httpRequest = request as HttpServletRequest
         HttpServletResponse httpResponse = response as HttpServletResponse
 
@@ -92,14 +95,13 @@ class RestApiKeyValidationFilter extends GenericFilterBean {
             return
         }
 
-        if (tokenValue) {
+        if (apiKeyValue) {
             if (actualUri == validationEndpointUrl) {
                 log.debug "Validation endpoint called. Generating response."
                 authenticationSuccessHandler.onAuthenticationSuccess(httpRequest, httpResponse, authenticationResult)
             } else {
                 log.debug "Continuing the filter chain"
                 chain.doFilter(request, response)
-                //TODO Deauthenticate after the response is send
             }
         } else if (enableAnonymousAccess) {
             log.debug "Anonymous access is enabled"
