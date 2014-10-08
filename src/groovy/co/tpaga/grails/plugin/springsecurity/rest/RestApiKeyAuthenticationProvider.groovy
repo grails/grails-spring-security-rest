@@ -1,6 +1,6 @@
 package co.tpaga.grails.plugin.springsecurity.rest
 
-import co.tpaga.grails.plugin.springsecurity.rest.token.storage.ApiKeyStorageService
+import co.tpaga.grails.plugin.springsecurity.rest.apiKey.storage.ApiKeyStorageService
 
 /**
  * @author Sebastián Ortiz V. <sortiz@tappsi.co>
@@ -37,7 +37,6 @@ class RestApiKeyAuthenticationProvider implements AuthenticationProvider {
         if (authenticationRequest.apiKeyValue) {
             log.debug "Trying to validate token ${authenticationRequest.apiKeyValue}"
             def userDetails = apiKeyStorageService.loadUserByApiKey(authenticationRequest.apiKeyValue)
-
             authenticationResult = new RestApiKeyAuthenticationToken(userDetails, userDetails.password, userDetails.authorities, authenticationRequest.apiKeyValue)
             log.debug "Authentication result: ${authenticationResult}"
         }

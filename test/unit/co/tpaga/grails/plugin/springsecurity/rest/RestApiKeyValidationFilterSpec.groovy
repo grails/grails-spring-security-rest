@@ -1,8 +1,8 @@
 package co.tpaga.grails.plugin.springsecurity.rest
 
-import co.tpaga.grails.plugin.springsecurity.rest.token.reader.ApiKeyReader
+import co.tpaga.grails.plugin.springsecurity.rest.apiKey.reader.ApiKeyReader
 
-import co.tpaga.grails.plugin.springsecurity.rest.token.storage.ApiKeyNotFoundException
+import co.tpaga.grails.plugin.springsecurity.rest.apiKey.storage.ApiKeyNotFoundException
 
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.springframework.mock.web.MockFilterChain
@@ -30,7 +30,7 @@ class RestApiKeyValidationFilterUnitSpec extends Specification {
     void "authentication passes when a valid token is found"() {
         given:
         filter.restApiKeyAuthenticationProvider = new StubRestApiKeyAuthenticationProvider(
-                validToken: token,
+                apiKey: apiKeyValue,
                 username: 'user',
                 password: 'password'
         )
@@ -41,18 +41,18 @@ class RestApiKeyValidationFilterUnitSpec extends Specification {
 
         then:
         response.status == 200
-        1 * filter.apiKeyReader.findApiKey(request, response) >> token
+        1 * filter.apiKeyReader.findApiKey(request, response) >> apiKeyValue
         0 * filter.authenticationFailureHandler.onAuthenticationFailure( _, _, _ )
         notThrown( ApiKeyNotFoundException )
 
         where:
-        token = 'mytokenvalue'
+        apiKeyValue = 'myapikeyvalue'
     }
 
     void "authentication fails when a token cannot be found"() {
         given:
         filter.restApiKeyAuthenticationProvider = new StubRestApiKeyAuthenticationProvider(
-                validToken: token,
+                apiKey: apiKeyValue,
                 username: 'user',
                 password: 'password'
         )
@@ -65,7 +65,7 @@ class RestApiKeyValidationFilterUnitSpec extends Specification {
         1 * filter.authenticationFailureHandler.onAuthenticationFailure( request, response, _ as AuthenticationException )
 
         where:
-        token = 'mytokenvalue'
+        apiKeyValue = 'myapikeyvalue'
     }
 }
 
@@ -75,14 +75,14 @@ class RestApiKeyValidationFilterUnitSpec extends Specification {
  */
 class StubRestApiKeyAuthenticationProvider extends RestApiKeyAuthenticationProvider {
 
-    String validToken
+    String apiKey
     String username
     String password
 
     Authentication authenticate(Authentication authentication) throws AuthenticationException {
         authentication = authentication as RestApiKeyAuthenticationToken
-        if( authentication.apiKeyValue == validToken ) {
-            return new RestApiKeyAuthenticationToken( username, password, null, validToken )
+        if( authentication.apiKeyValue == apiKey ) {
+            return new RestApiKeyAuthenticationToken( username, password, null, apiKey )
         }
 
         throw new ApiKeyNotFoundException( 'Api key not found' )

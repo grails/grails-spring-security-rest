@@ -1,4 +1,4 @@
-package co.tpaga.grails.plugin.springsecurity.rest.token.storage
+package co.tpaga.grails.plugin.springsecurity.rest.apiKey.storage
 
 import grails.plugin.springsecurity.SpringSecurityUtils
 import org.codehaus.groovy.grails.commons.GrailsApplication
@@ -6,8 +6,8 @@ import org.codehaus.groovy.grails.plugins.support.aware.GrailsApplicationAware
 import org.springframework.security.core.userdetails.UserDetailsService
 
 /**
- * GORM implementation for token storage. It will look for tokens on the DB using a domain class that will contain the
- * generated token and the username associated.
+ * GORM implementation for Api Key storage. It will look for Api Keys on the DB using a domain class that will contain the
+ * generated Api Key and the userDomainClassName associated.
  *
  * Once the username is found, it will delegate to the configured {@link UserDetailsService} for obtaining authorities
  * information.
@@ -43,7 +43,7 @@ class GormApiKeyStorageService implements ApiKeyStorageService, GrailsApplicatio
         if (!dc) {
             throw new IllegalArgumentException("The specified token domain class '$apiKeyClassName' is not a domain class")
         }
-
+        //TODO Add support for an Active property in the Api Key Domain Class and add the validation.
         dc.withTransaction { status ->
             return dc.findWhere((apiKeyValuePropertyName): apiKeyValue)
         }

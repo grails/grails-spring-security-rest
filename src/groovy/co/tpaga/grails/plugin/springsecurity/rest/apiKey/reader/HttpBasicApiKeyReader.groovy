@@ -1,4 +1,4 @@
-package co.tpaga.grails.plugin.springsecurity.rest.token.reader
+package co.tpaga.grails.plugin.springsecurity.rest.apiKey.reader
 
 import org.springframework.security.authentication.BadCredentialsException
 
@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletResponse
 import org.springframework.security.crypto.codec.Base64
 
 /**
- * Reads the token from a configurable HTTP Header
+ * Reads the Api Key from a Authorization HTTP Header
  */
 class HTTPBasicApiKeyReader implements ApiKeyReader{
 
     /**
-     * @return the api key from the Authorization header, null otherwise
+     * @return the ApiKey from the Authorization header, null otherwise
      */
     @Override
     String findApiKey(HttpServletRequest request, HttpServletResponse response) {
@@ -32,7 +32,7 @@ class HTTPBasicApiKeyReader implements ApiKeyReader{
     }
 
     /**
-     * Decodes the header into an api_key
+     * Decodes the header into an Api Key
      *
      * @throws org.springframework.security.authentication.BadCredentialsException if the Basic header is not present or is not valid Base64
      */

@@ -63,7 +63,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
                     log.debug "Authentication result: ${authenticationResult}"
                     SecurityContextHolder.context.setAuthentication(authenticationResult)
 
-                    processFilterChain(request, response, chain, tokenValue, authenticationResult)
+                    processFilterChain(httpRequest, httpResponse, chain, tokenValue, authenticationResult)
 
                 }
 

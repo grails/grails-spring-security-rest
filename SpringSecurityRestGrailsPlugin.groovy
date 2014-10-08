@@ -1,12 +1,14 @@
 import co.tpaga.grails.plugin.springsecurity.rest.RestApiKeyAuthenticationProvider
 import co.tpaga.grails.plugin.springsecurity.rest.RestApiKeyAuthenticationSuccessHandler
 import co.tpaga.grails.plugin.springsecurity.rest.RestApiKeyValidationFilter
-import co.tpaga.grails.plugin.springsecurity.rest.RestApiKeyAuthenticationFailureHandler
+
 import co.tpaga.grails.plugin.springsecurity.rest.RestApiKeyAuthenticationSuccessHandler
-import co.tpaga.grails.plugin.springsecurity.rest.token.bearer.HTTPBasicBearerApiKeyAuthenticationEntryPoint
-import co.tpaga.grails.plugin.springsecurity.rest.token.bearer.HTTPBasicBearerApiKeyAuthenticationFailureHandler
-import co.tpaga.grails.plugin.springsecurity.rest.token.reader.HTTPBasicApiKeyReader
-import co.tpaga.grails.plugin.springsecurity.rest.token.storage.GormApiKeyStorageService
+import co.tpaga.grails.plugin.springsecurity.rest.apiKey.basic.HTTPBasicAuthApiKeyAuthenticationEntryPoint
+import co.tpaga.grails.plugin.springsecurity.rest.apiKey.basic.HTTPBasicAuthApiKeyAuthenticationEntryPoint
+import co.tpaga.grails.plugin.springsecurity.rest.apiKey.basic.HTTPBasicAuthApiKeyAuthenticationFailureHandler
+import co.tpaga.grails.plugin.springsecurity.rest.apiKey.basic.HTTPBasicAuthApiKeyAuthenticationFailureHandler
+import co.tpaga.grails.plugin.springsecurity.rest.apiKey.reader.HTTPBasicApiKeyReader
+import co.tpaga.grails.plugin.springsecurity.rest.apiKey.storage.GormApiKeyStorageService
 import com.odobo.grails.plugin.springsecurity.rest.*
 import com.odobo.grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
@@ -34,7 +36,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.5.0-apiKey"
+    String version = "1.5.0-SNAPSHOT"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -44,7 +46,7 @@ class SpringSecurityRestGrailsPlugin {
     String title = "Spring Security REST Plugin"
     String author = "Alvaro Sanchez-Mariscal"
     String authorEmail = "alvaro.sanchez@odobo.com"
-    String description = 'Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow'
+    String description = 'Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow or API Key'
 
     String documentation = "http://alvarosanchez.github.io/grails-spring-security-rest/"
 
@@ -232,7 +234,7 @@ class SpringSecurityRestGrailsPlugin {
             boolean printStatusMessages = (conf.printStatusMessages instanceof Boolean) ? conf.printStatusMessages : true
 
             if (printStatusMessages) {
-                println '\nConfiguring Spring Security REST Api Key...'
+                println '\nConfiguring Spring Security REST Basic Auth Api Key...'
             }
 
             ///*
@@ -258,10 +260,11 @@ class SpringSecurityRestGrailsPlugin {
 
             restApiKeyAuthenticationSuccessHandler(RestApiKeyAuthenticationSuccessHandler)
 
-            restApiKeyAuthenticationFailureHandler(HTTPBasicBearerApiKeyAuthenticationFailureHandler){
+            restApiKeyAuthenticationFailureHandler(HTTPBasicAuthApiKeyAuthenticationFailureHandler){
                 realm = conf.rest.apiKey.realm
+                statusCode = conf.rest.apiKey.failureStatusCode?:HttpServletResponse.SC_UNAUTHORIZED
             }
-            restApiKeyAuthenticationEntryPoint(HTTPBasicBearerApiKeyAuthenticationEntryPoint) {
+            restApiKeyAuthenticationEntryPoint(HTTPBasicAuthApiKeyAuthenticationEntryPoint) {
                 realm = conf.rest.apiKey.realm
             }
 
@@ -294,10 +297,8 @@ class SpringSecurityRestGrailsPlugin {
                 apiKeyStorageService = ref('apiKeyStorageService')
             }
 
-            //*/
-
             if (printStatusMessages) {
-                println '... finished configuring Spring Security REST Api Key\n'
+                println '... finished configuring Spring Security REST Basic Api Key\n'
             }
         }
 

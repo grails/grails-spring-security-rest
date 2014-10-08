@@ -1,4 +1,4 @@
-package co.tpaga.grails.plugin.springsecurity.rest.token.bearer
+package co.tpaga.grails.plugin.springsecurity.rest.apiKey.basic
 
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse
 /**
  * @author Sebastián Ortiz V. <sortiz@tappsi.co>
  */
-class HTTPBasicBearerApiKeyAuthenticationEntryPoint implements AuthenticationEntryPoint {
+class HTTPBasicAuthApiKeyAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     String realm
 

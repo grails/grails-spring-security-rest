@@ -1,6 +1,6 @@
 package co.tpaga.grails.plugin.springsecurity.rest
 
-import co.tpaga.grails.plugin.springsecurity.rest.token.reader.ApiKeyReader
+import co.tpaga.grails.plugin.springsecurity.rest.apiKey.reader.ApiKeyReader
 
 import grails.plugin.springsecurity.authentication.GrailsAnonymousAuthenticationToken
 import groovy.util.logging.Slf4j

@@ -1,7 +1,6 @@
-package co.tpaga.grails.plugin.springsecurity.rest.token.storage
+package co.tpaga.grails.plugin.springsecurity.rest.apiKey.storage
 /**
- * Implementations of this interface are responsible to load user information from a token storage system, and to store
- * token information into it.
+ * Implementations of this interface are responsible to load user information from an Api Key storage system.
  */
 interface ApiKeyStorageService {
 
