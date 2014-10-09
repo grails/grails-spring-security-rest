@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import spock.lang.Specification
 
-class RestApiKeyValidationFilterUnitSpec extends Specification {
+class RestApiKeyValidationFilterSpec extends Specification {
 
     def filter = new RestApiKeyValidationFilter(active: true)
 
