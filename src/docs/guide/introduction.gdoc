@@ -1,4 +1,4 @@
-The Spring Security REST Grails plugin allows you to use Spring Security for a stateless, token-based, RESTful authentication.
+The Spring Security REST Grails plugin allows you to use Spring Security for a stateless, token-based or api key based, RESTful authentication.
 
 {note}
 This plugin depends on [Spring Security Core 2.x|http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/newInV2.html].
@@ -36,6 +36,13 @@ More information about this strategy can be found [on this post by James Ward|ht
 This plugin helps you to wire your existing Spring Security [authentication mechanism|guide:authentication], provides you
 with ready-to-use [token generation strategies|guide:tokenGeneration] and comes prepackaged with Memcached, GORM and Grails
 Cache support for [token storage|guide:tokenStorage].
+
+h2. Rest Api Key with HTTP Basic Authentication Workflow
+
+There is also a more common approach to authenticate Restful interfaces using a single token, most times called Api Key,
+which is the token used to validate the requests.
+
+!http-basic-authentication.png!
 
 h4. Release History
 

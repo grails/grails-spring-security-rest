@@ -33,6 +33,7 @@ Contributors
 * [Philippe Gibert](https://github.com/giboow).
 * [Polawat Phetra](https://github.com/pphetra).
 * [Victor Saar](https://github.com/vsaar).
+* [Sebastián Ortiz](https://github.com/neoecos).
 
 License
 -------

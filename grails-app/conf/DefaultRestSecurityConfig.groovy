@@ -70,7 +70,7 @@ security {
 
             active = false
 
-            realm = 'Api Key Basic Rest Authentication'
+            realm = 'Api Key HTTP Basic Authentication'
 
             validation {
                 active = true

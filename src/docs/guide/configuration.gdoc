@@ -1,13 +1,14 @@
-Once the plugin is installed, the minimum configuration is to select what [token storage|guide:tokenStorage] strategy
-do you want to use:
+Once the plugin is installed, the minimum configuration is to select what strategy do you want to use: token-based flow
+or api key with http basic authentication.
 
-# [Grails Cache|guide:grailsCache].
-# [Memcached|guide:memcached]
-# [GORM|guide:gorm].
-# Provide your own: implement [TokenStorageService|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html] and register it in @resources.groovy@ as @tokenStorageService@
+By default the token-based flow is enabled and the Api Key HTTP Basic is disabled
 
-All the other features can be used out-of-the-box with the default values, but please make sure you read the entire
-plugin documentation to understand how they work and how can they be configured.
+{table}
+*Config key*                                                                    | *Default value*
+@grails.plugin.springsecurity.rest.token.active@                                | @true@
+@grails.plugin.springsecurity.rest.apiKey.active@                               | @false@
+
+{table}
 
 h2. Plugin configuration
 
@@ -19,15 +20,25 @@ Make sure your application is compatible with that version first.
 This plugin is compatible by default with Spring Security core traditional, form-based authentication. The important thing
 to remember is: you have to separate the filter chains, so different filters are applied on each case.
 
-The stateless, token-based approach of this plugin is incompatible with the HTTP session-based approach of Spring Security,
+The stateless, token-based or api key based approach of this plugin is incompatible with the HTTP session-based approach of Spring Security,
 core, so the trick is to identify what URL patterns have to be stateless, and what others have to be stateful (if any).
 
 To configure the chains properly, you can use the @grails.plugin.springsecurity.filterChain.chainMap@ property:
 
+For Token-based
 {code}
 grails.plugin.springsecurity.filterChain.chainMap = [
     '/api/**': 'JOINED_FILTERS,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter',  // Stateless chain
     '/**': 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'                                          // Traditional chain
+]
+{code}
+
+For Api Key based only (Be aware this example does not use the JOINED_FILTERS)
+
+{code}
+grails.plugin.springsecurity.filterChain.chainMap = [
+        '/api/**': 'restApiKeyValidationFilter,restApiKeyExceptionTranslationFilter,filterInvocationInterceptor',
+        '/**': 'JOINED_FILTERS,-restApiKeyValidationFilter,-restApiKeyExceptionTranslationFilter'
 ]
 {code}
 
