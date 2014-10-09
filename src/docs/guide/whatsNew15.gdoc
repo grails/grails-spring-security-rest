@@ -1,0 +1,9 @@
+h2. Added support for Api Key using HTTP Basic Authentication.
+
+Added a new full set of features in order to support Rest authentication using Api Key style with HTTP Basic
+A [new chapter|guide:apiKey] has been created explaining how to configure the filter chains appropriately.
+
+h2. Other minor changes
+
+* Upgraded dependencies:
+** @spring-security-core:2.0-RC4@.

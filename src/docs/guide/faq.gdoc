@@ -1,4 +1,4 @@
-h2. Why this token-based implementation? Can't I use HTTP basic authentication?
+h2. Why this token-based implementation? Can't I use HTTP basic authentication? (Is your call)
 
 In theory you can. The only restriction to be truly stateless is to not use HTTP sessions at all. So if you go with
 basic authentication, you need to transfer the credentials back and forth every time.
@@ -30,6 +30,13 @@ A couple of link with further explanations on the token-based flow:
 
 * [http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services|http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services]
 * [http://blog.brunoscopelliti.com/authentication-to-a-restful-web-service-in-an-angularjs-web-app|http://blog.brunoscopelliti.com/authentication-to-a-restful-web-service-in-an-angularjs-web-app]
+
+h2. Why added the HTTP Basic Support ?
+
+With the points before, there are still some cases where you want to enable Rest Authentication using an Api Key
+approach and validating using the [RFC 2617 HTTP Basic Authentication|https://www.ietf.org/rfc/rfc2617.txt].
+It is your responsibility as developer to choose wisely which and why is the the authentication method best fits your
+problem, also you should read the weakness of this approach [here|http://tools.ietf.org/html/rfc2617#page-22]
 
 h2. Why can't the API be secured with OAuth?
 

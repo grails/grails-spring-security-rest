@@ -5,10 +5,13 @@ log4j = {
     ...
 
     debug  'com.odobo',
+           'co.tpaga',
            'grails.app.controllers.com.odobo',
            'grails.app.services.com.odobo',
            'org.pac4j',
-           'org.springframework.security'
+           'org.springframework.security',
+           'grails.plugins.springsecurity'
+
 
     ...
 }

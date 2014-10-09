@@ -22,6 +22,8 @@ security {
 
         token {
 
+            active = true
+
             generation {
                 useSecureRandom = true
                 useUUID = false
@@ -61,6 +63,31 @@ security {
                 usernamePropertyName = 'username'
                 tokenPropertyName = 'access_token'
                 authoritiesPropertyName = 'roles'
+            }
+        }
+
+        apiKey {
+
+            active = false
+
+            realm = 'Api Key HTTP Basic Authentication'
+
+            validation {
+                active = true
+                endpointUrl = '/api/validate'
+                enableAnonymousAccess = false
+            }
+
+            storage {
+
+                useGorm = true
+
+                gorm {
+                    apiKeyDomainClassName = null
+                    apiKeyValuePropertyName = 'apiKeyValue'
+                    usernamePropertyName = 'username'
+                }
+
             }
         }
     }

@@ -1,0 +1,61 @@
+
+All related configuration values are
+
+{table}
+*Config key*                                                                    | *Default value*
+@grails.plugin.springsecurity.rest.apiKey.realm@                                | @Api Key HTTP Basic Authentication@
+@grails.plugin.springsecurity.rest.apiKey.validation.active@                    | @true@
+@grails.plugin.springsecurity.rest.apiKey.validation.endpointUrl@               | @/api/validation@
+@grails.plugin.springsecurity.rest.apiKey.validation.enableAnonymousAccess@     | @false@
+@grails.plugin.springsecurity.rest.apiKey.validation.tokenHeaderMissingStatusCode@| @HttpServletResponse.SC_UNAUTHORIZED@
+@grails.plugin.springsecurity.rest.apiKey.storage.useGorm@                       | @true@
+@grails.plugin.springsecurity.rest.apiKey.storage.gorm.tokenDomainClassName@     | @null@
+@grails.plugin.springsecurity.rest.apiKey.storage.gorm.tokenValuePropertyName@   | @apiKeyValue@
+@grails.plugin.springsecurity.rest.apiKey.storage.gorm.usernamePropertyName@     | @username@
+
+{table}
+
+In order to active the desired method the active configuration should be true and valid Domain Class for Api Key
+
+{table}
+*Config key*                                                                    | *Required value*
+@grails.plugin.springsecurity.rest.apiKey.active@                               | @true@
+@grails.plugin.springsecurity.rest.apiKey.storage.gorm.tokenDomainClassName@     | @ApiKeyDomainClass@
+{table}
+
+An example Api Key Domain Class is the following, which contains a many-to-one relationship to the userDomainClass
+which is configured by the spring-security-core plugin.
+
+{code}
+class ApiKeyDomainClass {
+
+    static transients = ['username']
+
+    String apiKeyToken
+    SpringUserDomainClassName user
+
+    static constraints = {
+        apiKeyToken blank: false, nullable: false, minSize: 10, maxSize: 32, unique: true
+        user nullable: false
+    }
+
+    static mapping = {
+        //Required to eager load the user information
+        user lazy: false
+    }
+
+    def getUsername() {
+        user?.username
+    }
+
+}
+{code}
+
+
+Also you should have configured the chainMap filters, like the example provided in [configuration|guide:configuration]
+
+Make sure you create a new valid api key and associate it with a user, then you can use
+
+{code}
+curl -u myapikey http://localhost:8080/myapp/api/validate
+{code}
