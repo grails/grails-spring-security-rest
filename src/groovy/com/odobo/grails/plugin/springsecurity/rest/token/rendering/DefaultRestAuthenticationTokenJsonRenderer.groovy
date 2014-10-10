@@ -49,7 +49,7 @@ class DefaultRestAuthenticationTokenJsonRenderer implements RestAuthenticationTo
 
         def jsonResult = result as JSON
 
-        log.debug "Generated JSON:\n ${jsonResult.toString(true)}"
+        log.debug "Generated JSON:\n${jsonResult.toString(true)}"
 
         return jsonResult.toString()
     }

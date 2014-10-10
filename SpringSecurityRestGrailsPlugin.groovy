@@ -15,7 +15,8 @@ import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import net.spy.memcached.DefaultHashAlgorithm
 import net.spy.memcached.spring.MemcachedClientFactoryBean
-import net.spy.memcached.transcoders.SerializingTranscoder
+import org.apache.commons.lang3.StringUtils
+import org.springframework.context.ApplicationContext
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
 import org.springframework.security.web.access.ExceptionTranslationFilter
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
@@ -214,6 +215,17 @@ class SpringSecurityRestGrailsPlugin {
 
         if (printStatusMessages) {
             println '... finished configuring Spring Security REST\n'
+        }
+
+    }
+
+    def doWithDynamicMethods = {ApplicationContext ctx ->
+
+        CharSequence.metaClass.mask = {
+            def max = delegate.length() - 1
+            def half = (delegate.length() / 2) as int
+            def halfSize = half > 1 ? half : 1
+            StringUtils.abbreviateMiddle(delegate, "*" * halfSize + 1, max)
         }
 
     }

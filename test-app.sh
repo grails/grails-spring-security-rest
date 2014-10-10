@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./grailsw test-app \
+./grailsw test-app --echoOut \
   && cd test/apps \
   && for app in `ls .`; do
      cd $app && ./test-app.sh && cd ..

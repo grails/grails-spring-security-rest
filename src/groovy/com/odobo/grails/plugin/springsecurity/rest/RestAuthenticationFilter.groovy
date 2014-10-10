@@ -108,7 +108,7 @@ class RestAuthenticationFilter extends GenericFilterBean {
 
             if (authenticationResult?.authenticated) {
                 String tokenValue = tokenGenerator.generateToken()
-                log.debug "Generated token: ${tokenValue}"
+                log.debug "Generated token: ${tokenValue.mask()}"
 
                 tokenStorageService.storeToken(tokenValue, authenticationResult.principal)
 

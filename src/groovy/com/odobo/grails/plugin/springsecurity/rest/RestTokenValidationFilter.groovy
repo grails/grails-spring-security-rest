@@ -52,7 +52,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
         try {
             String tokenValue = tokenReader.findToken(httpRequest, httpResponse)
             if (tokenValue) {
-                log.debug "Token found: ${tokenValue}"
+                log.debug "Token found: ${tokenValue.mask()}"
 
                 log.debug "Trying to authenticate the token"
                 RestAuthenticationToken authenticationRequest = new RestAuthenticationToken(tokenValue)

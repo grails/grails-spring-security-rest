@@ -60,7 +60,7 @@ class RestOauthService {
         OauthUser userDetails = oauthUserDetailsService.loadUserByUserProfile(profile, defaultRoles)
 
         String tokenValue = tokenGenerator.generateToken()
-        log.debug "Generated REST authentication token: ${tokenValue}"
+        log.debug "Generated REST authentication token: ${tokenValue.mask()}"
 
         log.debug "Storing token on the token storage"
         tokenStorageService.storeToken(tokenValue, userDetails)
