@@ -1,7 +1,7 @@
 The Spring Security REST Grails plugin allows you to use Spring Security for a stateless, token-based, RESTful authentication.
 
 {note}
-This plugin depends on [Spring Security Core 2.x|http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/newInV2.html].
+This plugin depends on [Spring Security Core 2.x|http://grails-plugins.github.io/grails-spring-security-core/guide/newInV2.html].
 Make sure your application is compatible with that version first. There is a
 [feature request|https://github.com/alvarosanchez/grails-spring-security-rest/issues/15], that may be addressed in the
 future if there is enough community interest / love :)
