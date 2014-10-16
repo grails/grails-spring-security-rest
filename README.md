@@ -21,6 +21,7 @@ Support
 Contributors
 ------------
 
+* [Aaron Eischeid](https://github.com/aeischeid).
 * [A.J. Brown](https://github.com/ajbrown).
 * [Andrew Wharton](https://github.com/andrew-wharton).
 * [Alonso Torres](https://github.com/Alotor).
