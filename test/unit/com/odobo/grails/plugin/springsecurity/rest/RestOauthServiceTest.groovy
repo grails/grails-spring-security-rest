@@ -2,7 +2,17 @@ package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.test.mixin.TestFor
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import org.pac4j.oauth.client.DropBoxClient
+import org.pac4j.oauth.client.FoursquareClient
+import org.pac4j.oauth.client.LinkedIn2Client
+import org.pac4j.oauth.client.PayPalClient
+import org.pac4j.oauth.client.TwitterClient
+import org.pac4j.oauth.client.VkClient
+import org.pac4j.oauth.client.WindowsLiveClient
+import org.pac4j.oauth.client.WordPressClient
+import org.pac4j.oauth.client.YahooClient
 import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * Created by Svante on 2014-10-15.
@@ -40,12 +50,12 @@ class RestOauthServiceTest extends Specification {
 
     }
 
-    def "it can create a client for DropBox"() {
+    @Unroll
+    def "it can create a client for #provider"() {
 
         given:
-        def provider = "dropbox"
         providerConfig(provider)
-        providerConfig(provider).client = org.pac4j.oauth.client.DropBoxClient
+        providerConfig(provider).client = clientClass
         providerConfig(provider).key = 'my_key'
         providerConfig(provider).secret = 'my_secret'
 
@@ -53,162 +63,23 @@ class RestOauthServiceTest extends Specification {
         def client = service.getClient(provider);
 
         then:
-        assert client instanceof org.pac4j.oauth.client.DropBoxClient
+        assert client.class == clientClass
         assert client.key == providerConfig(provider).key
         assert client.secret == providerConfig(provider).secret
 
-    }
-
-    def "it can create a client for Foursquare"() {
-
-        given:
-        def provider = "foursquare"
-        providerConfig(provider)
-        providerConfig(provider).client = org.pac4j.oauth.client.FoursquareClient
-        providerConfig(provider).key = 'my_key'
-        providerConfig(provider).secret = 'my_secret'
-
-        when:
-        def client = service.getClient(provider);
-
-        then:
-        assert client instanceof org.pac4j.oauth.client.FoursquareClient
-        assert client.key == providerConfig(provider).key
-        assert client.secret == providerConfig(provider).secret
+        where:
+        provider        | clientClass
+        'dropbox'       | DropBoxClient
+        'foursquare'    | FoursquareClient
+        'linkedin'      | LinkedIn2Client
+        'paypal'        | PayPalClient
+        'twitter'       | TwitterClient
+        'vk'            | VkClient
+        'windowslive'   | WindowsLiveClient
+        'wordpress'     | WordPressClient
+        'yahoo'         | YahooClient
 
     }
 
-    def "it can create a client for LinkedIn"() {
-
-        given:
-        def provider = "linkedin"
-        providerConfig(provider)
-        providerConfig(provider).client = org.pac4j.oauth.client.LinkedIn2Client
-        providerConfig(provider).key = 'my_key'
-        providerConfig(provider).secret = 'my_secret'
-
-        when:
-        def client = service.getClient(provider);
-
-        then:
-        assert client instanceof org.pac4j.oauth.client.LinkedIn2Client
-        assert client.key == providerConfig(provider).key
-        assert client.secret == providerConfig(provider).secret
-
-    }
-
-    def "it can create a client for PayPal"() {
-
-        given:
-        def provider = "paypal"
-        providerConfig(provider)
-        providerConfig(provider).client = org.pac4j.oauth.client.PayPalClient
-        providerConfig(provider).key = 'my_key'
-        providerConfig(provider).secret = 'my_secret'
-
-        when:
-        def client = service.getClient(provider);
-
-        then:
-        assert client instanceof org.pac4j.oauth.client.PayPalClient
-        assert client.key == providerConfig(provider).key
-        assert client.secret == providerConfig(provider).secret
-
-    }
-
-    def "it can create a client for Twitter"() {
-
-        given:
-        def provider = "twitter"
-        providerConfig(provider)
-        providerConfig(provider).client = org.pac4j.oauth.client.TwitterClient
-        providerConfig(provider).key = 'my_key'
-        providerConfig(provider).secret = 'my_secret'
-
-        when:
-        def client = service.getClient(provider);
-
-        then:
-        assert client instanceof org.pac4j.oauth.client.TwitterClient
-        assert client.key == providerConfig(provider).key
-        assert client.secret == providerConfig(provider).secret
-
-    }
-
-    def "it can create a client for Vk"() {
-
-        given:
-        def provider = "vk"
-        providerConfig(provider)
-        providerConfig(provider).client = org.pac4j.oauth.client.VkClient
-        providerConfig(provider).key = 'my_key'
-        providerConfig(provider).secret = 'my_secret'
-
-        when:
-        def client = service.getClient(provider);
-
-        then:
-        assert client instanceof org.pac4j.oauth.client.VkClient
-        assert client.key == providerConfig(provider).key
-        assert client.secret == providerConfig(provider).secret
-
-    }
-
-    def "it can create a client for WindowsLive"() {
-
-        given:
-        def provider = "windowslive"
-        providerConfig(provider)
-        providerConfig(provider).client = org.pac4j.oauth.client.WindowsLiveClient
-        providerConfig(provider).key = 'my_key'
-        providerConfig(provider).secret = 'my_secret'
-
-        when:
-        def client = service.getClient(provider);
-
-        then:
-        assert client instanceof org.pac4j.oauth.client.WindowsLiveClient
-        assert client.key == providerConfig(provider).key
-        assert client.secret == providerConfig(provider).secret
-
-    }
-
-    def "it can create a client for WordPress"() {
-
-        given:
-        def provider = "wordpress"
-        providerConfig(provider)
-        providerConfig(provider).client = org.pac4j.oauth.client.WordPressClient
-        providerConfig(provider).key = 'my_key'
-        providerConfig(provider).secret = 'my_secret'
-
-        when:
-        def client = service.getClient(provider);
-
-        then:
-        assert client instanceof org.pac4j.oauth.client.WordPressClient
-        assert client.key == providerConfig(provider).key
-        assert client.secret == providerConfig(provider).secret
-
-    }
-
-    def "it can create a client for Yahoo"() {
-
-        given:
-        def provider = "yahoo"
-        providerConfig(provider)
-        providerConfig(provider).client = org.pac4j.oauth.client.YahooClient
-        providerConfig(provider).key = 'my_key'
-        providerConfig(provider).secret = 'my_secret'
-
-        when:
-        def client = service.getClient(provider);
-
-        then:
-        assert client instanceof org.pac4j.oauth.client.YahooClient
-        assert client.key == providerConfig(provider).key
-        assert client.secret == providerConfig(provider).secret
-
-    }
 
 }
