@@ -35,7 +35,11 @@ class RestOauthService {
         def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
         def ClientClass = providerConfig.client
 
-        BaseOAuthClient client = ClientClass.newInstance(providerConfig.key, providerConfig.secret)
+        BaseOAuthClient client
+        if (ClientClass?.toString().endsWith("CasOAuthWrapperClient"))
+            client = ClientClass.newInstance(providerConfig.key, providerConfig.secret, providerConfig.casOAuthUrl)
+        else
+            client = ClientClass.newInstance(providerConfig.key, providerConfig.secret)
 
         String callbackUrl = grailsLinkGenerator.link controller: 'restOauth', action: 'callback', params: [provider: provider], mapping: 'oauth', absolute: true
         log.debug "Callback URL is: ${callbackUrl}"
