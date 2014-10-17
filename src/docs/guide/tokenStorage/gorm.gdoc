@@ -49,3 +49,5 @@ performance.
       accessCount++
    }
 {code}
+
+For a less aggressive but more efficient/performant approach to dealing with token expiration in GORM see: [This Gist|https://gist.github.com/aeischeid/a290876c2e0c2918401b]
