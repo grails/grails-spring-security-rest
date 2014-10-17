@@ -52,7 +52,7 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
     }
 
     void removeToken(String tokenValue) throws TokenNotFoundException {
-        def existingToken = findExistingToken(tokenValue)
+        def existingToken = findExistingToken(tokenValue, false)
 
         if (existingToken) {
             existingToken.delete()
@@ -62,7 +62,7 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
 
     }
 
-    private findExistingToken(String tokenValue) {
+    private findExistingToken(String tokenValue, Boolean readOnly = true) {
         def conf = SpringSecurityUtils.securityConfig
         String tokenClassName = conf.rest.token.storage.gorm.tokenDomainClassName
         String tokenValuePropertyName = conf.rest.token.storage.gorm.tokenValuePropertyName
@@ -73,7 +73,7 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
             throw new IllegalArgumentException("The specified token domain class '$tokenClassName' is not a domain class")
         }
 
-        dc.withTransaction { status ->
+        dc.withTransaction(readOnly: readOnly) { status ->
             return dc.findWhere((tokenValuePropertyName): tokenValue)
         }
     }
