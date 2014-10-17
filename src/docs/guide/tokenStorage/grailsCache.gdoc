@@ -20,3 +20,8 @@ It depends on the specific support of the actual providers. Grails has several p
 * [Redis|http://grails-plugins.github.io/grails-cache-redis/guide/usage.html#dsl]: unsupported.
 * [Gemfire|http://grails.org/plugin/cache-gemfire]: unsupported.
 {note}
+
+{warning}
+There is a bug in @:cache-ehcache:1.0.0@ plugin that will cause issues. It's recommended that you use the latest version.
+See [#89|https://github.com/alvarosanchez/grails-spring-security-rest/issues/89] for more information.
+{warning}
