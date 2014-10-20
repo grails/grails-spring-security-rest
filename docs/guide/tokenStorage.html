@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>6 Token Storage 1.4.0.RC5</title>
+    <title>6 Token Storage 1.4.1.RC1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -98,7 +98,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
-                    <p><strong>Version:</strong> 1.4.0.RC5</p>
+                    <p><strong>Version:</strong> 1.4.1.RC1</p>
 
                     
                 </div>
@@ -156,8 +156,10 @@ It depends on the specific support of the actual providers. Grails has several p
 <li><a href="http://grails-plugins.github.io/grails-cache-ehcache/guide/usage.html#dsl" target="blank">Ehcache</a>: supported.</li>
 <li><a href="http://grails-plugins.github.io/grails-cache-redis/guide/usage.html#dsl" target="blank">Redis</a>: unsupported.</li>
 <li><a href="http://grails.org/plugin/cache-gemfire" target="blank">Gemfire</a>: unsupported.</li>
-</ul><p class="paragraph"/></blockquote>
-
+</ul><p class="paragraph"/></blockquote><p class="paragraph"/><blockquote class="warning">
+There is a bug in <code>:cache-ehcache:1.0.0</code> plugin that will cause issues. It's recommended that you use the latest version.
+See <a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues/89" target="blank">#89</a> for more information.
+</blockquote>
 
 
                 <div style="clear:both;margin-top:15px;"></div>

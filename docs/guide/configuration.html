@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>3 Configuration 1.4.0.RC5</title>
+    <title>3 Configuration 1.4.1.RC1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -98,7 +98,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
-                    <p><strong>Version:</strong> 1.4.0.RC5</p>
+                    <p><strong>Version:</strong> 1.4.1.RC1</p>
 
                     
                 </div>
@@ -122,8 +122,8 @@ Make sure your application is compatible with that version first.
 </blockquote><p class="paragraph"/>This plugin is compatible by default with Spring Security core traditional, form-based authentication. The important thing
 to remember is: you have to separate the filter chains, so different filters are applied on each case.<p class="paragraph"/>The stateless, token-based approach of this plugin is incompatible with the HTTP session-based approach of Spring Security,
 core, so the trick is to identify what URL patterns have to be stateless, and what others have to be stateful (if any).<p class="paragraph"/>To configure the chains properly, you can use the <code>grails.plugin.springsecurity.filterChain.chainMap</code> property:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.filterChain.chainMap = &#91;
-    '/api/&#42;&#42;': 'JOINED_FILTERS,&#45;exceptionTranslationFilter,&#45;authenticationProcessingFilter,&#45;securityContextPersistenceFilter',  // Stateless chain
-    '/&#42;&#42;': 'JOINED_FILTERS,&#45;restTokenValidationFilter,&#45;restExceptionTranslationFilter'                                          // Traditional chain
+    '/api/&#42;&#42;': 'JOINED_FILTERS,&#45;exceptionTranslationFilter,&#45;authenticationProcessingFilter,&#45;securityContextPersistenceFilter,&#45;rememberMeAuthenticationFilter',  // Stateless chain
+    '/&#42;&#42;': 'JOINED_FILTERS,&#45;restTokenValidationFilter,&#45;restExceptionTranslationFilter'                                                                          // Traditional chain
 &#93;</pre></div><p class="paragraph"/>To understand this syntax, please read the
 <a href="http://grails-plugins.github.io/grails-spring-security-core/guide/filters.html" target="blank">Spring Security Core documentation</a>.
 Long story short: <code>JOINED_FILTERS</code> refers to all the configured filters. The minus (<code>-</code>) notation means all the previous values
