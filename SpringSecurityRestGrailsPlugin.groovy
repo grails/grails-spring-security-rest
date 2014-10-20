@@ -147,6 +147,9 @@ class SpringSecurityRestGrailsPlugin {
             authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')
+            if (conf.useSecurityEventListener) {
+                eventPublisher = ref('eventPublisher')
+            }
         }
 
         restExceptionTranslationFilter(ExceptionTranslationFilter, ref('restAuthenticationEntryPoint'), ref('restRequestCache')) {

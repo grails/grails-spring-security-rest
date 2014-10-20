@@ -3,8 +3,10 @@ package com.odobo.grails.plugin.springsecurity.rest
 import com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.mock.web.MockFilterChain
 import org.springframework.mock.web.MockHttpServletResponse
+import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
@@ -23,6 +25,7 @@ class RestTokenValidationFilterUnitSpec extends Specification {
         filter.authenticationSuccessHandler = Mock(AuthenticationSuccessHandler)
         filter.authenticationFailureHandler = Mock(AuthenticationFailureHandler)
         filter.tokenReader = Mock(TokenReader)
+        filter.eventPublisher = Mock(ApplicationEventPublisher)
     }
 
     void "authentication passes when a valid token is found"() {
@@ -41,6 +44,7 @@ class RestTokenValidationFilterUnitSpec extends Specification {
         response.status == 200
         1 * filter.tokenReader.findToken(request, response) >> token
         0 * filter.authenticationFailureHandler.onAuthenticationFailure( _, _, _ )
+        1 * filter.eventPublisher.publishEvent(_ as InteractiveAuthenticationSuccessEvent)
         notThrown( TokenNotFoundException )
 
         where:

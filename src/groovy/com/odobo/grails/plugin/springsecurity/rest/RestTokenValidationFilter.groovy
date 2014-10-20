@@ -3,7 +3,9 @@ package com.odobo.grails.plugin.springsecurity.rest
 import com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader
 import grails.plugin.springsecurity.authentication.GrailsAnonymousAuthenticationToken
 import groovy.util.logging.Slf4j
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
+import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
@@ -37,6 +39,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
     AuthenticationSuccessHandler authenticationSuccessHandler
     AuthenticationFailureHandler authenticationFailureHandler
+    ApplicationEventPublisher eventPublisher
 
     TokenReader tokenReader
     String validationEndpointUrl
@@ -62,6 +65,8 @@ class RestTokenValidationFilter extends GenericFilterBean {
                     log.debug "Token authenticated. Storing the authentication result in the security context"
                     log.debug "Authentication result: ${authenticationResult}"
                     SecurityContextHolder.context.setAuthentication(authenticationResult)
+
+                    eventPublisher?.publishEvent(new InteractiveAuthenticationSuccessEvent(authenticationResult, this.class))
 
                     processFilterChain(request, response, chain, tokenValue, authenticationResult)
 
