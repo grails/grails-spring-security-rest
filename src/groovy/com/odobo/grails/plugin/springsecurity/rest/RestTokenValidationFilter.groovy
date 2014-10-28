@@ -50,26 +50,32 @@ class RestTokenValidationFilter extends GenericFilterBean {
         HttpServletResponse httpResponse = response as HttpServletResponse
 
         try {
-            String tokenValue = tokenReader.findToken(httpRequest, httpResponse)
-            if (tokenValue) {
-                log.debug "Token found: ${tokenValue}"
+            def auth = SecurityContextHolder.getContext().getAuthentication()
+            if (!auth) {
+                String tokenValue = tokenReader.findToken(httpRequest, httpResponse)
+                if (tokenValue) {
+                    log.debug "Token found: ${tokenValue}"
 
-                log.debug "Trying to authenticate the token"
-                RestAuthenticationToken authenticationRequest = new RestAuthenticationToken(tokenValue)
-                RestAuthenticationToken authenticationResult = restAuthenticationProvider.authenticate(authenticationRequest) as RestAuthenticationToken
+                    log.debug "Trying to authenticate the token"
+                    RestAuthenticationToken authenticationRequest = new RestAuthenticationToken(tokenValue)
+                    RestAuthenticationToken authenticationResult = restAuthenticationProvider.authenticate(authenticationRequest) as RestAuthenticationToken
 
-                if (authenticationResult.authenticated) {
-                    log.debug "Token authenticated. Storing the authentication result in the security context"
-                    log.debug "Authentication result: ${authenticationResult}"
-                    SecurityContextHolder.context.setAuthentication(authenticationResult)
+                    if (authenticationResult.authenticated) {
+                        log.debug "Token authenticated. Storing the authentication result in the security context"
+                        log.debug "Authentication result: ${authenticationResult}"
+                        SecurityContextHolder.context.setAuthentication(authenticationResult)
 
-                    processFilterChain(request, response, chain, tokenValue, authenticationResult)
+                        processFilterChain(request, response, chain, tokenValue, authenticationResult)
 
+                    }
+
+                } else {
+                    log.debug "Token not found"
+                    processFilterChain(request, response, chain, tokenValue, null)
                 }
-
             } else {
-                log.debug "Token not found"
-                processFilterChain(request, response, chain, tokenValue, null)
+                log.debug "Already authenticated"
+                processFilterChain(request, response, chain, null, null)
             }
         } catch (AuthenticationException ae) {
             log.debug "Authentication failed: ${ae.message}"
