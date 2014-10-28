@@ -36,6 +36,8 @@ security {
                     tokenDomainClassName = null
                     tokenValuePropertyName = 'tokenValue'
                     usernamePropertyName = 'username'
+                    marker1PropertyName = null
+                    marker2PropertyName = null
                 }
 
                 memcached {
