@@ -52,10 +52,14 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
     }
 
     void removeToken(String tokenValue) throws TokenNotFoundException {
+        def conf = SpringSecurityUtils.securityConfig
+        String tokenClassName = conf.rest.token.storage.gorm.tokenDomainClassName
         def existingToken = findExistingToken(tokenValue, false)
-
         if (existingToken) {
-            existingToken.delete()
+            def dc = grailsApplication.getClassForName(tokenClassName)
+            dc.withTransaction() {
+                existingToken.delete()
+            }
         } else {
             throw new TokenNotFoundException("Token ${tokenValue.mask()} not found")
         }
