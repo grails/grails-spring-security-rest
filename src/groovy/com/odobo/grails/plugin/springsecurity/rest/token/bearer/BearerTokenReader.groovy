@@ -42,10 +42,12 @@ class BearerTokenReader implements TokenReader {
      * @param servletResponse
      * @return
      */
-    private boolean matchesBearerSpecPreconditions(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+    public boolean matchesBearerSpecPreconditions(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         boolean matches = true
         String message = ''
-        if (!servletRequest.contentType || !MediaType.parseMediaType(servletRequest.contentType).isCompatibleWith(MediaType.APPLICATION_FORM_URLENCODED)) {
+
+        def isFormEncoded = servletRequest.contentType && MediaType.parseMediaType(servletRequest.contentType).isCompatibleWith(MediaType.APPLICATION_FORM_URLENCODED)
+        if (!isFormEncoded) {
             log.debug "Invalid Content-Type: '${servletRequest.contentType}'. 'application/x-www-form-urlencoded' is mandatory"
             message = "Content-Type 'application/x-www-form-urlencoded' is mandatory when sending form-encoded body parameter requests with the access token (RFC 6750)"
             matches = false
@@ -58,22 +60,7 @@ class BearerTokenReader implements TokenReader {
             message = "GET HTTP method must not be used when sending form-encoded body parameter requests with the access token (RFC 6750)"
             matches = false
         }
-        if (!matches) {
-            servletResponse.addHeader('WWW-Authenticate', 'Bearer error="invalid_request"')
-            servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, message
-        }
-        return matches
-    }
 
-    /**
-     * Returns the specified queryString as a map.
-     * @param queryString
-     * @return
-     */
-    private static Map<String, String> getQueryAsMap(String queryString) {
-        queryString?.split('&').inject([:]) { map, token ->
-            token?.split('=').with { map[it[0]] = it[1] }
-            map
-        }
+        return matches
     }
 }
