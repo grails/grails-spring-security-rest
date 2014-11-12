@@ -134,6 +134,8 @@ grails {
     plugin {
         springsecurity {
 
+            useSecurityEventListener = true
+
             filterChain {
                 chainMap = [
                     '/api/**': 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter',

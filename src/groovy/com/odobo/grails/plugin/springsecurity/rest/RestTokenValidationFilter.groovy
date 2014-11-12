@@ -5,6 +5,7 @@ import grails.plugin.springsecurity.authentication.GrailsAnonymousAuthentication
 import groovy.util.logging.Slf4j
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
+import org.springframework.security.authentication.AuthenticationEventPublisher
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
@@ -39,7 +40,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
     AuthenticationSuccessHandler authenticationSuccessHandler
     AuthenticationFailureHandler authenticationFailureHandler
-    ApplicationEventPublisher eventPublisher
+    AuthenticationEventPublisher authenticationEventPublisher
 
     TokenReader tokenReader
     String validationEndpointUrl
@@ -51,6 +52,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = request as HttpServletRequest
         HttpServletResponse httpResponse = response as HttpServletResponse
+        RestAuthenticationToken authenticationRequest
 
         try {
             String tokenValue = tokenReader.findToken(httpRequest)
@@ -58,7 +60,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
                 log.debug "Token found: ${tokenValue.mask()}"
 
                 log.debug "Trying to authenticate the token"
-                RestAuthenticationToken authenticationRequest = new RestAuthenticationToken(tokenValue)
+                authenticationRequest = new RestAuthenticationToken(tokenValue)
                 RestAuthenticationToken authenticationResult = restAuthenticationProvider.authenticate(authenticationRequest) as RestAuthenticationToken
 
                 if (authenticationResult.authenticated) {
@@ -66,7 +68,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
                     log.debug "Authentication result: ${authenticationResult}"
                     SecurityContextHolder.context.setAuthentication(authenticationResult)
 
-                    eventPublisher?.publishEvent(new InteractiveAuthenticationSuccessEvent(authenticationResult, this.class))
+                    authenticationEventPublisher?.publishAuthenticationSuccess(authenticationResult)
 
                     processFilterChain(request, response, chain, tokenValue, authenticationResult)
 
@@ -78,6 +80,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
             }
         } catch (AuthenticationException ae) {
             log.debug "Authentication failed: ${ae.message}"
+            authenticationEventPublisher?.publishAuthenticationFailure(ae, authenticationRequest)
             authenticationFailureHandler.onAuthenticationFailure(httpRequest, httpResponse, ae)
         }
 

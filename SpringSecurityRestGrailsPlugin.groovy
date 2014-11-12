@@ -150,7 +150,7 @@ class SpringSecurityRestGrailsPlugin {
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')
             if (conf.useSecurityEventListener) {
-                eventPublisher = ref('eventPublisher')
+                authenticationEventPublisher = ref('authenticationEventPublisher')
             }
         }
 
