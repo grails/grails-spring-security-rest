@@ -34,16 +34,13 @@ class BearerTokenAuthenticationFailureHandler implements AuthenticationFailureHa
         def token = tokenReader.findToken(request, response)
         def matchesBearerSpecPreconditions = tokenReader.matchesBearerSpecPreconditions(request, response)
 
-        if (token && !matchesBearerSpecPreconditions) {
+        if (token) {
             headerValue = 'Bearer error="invalid_token"'
             status = HttpServletResponse.SC_UNAUTHORIZED
         } else if (!token && matchesBearerSpecPreconditions) {
             headerValue = 'Bearer '
             status = HttpServletResponse.SC_UNAUTHORIZED
-        } else if(token && matchesBearerSpecPreconditions) {
-            headerValue = 'Bearer error="invalid_token"'
-            status = HttpServletResponse.SC_UNAUTHORIZED
-        }else if (!token && !matchesBearerSpecPreconditions) {
+        } else if (!token && !matchesBearerSpecPreconditions) {
             headerValue = 'Bearer error="invalid_request"'
             status = HttpServletResponse.SC_BAD_REQUEST
         }

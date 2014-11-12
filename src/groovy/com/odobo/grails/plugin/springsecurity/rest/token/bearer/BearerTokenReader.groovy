@@ -46,8 +46,8 @@ class BearerTokenReader implements TokenReader {
         boolean matches = true
         String message = ''
 
-        def isFormEncoded = servletRequest.contentType && MediaType.parseMediaType(servletRequest.contentType).isCompatibleWith(MediaType.APPLICATION_FORM_URLENCODED)
-        if (!isFormEncoded) {
+        boolean isFormEncoded = isFormEncoded(servletRequest)
+        if (!isFormEncoded && containsAnAccessToken(servletRequest)) {
             log.debug "Invalid Content-Type: '${servletRequest.contentType}'. 'application/x-www-form-urlencoded' is mandatory"
             message = "Content-Type 'application/x-www-form-urlencoded' is mandatory when sending form-encoded body parameter requests with the access token (RFC 6750)"
             matches = false
@@ -61,6 +61,29 @@ class BearerTokenReader implements TokenReader {
             matches = false
         }
 
+        log.debug message
         return matches
+    }
+
+    private boolean isFormEncoded(HttpServletRequest servletRequest) {
+        servletRequest.contentType && MediaType.parseMediaType(servletRequest.contentType).isCompatibleWith(MediaType.APPLICATION_FORM_URLENCODED)
+    }
+
+    private boolean containsAnAccessToken(HttpServletRequest request) {
+        BufferedReader reader = request.getReader();
+        if(!reader)
+            return false;
+
+        def hasTokenInBody = {
+            String line = null;
+            reader.mark(1000);
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("access_token")) {
+                    return true;
+                }
+            }
+        }()
+        reader.reset()
+        return hasTokenInBody
     }
 }
