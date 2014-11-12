@@ -21,16 +21,15 @@ class BearerTokenAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-        def tokenValue = tokenReader.findToken(request, response)
+        def tokenValue = tokenReader.findToken(request)
 
         if (tokenValue) {
             response.addHeader('WWW-Authenticate', 'Bearer error="invalid_token"')
+            response.status = HttpServletResponse.SC_UNAUTHORIZED
         } else {
             response.addHeader('WWW-Authenticate', 'Bearer')
+            response.status = HttpServletResponse.SC_FORBIDDEN
         }
 
-        if (response.status in 200..299) {
-            response.status = HttpServletResponse.SC_UNAUTHORIZED
-        }
     }
 }

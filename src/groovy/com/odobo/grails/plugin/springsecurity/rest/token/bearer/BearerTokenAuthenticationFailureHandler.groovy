@@ -1,8 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.bearer
 
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import groovy.util.logging.Slf4j
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 
@@ -16,6 +14,8 @@ import javax.servlet.http.HttpServletResponse
 @Slf4j
 class BearerTokenAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
+    BearerTokenReader tokenReader
+
     /**
      * Sends the proper response code and headers, as defined by RFC6750.
      *
@@ -28,25 +28,17 @@ class BearerTokenAuthenticationFailureHandler implements AuthenticationFailureHa
     @Override
     void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
 
-        if (!response.containsHeader('WWW-Authenticate')) {
-            String headerValue
+        String headerValue
+        String token = tokenReader.findToken(request)
 
-            //response code is determined by authentication failure reason
-            if(e instanceof TokenNotFoundException) {
-                //The user supplied credentials, but they did not match an account,
-                // or there was an underlying authentication issue.
-                headerValue = 'Bearer error="invalid_token"'
-            } else {
-                //no credentials were provided.  Add no additional information
-                headerValue = 'Bearer'
-            }
-
-            response.addHeader('WWW-Authenticate', headerValue)
+        if (token) {
+            headerValue = 'Bearer error="invalid_token"'
+        } else {
+            headerValue = 'Bearer'
         }
 
-        if (response.status == 200) {
-            response.status = 401
-        }
+        response.addHeader('WWW-Authenticate', headerValue)
+        response.status = HttpServletResponse.SC_UNAUTHORIZED
 
         log.debug "Sending status code ${response.status} and header WWW-Authenticate: ${response.getHeader('WWW-Authenticate')}"
     }

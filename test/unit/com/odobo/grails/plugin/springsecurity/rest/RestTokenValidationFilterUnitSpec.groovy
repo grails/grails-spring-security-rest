@@ -13,6 +13,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import spock.lang.Specification
 
+import javax.servlet.FilterChain
+
 class RestTokenValidationFilterUnitSpec extends Specification {
 
     def filter = new RestTokenValidationFilter(active: true)
@@ -42,7 +44,7 @@ class RestTokenValidationFilterUnitSpec extends Specification {
 
         then:
         response.status == 200
-        1 * filter.tokenReader.findToken(request, response) >> token
+        1 * filter.tokenReader.findToken(request) >> token
         0 * filter.authenticationFailureHandler.onAuthenticationFailure( _, _, _ )
         1 * filter.eventPublisher.publishEvent(_ as InteractiveAuthenticationSuccessEvent)
         notThrown( TokenNotFoundException )
@@ -51,23 +53,21 @@ class RestTokenValidationFilterUnitSpec extends Specification {
         token = 'mytokenvalue'
     }
 
-    void "authentication fails when a token cannot be found"() {
+    void "when a token cannot be found, the request continues through the filter chain"() {
         given:
         filter.restAuthenticationProvider = new StubRestAuthenticationProvider(
-                validToken: token,
+                validToken: 'mytokenvalue',
                 username: 'user',
                 password: 'password'
         )
+        FilterChain filterChain = GroovyMock(MockFilterChain, global: true)
 
         when:
         filter.doFilter( request, response, chain )
 
         then:
-        1 * filter.tokenReader.findToken(request, response) >> null
-        1 * filter.authenticationFailureHandler.onAuthenticationFailure( request, response, _ as AuthenticationException )
-
-        where:
-        token = 'mytokenvalue'
+        1 * filter.tokenReader.findToken(request) >> null
+        1 * filterChain.doFilter(request, response)
     }
 }
 

@@ -26,6 +26,7 @@ Contributors
 * [Andrew Wharton](https://github.com/andrew-wharton).
 * [Alonso Torres](https://github.com/Alotor).
 * [Bartek Gawel](https://github.com/bgawel).
+* [Bobby Warner](https://github.com/bobbywarner).
 * [Burt Beckwith](https://github.com/burtbeckwith).
 * [Conall Laverty](https://github.com/conalllaverty).
 * [Dhiraj Mahapatro](https://github.com/dmahapatro).
@@ -33,6 +34,7 @@ Contributors
 * [Jonas Ladenfors](https://github.com/jladenfors).
 * [Philippe Gibert](https://github.com/giboow).
 * [Polawat Phetra](https://github.com/pphetra).
+* [Sean Brady](https://github.com/sbrady).
 * [Svante Rohlin](https://github.com/srohlin).
 * [Victor Saar](https://github.com/vsaar).
 

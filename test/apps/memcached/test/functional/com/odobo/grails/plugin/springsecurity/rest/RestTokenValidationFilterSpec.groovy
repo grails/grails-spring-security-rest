@@ -8,12 +8,12 @@ import spock.lang.Issue
 @IgnoreIf({ Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
 class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
-    void "accessing a secured controller without token returns 401"() {
+    void "accessing a secured controller without token returns 403 (anonymous not authorized)"() {
         when:
         def response = restBuilder.get("${baseUrl}/secured")
 
         then:
-        response.status == 401
+        response.status == 403
     }
 
     void "accessing a secured controller with wrong token, returns 401"() {
