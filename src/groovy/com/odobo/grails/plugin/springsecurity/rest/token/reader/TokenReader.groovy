@@ -12,6 +12,6 @@ public interface TokenReader {
      * @param response the response, in case any status code has to be sent
      * @return the token when found, null otherwise
      */
-    String findToken(HttpServletRequest request, HttpServletResponse response)
+    String findToken(HttpServletRequest request)
 
 }

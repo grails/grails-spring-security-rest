@@ -18,7 +18,7 @@ class BearerTokenAuthenticationFailureHandlerSpec extends Specification {
         handler.tokenReader = mockBearerTokenReader
     }
 
-    def "it will send a 400 status and WWW-Authenticate header when no credentials were provided and preconditions are not met"() {
+    def "when bad credentials credentials are sent, it responds 401"() {
         given:
         def request  = new MockHttpServletRequest()
         def response = new MockHttpServletResponse()
@@ -28,8 +28,8 @@ class BearerTokenAuthenticationFailureHandlerSpec extends Specification {
         handler.onAuthenticationFailure( request, response, exception )
 
         then:
-        response.status == 400
-        response.getHeader( 'WWW-Authenticate' ) == 'Bearer error="invalid_request"'
+        response.status == 401
+        response.getHeader( 'WWW-Authenticate' ) == 'Bearer'
     }
 
     def "it will send a 401 status and WWW-Authenticate header with an error param when credentials are invalid"() {
@@ -42,26 +42,9 @@ class BearerTokenAuthenticationFailureHandlerSpec extends Specification {
         handler.onAuthenticationFailure( request, response, exception )
 
         then:
-        1 * mockBearerTokenReader.findToken(request, response) >> "wrongToken"
-        1 * mockBearerTokenReader.matchesBearerSpecPreconditions(request, response) >> true
+        1 * mockBearerTokenReader.findToken(request) >> "wrongToken"
         response.status == 401
         response.getHeader( 'WWW-Authenticate' ) == 'Bearer error="invalid_token"'
-    }
-
-    def "it will send a 401 status and WWW-Authenticate header with an param when there is no token, but it matchesBearerSpecPreconditions"() {
-        given:
-        def request  = new MockHttpServletRequest()
-        def response = new MockHttpServletResponse()
-
-        when:
-        def exception = new TokenNotFoundException( 'Bad token :-(' )
-        handler.onAuthenticationFailure( request, response, exception )
-
-        then:
-        1 * mockBearerTokenReader.findToken(request, response) >> ""
-        1 * mockBearerTokenReader.matchesBearerSpecPreconditions(request, response) >> true
-        response.status == 401
-        response.getHeader( 'WWW-Authenticate' ) == 'Bearer '
     }
 
 }

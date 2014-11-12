@@ -1,6 +1,5 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.bearer
 
-import com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
@@ -15,7 +14,7 @@ import javax.servlet.http.HttpServletResponse
 @Slf4j
 class BearerTokenAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-    TokenReader tokenReader
+    BearerTokenReader tokenReader
 
     /**
      * Sends the proper response code and headers, as defined by RFC6750.
@@ -30,26 +29,16 @@ class BearerTokenAuthenticationFailureHandler implements AuthenticationFailureHa
     void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
 
         String headerValue
-        int status
-        def token = tokenReader.findToken(request, response)
-        def matchesBearerSpecPreconditions = tokenReader.matchesBearerSpecPreconditions(request, response)
+        String token = tokenReader.findToken(request)
 
-        if (token && !matchesBearerSpecPreconditions) {
+        if (token) {
             headerValue = 'Bearer error="invalid_token"'
-            status = HttpServletResponse.SC_UNAUTHORIZED
-        } else if (!token && matchesBearerSpecPreconditions) {
-            headerValue = 'Bearer '
-            status = HttpServletResponse.SC_UNAUTHORIZED
-        } else if(token && matchesBearerSpecPreconditions) {
-            headerValue = 'Bearer error="invalid_token"'
-            status = HttpServletResponse.SC_UNAUTHORIZED
-        }else if (!token && !matchesBearerSpecPreconditions) {
-            headerValue = 'Bearer error="invalid_request"'
-            status = HttpServletResponse.SC_BAD_REQUEST
+        } else {
+            headerValue = 'Bearer'
         }
 
         response.addHeader('WWW-Authenticate', headerValue)
-        response.status = status
+        response.status = HttpServletResponse.SC_UNAUTHORIZED
 
         log.debug "Sending status code ${response.status} and header WWW-Authenticate: ${response.getHeader('WWW-Authenticate')}"
     }

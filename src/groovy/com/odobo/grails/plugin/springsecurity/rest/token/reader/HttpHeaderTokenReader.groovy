@@ -14,7 +14,7 @@ class HttpHeaderTokenReader implements TokenReader {
      * @return the token from the header {@link #headerName}, null otherwise
      */
     @Override
-    String findToken(HttpServletRequest request, HttpServletResponse response) {
+    String findToken(HttpServletRequest request) {
         return request.getHeader(headerName)
     }
 }

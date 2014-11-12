@@ -43,7 +43,7 @@ class RestLogoutFilter extends GenericFilterBean {
                 return
             }
 
-            String tokenValue = tokenReader.findToken(servletRequest, servletResponse)
+            String tokenValue = tokenReader.findToken(servletRequest)
 
             if (tokenValue) {
                 log.debug "Token found: ${tokenValue.mask()}"

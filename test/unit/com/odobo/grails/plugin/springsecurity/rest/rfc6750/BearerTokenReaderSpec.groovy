@@ -31,7 +31,7 @@ class BearerTokenReaderSpec extends Specification {
         request.contentType = MediaType.TEXT_PLAIN_VALUE
 
         expect:
-        tokenReader.findToken(request, response) == token
+        tokenReader.findToken(request) == token
 
         where:
         method << [ 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS' ]
@@ -45,7 +45,7 @@ class BearerTokenReaderSpec extends Specification {
         request.contentType = MediaType.TEXT_PLAIN_VALUE
 
         expect:
-        tokenReader.findToken(request, response) == null
+        tokenReader.findToken(request) == null
 
         where:
         method << [ 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS' ]
@@ -60,7 +60,7 @@ class BearerTokenReaderSpec extends Specification {
         request.method = method
 
         expect:
-        tokenReader.findToken(request, response) == token
+        tokenReader.findToken(request) == token
 
         where:
         method << [ 'POST', 'PUT', 'PATCH' ]
@@ -75,7 +75,7 @@ class BearerTokenReaderSpec extends Specification {
         request.contentType = MediaType.TEXT_PLAIN_VALUE
 
         expect:
-        !tokenReader.findToken(request, response)
+        !tokenReader.findToken(request)
 
         where:
 
@@ -91,7 +91,7 @@ class BearerTokenReaderSpec extends Specification {
         request.method = method
 
         expect:
-        !tokenReader.findToken(request, response)
+        !tokenReader.findToken(request)
 
         where:
         method << [ 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS' ]
@@ -106,7 +106,7 @@ class BearerTokenReaderSpec extends Specification {
         request.method = method
 
         expect:
-        !tokenReader.findToken(request, response)
+        !tokenReader.findToken(request)
 
         where:
         method << [ 'GET' ]
@@ -118,7 +118,7 @@ class BearerTokenReaderSpec extends Specification {
         request.contentType = null
 
         expect:
-        !tokenReader.findToken(request, response)
+        !tokenReader.findToken(request)
     }
 
 }
