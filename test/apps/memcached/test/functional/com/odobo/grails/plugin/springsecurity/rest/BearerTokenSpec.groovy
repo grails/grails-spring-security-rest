@@ -77,9 +77,14 @@ class BearerTokenSpec extends AbstractRestSpec {
     }
 
     void "Content-Type 'application/x-www-form-urlencoded' is mandatory when sending form-encoded body parameter requests with the access token"() {
+        given:
+        RestResponse authResponse = sendCorrectCredentials()
+        String token = authResponse.json.access_token
+
         when:
         ErrorResponse response = restBuilder.post("${baseUrl}/secured") {
             contentType 'text/plain'
+            body "access_token=${token}".toString()
         }
 
         then:
@@ -129,6 +134,28 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.status == 200
     }
 
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/98")
+    void "accessing Anonymous without a token, responds  ok"() {
+        when:
+        def response = restBuilder.get("${baseUrl}/anonymous") {
+            contentType 'application/json;charset=UTF-8'
+        }
 
+        then:
+        response.status == 200
+    }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/137")
+    void "accessing Secured without a token, responds unauthorized"() {
+        when:
+        ErrorResponse response = restBuilder.post("${baseUrl}/secured") {
+            contentType 'application/json;charset=UTF-8'
+            body "{hi:777}"
+        }
+
+        then:
+        response.status == 401
+        response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer'
+    }
 
 }

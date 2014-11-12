@@ -87,6 +87,7 @@ class BearerTokenReaderSpec extends Specification {
         given:
         def token = 'abadtokenvalue'
         request.addParameter( 'access_token', token )
+        request.content = "access_token=${token}"
         request.contentType = MediaType.MULTIPART_FORM_DATA_VALUE
         request.method = method
 
