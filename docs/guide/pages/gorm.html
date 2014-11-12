@@ -108,16 +108,46 @@ function addJsClass() {
                 
 
 <h2 id="gorm">6.2 GORM</h2>
-To use GORM, those are the relevant configuration properties:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useGorm</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName</code></td><td><code>null</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.gorm.tokenValuePropertyName</code></td><td><code>tokenValue</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.gorm.usernamePropertyName</code></td><td><code>username</code></td></tr></table><p class="paragraph"/><blockquote class="note">
-Please note that for <code>tokenDomainClassName</code> you must enter a fully qualified class name.
-</blockquote><p class="paragraph"/>The domain class should look like this:<p class="paragraph"/><div class="code"><pre>class AuthenticationToken &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> tokenValue
-    <span class="java&#45;object">String</span> username
+To use GORM, these are the relevant configuration properties:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useGorm</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName</code></td><td><code>null</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.gorm.tokenValuePropertyName</code></td><td><code>tokenValue</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.gorm.usernamePropertyName</code></td><td><code>username</code></td></tr></table><p class="paragraph"/>The relevant domain class should look something like this:<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> org.my.path<p class="paragraph"/>class AuthenticationToken &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> tokenValue
+    <span class="java&#45;object">String</span> username<p class="paragraph"/>    <span class="java&#45;keyword">static</span> mapping = &#123;
+        version <span class="java&#45;keyword">false</span>
+    &#125;
 &#125;</pre></div><p class="paragraph"/><blockquote class="note">
-In this case, instead of storing the whole <code>UserDetails</code> object, only the username is stored. This is because applications
-using this strategy will probably have the standard User and Role domain classes. Then, the username is passed to the
-default <code>userDetailsService</code> bean, which in the case of the default Spring Security Core GORM implementation will fetch
-the information from the mentioned domain classes.
-</blockquote>
+For the <code>tokenDomainClassName</code> configuration you must enter a fully qualified class name. In the case of the example above:
+<code>grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName = 'org.my.path.AuthenticationToken'</code>
+</blockquote><p class="paragraph"/>A few things to take into consideration when using GORM for token storage:
+<ul class="star">
+<li>Instead of storing the whole <code>UserDetails</code> object, probably only the username is needed. This is because applications</li>
+</ul><p class="paragraph"/>using this strategy will probably have the standard User and Role domain classes. When the token is verified the username
+is passed to the default <code>userDetailsService</code> bean, which in the case of the default Spring Security Core GORM
+implementation will fetch the information from the mentioned domain classes.
+<ul class="star">
+<li>GORM's optimistic locking feature is likely unecessary and may cause performance issues.</li>
+<li>You'll have to handle token expiration by yourself via Quartz jobs or a similar mechanism. There are various ways you might</li>
+</ul><p class="paragraph"/>go about this.<p class="paragraph"/><strong class="bold">Gorm Token Expiration Examples:</strong><p class="paragraph"/>Adding a GORM autoTimestamp property like <code>lastUpdated</code> or <code>dateCreated</code> and sorting out stale or old tokens with Quartz jobs
+are the most obvious routes. Each has its drawbacks though.<p class="paragraph"/><code>dateCreated</code> is useful if you want tokens to expire a set time after they are issued. However, API users who didn't pay
+attention to when their token was issued may find themselves needing a new token unexpectedly.<p class="paragraph"/><div class="code"><pre>Date dateCreated</pre></div><p class="paragraph"/>
+<code>lastUpdated</code> requires a change to the token domain instance in order to be triggered. Something as simple as an access
+counter may work as a strategy to keepTokens fresh, but doing a write to a disk based database on each token access may
+be something you would prefer to avoid for the sake of performance.<p class="paragraph"/><div class="code"><pre>Date lastUpdated
+    <span class="java&#45;object">Integer</span> accessCount = 0<p class="paragraph"/>    def afterLoad() &#123;
+      accessCount++
+   &#125;</pre></div><p class="paragraph"/>Simply using your own date or timestamp is also a valid option.<p class="paragraph"/><div class="code"><pre>Date refreshed = <span class="java&#45;keyword">new</span> Date()<p class="paragraph"/>    def afterLoad() &#123;
+        // <span class="java&#45;keyword">if</span> being accessed and it is more than a day since last marked as refreshed
+        // and it hasn't been wiped out by Quartz job (it exists, duh)
+        // then refresh it
+        <span class="java&#45;keyword">if</span> (refreshed &#60; <span class="java&#45;keyword">new</span> Date() &#45;1) &#123;
+            refreshed = <span class="java&#45;keyword">new</span> Date()
+            it.save()
+        &#125;
+    &#125;</pre></div><p class="paragraph"/>Here is an example quartz job to go with the custom refresh timestamp above:<p class="paragraph"/><div class="code"><pre>class RemoveStaleTokensJob &#123;
+    <span class="java&#45;keyword">static</span> triggers = &#123;
+        cron name: 'every4hours', cronExpression: '0 0 &#42;/4 &#42; &#42; &#42;'
+    &#125;<p class="paragraph"/>    void execute() &#123;
+        AuthenticationToken.executeUpdate('delete AuthenticationToken a where a.refreshed &#60; ?' &#91;<span class="java&#45;keyword">new</span> Date()&#45;1&#93;)
+    &#125;
+&#125;</pre></div>
+
 
 
                 <div style="clear:both;margin-top:15px;"></div>

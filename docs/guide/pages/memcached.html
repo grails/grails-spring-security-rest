@@ -109,7 +109,9 @@ function addJsClass() {
 
 <h2 id="memcached">6.1 Memcached</h2>
 To use Memcached, simply define the following configuration properties to match your environments accordingly:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useMemcached</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.memcached.hosts</code></td><td><code>localhost:11211</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.memcached.username</code></td><td><code>''</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.memcached.password</code></td><td><code>''</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.memcached.expiration</code></td><td><code>3600</code></td></tr></table><p class="paragraph"/>For development, if you have Memcached installed locally with the default settings, just define
-<code>grails.plugin.springsecurity.rest.token.storage.useMemcached = true</code>. It should work.
+<code>grails.plugin.springsecurity.rest.token.storage.useMemcached = true</code>. It should work.<p class="paragraph"/>In Memcached tokens will expire automatically after the configured timeout (1h by default).
+They get refreshed on every access
+
 
 
                 <div style="clear:both;margin-top:15px;"></div>
