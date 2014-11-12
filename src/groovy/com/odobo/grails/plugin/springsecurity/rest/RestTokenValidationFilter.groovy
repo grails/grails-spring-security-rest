@@ -53,7 +53,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
         HttpServletResponse httpResponse = response as HttpServletResponse
 
         try {
-            String tokenValue = tokenReader.findToken(httpRequest, httpResponse)
+            String tokenValue = tokenReader.findToken(httpRequest)
             if (tokenValue) {
                 log.debug "Token found: ${tokenValue.mask()}"
 
@@ -103,18 +103,9 @@ class RestTokenValidationFilter extends GenericFilterBean {
                 log.debug "Continuing the filter chain"
                 chain.doFilter(request, response)
             }
-        } else if (enableAnonymousAccess) {
-            log.debug "Anonymous access is enabled"
-            Authentication authentication = SecurityContextHolder.context.authentication
-            if (authentication && authentication instanceof GrailsAnonymousAuthenticationToken) {
-                log.debug "Request is already authenticated as anonymous request. Continuing the filter chain"
-                chain.doFilter(request, response)
-            } else {
-                log.debug "However, request is not authenticated as anonymous"
-                throw new AuthenticationCredentialsNotFoundException("Token is missing")
-            }
         } else {
-            throw new AuthenticationCredentialsNotFoundException("Token is missing")
+            log.debug "Request does not contain any token. Letting it continue through the filter chain"
+            chain.doFilter(request, response)
         }
 
     }

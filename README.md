@@ -34,6 +34,7 @@ Contributors
 * [Jonas Ladenfors](https://github.com/jladenfors).
 * [Philippe Gibert](https://github.com/giboow).
 * [Polawat Phetra](https://github.com/pphetra).
+* [Sean Brady](https://github.com/sbrady).
 * [Svante Rohlin](https://github.com/srohlin).
 * [Victor Saar](https://github.com/vsaar).
 

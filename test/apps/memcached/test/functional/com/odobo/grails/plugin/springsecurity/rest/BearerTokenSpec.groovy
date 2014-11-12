@@ -54,6 +54,19 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.status == 200
     }
 
+    void "query string can be used"() {
+        given:
+        RestResponse authResponse = sendCorrectCredentials()
+        String token = authResponse.json.access_token
+
+        when:
+        def response = restBuilder.get("${baseUrl}/secured?access_token=${token}")
+
+        then:
+        response.status == 200
+
+    }
+
     void "if credentials are required but missing, the response contains WWW-Authenticate header"() {
         when:
         ErrorResponse response = restBuilder.post("${baseUrl}/secured") {
@@ -61,7 +74,7 @@ class BearerTokenSpec extends AbstractRestSpec {
         }
 
         then:
-        response.status == 401
+        response.status == 403
         response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer'
     }
 
@@ -76,26 +89,16 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer error="invalid_token"'
     }
 
-    void "Content-Type 'application/x-www-form-urlencoded' is mandatory when sending form-encoded body parameter requests with the access token"() {
+    void "when accessing a secured object with a non-bearer request, it's considered a non-authorized request"() {
         when:
         ErrorResponse response = restBuilder.post("${baseUrl}/secured") {
             contentType 'text/plain'
+            body "{hi:777}"
         }
 
         then:
-        response.status == 400
-        response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer error="invalid_request"'
-    }
-
-    void "GET HTTP method must not be used when sending form-encoded body parameter requests with the access token"() {
-        when:
-        ErrorResponse response = restBuilder.get("${baseUrl}/secured") {
-            contentType 'application/x-www-form-urlencoded'
-        }
-
-        then:
-        response.status == 400
-        response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer error="invalid_request"'
+        response.status == 403
+        response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer'
     }
 
     @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/81")
@@ -129,6 +132,40 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.status == 200
     }
 
+    void "query string can't be used for logout as GET is not supported"() {
+        given:
+        RestResponse authResponse = sendCorrectCredentials()
+        String token = authResponse.json.access_token
 
+        when:
+        def response = restBuilder.get("${baseUrl}/api/logout?access_token=${token}")
+
+        then:
+        response.status == 405
+    }
+
+        @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/98")
+    void "accessing Anonymous without a token, responds  ok"() {
+        when:
+        def response = restBuilder.get("${baseUrl}/anonymous") {
+            contentType 'application/json;charset=UTF-8'
+        }
+
+        then:
+        response.status == 200
+    }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/98")
+    void "accessing Secured without a token, responds forbidden"() {
+        when:
+        ErrorResponse response = restBuilder.post("${baseUrl}/secured") {
+            contentType 'application/json;charset=UTF-8'
+            body "{hi:777}"
+        }
+
+        then:
+        response.status == 403
+        response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer'
+    }
 
 }
