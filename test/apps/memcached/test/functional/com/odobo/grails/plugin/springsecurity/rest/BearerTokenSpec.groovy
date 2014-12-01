@@ -74,7 +74,7 @@ class BearerTokenSpec extends AbstractRestSpec {
         }
 
         then:
-        response.status == 403
+        response.status == 401
         response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer'
     }
 
@@ -89,7 +89,7 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer error="invalid_token"'
     }
 
-    void "when accessing a secured object with a non-bearer request, it's considered a non-authorized request"() {
+    void "when accessing a secured object with a non-bearer request, it's considered a unauthorized request"() {
         when:
         ErrorResponse response = restBuilder.post("${baseUrl}/secured") {
             contentType 'text/plain'
@@ -97,7 +97,7 @@ class BearerTokenSpec extends AbstractRestSpec {
         }
 
         then:
-        response.status == 403
+        response.status == 401
         response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer'
     }
 
@@ -156,7 +156,7 @@ class BearerTokenSpec extends AbstractRestSpec {
     }
 
     @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/98")
-    void "accessing Secured without a token, responds forbidden"() {
+    void "accessing Secured without a token, responds Unauthorized"() {
         when:
         ErrorResponse response = restBuilder.post("${baseUrl}/secured") {
             contentType 'application/json;charset=UTF-8'
@@ -164,7 +164,7 @@ class BearerTokenSpec extends AbstractRestSpec {
         }
 
         then:
-        response.status == 403
+        response.status == 401
         response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer'
     }
 
