@@ -2,6 +2,7 @@ import com.odobo.grails.plugin.springsecurity.rest.*
 import com.odobo.grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
 import com.odobo.grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
+import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAccessDeniedHandler
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
@@ -125,6 +126,9 @@ class SpringSecurityRestGrailsPlugin {
             restAuthenticationEntryPoint(BearerTokenAuthenticationEntryPoint) {
                 tokenReader = ref('tokenReader')
             }
+            restAccessDeniedHandler(BearerTokenAccessDeniedHandler) {
+                errorPage = null //403
+            }
 
         } else {
             restAuthenticationEntryPoint(Http403ForbiddenEntryPoint)
@@ -133,6 +137,9 @@ class SpringSecurityRestGrailsPlugin {
             }
             restAuthenticationFailureHandler(RestAuthenticationFailureHandler) {
                 statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_UNAUTHORIZED
+            }
+            restAccessDeniedHandler(AccessDeniedHandlerImpl) {
+                errorPage = null //403
             }
         }
 
@@ -161,9 +168,6 @@ class SpringSecurityRestGrailsPlugin {
         }
 
         restRequestCache(NullRequestCache)
-        restAccessDeniedHandler(AccessDeniedHandlerImpl) {
-            errorPage = null //403
-        }
 
         /* tokenStorageService */
         if (conf.rest.token.storage.useMemcached) {
