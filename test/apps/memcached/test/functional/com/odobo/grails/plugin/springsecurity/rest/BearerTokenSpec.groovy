@@ -168,4 +168,19 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer'
     }
 
+    void "accessing Secured with valid token, but not authorized responds forbidden"() {
+        given:
+        RestResponse authResponse = sendCorrectCredentials()
+        String token = authResponse.json.access_token
+
+        when:
+        def response = restBuilder.get("${baseUrl}/secured/superAdmin") {
+            header 'Authorization', "Bearer ${token}"
+        }
+
+        then:
+        response.status == 403
+        response.responseHeaders.getFirst('WWW-Authenticate') == 'Bearer error="insufficient_scope"'
+    }
+
 }
