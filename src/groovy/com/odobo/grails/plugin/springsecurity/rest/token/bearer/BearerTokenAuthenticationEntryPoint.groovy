@@ -28,7 +28,7 @@ class BearerTokenAuthenticationEntryPoint implements AuthenticationEntryPoint {
             response.status = HttpServletResponse.SC_UNAUTHORIZED
         } else {
             response.addHeader('WWW-Authenticate', 'Bearer')
-            response.status = HttpServletResponse.SC_FORBIDDEN
+            response.status = HttpServletResponse.SC_UNAUTHORIZED
         }
 
     }
