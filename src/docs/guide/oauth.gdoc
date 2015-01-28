@@ -31,15 +31,12 @@ can use any OAuth 2.0 provider they support. This includes at the time of writin
 * GitHub.
 * Google.
 * LinkedIn.
-* Twitter.
 * Windows Live.
 * Wordpress.
 * Yahoo.
 * Paypal.
 
-{note}
-Remember: only OAuth 2.0 providers are supported by this plugin at the moment.
-{note}
+Note that OAuth 1.0a providers also work, like Twitter.
 
 To start the OAuth authentication flow, from your frontend application, generate a link to
 @<YOUR_GRAILS_APP>/oauth/authenticate/<provider>@. The user clicking on that link represents step 4 in the previous
