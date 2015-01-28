@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.4.0"
+    String version = "1.4.1"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -157,7 +157,7 @@ class SpringSecurityRestGrailsPlugin {
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')
             if (conf.useSecurityEventListener) {
-                eventPublisher = ref('eventPublisher')
+                authenticationEventPublisher = ref('authenticationEventPublisher')
             }
         }
 

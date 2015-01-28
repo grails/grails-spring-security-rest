@@ -6,6 +6,7 @@ import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.mock.web.MockFilterChain
 import org.springframework.mock.web.MockHttpServletResponse
+import org.springframework.security.authentication.DefaultAuthenticationEventPublisher
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
@@ -27,7 +28,7 @@ class RestTokenValidationFilterUnitSpec extends Specification {
         filter.authenticationSuccessHandler = Mock(AuthenticationSuccessHandler)
         filter.authenticationFailureHandler = Mock(AuthenticationFailureHandler)
         filter.tokenReader = Mock(TokenReader)
-        filter.eventPublisher = Mock(ApplicationEventPublisher)
+        filter.authenticationEventPublisher = Mock(DefaultAuthenticationEventPublisher)
     }
 
     void "authentication passes when a valid token is found"() {
@@ -46,7 +47,7 @@ class RestTokenValidationFilterUnitSpec extends Specification {
         response.status == 200
         1 * filter.tokenReader.findToken(request) >> token
         0 * filter.authenticationFailureHandler.onAuthenticationFailure( _, _, _ )
-        1 * filter.eventPublisher.publishEvent(_ as InteractiveAuthenticationSuccessEvent)
+        1 * filter.authenticationEventPublisher.publishAuthenticationSuccess(_ as Authentication)
         notThrown( TokenNotFoundException )
 
         where:

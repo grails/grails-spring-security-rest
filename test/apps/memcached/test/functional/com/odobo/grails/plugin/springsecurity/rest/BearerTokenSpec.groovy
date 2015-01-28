@@ -144,7 +144,7 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.status == 405
     }
 
-        @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/98")
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/98")
     void "accessing Anonymous without a token, responds  ok"() {
         when:
         def response = restBuilder.get("${baseUrl}/anonymous") {
