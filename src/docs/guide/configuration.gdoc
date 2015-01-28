@@ -1,0 +1,48 @@
+Once the plugin is installed, the minimum configuration is to select what [token storage|guide:tokenStorage] strategy
+do you want to use:
+
+# [Grails Cache|guide:grailsCache].
+# [Memcached|guide:memcached]
+# [GORM|guide:gorm].
+# Provide your own: implement [TokenStorageService|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html] and register it in @resources.groovy@ as @tokenStorageService@
+
+All the other features can be used out-of-the-box with the default values, but please make sure you read the entire
+plugin documentation to understand how they work and how can they be configured.
+
+h2. Plugin configuration
+
+{note}
+This plugin depends on [Spring Security Core 2.x|http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/newInV2.html].
+Make sure your application is compatible with that version first.
+{note}
+
+This plugin is compatible by default with Spring Security core traditional, form-based authentication. The important thing
+to remember is: you have to separate the filter chains, so different filters are applied on each case.
+
+The stateless, token-based approach of this plugin is incompatible with the HTTP session-based approach of Spring Security,
+core, so the trick is to identify what URL patterns have to be stateless, and what others have to be stateful (if any).
+
+To configure the chains properly, you can use the @grails.plugin.springsecurity.filterChain.chainMap@ property:
+
+{code}
+grails.plugin.springsecurity.filterChain.chainMap = [
+    '/api/**': 'JOINED_FILTERS,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter',  // Stateless chain
+    '/**': 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'                                                                          // Traditional chain
+]
+{code}
+
+To understand this syntax, please read the
+[Spring Security Core documentation|http://grails-plugins.github.io/grails-spring-security-core/guide/filters.html].
+Long story short: @JOINED_FILTERS@ refers to all the configured filters. The minus (@-@) notation means all the previous values
+but the neglected one.
+
+So the first chain applies all the filters except the stateful ones. The second one applies all the filters but the stateless ones.
+
+{note}
+Make sure that the stateless chain applies not only to your REST controllers, but also to the URL's where this plugin
+filters are listening: by default, @/api/login@ for [authentication|guide:authentication], @/api/logout@ for
+[logout|guide:authentication] and @/api/validate@ for [token validation|guide:tokenValidation].
+{note}
+
+The difference is that, in a traditional form-based authentication, Spring Security will respond with an HTTP 302 redirect
+to the login controller. That doesn't work for an API, so in the stateless approach, an HTTP 401 response will be sent back.

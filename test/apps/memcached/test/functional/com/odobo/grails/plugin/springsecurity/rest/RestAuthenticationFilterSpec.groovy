@@ -1,8 +1,11 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugins.rest.client.RestResponse
+import grails.util.Holders
+import spock.lang.IgnoreIf
 import spock.lang.Unroll
 
+@IgnoreIf({ Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
 class RestAuthenticationFilterSpec extends AbstractRestSpec {
 
     @Unroll
@@ -24,15 +27,19 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
 
 
     @Unroll
-    void "the filter is only applied to the configured URL"() {
+    void "the filter is only applied to the configured URL when a #httpMethod request is sent"() {
         when:
         def response = restBuilder."${httpMethod}"("${baseUrl}/nothingHere")
 
         then:
-        response.status == 403      // all URLs are locked down by default in Spring Security Core
+        response.status == status
 
         where:
-        httpMethod << ['get', 'post', 'put', 'delete']
+        httpMethod  | status
+        'get'       | 200   //The client follows redirects in GET requests. In this case, to /login/auth
+        'post'      | 302   //In the rest of the cases, 302 to /login/auth
+        'put'       | 302
+        'delete'    | 302
 
     }
 
@@ -51,7 +58,7 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
         then:
         response.status == 200
         response.json.username == 'jimi'
-        response.json.token
+        response.json.access_token
         response.json.roles.size() == 2
     }
 

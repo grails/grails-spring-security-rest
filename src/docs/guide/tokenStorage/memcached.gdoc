@@ -11,3 +11,6 @@ To use Memcached, simply define the following configuration properties to match 
 
 For development, if you have Memcached installed locally with the default settings, just define
 @grails.plugin.springsecurity.rest.token.storage.useMemcached = true@. It should work.
+
+In Memcached tokens will expire automatically after the configured timeout (1h by default).
+They get refreshed on every access

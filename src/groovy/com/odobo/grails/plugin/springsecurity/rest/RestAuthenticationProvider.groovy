@@ -27,11 +27,11 @@ class RestAuthenticationProvider implements AuthenticationProvider {
         RestAuthenticationToken authenticationResult = new RestAuthenticationToken(authenticationRequest.tokenValue)
 
         if (authenticationRequest.tokenValue) {
-            log.debug "Trying to validate token ${authenticationRequest.tokenValue}"
+            log.debug "Trying to validate token ${authenticationRequest.tokenValue.mask()}"
             def userDetails = tokenStorageService.loadUserByToken(authenticationRequest.tokenValue)
 
-            log.debug "Authentication result: ${authenticationResult}"
             authenticationResult = new RestAuthenticationToken(userDetails, userDetails.password, userDetails.authorities, authenticationRequest.tokenValue)
+            log.debug "Authentication result: ${authenticationResult}"
         }
 
         return authenticationResult

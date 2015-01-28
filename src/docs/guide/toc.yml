@@ -1,4 +1,6 @@
 introduction: Introduction to the Spring Security REST plugin
+whatsNew14: What's new in 1.4?
+configuration: Configuration
 authentication:
   title: Authentication Endpoint
   logout: Logout Endpoint
@@ -8,6 +10,7 @@ tokenStorage:
   memcached: Memcached
   gorm: GORM
   grailsCache: Grails Cache
+tokenRendering: Token Rendering
 tokenValidation: Token Validation Filter
 cors: CORS support
 oauth:

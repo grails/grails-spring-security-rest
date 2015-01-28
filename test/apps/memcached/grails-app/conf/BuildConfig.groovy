@@ -34,13 +34,9 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
 
-    def gebVersion = "0.9.2"
-
     dependencies {
-        test 'com.github.detro.ghostdriver:phantomjsdriver:1.0.4'
-
-        test "org.gebish:geb-spock:$gebVersion"
         test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
+        compile 'org.apache.httpcomponents:httpclient:4.3.3'
     }
 
     plugins {
@@ -57,7 +53,7 @@ grails.project.dependency.resolution = {
         runtime ":jquery:1.10.2.2"
         runtime ":resources:1.2.1"
 
-        test ":geb:$gebVersion"
+        compile ":functional-spock:0.7"
         test(":spock:0.7") {
             exclude("spock-grails-support")
         }

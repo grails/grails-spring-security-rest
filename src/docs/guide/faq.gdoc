@@ -16,7 +16,8 @@ And it can be easily decoded.
 You could argue that someone can access the token in the browser. Yes, but having the token will not allow him to obtain
 user's credentials. The tokens are just not decodable. And they can be revoked if necessary.
 
-This is more or less the strategy used by OAuth: they use basically tokens in headers. More on this on the next question.
+Fortunately for you, a token-based solution is not a magic idea that I only got; it's actually a specification:
+[RFC 6750 - The OAuth 2.0 Authorization Framework: Bearer Token Usage|http://tools.ietf.org/html/rfc6750].
 
 There is also more reasons to be in favour of tokens:
 
@@ -30,16 +31,25 @@ A couple of link with further explanations on the token-based flow:
 * [http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services|http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services]
 * [http://blog.brunoscopelliti.com/authentication-to-a-restful-web-service-in-an-angularjs-web-app|http://blog.brunoscopelliti.com/authentication-to-a-restful-web-service-in-an-angularjs-web-app]
 
-h2. Why can't the API be secured with OAuth
+h2. Why can't the API be secured with OAuth?
 
-Because to do so, you would need to store consumer key and consumer secret in the browser. Seriously, you don't want
+[RFC 6749 - OAuth 2.0|http://tools.ietf.org/html/rfc6749] specification does cover this scenario in what they call
+"public clients":
+
+{code}
+Clients incapable of maintaining the confidentiality of their credentials (e.g., clients executing on the device used by the
+resource owner, such as an installed native application or a web browser-based application), and incapable of secure client
+authentication via any other means.
+{code}
+
+Using OAuth, you would need to store consumer key and consumer secret in the browser. Seriously, you don't want
 to do that. The problem with OAuth is that it's designed for when the consumer is a server-side application. And it just
 does not work well with pure Javascript front-ends. In this scenario, your frontend would be the OAuth consumer and
-your Grails backend the OAuth provider
+your Grails backend the OAuth provider.
 
-A different story is to delegate the actual authentication to other OAuth providers: this scenario is possible, and
-actually [this plugin supports it|guide:oauth]. In this case, the consumer will be the Grails application, and it's
-absolutely fine to store consumer keys on the server, as they are never exposed to the browser.
+The OAuth 2.0 specification supports public clients with the implicit grant. This plugin supports that by default when
+you [delegate the authentication to another OAuth provider|guide:oauth]. If it's you who are authenticating the users
+(via DB, LDAP, etc), the token-based flow of this plugin is _OAuth-ish_.
 
 h2. Why you didn't use any of the existing OAuth plugins? Why pac4j?
 
@@ -56,4 +66,4 @@ I'm also aware of a pac4j-spring-security module. See my previous response on HT
 h2. Dude, this is awesome. How can I compensate you?
 
 I doubt you can :). You may try giving me free beers the next time you see me in a conference. Or you can just express
-your gratitude via [Twitter|https://twitter.com/alvaro_sanchez]
+your gratitude via [Twitter|https://twitter.com/alvaro_sanchez].

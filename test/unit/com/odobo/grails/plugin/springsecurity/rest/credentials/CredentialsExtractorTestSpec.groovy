@@ -1,13 +1,10 @@
 package com.odobo.grails.plugin.springsecurity.rest.credentials
 
-import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.ReflectionUtils
+import grails.plugin.springsecurity.SpringSecurityUtils
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
-import org.springframework.mock.web.MockHttpServletRequest
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import spock.lang.Specification
-import spock.lang.Unroll
 
 /**
  * Specification of all the credentials extractors
@@ -25,7 +22,7 @@ class CredentialsExtractorTestSpec extends Specification {
         given:
         def request = new GrailsMockHttpServletRequest()
         request.json = '{"username": "foo", "password": "bar"}'
-        def extractor = new DefaultJsonPayloadCredentialsExtractor()
+        def extractor = new DefaultJsonPayloadCredentialsExtractor(usernamePropertyName: 'username', passwordPropertyName: 'password')
 
         and: "Spring security configuration"
         SpringSecurityUtils.loadSecondaryConfig 'DefaultRestSecurityConfig'
@@ -44,7 +41,7 @@ class CredentialsExtractorTestSpec extends Specification {
         given:
         def request = new GrailsMockHttpServletRequest()
         request.json = '{"different": "format", "of": "JSON"}'
-        def extractor = new DefaultJsonPayloadCredentialsExtractor()
+        def extractor = new DefaultJsonPayloadCredentialsExtractor(usernamePropertyName: 'username', passwordPropertyName: 'password')
 
         when:
         def token = extractor.extractCredentials(request)
@@ -61,7 +58,7 @@ class CredentialsExtractorTestSpec extends Specification {
         given:
         def request = new GrailsMockHttpServletRequest()
         request.parameters = [username: 'foo', password: 'bar']
-        def extractor = new RequestParamsCredentialsExtractor(usernameParameter: 'username', passwordParameter: 'password')
+        def extractor = new RequestParamsCredentialsExtractor(usernamePropertyName: 'username', passwordPropertyName: 'password')
 
         when:
         def token = extractor.extractCredentials(request)
@@ -77,11 +74,7 @@ class CredentialsExtractorTestSpec extends Specification {
         given:
         def request = new GrailsMockHttpServletRequest()
         request.json = '{"login": "foo", "pwd": "bar"}'
-        def extractor = new DefaultJsonPayloadCredentialsExtractor()
-
-        and: "Spring security configuration"
-        SpringSecurityUtils.securityConfig.rest.login.usernamePropertyName = "login"
-        SpringSecurityUtils.securityConfig.rest.login.passwordPropertyName = "pwd"
+        def extractor = new DefaultJsonPayloadCredentialsExtractor(usernamePropertyName: 'login', passwordPropertyName: 'pwd')
 
         when:
         def token = extractor.extractCredentials(request)

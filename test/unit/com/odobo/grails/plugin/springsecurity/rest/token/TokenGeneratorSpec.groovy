@@ -6,8 +6,6 @@ import org.apache.commons.lang.StringUtils
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import java.util.concurrent.TimeUnit
-
 class TokenGeneratorSpec extends Specification {
 
     @Unroll
