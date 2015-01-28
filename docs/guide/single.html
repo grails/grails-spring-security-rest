@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Spring Security REST Plugin 1.4.1.RC2</title>
+        <title>Spring Security REST Plugin 1.4.1</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -74,7 +74,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Spring Security REST Plugin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
-                            <p><strong>Version:</strong> 1.4.1.RC2</p>
+                            <p><strong>Version:</strong> 1.4.1</p>
                             
                         </div>
 
@@ -152,6 +152,10 @@ storing tokens gives you the chance to decide about expiration strategies.<p cla
 with ready-to-use <a href="../guide/single.html#tokenGeneration" class="guide">token generation strategies</a> and comes prepackaged with Memcached, GORM and Grails
 Cache support for <a href="../guide/single.html#tokenStorage" class="guide">token storage</a>.<p class="paragraph"/><h4>Release History</h4>
 <ul class="star">
+<li>28 January 2015</li>
+<ul class="star">
+<li><a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.4.1+is%3Aclosed" target="blank">1.4.1</a></li>
+</ul>
 <li>12 November 2014</li>
 <ul class="star">
 <li><a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.4.1.RC2+is%3Aclosed" target="blank">1.4.1.RC2</a></li>
@@ -519,7 +523,7 @@ This plugin comes pre-installed with the <a href="http://grails.org/plugin/cors"
 <a href="http://www.w3.org/TR/cors/" target="blank">Cross-Origin Resource Sharing</a>. Refer to the
 <a href="https://github.com/davidtinker/grails-cors/blob/master/README.md" target="blank">plugin documentation</a> to learn how to configure it.<p class="paragraph"/>The CORS plugin activates itself by default. If you don't want it for some environments, you can use
 <code>cors.enabled = false</code> within the appropriate environment block in your <code>Config.groovy</code>.<p class="paragraph"/>If you don't want CORS support at all, you can skip the plugin by excluding it
-when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.4.1.RC2', &#123;
+when defining this plugin in your <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>compile ':spring&#45;security&#45;<span class="java&#45;keyword">rest</span>:1.4.1', &#123;
     exclude 'cors
 &#125;</pre></div><p class="paragraph"/>Note that you have to explicitly expose the headers you are using for token validation. Otherwise, the frontend application
 won't be allowed to read them:<p class="paragraph"/><div class="code"><pre>cors.headers = &#91;'Access&#45;Control&#45;Allow&#45;Headers': 'Content&#45;Type, Authorization'&#93;</pre></div><p class="paragraph"/>Be also aware of the default behaviour of the CORS plugin for <code>Access-Control-Allow-Origin</code> is to just echo the <code>Origin</code>
@@ -549,14 +553,11 @@ can use any OAuth 2.0 provider they support. This includes at the time of writin
 <li>GitHub.</li>
 <li>Google.</li>
 <li>LinkedIn.</li>
-<li>Twitter.</li>
 <li>Windows Live.</li>
 <li>Wordpress.</li>
 <li>Yahoo.</li>
 <li>Paypal.</li>
-</ul><p class="paragraph"/><blockquote class="note">
-Remember: only OAuth 2.0 providers are supported by this plugin at the moment.
-</blockquote><p class="paragraph"/>To start the OAuth authentication flow, from your frontend application, generate a link to
+</ul><p class="paragraph"/>Note that OAuth 1.0a providers also work, like Twitter.<p class="paragraph"/>To start the OAuth authentication flow, from your frontend application, generate a link to
 <code>&#60;YOUR_GRAILS_APP&#62;/oauth/authenticate/&#60;provider&#62;</code>. The user clicking on that link represents step 4 in the previous
 diagram.<p class="paragraph"/>Note that you can define the frontend callback URL in <code>Config.groovy</code> under
 <code>grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl</code>. You need to define a closure that will be called with
