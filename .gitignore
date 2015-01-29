@@ -6,6 +6,7 @@ target/
 /web-app/WEB-INF
 *.log
 /*.zip
+/*.zip.sha1
 /plugin.xml
 
 web-app

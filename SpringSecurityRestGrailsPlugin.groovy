@@ -6,18 +6,18 @@ import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAcces
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
+import com.odobo.grails.plugin.springsecurity.rest.token.generation.JwtTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.JwtTokenStorageService
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import net.spy.memcached.DefaultHashAlgorithm
 import net.spy.memcached.spring.MemcachedClientFactoryBean
-import org.apache.commons.lang3.StringUtils
-import org.springframework.context.ApplicationContext
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
 import org.springframework.security.web.access.ExceptionTranslationFilter
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.4.1"
+    String version = "1.5.0-SNAPSHOT"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -169,6 +169,9 @@ class SpringSecurityRestGrailsPlugin {
 
         restRequestCache(NullRequestCache)
 
+        /* tokenGenerator */
+        tokenGenerator(SecureRandomTokenGenerator)
+
         /* tokenStorageService */
         if (conf.rest.token.storage.useMemcached) {
 
@@ -201,14 +204,18 @@ class SpringSecurityRestGrailsPlugin {
             tokenStorageService(GormTokenStorageService) {
                 userDetailsService = ref('userDetailsService')
             }
-        } else {
-            tokenStorageService(GormTokenStorageService) {
-                userDetailsService = ref('userDetailsService')
+        } else if (conf.rest.token.storage.useJwt) {
+            tokenStorageService(JwtTokenStorageService) {
+                jwtSecret = conf.rest.token.storage.jwt.secret
             }
-        }
 
-        /* tokenGenerator */
-        tokenGenerator(SecureRandomTokenGenerator)
+            tokenGenerator(JwtTokenGenerator) {
+                jwtSecret = conf.rest.token.storage.jwt.secret
+                expiration = conf.rest.token.storage.jwt.expiration
+            }
+
+            SpringSecurityUtils.orderedFilters.remove(SecurityFilterPosition.LOGOUT_FILTER.order - 1)
+        }
 
         /* restAuthenticationProvider */
         restAuthenticationProvider(RestAuthenticationProvider) {
@@ -227,17 +234,5 @@ class SpringSecurityRestGrailsPlugin {
         }
 
     }
-
-    def doWithDynamicMethods = {ApplicationContext ctx ->
-
-        CharSequence.metaClass.mask = {
-            def max = delegate.length() - 1
-            def half = (delegate.length() / 2) as int
-            def halfSize = half > 1 ? half : 1
-            StringUtils.abbreviateMiddle(delegate, "*" * halfSize + 1, max)
-        }
-
-    }
-
 
 }

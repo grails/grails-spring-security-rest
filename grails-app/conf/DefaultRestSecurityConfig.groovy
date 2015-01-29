@@ -28,6 +28,7 @@ security {
             }
 
             storage {
+                useJwt = true
                 useGorm = false
                 useMemcached = false
                 useGrailsCache = false
@@ -43,6 +44,11 @@ security {
                     username = ''
                     password = ''
 
+                    expiration = 3600
+                }
+
+                jwt {
+                    secret = 'xW_Cjyy:~:R~W.hC%|pC;~Z++_!~ropo;%~Y-~4O7%n!4V_l==r~SsSP;S%sL*wL'
                     expiration = 3600
                 }
 

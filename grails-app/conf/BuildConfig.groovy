@@ -18,6 +18,7 @@ grails.project.dependency.resolution = {
         compile 'com.google.guava:guava-io:r03'
         compile 'org.pac4j:pac4j-core:1.5.0'
         compile 'org.pac4j:pac4j-oauth:1.5.0'
+        compile 'com.nimbusds:nimbus-jose-jwt:3.8'
     }
 
     plugins {

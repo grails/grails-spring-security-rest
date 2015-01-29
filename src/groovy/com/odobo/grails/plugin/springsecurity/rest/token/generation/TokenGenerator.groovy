@@ -10,6 +10,6 @@ public interface TokenGenerator {
      *
      * @return a String based token.
      */
-    String generateToken()
+    String generateToken(Object principal)
 
 }
