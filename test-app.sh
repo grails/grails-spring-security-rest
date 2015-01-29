@@ -1,5 +1,7 @@
 #!/bin/bash
 
+./grailsw compile
+
 ./grailsw maven-install
 
 ./grailsw test-app --echoOut \
