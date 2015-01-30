@@ -5,7 +5,6 @@ import groovy.util.logging.Slf4j
 import org.springframework.http.MediaType
 
 import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
 /**
  * RFC 6750 implementation of a {@link com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader}

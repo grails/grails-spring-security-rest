@@ -6,14 +6,16 @@ import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAcces
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
+import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
+import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
+import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
-import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.jwt.SignedJwtTokenStorageService
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import net.spy.memcached.DefaultHashAlgorithm
@@ -205,13 +207,23 @@ class SpringSecurityRestGrailsPlugin {
                 userDetailsService = ref('userDetailsService')
             }
         } else if (conf.rest.token.storage.useJwt) {
-            tokenStorageService(SignedJwtTokenStorageService) {
+            keyProvider(DefaultRSAKeyProvider)
+
+            tokenStorageService(JwtTokenStorageService) {
+                keyProvider = ref('keyProvider')
                 jwtSecret = conf.rest.token.storage.jwt.secret
             }
 
-            tokenGenerator(SignedJwtTokenGenerator) {
-                jwtSecret = conf.rest.token.storage.jwt.secret
-                expiration = conf.rest.token.storage.jwt.expiration
+            if (conf.rest.token.storage.jwt.useEncryptedJwt) {
+                tokenGenerator(EncryptedJwtTokenGenerator) {
+                    keyProvider = ref('keyProvider')
+                    expiration = conf.rest.token.storage.jwt.expiration
+                }
+            } else {
+                tokenGenerator(SignedJwtTokenGenerator) {
+                    jwtSecret = conf.rest.token.storage.jwt.secret
+                    expiration = conf.rest.token.storage.jwt.expiration
+                }
             }
 
             SpringSecurityUtils.orderedFilters.remove(SecurityFilterPosition.LOGOUT_FILTER.order - 1)

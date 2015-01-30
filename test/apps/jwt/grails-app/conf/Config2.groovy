@@ -150,6 +150,12 @@ grails {
                         enableAnonymousAccess = true
                         useBearerToken = true
                     }
+
+                    storage {
+                        jwt {
+                            useEncryptedJwt = true
+                        }
+                    }
                 }
             }
         }

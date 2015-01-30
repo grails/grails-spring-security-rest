@@ -1,7 +1,5 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.bearer
 
-import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
-import groovy.util.logging.Log4j
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint

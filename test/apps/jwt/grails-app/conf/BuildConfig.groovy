@@ -38,6 +38,8 @@ grails.project.dependency.resolution = {
         // runtime 'org.postgresql:postgresql:9.3-1101-jdbc41'
         test "org.grails:grails-datastore-test-support:1.0.2-grails-2.4"
         compile 'org.apache.httpcomponents:httpclient:4.3.3'
+
+        build("com.lowagie:itext:2.1.7") { excludes "bouncycastle:bcprov-jdk14:138", "org.bouncycastle:bcprov-jdk14:1.38" }
     }
 
     plugins {
