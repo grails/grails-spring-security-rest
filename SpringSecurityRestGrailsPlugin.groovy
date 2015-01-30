@@ -6,12 +6,12 @@ import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAcces
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
-import com.odobo.grails.plugin.springsecurity.rest.token.generation.JwtTokenGenerator
+import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.JwtTokenStorageService
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.jwt.SignedJwtTokenStorageService
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
 import grails.plugin.springsecurity.SecurityFilterPosition
@@ -205,11 +205,11 @@ class SpringSecurityRestGrailsPlugin {
                 userDetailsService = ref('userDetailsService')
             }
         } else if (conf.rest.token.storage.useJwt) {
-            tokenStorageService(JwtTokenStorageService) {
+            tokenStorageService(SignedJwtTokenStorageService) {
                 jwtSecret = conf.rest.token.storage.jwt.secret
             }
 
-            tokenGenerator(JwtTokenGenerator) {
+            tokenGenerator(SignedJwtTokenGenerator) {
                 jwtSecret = conf.rest.token.storage.jwt.secret
                 expiration = conf.rest.token.storage.jwt.expiration
             }
