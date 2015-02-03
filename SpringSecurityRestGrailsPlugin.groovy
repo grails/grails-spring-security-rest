@@ -9,6 +9,7 @@ import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReade
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
+import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.FileRSAKeyProvider
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
@@ -219,6 +220,15 @@ class SpringSecurityRestGrailsPlugin {
                     keyProvider = ref('keyProvider')
                     expiration = conf.rest.token.storage.jwt.expiration
                 }
+
+                if (conf.rest.token.storage.jwt.privateKeyPath instanceof CharSequence &&
+                        conf.rest.token.storage.jwt.publicKeyPath instanceof CharSequence) {
+                    keyProvider(FileRSAKeyProvider) {
+                        privateKeyPath = conf.rest.token.storage.jwt.privateKeyPath
+                        publicKeyPath = conf.rest.token.storage.jwt.publicKeyPath
+                    }
+                }
+
             } else {
                 tokenGenerator(SignedJwtTokenGenerator) {
                     jwtSecret = conf.rest.token.storage.jwt.secret

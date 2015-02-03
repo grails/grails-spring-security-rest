@@ -51,11 +51,8 @@ security {
                     useSignedJwt = true
                     useEncryptedJwt = false
 
-                    secret = 'xW_Cjyy:~:R~W.hC%|pC;~Z++_!~ropo;%~Y-~4O7%n!4V_l==r~SsSP;S%sL*wL'
+                    secret = 'qrD6h8K6S9503Q06Y6Rfk21TErImPYqa'
                     expiration = 3600
-
-                    privateKeyPath = "./grails-app/conf/private_key.der"
-                    publicKeyPath = "./grails-app/conf/public_key.der"
                 }
 
             }

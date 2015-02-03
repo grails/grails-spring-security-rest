@@ -1,4 +1,6 @@
-The plugin comes prepackaged with 2 token generation strategies:
+By default, the plugin generates [JWT|guide:jwt] tokens. Note that when using JWT, you can't plug any other token generator.
+
+If you are not using JWT, but any stateful strategy like Memcached or GORM, the following strategies are available:
 * [Using java.security.SecureRandom|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/generation/SecureRandomTokenGenerator.html].
 * [Using java.util.UUID|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/generation/UUIDTokenGenerator.html].
 

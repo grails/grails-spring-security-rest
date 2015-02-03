@@ -19,7 +19,7 @@ The token can be sent in the @Authorization@ request reader:
 {code}
 GET /protectedResource HTTP/1.1
 Host: server.example.com
-Authorization: Bearer 3bicek1gc63oai6tfjkhog4kqn8ojd6a
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0MjI5OTU5MjIsInN1YiI6ImppbWkiLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlhdCI6MTQyMjk5MjMyMn0.rA7A2Gwt14LaYMpxNRtrCdO24RGrfHtZXY9fIjV8x8o
 {code}
 
 Or using form-encoded body parameters:
@@ -29,7 +29,7 @@ POST /protectedResource HTTP/1.1
 Host: server.example.com
 Content-Type: application/x-www-form-urlencoded
 
-access_token=3bicek1gc63oai6tfjkhog4kqn8ojd6a
+access_token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0MjI5OTU5MjIsInN1YiI6ImppbWkiLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlhdCI6MTQyMjk5MjMyMn0.rA7A2Gwt14LaYMpxNRtrCdO24RGrfHtZXY9fIjV8x8o
 {code}
 
 Note that in this case, @GET@ HTTP method is not supported.
