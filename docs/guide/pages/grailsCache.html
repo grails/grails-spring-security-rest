@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>6.3 Grails Cache 1.4.1</title>
+    <title>7.4 Grails Cache 1.5.0.M1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -27,37 +27,40 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/whatsNew14.html"><strong>2</strong><span>What's new in 1.4?</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/whatsNew15.html"><strong>2</strong><span>What's new in 1.5?</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/configuration.html"><strong>3</strong><span>Configuration</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/whatsNew14.html"><strong>3</strong><span>What's new in 1.4?</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/authentication.html"><strong>4</strong><span>Authentication Endpoint</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/configuration.html"><strong>4</strong><span>Configuration</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenGeneration.html"><strong>5</strong><span>Token Generation</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/authentication.html"><strong>5</strong><span>Authentication Endpoint</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenStorage.html"><strong>6</strong><span>Token Storage</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenGeneration.html"><strong>6</strong><span>Token Generation</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenRendering.html"><strong>7</strong><span>Token Rendering</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenStorage.html"><strong>7</strong><span>Token Storage</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenValidation.html"><strong>8</strong><span>Token Validation Filter</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenRendering.html"><strong>8</strong><span>Token Rendering</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/cors.html"><strong>9</strong><span>CORS support</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenValidation.html"><strong>9</strong><span>Token Validation Filter</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/oauth.html"><strong>10</strong><span>Delegating authentication to OAuth providers</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/cors.html"><strong>10</strong><span>CORS support</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/debugging.html"><strong>11</strong><span>Debugging</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/oauth.html"><strong>11</strong><span>Delegating authentication to OAuth providers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>12</strong><span>Frequently Asked Questions</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/debugging.html"><strong>12</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>13</strong><span>Frequently Asked Questions</span></a>
                     </div>
                     
                 </div>
@@ -83,22 +86,22 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>5</strong><span>Token Generation</span></a></div>
+                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>6</strong><span>Token Generation</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../../guide/tokenRendering.html"><strong>7</strong><span>Token Rendering</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/tokenRendering.html"><strong>8</strong><span>Token Rendering</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>6.3 Grails Cache - Reference Documentation</h1>
+                    <h1>7.4 Grails Cache - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
-                    <p><strong>Version:</strong> 1.4.1</p>
+                    <p><strong>Version:</strong> 1.5.0.M1</p>
 
                     
                 </div>
@@ -107,7 +110,7 @@ function addJsClass() {
 
                 
 
-<h2 id="grailsCache">6.3 Grails Cache</h2>
+<h2 id="grailsCache">7.4 Grails Cache</h2>
 To use <a href="http://grails.org/plugin/cache" target="blank">Grails Cache</a>, simply define a cache name:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useGrailsCache</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.grailsCacheName</code></td><td><code>null</code></td></tr></table><p class="paragraph"/>The cache name should correspond to a name specified in the <a href="http://grails-plugins.github.io/grails-cache/docs/manual/guide/usage.html#dsl" target="blank">cache DSL</a>.<p class="paragraph"/><blockquote class="note">
 <strong class="bold">Token expiration / eviction / TTL</strong><p class="paragraph"/>By default, Spring Cache abstraction
 <a href="http://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/cache.html#cache-specific-config" target="blank">does not support expiration</a>.
@@ -125,9 +128,9 @@ See <a href="https://github.com/alvarosanchez/grails-spring-security-rest/issues
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>5</strong><span>Token Generation</span></a></div>
+                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>6</strong><span>Token Generation</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../../guide/tokenRendering.html"><strong>7</strong><span>Token Rendering</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/tokenRendering.html"><strong>8</strong><span>Token Rendering</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>4 Authentication Endpoint 1.4.1</title>
+    <title>5 Authentication Endpoint 1.5.0.M1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -27,37 +27,40 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew14.html"><strong>2</strong><span>What's new in 1.4?</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew15.html"><strong>2</strong><span>What's new in 1.5?</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew14.html"><strong>3</strong><span>What's new in 1.4?</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>4</strong><span>Authentication Endpoint</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>4</strong><span>Configuration</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>5</strong><span>Token Generation</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>5</strong><span>Authentication Endpoint</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>6</strong><span>Token Storage</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>6</strong><span>Token Generation</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenRendering.html"><strong>7</strong><span>Token Rendering</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>7</strong><span>Token Storage</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>8</strong><span>Token Validation Filter</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenRendering.html"><strong>8</strong><span>Token Rendering</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>9</strong><span>CORS support</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>9</strong><span>Token Validation Filter</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>10</strong><span>Delegating authentication to OAuth providers</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>10</strong><span>CORS support</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>11</strong><span>Debugging</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>11</strong><span>Delegating authentication to OAuth providers</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>12</strong><span>Frequently Asked Questions</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>12</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>13</strong><span>Frequently Asked Questions</span></a>
                     </div>
                     
                 </div>
@@ -83,22 +86,22 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/configuration.html">&lt;&lt; <strong>3</strong><span>Configuration</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/configuration.html">&lt;&lt; <strong>4</strong><span>Configuration</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/tokenGeneration.html"><strong>5</strong><span>Token Generation</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/tokenGeneration.html"><strong>6</strong><span>Token Generation</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>4 Authentication Endpoint - Reference Documentation</h1>
+                    <h1>5 Authentication Endpoint - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
 
-                    <p><strong>Version:</strong> 1.4.1</p>
+                    <p><strong>Version:</strong> 1.5.0.M1</p>
 
                     
                 </div>
@@ -107,7 +110,7 @@ function addJsClass() {
                 <div id="table-of-content">
                     <h2>Table of Contents</h2>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#logout"><strong>4.1</strong><span>Logout Endpoint</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#logout"><strong>5.1</strong><span>Logout Endpoint</span></a>
                     </div>
                     
                 </div>
@@ -115,7 +118,7 @@ function addJsClass() {
 
                 
 
-<h1 id="authentication">4 Authentication Endpoint</h1>
+<h1 id="authentication">5 Authentication Endpoint</h1>
 The <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html" target="blank">authentication filter</a>
 uses the default <code>authenticationManager</code> bean, which in turn uses all the registered authentication
 providers. See the <a href="http://grails-plugins.github.io/grails-spring-security-core/guide/authenticationProviders.html" target="blank">Spring Security Core guide</a>
@@ -143,13 +146,23 @@ grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.login.pa
 The default implementation looks like this:<p class="paragraph"/><div class="code"><pre>@Slf4j
 class DefaultJsonPayloadCredentialsExtractor <span class="java&#45;keyword">extends</span> AbstractJsonPayloadCredentialsExtractor &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> usernamePropertyName
     <span class="java&#45;object">String</span> passwordPropertyName<p class="paragraph"/>    UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) &#123;
-        def jsonBody = getJsonBody(httpServletRequest)<p class="paragraph"/>        <span class="java&#45;object">String</span> username = jsonBody.<span class="java&#45;quote">"$&#123;usernamePropertyName&#125;"</span>
-        <span class="java&#45;object">String</span> password = jsonBody.<span class="java&#45;quote">"$&#123;passwordPropertyName&#125;"</span><p class="paragraph"/>        log.debug <span class="java&#45;quote">"Extracted credentials from JSON payload. Username: $&#123;username&#125;, password: $&#123;password?.size()?'&#91;PROTECTED&#93;':'&#91;MISSING&#93;'&#125;"</span><p class="paragraph"/>        <span class="java&#45;keyword">new</span> UsernamePasswordAuthenticationToken(username, password)
+        def jsonBody = getJsonBody(httpServletRequest)<p class="paragraph"/>        <span class="java&#45;keyword">if</span> (jsonBody) &#123;
+            <span class="java&#45;object">String</span> username = jsonBody.<span class="java&#45;quote">"$&#123;usernamePropertyName&#125;"</span>
+            <span class="java&#45;object">String</span> password = jsonBody.<span class="java&#45;quote">"$&#123;passwordPropertyName&#125;"</span><p class="paragraph"/>            log.debug <span class="java&#45;quote">"Extracted credentials from JSON payload. Username: $&#123;username&#125;, password: $&#123;password?.size()?'&#91;PROTECTED&#93;':'&#91;MISSING&#93;'&#125;"</span><p class="paragraph"/>            <span class="java&#45;keyword">new</span> UsernamePasswordAuthenticationToken(username, password)
+        &#125; <span class="java&#45;keyword">else</span> &#123;
+            log.debug <span class="java&#45;quote">"No JSON body sent in the request"</span>
+            <span class="java&#45;keyword">return</span> <span class="java&#45;keyword">null</span>
+        &#125;
     &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>Once you are done, register it in <code>resources.groovy</code> with the name <code>credentialsExtractor</code>.<p class="paragraph"/><h3>From request parameters</h3><p class="paragraph"/>Note that the name of the parameters can also be customised:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.useRequestParamsCredentials</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.login.usernamePropertyName</code></td><td><code>username</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.login.passwordPropertyName</code></td><td><code>password</code></td></tr></table>
 
 
-<h2 id="logout">4.1 Logout Endpoint</h2>
-The <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html" target="blank">logout filter</a>
+<h2 id="logout">5.1 Logout Endpoint</h2>
+<blockquote class="note">
+Logout is not possible when using JWT:guide:jwt tokens (the default strategy), as no state is kept in the server. If
+you still want to have logout, you can provide your own implementation by creating a subclass of
+<a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/storage/jwt/JwtTokenStorageService.html" target="blank">JwtTokenStorageService</a>
+and overriding the methods <code>storeToken</code> and <code>removeToken</code>.<p class="paragraph"/>Then, register your implementation in <code>resources.groovy</code> as <code>tokenStorageService</code>.
+</blockquote><p class="paragraph"/>The <a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestLogoutFilter.html" target="blank">logout filter</a>
 exposes an endpoint for deleting tokens. It will read the token from an HTTP header. If found, will delete it from the
 storage, sending a 200 response. Otherwise, it will send a 404 response.<p class="paragraph"/>You can configure it in <code>Config.groovy</code> using this properties:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.logout.endpointUrl</code></td><td><code>/api/logout</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr></table>
 
@@ -157,9 +170,9 @@ storage, sending a 200 response. Otherwise, it will send a 404 response.<p class
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/configuration.html">&lt;&lt; <strong>3</strong><span>Configuration</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/configuration.html">&lt;&lt; <strong>4</strong><span>Configuration</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/tokenGeneration.html"><strong>5</strong><span>Token Generation</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/tokenGeneration.html"><strong>6</strong><span>Token Generation</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
