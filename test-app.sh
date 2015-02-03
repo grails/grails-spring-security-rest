@@ -1,5 +1,9 @@
 #!/bin/bash
 
+./grailsw compile
+
+./grailsw maven-install
+
 ./grailsw test-app --echoOut \
   && cd test/apps \
   && for app in `ls .`; do

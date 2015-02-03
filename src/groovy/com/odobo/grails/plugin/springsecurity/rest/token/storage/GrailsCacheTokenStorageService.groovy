@@ -19,14 +19,14 @@ class GrailsCacheTokenStorageService implements TokenStorageService {
     @Override
     void storeToken(String tokenValue, Object principal) {
         cache.put(tokenValue, principal)
-        log.debug "Stored principal $principal for token ${tokenValue.mask()}"
+        log.debug "Stored principal $principal for token ${tokenValue}"
     }
 
     @Override
     Object loadUserByToken(String tokenValue) throws TokenNotFoundException {
         def principal = cache.get(tokenValue)?.get()
         if (principal) {
-            log.debug "Got principal $principal for token ${tokenValue.mask()}"
+            log.debug "Got principal $principal for token ${tokenValue}"
             return principal
         }
         def tokenNotFoundMsg = "No principal found for token $tokenValue"
@@ -37,7 +37,7 @@ class GrailsCacheTokenStorageService implements TokenStorageService {
     @Override
     void removeToken(String tokenValue) throws TokenNotFoundException {
         cache.evict(tokenValue)
-        log.debug "Removed principal for token ${tokenValue.mask()}"
+        log.debug "Removed principal for token ${tokenValue}"
     }
 
     @PostConstruct

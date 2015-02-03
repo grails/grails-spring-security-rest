@@ -17,12 +17,17 @@ class DefaultJsonPayloadCredentialsExtractor extends AbstractJsonPayloadCredenti
     UsernamePasswordAuthenticationToken extractCredentials(HttpServletRequest httpServletRequest) {
         def jsonBody = getJsonBody(httpServletRequest)
 
-        String username = jsonBody."${usernamePropertyName}"
-        String password = jsonBody."${passwordPropertyName}"
+        if (jsonBody) {
+            String username = jsonBody."${usernamePropertyName}"
+            String password = jsonBody."${passwordPropertyName}"
 
-        log.debug "Extracted credentials from JSON payload. Username: ${username}, password: ${password?.size()?'[PROTECTED]':'[MISSING]'}"
+            log.debug "Extracted credentials from JSON payload. Username: ${username}, password: ${password?.size()?'[PROTECTED]':'[MISSING]'}"
 
-        new UsernamePasswordAuthenticationToken(username, password)
+            new UsernamePasswordAuthenticationToken(username, password)
+        } else {
+            log.debug "No JSON body sent in the request"
+            return null
+        }
     }
 
 }

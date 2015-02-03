@@ -22,12 +22,12 @@ class MemcachedTokenStorageService implements TokenStorageService {
         if (userDetails) {
             return userDetails
         } else {
-            throw new TokenNotFoundException("Token ${tokenValue.mask()} not found")
+            throw new TokenNotFoundException("Token ${tokenValue} not found")
         }
     }
 
     void storeToken(String tokenValue, Object principal) {
-        log.debug "Storing principal for token: ${tokenValue.mask()} with expiration of ${expiration} seconds"
+        log.debug "Storing principal for token: ${tokenValue} with expiration of ${expiration} seconds"
         log.debug "Principal: ${principal}"
 
         memcachedClient.set tokenValue, expiration, principal
@@ -38,13 +38,13 @@ class MemcachedTokenStorageService implements TokenStorageService {
         if (userDetails) {
             memcachedClient.delete tokenValue
         } else {
-            throw new TokenNotFoundException("Token ${tokenValue.mask()} not found")
+            throw new TokenNotFoundException("Token ${tokenValue} not found")
         }
     }
 
     @SuppressWarnings("GroovyVariableNotAssigned")
     private UserDetails findExistingUserDetails(String tokenValue) {
-        log.debug "Searching in Memcached for UserDetails of token ${tokenValue.mask()}"
+        log.debug "Searching in Memcached for UserDetails of token ${tokenValue}"
         CASValue<Object> result = memcachedClient.getAndTouch(tokenValue, expiration)
         UserDetails userDetails
         if (result) {

@@ -10,7 +10,7 @@ class UUIDTokenGenerator implements TokenGenerator {
      *
      * @return a String token of 32 alphanumeric characters.
      */
-    String generateToken() {
+    String generateToken(Object principal) {
         return UUID.randomUUID().toString().replaceAll('-', '')
     }
 }

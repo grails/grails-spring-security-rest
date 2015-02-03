@@ -1,12 +1,8 @@
 package com.odobo.grails.plugin.springsecurity.rest;
 
-import java.io.ByteArrayInputStream;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamClass;
-
 import net.spy.memcached.transcoders.SerializingTranscoder;
+
+import java.io.*;
 
 public class CustomSerializingTranscoder extends SerializingTranscoder{
 

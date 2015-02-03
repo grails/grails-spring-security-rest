@@ -1,0 +1,19 @@
+h2. JWT support
+
+[JWT|guide:jwt] is fully supported and is now the default token "storage" mechanism. If you still want to use your previous storage
+(such as Memcached or GORM), make sure you explicitly set to @true@ one of the following properties:
+
+{table}
+*Config key*                                                            | *Default value*
+@grails.plugin.springsecurity.rest.token.storage.useMemcached@          | @false@
+@grails.plugin.springsecurity.rest.token.storage.useGorm@               | @false@
+@grails.plugin.springsecurity.rest.token.storage.useGrailsCache@        | @false@
+{table}
+
+If switching over JWT, the [logout|guide:logout] behavior is not available anymore. Read the documentation on how to
+implement your own logout strategy if you want to.
+
+h2. Other minor changes
+
+* Upgraded dependencies:
+** @spring-security-core:2.0-RC4@.

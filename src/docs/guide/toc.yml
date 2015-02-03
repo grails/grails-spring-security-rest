@@ -1,4 +1,5 @@
 introduction: Introduction to the Spring Security REST plugin
+whatsNew15: What's new in 1.5?
 whatsNew14: What's new in 1.4?
 configuration: Configuration
 authentication:
@@ -7,6 +8,7 @@ authentication:
 tokenGeneration: Token Generation
 tokenStorage:
   title: Token Storage
+  jwt: JSON Web Token
   memcached: Memcached
   gorm: GORM
   grailsCache: Grails Cache

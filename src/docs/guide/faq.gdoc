@@ -19,11 +19,6 @@ user's credentials. The tokens are just not decodable. And they can be revoked i
 Fortunately for you, a token-based solution is not a magic idea that I only got; it's actually a specification:
 [RFC 6750 - The OAuth 2.0 Authorization Framework: Bearer Token Usage|http://tools.ietf.org/html/rfc6750].
 
-There is also more reasons to be in favour of tokens:
-
-* With basic auth, every single API call would have to check credentials. In the token-based implementation, specially if you use Memcached, the authentication results are cached.
-* With basic auth, you are sending the credentials all the time. Ok, you can use SSL, but still I think it's more elegant to use tokens.
-
 Moreover, if you use tokens, you have the chance to implement expiration policies.
 
 A couple of link with further explanations on the token-based flow:
@@ -41,11 +36,6 @@ Clients incapable of maintaining the confidentiality of their credentials (e.g.,
 resource owner, such as an installed native application or a web browser-based application), and incapable of secure client
 authentication via any other means.
 {code}
-
-Using OAuth, you would need to store consumer key and consumer secret in the browser. Seriously, you don't want
-to do that. The problem with OAuth is that it's designed for when the consumer is a server-side application. And it just
-does not work well with pure Javascript front-ends. In this scenario, your frontend would be the OAuth consumer and
-your Grails backend the OAuth provider.
 
 The OAuth 2.0 specification supports public clients with the implicit grant. This plugin supports that by default when
 you [delegate the authentication to another OAuth provider|guide:oauth]. If it's you who are authenticating the users

@@ -29,7 +29,7 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
             return userDetailsService.loadUserByUsername(username)
         }
 
-        throw new TokenNotFoundException("Token ${tokenValue.mask()} not found")
+        throw new TokenNotFoundException("Token ${tokenValue} not found")
 
     }
 
@@ -61,7 +61,7 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
                 existingToken.delete()
             }
         } else {
-            throw new TokenNotFoundException("Token ${tokenValue.mask()} not found")
+            throw new TokenNotFoundException("Token ${tokenValue} not found")
         }
 
     }

@@ -74,7 +74,7 @@ class RestAuthenticationFilter extends GenericFilterBean {
 
             UsernamePasswordAuthenticationToken authenticationRequest = credentialsExtractor.extractCredentials(httpServletRequest)
         
-            boolean authenticationRequestIsCorrect = (authenticationRequest.principal && authenticationRequest.credentials)
+            boolean authenticationRequestIsCorrect = (authenticationRequest?.principal && authenticationRequest?.credentials)
             
             if(authenticationRequestIsCorrect){
                 authenticationRequest.details = authenticationDetailsSource.buildDetails(httpServletRequest)
@@ -107,8 +107,8 @@ class RestAuthenticationFilter extends GenericFilterBean {
             }
 
             if (authenticationResult?.authenticated) {
-                String tokenValue = tokenGenerator.generateToken()
-                log.debug "Generated token: ${tokenValue.mask()}"
+                String tokenValue = tokenGenerator.generateToken(authenticationResult.principal)
+                log.debug "Generated token: ${tokenValue}"
 
                 tokenStorageService.storeToken(tokenValue, authenticationResult.principal)
 

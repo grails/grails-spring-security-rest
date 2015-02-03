@@ -1,0 +1,98 @@
+JSON Web Token (JWT) is an [IETF standard|http://tools.ietf.org/html/draft-ietf-oauth-json-web-token] (in progress)
+which defines a secure way to encapsulate arbitrary data that can be sent over unsecure URL's.
+
+Generally speaking, JWT's can be useful in the following use cases:
+
+* When generating "one click" action emails, like "delete this comment" or "add this to favorites". Instead of giving the users URL's like @/comment/delete/123@, you can give them something like @/comment/delete/<JWT_TOKEN>@, where the @JWT_TOKEN@ contains encapsulated information about the user and the comment, in a safe way, so authentication is not required.
+* To achieve single sign-on, by sharing a JWT across applications.
+
+In the context of authentication and authorization, JWT will help you implement a stateless implementation, as the
+principal information is stored directly in the JWT.
+
+h2. How does a JWT looks like?
+
+!jwt.png!
+
+h3. Header
+
+A base64-encoded JSON like:
+
+{code}
+{
+    "alg": "HS256",
+    "typ": "JWT"
+}
+{code}
+
+h3. Claims
+
+A base64-encoded JSON like:
+
+{code}
+{
+    "exp": 1422990129,
+    "sub": "jimi",
+    "roles": [
+        "ROLE_ADMIN",
+        "ROLE_USER"
+    ],
+    "iat": 1422986529
+}
+{code}
+
+h3. Signature
+
+Depends on the algorithm specified on the header, it can be a digital signature of the base64-encoded header and claims,
+or an encryption of them using RSA.
+
+h2. Signed JWT's
+
+By default, this plugin uses signed JWT's as specified by the
+[JSON Web Signature|https://tools.ietf.org/html/draft-ietf-jose-json-web-signature] specification. More specifically,
+the algorithm used is HMAC SHA-256 with a specified shared secret. The relevant configuration properties are:
+
+{table}
+*Config key*                                                            | *Default value*
+@grails.plugin.springsecurity.rest.token.storage.useJwt@                | @true@
+@grails.plugin.springsecurity.rest.token.storage.jwt.useSignedJwt@      | @true@
+@grails.plugin.springsecurity.rest.token.storage.jwt.secret@            | @'qrD6h8K6S9503Q06Y6Rfk21TErImPYqa'@
+@grails.plugin.springsecurity.rest.token.storage.jwt.expiration@        | @3600@
+{table}
+
+h2. Encrypted JWT's
+
+In the previous strategy, the claims are just signed, so it prevents an attacker to tamper its contents to introduce
+malicious data or try a privilege escalation by adding more roles. However, the claims can be decoded just by using
+Base 64.
+
+If the claims contains sensible information, you can use a
+[JSON Web Encryption|https://tools.ietf.org/html/draft-ietf-jose-json-web-encryption] algorithm to prevent them to be decoded.
+Particularly, this plugin uses RSAES OAEP for key encryption and AES GCM (Galois/Counter Mode) algorithm with a 256 bit key
+for content encryption.
+
+By default, RSA public/private keys ar generated every time the application runs. This means that  generated tokens
+won't be decrypted across executions of the application. So better create your own key pair using OpenSSL:
+
+{code}
+openssl genrsa -out private_key.pem 2048
+openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.der -nocrypt
+openssl rsa -in private_key.pem -pubout -outform DER -out public_key.der
+{code}
+
+Then, configure the keys properly, along with the rest of the configuration:
+
+{table}
+*Config key*                                                            | *Default value*
+@grails.plugin.springsecurity.rest.token.storage.useJwt@                | @true@
+@grails.plugin.springsecurity.rest.token.storage.jwt.useEncryptedJwt@   | @false@
+@grails.plugin.springsecurity.rest.token.storage.jwt.privateKeyPath@    | @null@
+@grails.plugin.springsecurity.rest.token.storage.jwt.publicKeyPath@     | @null@
+{table}
+
+Example configuration:
+
+{code}
+grails.plugin.springsecurity.rest.token.storage.jwt.useEncryptedJwt = true
+grails.plugin.springsecurity.rest.token.storage.jwt.privateKeyPath = '/path/to/private_key.der'
+grails.plugin.springsecurity.rest.token.storage.jwt.publicKeyPath = '/path/to/public_key.der'
+{code}

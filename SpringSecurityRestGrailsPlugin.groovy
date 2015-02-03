@@ -6,18 +6,21 @@ import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAcces
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
-import com.odobo.grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
+import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
+import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
+import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.FileRSAKeyProvider
+import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
+import com.odobo.grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import net.spy.memcached.DefaultHashAlgorithm
 import net.spy.memcached.spring.MemcachedClientFactoryBean
-import org.apache.commons.lang3.StringUtils
-import org.springframework.context.ApplicationContext
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
 import org.springframework.security.web.access.ExceptionTranslationFilter
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
@@ -27,7 +30,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.4.1"
+    String version = "1.5.0-SNAPSHOT"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -169,6 +172,9 @@ class SpringSecurityRestGrailsPlugin {
 
         restRequestCache(NullRequestCache)
 
+        /* tokenGenerator */
+        tokenGenerator(SecureRandomTokenGenerator)
+
         /* tokenStorageService */
         if (conf.rest.token.storage.useMemcached) {
 
@@ -201,14 +207,37 @@ class SpringSecurityRestGrailsPlugin {
             tokenStorageService(GormTokenStorageService) {
                 userDetailsService = ref('userDetailsService')
             }
-        } else {
-            tokenStorageService(GormTokenStorageService) {
-                userDetailsService = ref('userDetailsService')
-            }
-        }
+        } else if (conf.rest.token.storage.useJwt) {
+            keyProvider(DefaultRSAKeyProvider)
 
-        /* tokenGenerator */
-        tokenGenerator(SecureRandomTokenGenerator)
+            tokenStorageService(JwtTokenStorageService) {
+                keyProvider = ref('keyProvider')
+                jwtSecret = conf.rest.token.storage.jwt.secret
+            }
+
+            if (conf.rest.token.storage.jwt.useEncryptedJwt) {
+                tokenGenerator(EncryptedJwtTokenGenerator) {
+                    keyProvider = ref('keyProvider')
+                    expiration = conf.rest.token.storage.jwt.expiration
+                }
+
+                if (conf.rest.token.storage.jwt.privateKeyPath instanceof CharSequence &&
+                        conf.rest.token.storage.jwt.publicKeyPath instanceof CharSequence) {
+                    keyProvider(FileRSAKeyProvider) {
+                        privateKeyPath = conf.rest.token.storage.jwt.privateKeyPath
+                        publicKeyPath = conf.rest.token.storage.jwt.publicKeyPath
+                    }
+                }
+
+            } else {
+                tokenGenerator(SignedJwtTokenGenerator) {
+                    jwtSecret = conf.rest.token.storage.jwt.secret
+                    expiration = conf.rest.token.storage.jwt.expiration
+                }
+            }
+
+            SpringSecurityUtils.orderedFilters.remove(SecurityFilterPosition.LOGOUT_FILTER.order - 1)
+        }
 
         /* restAuthenticationProvider */
         restAuthenticationProvider(RestAuthenticationProvider) {
@@ -227,17 +256,5 @@ class SpringSecurityRestGrailsPlugin {
         }
 
     }
-
-    def doWithDynamicMethods = {ApplicationContext ctx ->
-
-        CharSequence.metaClass.mask = {
-            def max = delegate.length() - 1
-            def half = (delegate.length() / 2) as int
-            def halfSize = half > 1 ? half : 1
-            StringUtils.abbreviateMiddle(delegate, "*" * halfSize + 1, max)
-        }
-
-    }
-
 
 }
