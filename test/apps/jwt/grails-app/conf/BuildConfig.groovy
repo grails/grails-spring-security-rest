@@ -59,7 +59,7 @@ grails.project.dependency.resolution = {
         compile ":functional-spock:0.7"
 
         compile ':spring-security-core:2.0-RC4'
-        compile ":spring-security-rest:1.5.0-SNAPSHOT", {
+        compile ":spring-security-rest:1.5.0.M1", {
             excludes: 'spring-security-core'
         }
 
