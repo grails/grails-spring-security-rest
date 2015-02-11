@@ -2,6 +2,7 @@ package com.odobo.grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.annotation.Secured
 import org.apache.commons.codec.binary.Base64
+import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.pac4j.core.client.RedirectAction
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext
@@ -13,10 +14,10 @@ import java.nio.charset.StandardCharsets
 @Secured(['permitAll'])
 class RestOauthController {
 
-    final CALLBACK_ATTR = "spring-security-rest-callback"
+    final String CALLBACK_ATTR = "spring-security-rest-callback"
 
-    def restOauthService
-    def grailsApplication
+    RestOauthService restOauthService
+    GrailsApplication grailsApplication
 
     /**
      * Starts the OAuth authentication flow, redirecting to the provider's Login URL. An optional callback parameter

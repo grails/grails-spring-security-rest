@@ -64,7 +64,7 @@ class RestOauthService {
         List defaultRoles = providerConfig.defaultRoles.collect { new SimpleGrantedAuthority(it) }
         OauthUser userDetails = oauthUserDetailsService.loadUserByUserProfile(profile, defaultRoles)
 
-        String tokenValue = tokenGenerator.generateToken()
+        String tokenValue = tokenGenerator.generateToken(userDetails)
         log.debug "Generated REST authentication token: ${tokenValue}"
 
         log.debug "Storing token on the token storage"
