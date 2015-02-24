@@ -14,11 +14,11 @@ grails.project.dependency.resolution = {
     }
 
     dependencies {
-        compile 'net.spy:spymemcached:2.10.3'
+        compile 'net.spy:spymemcached:2.11.6'
         compile 'com.google.guava:guava-io:r03'
-        compile 'org.pac4j:pac4j-core:1.5.0'
-        compile 'org.pac4j:pac4j-oauth:1.5.0'
-        compile 'com.nimbusds:nimbus-jose-jwt:3.8'
+        compile 'org.pac4j:pac4j-core:1.6.0'
+        compile 'org.pac4j:pac4j-oauth:1.6.0'
+        compile 'com.nimbusds:nimbus-jose-jwt:3.9'
     }
 
     plugins {
@@ -36,7 +36,7 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        test(':cache:1.1.1', ':hibernate:3.6.10.6') {
+        test(':cache:1.1.1', ':hibernate4:4.3.6.1') {
             export = false
         }
     }
