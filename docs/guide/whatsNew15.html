@@ -113,12 +113,7 @@ function addJsClass() {
 <h1 id="whatsNew15">2 What's new in 1.5?</h1>
 <h2>JWT support</h2><p class="paragraph"/><a href="../guide/single.html#jwt" class="guide">JWT</a> is fully supported and is now the default token "storage" mechanism. If you still want to use your previous storage
 (such as Memcached or GORM), make sure you explicitly set to <code>true</code> one of the following properties:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useMemcached</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.useGorm</code></td><td><code>false</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useGrailsCache</code></td><td><code>false</code></td></tr></table><p class="paragraph"/>If switching over JWT, the <a href="../guide/single.html#logout" class="guide">logout</a> behavior is not available anymore. Read the documentation on how to
-implement your own logout strategy if you want to.<p class="paragraph"/><h2>Other minor changes</h2>
-<ul class="star">
-<li>Upgraded dependencies:</li>
-<ul class="star">
-<li><code>spring-security-core:2.0-RC4</code>.</li>
-</ul></ul><p class="paragraph"/>
+implement your own logout strategy if you want to.<p class="paragraph"/><h2>Other minor changes</h2><p class="paragraph"/>The plugin now uses Grails 2.4.4, and the build and tests are run using both Java 7 and Java 8.
 
 
                 <div style="clear:both;margin-top:15px;"></div>
