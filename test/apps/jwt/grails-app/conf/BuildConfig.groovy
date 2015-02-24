@@ -39,7 +39,7 @@ grails.project.dependency.resolution = {
         test "org.grails:grails-datastore-test-support:1.0.2-grails-2.4"
         compile 'org.apache.httpcomponents:httpclient:4.3.3'
 
-        build("com.lowagie:itext:2.1.7") { excludes "bouncycastle:bcprov-jdk14:138", "org.bouncycastle:bcprov-jdk14:1.38" }
+        build("com.lowagie:itext:2.0.8") { excludes "bouncycastle:bcprov-jdk14:138", "org.bouncycastle:bcprov-jdk14:1.38" }
 
         test 'org.gebish:geb-spock:0.10.0'
         test 'com.github.detro:phantomjsdriver:1.2.0'
