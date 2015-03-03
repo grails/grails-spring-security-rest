@@ -37,7 +37,9 @@ class JwtTokenStorageService implements TokenStorageService {
                 log.debug "Parsed an HMAC signed JWT"
 
                 SignedJWT signedJwt = jwt as SignedJWT
-                signedJwt.verify(new MACVerifier(jwtSecret))
+                if(!signedJwt.verify(new MACVerifier(jwtSecret))) {
+                    throw new JOSEException('Invalid signature')
+                }
             } else if (jwt instanceof EncryptedJWT) {
                 log.debug "Parsed an RSA encrypted JWT"
 
