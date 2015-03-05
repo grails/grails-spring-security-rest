@@ -1,5 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.reader
 
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
+
 import javax.servlet.http.HttpServletRequest
 
 /**
@@ -13,7 +15,8 @@ class HttpHeaderTokenReader implements TokenReader {
      * @return the token from the header {@link #headerName}, null otherwise
      */
     @Override
-    String findToken(HttpServletRequest request) {
-        return request.getHeader(headerName)
+    AccessToken findToken(HttpServletRequest request) {
+        String tokenValue = request.getHeader(headerName)
+        return tokenValue ? new AccessToken(tokenValue) : null
     }
 }

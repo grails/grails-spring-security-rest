@@ -2,6 +2,7 @@ package com.odobo.grails.plugin.springsecurity.rest
 
 import com.odobo.grails.plugin.springsecurity.rest.oauth.OauthUser
 import com.odobo.grails.plugin.springsecurity.rest.oauth.OauthUserDetailsService
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import org.codehaus.groovy.grails.commons.GrailsApplication
@@ -64,14 +65,15 @@ class RestOauthService {
         List defaultRoles = providerConfig.defaultRoles.collect { new SimpleGrantedAuthority(it) }
         OauthUser userDetails = oauthUserDetailsService.loadUserByUserProfile(profile, defaultRoles)
 
-        String tokenValue = tokenGenerator.generateToken(userDetails)
-        log.debug "Generated REST authentication token: ${tokenValue}"
+        AccessToken accessToken = tokenGenerator.generateAccessToken(userDetails)
+        log.debug "Generated REST authentication token: ${accessToken}"
 
         log.debug "Storing token on the token storage"
-        tokenStorageService.storeToken(tokenValue, userDetails)
-        Authentication authenticationResult = new RestAuthenticationToken(userDetails, userDetails.password, userDetails.authorities, tokenValue)
+        tokenStorageService.storeToken(accessToken.accessToken, userDetails)
+
+        Authentication authenticationResult = new AccessToken(userDetails.username, userDetails, userDetails.authorities, accessToken.accessToken, accessToken.refreshToken, accessToken.expiration)
         SecurityContextHolder.context.setAuthentication(authenticationResult)
 
-        return tokenValue
+        return accessToken
     }
 }

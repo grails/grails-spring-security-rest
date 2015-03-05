@@ -2,6 +2,7 @@ package com.odobo.grails.plugin.springsecurity.rest.token.storage
 
 import groovy.util.logging.Slf4j
 import org.springframework.cache.Cache
+import org.springframework.security.core.userdetails.UserDetails
 
 import javax.annotation.PostConstruct
 
@@ -17,17 +18,17 @@ class GrailsCacheTokenStorageService implements TokenStorageService {
     Cache cache
 
     @Override
-    void storeToken(String tokenValue, Object principal) {
+    void storeToken(String tokenValue, UserDetails principal) {
         cache.put(tokenValue, principal)
         log.debug "Stored principal $principal for token ${tokenValue}"
     }
 
     @Override
-    Object loadUserByToken(String tokenValue) throws TokenNotFoundException {
+    UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
         def principal = cache.get(tokenValue)?.get()
         if (principal) {
             log.debug "Got principal $principal for token ${tokenValue}"
-            return principal
+            return principal as UserDetails
         }
         def tokenNotFoundMsg = "No principal found for token $tokenValue"
         log.debug tokenNotFoundMsg

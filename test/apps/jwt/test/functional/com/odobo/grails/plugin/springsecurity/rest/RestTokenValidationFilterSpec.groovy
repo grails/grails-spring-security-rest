@@ -4,8 +4,10 @@ import grails.plugins.rest.client.RestResponse
 import grails.util.Holders
 import spock.lang.IgnoreIf
 import spock.lang.Issue
+import spock.lang.Subject
 
 @IgnoreIf({ Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
+@Subject(RestTokenValidationFilter)
 class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
     void "accessing a secured controller without token returns 403 (anonymous not authorized)"() {
@@ -48,7 +50,7 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
     void "a valid user can access the secured controller"() {
         given:
-        RestResponse authResponse = sendCorrectCredentials()
+        RestResponse authResponse = sendCorrectCredentials() as RestResponse
         String token = authResponse.json.access_token
 
         when:
@@ -63,7 +65,7 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
     void "role restrictions are applied when user does not have enough credentials"() {
         given:
-        RestResponse authResponse = sendCorrectCredentials()
+        RestResponse authResponse = sendCorrectCredentials() as RestResponse
         String token = authResponse.json.access_token
 
         when:
@@ -78,7 +80,7 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
     @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/67")
     void "JSESSIONID cookie is not created when using the stateless chain"() {
         when:
-        RestResponse authResponse = sendCorrectCredentials()
+        RestResponse authResponse = sendCorrectCredentials() as RestResponse
         String token = authResponse.json.access_token
 
         then:

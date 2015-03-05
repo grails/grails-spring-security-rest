@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.bearer
 
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
@@ -19,9 +20,9 @@ class BearerTokenAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-        def tokenValue = tokenReader.findToken(request)
+        AccessToken accessToken = tokenReader.findToken(request)
 
-        if (tokenValue) {
+        if (accessToken) {
             response.addHeader('WWW-Authenticate', 'Bearer error="invalid_token"')
             response.status = HttpServletResponse.SC_UNAUTHORIZED
         } else {

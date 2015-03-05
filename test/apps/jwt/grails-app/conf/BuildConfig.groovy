@@ -60,7 +60,7 @@ grails.project.dependency.resolution = {
         runtime ":jquery:1.11.1"
 
         compile ':spring-security-core:2.0-RC4'
-        compile ":spring-security-rest:1.5.0.M2", {
+        compile ":spring-security-rest:1.5.0.M3", {
             excludes: 'spring-security-core'
         }
 

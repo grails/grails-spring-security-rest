@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest.rfc6750
 
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
 import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.springframework.http.MediaType
@@ -31,7 +32,7 @@ class BearerTokenReaderSpec extends Specification {
         request.contentType = MediaType.TEXT_PLAIN_VALUE
 
         expect:
-        tokenReader.findToken(request) == token
+        tokenReader.findToken(request) == new AccessToken(token)
 
         where:
         method << [ 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS' ]
@@ -60,7 +61,7 @@ class BearerTokenReaderSpec extends Specification {
         request.method = method
 
         expect:
-        tokenReader.findToken(request) == token
+        tokenReader.findToken(request) == new AccessToken(token)
 
         where:
         method << [ 'POST', 'PUT', 'PATCH' ]

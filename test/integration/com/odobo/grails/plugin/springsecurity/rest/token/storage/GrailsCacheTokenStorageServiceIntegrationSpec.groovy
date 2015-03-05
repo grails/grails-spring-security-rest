@@ -2,6 +2,7 @@ package com.odobo.grails.plugin.springsecurity.rest.token.storage
 
 import grails.plugin.cache.GrailsCacheManager
 import grails.test.spock.IntegrationSpec
+import org.springframework.security.core.userdetails.User
 
 class GrailsCacheTokenStorageServiceIntegrationSpec extends IntegrationSpec {
 
@@ -12,7 +13,7 @@ class GrailsCacheTokenStorageServiceIntegrationSpec extends IntegrationSpec {
     void "store a principal for a given token"() {
         given:
         def tokenValue = '12345'
-        def principal = new Object()
+        def principal = new User('foo', 'bar', [])
 
         when:
         service.storeToken(tokenValue, principal)
@@ -24,19 +25,19 @@ class GrailsCacheTokenStorageServiceIntegrationSpec extends IntegrationSpec {
     void "load a principal by a given token"() {
         given:
         def tokenValue = '12345'
-        def givenPrincipal = new Object()
+        def givenPrincipal = new User('foo', 'bar', [])
         service.storeToken(tokenValue, givenPrincipal)
 
         when:
-        def loadedPrincipala = service.loadUserByToken(tokenValue)
+        def loadedPrincipal = service.loadUserByToken(tokenValue)
 
         then:
-        loadedPrincipala == givenPrincipal
+        loadedPrincipal == givenPrincipal
     }
 
     void "throw token not found exception if cannot load a principal for a given token"() {
         when:
-        def loadedPrincipala = service.loadUserByToken('token-does-not-exists')
+        service.loadUserByToken('token-does-not-exists')
 
         then:
         thrown(TokenNotFoundException)
@@ -45,7 +46,7 @@ class GrailsCacheTokenStorageServiceIntegrationSpec extends IntegrationSpec {
     void "remove a principal for a given token"() {
         given:
         def tokenValue = '12345'
-        def givenPrincipal = new Object()
+        def givenPrincipal = new User('foo', 'bar', [])
         service.storeToken(tokenValue, givenPrincipal)
 
         when:

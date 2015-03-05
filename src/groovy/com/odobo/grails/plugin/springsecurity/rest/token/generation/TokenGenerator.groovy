@@ -1,5 +1,8 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.generation
 
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
+import org.springframework.security.core.userdetails.UserDetails
+
 /**
  * Implementations of this interface must provide a token generation strategy
  */
@@ -10,6 +13,6 @@ public interface TokenGenerator {
      *
      * @return a String based token.
      */
-    String generateToken(Object principal)
+    AccessToken generateAccessToken(UserDetails principal)
 
 }

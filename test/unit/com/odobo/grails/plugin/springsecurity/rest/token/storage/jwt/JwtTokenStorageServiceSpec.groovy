@@ -1,9 +1,11 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.storage.jwt
 
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.test.mixin.TestFor
 import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
 import spock.lang.Specification
 
 /**
@@ -17,21 +19,22 @@ class JwtTokenStorageServiceSpec extends Specification {
 
     void setup() {
         service = new JwtTokenStorageService(jwtSecret: 'fooo'*8)
-        tokenGenerator = new SignedJwtTokenGenerator(jwtSecret: 'fooo'*8, expiration: 60)
+        tokenGenerator = new SignedJwtTokenGenerator(jwtSecret: service.jwtSecret, expiration: 60, jwtTokenStorageService: service)
+        tokenGenerator.afterPropertiesSet()
     }
 
     def "JWT Token signatures are verified"() {
         given:
-        String token = tokenGenerator.generateToken(new User('testUser', 'testPassword', []))
+        AccessToken accessToken = tokenGenerator.generateAccessToken(new User('testUser', 'testPassword', []))
 
         when:
-        User user = service.loadUserByToken(token)
+        UserDetails user = service.loadUserByToken(accessToken.accessToken)
 
         then:
         user.username == 'testUser'
 
         when:
-        service.loadUserByToken(token.replaceAll(/...$/,'bar'))
+        service.loadUserByToken(accessToken.accessToken.replaceAll(/...$/,'bar'))
 
         then:
         thrown(TokenNotFoundException)
