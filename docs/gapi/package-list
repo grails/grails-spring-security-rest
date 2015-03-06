@@ -2,6 +2,7 @@ DefaultPackage
 com.odobo.grails.plugin.springsecurity.rest
 com.odobo.grails.plugin.springsecurity.rest.credentials
 com.odobo.grails.plugin.springsecurity.rest.oauth
+com.odobo.grails.plugin.springsecurity.rest.token
 com.odobo.grails.plugin.springsecurity.rest.token.bearer
 com.odobo.grails.plugin.springsecurity.rest.token.generation
 com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt
