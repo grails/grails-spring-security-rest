@@ -32,7 +32,7 @@ security {
                 useGorm = false
                 useMemcached = false
                 useGrailsCache = false
-                userRedis = false
+                useRedis = false
 
                 gorm {
                     tokenDomainClassName = null
