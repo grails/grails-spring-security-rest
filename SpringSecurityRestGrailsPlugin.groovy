@@ -19,7 +19,7 @@ import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenS
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
-import groovy.com.odobo.grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
 import net.spy.memcached.DefaultHashAlgorithm
 import net.spy.memcached.spring.MemcachedClientFactoryBean
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
