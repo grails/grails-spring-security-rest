@@ -32,6 +32,7 @@ security {
                 useGorm = false
                 useMemcached = false
                 useGrailsCache = false
+                userRedis = false
 
                 gorm {
                     tokenDomainClassName = null
@@ -52,6 +53,10 @@ security {
                     useEncryptedJwt = false
 
                     secret = 'qrD6h8K6S9503Q06Y6Rfk21TErImPYqa'
+                    expiration = 3600
+                }
+
+                redis {
                     expiration = 3600
                 }
 
