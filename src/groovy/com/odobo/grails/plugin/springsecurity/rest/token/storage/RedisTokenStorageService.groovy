@@ -1,4 +1,4 @@
-package groovy.com.odobo.grails.plugin.springsecurity.rest.token.storage
+package com.odobo.grails.plugin.springsecurity.rest.token.storage
 
 import grails.plugin.redis.RedisService
 import grails.plugin.springsecurity.SpringSecurityUtils
@@ -6,7 +6,7 @@ import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.security.core.userdetails.UserDetailsService
 import redis.clients.jedis.Jedis
 
-class RedisTokenStorageService implements com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService {
+class RedisTokenStorageService implements TokenStorageService {
 
     RedisService redisService
     UserDetailsService userDetailsService
