@@ -29,7 +29,7 @@ As per the [REST definition|http://en.wikipedia.org/wiki/Representational_state_
 state on every request so the server is truly stateless.
 
 This plugin helps you to wire your existing Spring Security [authentication mechanism|guide:authentication], provides you
-with ready-to-use [token generation strategies|guide:tokenGeneration] and comes prepackaged with JWT, Memcached, GORM
+with ready-to-use [token generation strategies|guide:tokenGeneration] and comes prepackaged with JWT, Memcached, GORM, Redis
 and Grails Cache support for [token storage|guide:tokenStorage].
 
 h4. Release History

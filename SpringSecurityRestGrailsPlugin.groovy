@@ -19,6 +19,7 @@ import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenS
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
+import com.odobo.grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
 import net.spy.memcached.DefaultHashAlgorithm
 import net.spy.memcached.spring.MemcachedClientFactoryBean
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
@@ -205,6 +206,11 @@ class SpringSecurityRestGrailsPlugin {
             }
         } else if (conf.rest.token.storage.useGorm) {
             tokenStorageService(GormTokenStorageService) {
+                userDetailsService = ref('userDetailsService')
+            }
+        }else if (conf.rest.token.storage.useRedis) {
+            tokenStorageService(RedisTokenStorageService) {
+                redisService = ref('redisService')
                 userDetailsService = ref('userDetailsService')
             }
         } else if (conf.rest.token.storage.useJwt) {

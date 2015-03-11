@@ -1,0 +1,10 @@
+To use Redis as a token store simply you just have to enable it in you configuration.
+
+You have to have the grails redis plugin installed in order to be able to use the redis as your token store.
+
+{table}
+*Config key*                                                            | *Default value*
+@grails.plugin.springsecurity.rest.token.storage.useRedis@          | @false@
+@grails.plugin.springsecurity.rest.token.storage.redis.expiration@  | @3600@
+{table}
+
