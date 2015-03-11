@@ -1,22 +1,19 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.storage
 
-import grails.plugin.redis.RedisService
 import grails.plugin.springsecurity.SpringSecurityUtils
 import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.springframework.security.core.userdetails.UserDetailsService
-import redis.clients.jedis.Jedis
 
 class RedisTokenStorageService implements TokenStorageService {
 
-    RedisService redisService
-    UserDetailsService userDetailsService
+    def redisService
+    def userDetailsService
 
     private static final String PREFIX = "spring:security:token:"
 
     @Override
     Object loadUserByToken(String tokenValue) throws com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException {
         def username
-        redisService.withRedis { Jedis jedis ->
+        redisService.withRedis { jedis ->
             username = jedis.get(buildKey(tokenValue))
         }
         if (username) {
@@ -28,7 +25,7 @@ class RedisTokenStorageService implements TokenStorageService {
 
     @Override
     void storeToken(String tokenValue, Object principal) {
-        redisService.withRedis { Jedis jedis ->
+        redisService.withRedis { jedis ->
             String key = buildKey(tokenValue)
             jedis.set(key, principal.username.toString())
             jedis.expire(key, conf.expiration ?: 3600)
