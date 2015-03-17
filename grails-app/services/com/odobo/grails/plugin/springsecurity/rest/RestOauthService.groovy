@@ -71,8 +71,7 @@ class RestOauthService {
         log.debug "Storing token on the token storage"
         tokenStorageService.storeToken(accessToken.accessToken, userDetails)
 
-        Authentication authenticationResult = new AccessToken(userDetails.username, userDetails, userDetails.authorities, accessToken.accessToken, accessToken.refreshToken, accessToken.expiration)
-        SecurityContextHolder.context.setAuthentication(authenticationResult)
+        SecurityContextHolder.context.setAuthentication(accessToken)
 
         return accessToken
     }
