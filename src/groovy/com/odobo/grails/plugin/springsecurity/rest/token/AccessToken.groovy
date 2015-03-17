@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails
 /**
  * TODO: write doc
  */
-@ToString(includes = ['principal', 'accessToken', 'refreshToken', 'expiration'])
+@ToString(includeNames = true, includeSuper = true, includes = ['principal', 'accessToken', 'refreshToken', 'expiration'])
 class AccessToken extends AbstractAuthenticationToken {
 
     static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID
