@@ -7,6 +7,8 @@ grails.project.target.level = 1.6
 grails.project.source.level = 1.6
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
+grails.plugin.location."spring-security-rest" = "../../.."
+
 grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
@@ -58,11 +60,6 @@ grails.project.dependency.resolution = {
         runtime ":hibernate4:4.3.6.1" // or ":hibernate:3.6.10.18"
         runtime ":database-migration:1.4.0"
         runtime ":jquery:1.11.1"
-
-        compile ':spring-security-core:2.0-RC4'
-        compile ":spring-security-rest:1.5.0.M3", {
-            excludes: 'spring-security-core'
-        }
 
         test ":rest-client-builder:1.0.3"
         test ":geb:0.10.0"
