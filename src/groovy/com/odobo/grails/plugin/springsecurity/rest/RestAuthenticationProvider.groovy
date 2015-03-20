@@ -1,10 +1,12 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.util.Assert
 
 /**
@@ -22,15 +24,15 @@ class RestAuthenticationProvider implements AuthenticationProvider {
      */
     Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        Assert.isInstanceOf(RestAuthenticationToken, authentication, "Only RestAuthenticationToken is supported")
-        RestAuthenticationToken authenticationRequest = authentication
-        RestAuthenticationToken authenticationResult = new RestAuthenticationToken(authenticationRequest.tokenValue)
+        Assert.isInstanceOf(AccessToken, authentication, "Only AccessToken is supported")
+        AccessToken authenticationRequest = authentication as AccessToken
+        AccessToken authenticationResult = new AccessToken(authenticationRequest.accessToken)
 
-        if (authenticationRequest.tokenValue) {
-            log.debug "Trying to validate token ${authenticationRequest.tokenValue}"
-            def userDetails = tokenStorageService.loadUserByToken(authenticationRequest.tokenValue)
+        if (authenticationRequest.accessToken) {
+            log.debug "Trying to validate token ${authenticationRequest.accessToken}"
+            UserDetails userDetails = tokenStorageService.loadUserByToken(authenticationRequest.accessToken) as UserDetails
 
-            authenticationResult = new RestAuthenticationToken(userDetails, userDetails.password, userDetails.authorities, authenticationRequest.tokenValue)
+            authenticationResult = new AccessToken(userDetails, userDetails.authorities, authenticationRequest.accessToken)
             log.debug "Authentication result: ${authenticationResult}"
         }
 
@@ -38,6 +40,6 @@ class RestAuthenticationProvider implements AuthenticationProvider {
     }
 
     boolean supports(Class<?> authentication) {
-        return RestAuthenticationToken.isAssignableFrom(authentication)
+        return AccessToken.isAssignableFrom(authentication)
     }
 }

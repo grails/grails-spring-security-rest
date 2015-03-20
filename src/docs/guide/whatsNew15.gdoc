@@ -15,5 +15,4 @@ implement your own logout strategy if you want to.
 
 h2. Other minor changes
 
-* Upgraded dependencies:
-** @spring-security-core:2.0-RC4@.
+The plugin now uses Grails 2.4.4, and the build and tests are run using both Java 7 and Java 8.

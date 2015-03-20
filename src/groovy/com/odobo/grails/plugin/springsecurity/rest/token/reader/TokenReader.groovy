@@ -1,5 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.reader
 
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
+
 import javax.servlet.http.HttpServletRequest
 
 public interface TokenReader {
@@ -11,6 +13,6 @@ public interface TokenReader {
      * @param response the response, in case any status code has to be sent
      * @return the token when found, null otherwise
      */
-    String findToken(HttpServletRequest request)
+    AccessToken findToken(HttpServletRequest request)
 
 }

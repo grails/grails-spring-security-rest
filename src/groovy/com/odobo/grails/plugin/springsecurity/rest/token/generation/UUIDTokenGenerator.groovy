@@ -1,5 +1,8 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.generation
 
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
+import org.springframework.security.core.userdetails.UserDetails
+
 /**
  * Uses {@link UUID} to generate tokens.
  */
@@ -10,7 +13,9 @@ class UUIDTokenGenerator implements TokenGenerator {
      *
      * @return a String token of 32 alphanumeric characters.
      */
-    String generateToken(Object principal) {
-        return UUID.randomUUID().toString().replaceAll('-', '')
+    AccessToken generateAccessToken(UserDetails principal) {
+        String token = UUID.randomUUID().toString().replaceAll('-', '')
+        return new AccessToken(principal, principal.authorities, token)
     }
+
 }

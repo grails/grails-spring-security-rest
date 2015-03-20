@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.bearer
 
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
 import com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader
 import groovy.util.logging.Slf4j
 import org.springframework.http.MediaType
@@ -20,9 +21,9 @@ class BearerTokenReader implements TokenReader {
      * @return the token if found, null otherwise
      */
     @Override
-    String findToken(HttpServletRequest request) {
+    AccessToken findToken(HttpServletRequest request) {
         log.debug "Looking for bearer token in Authorization header, query string or Form-Encoded body parameter"
-        String tokenValue
+        String tokenValue = null
 
         if (request.getHeader('Authorization')?.startsWith('Bearer')) {
             log.debug "Found bearer token in Authorization header"
@@ -36,7 +37,7 @@ class BearerTokenReader implements TokenReader {
         } else {
             log.debug "No token found"
         }
-        return tokenValue
+        return tokenValue ? new AccessToken(tokenValue) : null
     }
 
     private boolean isFormEncoded(HttpServletRequest servletRequest) {

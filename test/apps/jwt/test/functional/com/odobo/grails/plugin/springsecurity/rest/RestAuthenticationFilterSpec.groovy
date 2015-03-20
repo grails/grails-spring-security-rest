@@ -53,7 +53,7 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
 
     void "authentication attempt with correct credentials returns a valid status code"() {
         when:
-        RestResponse response = sendCorrectCredentials()
+        RestResponse response = sendCorrectCredentials() as RestResponse
 
         then:
         response.status == 200
@@ -64,7 +64,7 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
 
     void "the content type header is properly set"() {
         when:
-        RestResponse response = sendCorrectCredentials()
+        RestResponse response = sendCorrectCredentials() as RestResponse
 
         then:
         response.headers.get('Content-Type').first() == 'application/json;charset=UTF-8'

@@ -1,6 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
-import com.odobo.grails.plugin.springsecurity.rest.token.rendering.RestAuthenticationTokenJsonRenderer
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
+import com.odobo.grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 
@@ -9,11 +10,11 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 /**
- * Generates a JSON response using a {@link RestAuthenticationTokenJsonRenderer}.
+ * Generates a JSON response using a {@link AccessTokenJsonRenderer}.
  */
 class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    RestAuthenticationTokenJsonRenderer renderer
+    AccessTokenJsonRenderer renderer
 
     /**
      * Called when a user has been successfully authenticated.
@@ -27,6 +28,6 @@ class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
         response.characterEncoding = 'UTF-8'
         response.addHeader 'Cache-Control', 'no-store'
         response.addHeader 'Pragma', 'no-cache'
-        response << renderer.generateJson(authentication)
+        response << renderer.generateJson(authentication as AccessToken)
     }
 }

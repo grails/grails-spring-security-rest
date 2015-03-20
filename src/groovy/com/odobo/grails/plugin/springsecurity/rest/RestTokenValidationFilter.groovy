@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
 import com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader
 import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.AuthenticationEventPublisher
@@ -47,41 +48,40 @@ class RestTokenValidationFilter extends GenericFilterBean {
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = request as HttpServletRequest
         HttpServletResponse httpResponse = response as HttpServletResponse
-        RestAuthenticationToken authenticationRequest
+        AccessToken accessToken
 
         try {
-            String tokenValue = tokenReader.findToken(httpRequest)
-            if (tokenValue) {
-                log.debug "Token found: ${tokenValue}"
+            accessToken = tokenReader.findToken(httpRequest)
+            if (accessToken) {
+                log.debug "Token found: ${accessToken.accessToken}"
 
                 log.debug "Trying to authenticate the token"
-                authenticationRequest = new RestAuthenticationToken(tokenValue)
-                RestAuthenticationToken authenticationResult = restAuthenticationProvider.authenticate(authenticationRequest) as RestAuthenticationToken
+                accessToken = restAuthenticationProvider.authenticate(accessToken) as AccessToken
 
-                if (authenticationResult.authenticated) {
+                if (accessToken.authenticated) {
                     log.debug "Token authenticated. Storing the authentication result in the security context"
-                    log.debug "Authentication result: ${authenticationResult}"
-                    SecurityContextHolder.context.setAuthentication(authenticationResult)
+                    log.debug "Authentication result: ${accessToken}"
+                    SecurityContextHolder.context.setAuthentication(accessToken)
 
-                    authenticationEventPublisher?.publishAuthenticationSuccess(authenticationResult)
+                    authenticationEventPublisher?.publishAuthenticationSuccess(accessToken)
 
-                    processFilterChain(request, response, chain, tokenValue, authenticationResult)
+                    processFilterChain(request, response, chain, accessToken)
 
                 }
 
             } else {
                 log.debug "Token not found"
-                processFilterChain(request, response, chain, tokenValue, null)
+                processFilterChain(request, response, chain, accessToken)
             }
         } catch (AuthenticationException ae) {
             log.debug "Authentication failed: ${ae.message}"
-            authenticationEventPublisher?.publishAuthenticationFailure(ae, authenticationRequest)
+            authenticationEventPublisher?.publishAuthenticationFailure(ae, accessToken)
             authenticationFailureHandler.onAuthenticationFailure(httpRequest, httpResponse, ae)
         }
 
     }
 
-    private processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, String tokenValue, RestAuthenticationToken authenticationResult) {
+    private processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, AccessToken authenticationResult) {
         HttpServletRequest httpRequest = request as HttpServletRequest
         HttpServletResponse httpResponse = response as HttpServletResponse
 
@@ -93,7 +93,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
             return
         }
 
-        if (tokenValue) {
+        if (authenticationResult?.accessToken) {
             if (actualUri == validationEndpointUrl) {
                 log.debug "Validation endpoint called. Generating response."
                 authenticationSuccessHandler.onAuthenticationSuccess(httpRequest, httpResponse, authenticationResult)

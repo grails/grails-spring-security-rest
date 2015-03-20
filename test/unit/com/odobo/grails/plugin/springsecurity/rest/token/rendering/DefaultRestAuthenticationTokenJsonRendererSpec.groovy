@@ -1,7 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.rendering
 
-import com.odobo.grails.plugin.springsecurity.rest.RestAuthenticationToken
 import com.odobo.grails.plugin.springsecurity.rest.oauth.OauthUser
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
 import grails.converters.JSON
 import grails.plugin.springsecurity.ReflectionUtils
 import grails.plugin.springsecurity.SpringSecurityUtils
@@ -20,7 +20,7 @@ import spock.lang.Unroll
 class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
 
     @Shared
-    DefaultRestAuthenticationTokenJsonRenderer renderer
+    DefaultAccessTokenJsonRenderer renderer
 
     def setupSpec() {
         def application = Mock(GrailsApplication)
@@ -29,7 +29,7 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         ReflectionUtils.application = application
         SpringSecurityUtils.loadSecondaryConfig 'DefaultRestSecurityConfig'
 
-        renderer = new DefaultRestAuthenticationTokenJsonRenderer(authoritiesPropertyName: 'roles',
+        renderer = new DefaultAccessTokenJsonRenderer(authoritiesPropertyName: 'roles',
                                                                   tokenPropertyName: 'access_token',
                                                                   usernamePropertyName: 'username')
     }
@@ -42,7 +42,7 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         def tokenValue = '1a2b3c4d'
         def userDetails = new User(username, password, roles)
 
-        RestAuthenticationToken token = new RestAuthenticationToken(userDetails, password, roles, tokenValue)
+        AccessToken token = new AccessToken(userDetails, roles, tokenValue)
 
         when:
         def jsonResult = renderer.generateJson(token)
@@ -52,7 +52,7 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
 
         where:
         roles                                                                       | generatedJson
-        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"username":"john.doe","roles":["ADMIN","USER"],"access_token":"1a2b3c4d"}'
+        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"username":"john.doe","roles":["USER","ADMIN"],"access_token":"1a2b3c4d"}'
         []                                                                          | '{"username":"john.doe","roles":[],"access_token":"1a2b3c4d"}'
     }
 
@@ -63,10 +63,10 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         def tokenValue = '1a2b3c4d'
         def userDetails = new User(username, password, roles)
 
-        RestAuthenticationToken token = new RestAuthenticationToken(userDetails, password, roles, tokenValue)
+        AccessToken token = new AccessToken(userDetails, roles, tokenValue)
 
-        RestAuthenticationTokenJsonRenderer customRenderer =
-                new DefaultRestAuthenticationTokenJsonRenderer(authoritiesPropertyName: 'authorities',
+        AccessTokenJsonRenderer customRenderer =
+                new DefaultAccessTokenJsonRenderer(authoritiesPropertyName: 'authorities',
                                                                tokenPropertyName: 'token',
                                                                usernamePropertyName: 'login')
 
@@ -78,25 +78,10 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
 
         where:
         roles                                                                       | generatedJson
-        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"login":"john.doe","authorities":["ADMIN","USER"],"token":"1a2b3c4d"}'
+        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"login":"john.doe","authorities":["USER","ADMIN"],"token":"1a2b3c4d"}'
         []                                                                          | '{"login":"john.doe","authorities":[],"token":"1a2b3c4d"}'
 
 
-    }
-
-
-    @Issue('https://github.com/alvarosanchez/grails-spring-security-rest/issues/18')
-    void "it checks if the principal is a UserDetails"() {
-        given:
-        def principal = 'john.doe'
-        def tokenValue = '1a2b3c4d'
-        RestAuthenticationToken token = new RestAuthenticationToken(principal, '', [], tokenValue)
-
-        when:
-        renderer.generateJson(token)
-
-        then:
-        thrown IllegalArgumentException
     }
 
     @Issue('https://github.com/alvarosanchez/grails-spring-security-rest/issues/33')
@@ -115,20 +100,20 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
 
         def userDetails = new OauthUser(username, password, roles, profile)
 
-        RestAuthenticationToken token = new RestAuthenticationToken(userDetails, password, roles, tokenValue)
+        AccessToken token = new AccessToken(userDetails, roles, tokenValue)
 
         when:
         def jsonResult = renderer.generateJson(token)
 
         then:
-        jsonResult == '{"username":"john.doe","roles":["ADMIN","USER"],"access_token":"1a2b3c4d","email":"john@doe.com","displayName":"John Doe"}'
+        jsonResult == '{"username":"john.doe","roles":["USER","ADMIN"],"access_token":"1a2b3c4d","email":"john@doe.com","displayName":"John Doe"}'
     }
 
     def "it renders valid Bearer tokens"() {
         given:
         def tokenValue = "abcdefghijklmnopqrstuvwxyz1234567890"
-        def principal = new User('test', 'test', [])
-        def token = new RestAuthenticationToken( principal, null, null, tokenValue )
+        def userDetails = new User('test', 'test', [])
+        def token = new AccessToken(userDetails, userDetails.authorities, tokenValue)
         renderer.useBearerToken = true
 
         when:

@@ -4,8 +4,10 @@ import com.odobo.grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenR
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import spock.lang.Specification
+import spock.lang.Subject
 import spock.lang.Unroll
 
+@Subject(HttpHeaderTokenReader)
 class RestTokenReaderSpec extends Specification {
 
     def tokenReader = new HttpHeaderTokenReader()
@@ -23,7 +25,7 @@ class RestTokenReaderSpec extends Specification {
         request.method = method
 
         expect:
-        tokenReader.findToken(request) == token
+        tokenReader.findToken(request).accessToken == token
 
         where:
         method << [ 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS' ]

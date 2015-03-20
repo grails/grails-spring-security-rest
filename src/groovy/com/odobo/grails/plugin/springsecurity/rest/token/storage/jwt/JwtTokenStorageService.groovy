@@ -13,6 +13,7 @@ import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageSer
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
 
 import java.text.ParseException
 
@@ -27,7 +28,7 @@ class JwtTokenStorageService implements TokenStorageService {
     RSAKeyProvider keyProvider
 
     @Override
-    Object loadUserByToken(String tokenValue) throws TokenNotFoundException {
+    UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
         Date now = new Date()
         JWT jwt
         try {
@@ -37,7 +38,9 @@ class JwtTokenStorageService implements TokenStorageService {
                 log.debug "Parsed an HMAC signed JWT"
 
                 SignedJWT signedJwt = jwt as SignedJWT
-                signedJwt.verify(new MACVerifier(jwtSecret))
+                if(!signedJwt.verify(new MACVerifier(jwtSecret))) {
+                    throw new JOSEException('Invalid signature')
+                }
             } else if (jwt instanceof EncryptedJWT) {
                 log.debug "Parsed an RSA encrypted JWT"
 
@@ -64,7 +67,7 @@ class JwtTokenStorageService implements TokenStorageService {
     }
 
     @Override
-    void storeToken(String tokenValue, Object principal) {
+    void storeToken(String tokenValue, UserDetails principal) {
         log.debug "Nothing to store as this is a stateless implementation"
     }
 

@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
 import com.odobo.grails.plugin.springsecurity.rest.token.reader.TokenReader
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
@@ -43,14 +44,14 @@ class RestLogoutFilter extends GenericFilterBean {
                 return
             }
 
-            String tokenValue = tokenReader.findToken(servletRequest)
+            AccessToken accessToken = tokenReader.findToken(servletRequest)
 
-            if (tokenValue) {
-                log.debug "Token found: ${tokenValue}"
+            if (accessToken) {
+                log.debug "Token found: ${accessToken}"
 
                 try {
                     log.debug "Trying to remove the token"
-                    tokenStorageService.removeToken tokenValue
+                    tokenStorageService.removeToken accessToken.accessToken
                 } catch (TokenNotFoundException tnfe) {
                     servletResponse.sendError HttpServletResponse.SC_NOT_FOUND, "Token not found"
                 }

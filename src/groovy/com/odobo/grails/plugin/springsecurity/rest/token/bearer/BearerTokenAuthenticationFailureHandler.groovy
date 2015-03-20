@@ -1,5 +1,6 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.bearer
 
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
@@ -29,9 +30,9 @@ class BearerTokenAuthenticationFailureHandler implements AuthenticationFailureHa
     void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
 
         String headerValue
-        String token = tokenReader.findToken(request)
+        AccessToken accessToken = tokenReader.findToken(request)
 
-        if (token) {
+        if (accessToken) {
             headerValue = 'Bearer error="invalid_token"'
         } else {
             headerValue = 'Bearer'

@@ -1,6 +1,7 @@
 package com.odobo.grails.plugin.springsecurity.rest
 
 import com.odobo.grails.plugin.springsecurity.rest.credentials.CredentialsExtractor
+import com.odobo.grails.plugin.springsecurity.rest.token.AccessToken
 import com.odobo.grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.util.logging.Slf4j
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.web.filter.GenericFilterBean
@@ -107,13 +109,12 @@ class RestAuthenticationFilter extends GenericFilterBean {
             }
 
             if (authenticationResult?.authenticated) {
-                String tokenValue = tokenGenerator.generateToken(authenticationResult.principal)
-                log.debug "Generated token: ${tokenValue}"
+                AccessToken accessToken = tokenGenerator.generateAccessToken(authenticationResult.principal as UserDetails)
+                log.debug "Generated token: ${accessToken}"
 
-                tokenStorageService.storeToken(tokenValue, authenticationResult.principal)
+                tokenStorageService.storeToken(accessToken.accessToken, authenticationResult.principal as UserDetails)
 
-                RestAuthenticationToken restAuthenticationToken = new RestAuthenticationToken(authenticationResult.principal, authenticationResult.credentials, authenticationResult.authorities, tokenValue)
-                authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, restAuthenticationToken)
+                authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, accessToken)
             }else{
                 log.debug "Not authenticated. Rest authentication token not generated."
             }
