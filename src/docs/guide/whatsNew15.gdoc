@@ -13,6 +13,11 @@ h2. JWT support
 If switching over JWT, the [logout|guide:logout] behavior is not available anymore. Read the documentation on how to
 implement your own logout strategy if you want to.
 
+h2. Redis support
+
+Redis can now be used as [token storage service|guide:redis]. Thanks to [Philipp Eschenbach|https://github.com/peh] for
+his initial contribution.
+
 h2. Other minor changes
 
 The plugin now uses Grails 2.4.4, and the build and tests are run using both Java 7 and Java 8.

@@ -34,6 +34,7 @@ Contributors
 * [James Kleeh](https://github.com/Schlogen).
 * [Jonas Ladenfors](https://github.com/jladenfors).
 * [Marcos Carceles](https://github.com/marcos-carceles).
+* [Philipp Eschenbach](https://github.com/peh).
 * [Philippe Gibert](https://github.com/giboow).
 * [Polawat Phetra](https://github.com/pphetra).
 * [Sean Brady](https://github.com/sbrady).
