@@ -1,0 +1,24 @@
+import groovy.text.*
+import groovy.text.markup.*
+
+apply plugin: "groovy"
+
+dependencies {
+	compile "org.codehaus.groovy:groovy:2.4.2"
+	compile "org.codehaus.groovy:groovy-templates:2.4.2"
+}
+
+task generateIndex << {
+	TemplateConfiguration config = new TemplateConfiguration()
+	config.autoNewLine = true
+	config.autoIndent = true
+	config.useDoubleQuotes = true         
+	
+	MarkupTemplateEngine engine = new MarkupTemplateEngine(config)
+	Template template = engine.createTemplate(new File("index.tmpl"))
+	Writable output = template.make()
+
+	def targetFile = new File("index.html")
+	targetFile.write(output.toString())
+}
+
