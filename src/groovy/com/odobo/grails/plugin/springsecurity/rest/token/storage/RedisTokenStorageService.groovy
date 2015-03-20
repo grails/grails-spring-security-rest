@@ -1,39 +1,58 @@
 package com.odobo.grails.plugin.springsecurity.rest.token.storage
 
-import grails.plugin.springsecurity.SpringSecurityUtils
-import org.codehaus.groovy.grails.commons.GrailsApplication
+import groovy.util.logging.Slf4j
+import org.springframework.core.convert.converter.Converter
+import org.springframework.core.serializer.support.DeserializingConverter
+import org.springframework.core.serializer.support.SerializingConverter
+import org.springframework.security.core.userdetails.UserDetailsService
 
+@Slf4j
 class RedisTokenStorageService implements TokenStorageService {
 
     def redisService
-    def userDetailsService
+    UserDetailsService userDetailsService
+
+    /** Expiration in seconds */
+    Integer expiration = 3600
 
     private static final String PREFIX = "spring:security:token:"
 
+    Converter<Object, byte[]> serializer = new SerializingConverter()
+    Converter<byte[], Object> deserializer = new DeserializingConverter()
+
     @Override
-    Object loadUserByToken(String tokenValue) throws com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException {
-        def username
+    Object loadUserByToken(String tokenValue) throws TokenNotFoundException {
+        log.debug "Searching in Redis for UserDetails of token ${tokenValue}"
+
+        byte[] userDetails
         redisService.withRedis { jedis ->
-            username = jedis.get(buildKey(tokenValue))
-        }
-        if (username) {
-            return userDetailsService.loadUserByUsername(username)
+            String key = buildKey(tokenValue)
+            userDetails = jedis.get(key.getBytes('UTF-8'))
+            jedis.expire(key, expiration)
         }
 
-        throw new com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException("Token ${tokenValue} not found")
+        if (userDetails) {
+            return deserialize(userDetails)
+        } else {
+            throw new TokenNotFoundException("Token ${tokenValue} not found")
+        }
+
     }
 
     @Override
     void storeToken(String tokenValue, Object principal) {
+        log.debug "Storing principal for token: ${tokenValue} with expiration of ${expiration} seconds"
+        log.debug "Principal: ${principal}"
+
         redisService.withRedis { jedis ->
             String key = buildKey(tokenValue)
-            jedis.set(key, principal.username.toString())
-            jedis.expire(key, conf.expiration ?: 3600)
+            jedis.set(key.getBytes('UTF-8'), serialize(principal))
+            jedis.expire(key, expiration)
         }
     }
 
     @Override
-    void removeToken(String tokenValue) throws com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException {
+    void removeToken(String tokenValue) throws TokenNotFoundException {
         redisService.del(buildKey(tokenValue))
     }
 
@@ -41,7 +60,28 @@ class RedisTokenStorageService implements TokenStorageService {
         "$PREFIX$token"
     }
 
-    private static def getConf(){
-        SpringSecurityUtils.securityConfig.rest.token.storage.redis
+    private Object deserialize(byte[] bytes) {
+        if(!bytes) {
+            return null
+        } else {
+            try {
+                return deserializer.convert(bytes)
+            } catch (Exception var3) {
+                throw new Exception("Cannot deserialize", var3)
+            }
+        }
     }
+
+    private byte[] serialize(Object object) {
+        if(object == null) {
+            return new byte[0]
+        } else {
+            try {
+                return serializer.convert(object)
+            } catch (Exception var3) {
+                throw new Exception("Cannot serialize", var3)
+            }
+        }
+    }
+
 }

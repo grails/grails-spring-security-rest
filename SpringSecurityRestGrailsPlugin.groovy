@@ -212,6 +212,7 @@ class SpringSecurityRestGrailsPlugin {
             tokenStorageService(RedisTokenStorageService) {
                 redisService = ref('redisService')
                 userDetailsService = ref('userDetailsService')
+                expiration = conf.rest.token.storage.redis.expiration
             }
         } else if (conf.rest.token.storage.useJwt) {
             keyProvider(DefaultRSAKeyProvider)

@@ -36,8 +36,6 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        build(":redis:1.6.3")
-
         test(':cache:1.1.1', ':hibernate:3.6.10.6') {
             export = false
         }
