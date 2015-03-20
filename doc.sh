@@ -1,33 +1,54 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
-echo "Starting to update documentation...\n"
+git config --global user.name "$GIT_NAME"
+git config --global user.email "$GIT_EMAIL"
+git config --global credential.helper "store --file=~/.git-credentials"
+echo "https://$GH_TOKEN:@github.com" > ~/.git-credentials
 
-rm -rf docs/                         ç
 ./grailsw doc
 
-echo "Replacing version in documentation...\n"
 version=`cat SpringSecurityRestGrailsPlugin.groovy | grep version | sed -e 's/^.*"\(.*\)"$/\1/g'`
 find target/docs/guide -name "*.html" | xargs sed -e "s/&#123;&#123;VERSION&#125;&#125;/${version}/g" -i
-
-rm -rf /tmp/docs/
-mv target/docs /tmp
-
-#go to home and setup git
-echo "Configuring git...\n"
-cd $HOME
-git config --global user.email "travis@travis-ci.org"
-git config --global user.name "Travis"
-
-#using token clone gh-pages branch
-echo "Cloning...\n"
-git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/alvarosanchez/grails-spring-security-rest.git gh-pages > /dev/null
-
-#go into that directory and copy data we're interested in to that directory
-cd gh-pages
-
-echo "Replacing version in index.html...\n"
 cp index.tmpl index.html
 sed -e "s/{{VERSION}}/${version}/g" -i index.html
+
+
+if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
+
+	# If there is a tag present then this becomes the latest
+	if [[ -n $TRAVIS_TAG ]]; then
+		git clone https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git -b gh-pages gh-pages --single-branch > /dev/null
+		cd gh-pages
+
+		milestone=${version:5}
+		if [[ -n $milestone ]]; then
+			git rm -rf latest/
+			mkdir -p latest
+			cp -r ../build/docs/. ./latest/
+			git add latest/*
+		fi
+
+		majorVersion=${version:0:4}
+		majorVersion="${majorVersion}x"
+
+		mkdir -p "$version"
+		cp -r ../build/docs/. "./$version/"
+		git add "$version/*"
+
+		mkdir -p "$majorVersion"
+		cp -r ../build/docs/. "./$majorVersion/"
+		git add "$majorVersion/*"
+		git commit -a -m "Updating docs for Travis build: https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID"
+		git push origin HEAD
+		cd ..
+		rm -rf gh-pages
+
+	fi
+
+fi
+
+echo "Replacing version in index.html...\n"
 
 echo "Moving the generated documentation to the right place...\n"
 rm -rf docs/

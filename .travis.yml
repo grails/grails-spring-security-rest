@@ -11,7 +11,9 @@ branches:
   - "/^release.*$/"
   - "/^feature.*$/"
 
-services: memcached
+services:
+  - memcached
+  - redis-server
 
 script: "./test-app.sh"
 
@@ -27,5 +29,7 @@ notifications:
 
 env:
   global:
-  - secure: NDX1oObVIHhG5zUZzhmL8m/601SFB2pE29dci1EcgKrYhdZf+50+Va/b0/7lNzYXnT76CwQmdkbsJmwqBh6+YO+SXcJFE13zudyGfZhLOwY+/oueQB8Up/gk2WbkY4FdIlo0XP/jl+atz4gR9EoAnKCYbdcjYj2lQnJ8ocDpi5U=
-  - secure: CI++zUthM/3TMRmEs4ngqJYrH8JMf8nKH71MP3Q4DeqrK8ktBt7HevdxLBy5a9KhYabgHdAmrFutJHtTcXlfMizytr/FVus7Dj6BNPZCTzesO8J/HVzzWQx6EofJoqBJp27AXh/mT290A1yS/WsoW0e1FuLWPIXJHXCa1wZQTU0=
+    - secure: NDX1oObVIHhG5zUZzhmL8m/601SFB2pE29dci1EcgKrYhdZf+50+Va/b0/7lNzYXnT76CwQmdkbsJmwqBh6+YO+SXcJFE13zudyGfZhLOwY+/oueQB8Up/gk2WbkY4FdIlo0XP/jl+atz4gR9EoAnKCYbdcjYj2lQnJ8ocDpi5U=
+    - secure: CI++zUthM/3TMRmEs4ngqJYrH8JMf8nKH71MP3Q4DeqrK8ktBt7HevdxLBy5a9KhYabgHdAmrFutJHtTcXlfMizytr/FVus7Dj6BNPZCTzesO8J/HVzzWQx6EofJoqBJp27AXh/mT290A1yS/WsoW0e1FuLWPIXJHXCa1wZQTU0=
+    - GIT_NAME = "Alvaro Sanchez-Mariscal"
+    - GIT_EMAIL = "alvaro.sanchezmariscal@gmail.com"
