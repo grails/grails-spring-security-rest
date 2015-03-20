@@ -4,6 +4,7 @@ import groovy.util.logging.Slf4j
 import org.springframework.core.convert.converter.Converter
 import org.springframework.core.serializer.support.DeserializingConverter
 import org.springframework.core.serializer.support.SerializingConverter
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 
 @Slf4j
@@ -21,7 +22,7 @@ class RedisTokenStorageService implements TokenStorageService {
     Converter<byte[], Object> deserializer = new DeserializingConverter()
 
     @Override
-    Object loadUserByToken(String tokenValue) throws TokenNotFoundException {
+    UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
         log.debug "Searching in Redis for UserDetails of token ${tokenValue}"
 
         byte[] userDetails
@@ -32,7 +33,7 @@ class RedisTokenStorageService implements TokenStorageService {
         }
 
         if (userDetails) {
-            return deserialize(userDetails)
+            return deserialize(userDetails) as UserDetails
         } else {
             throw new TokenNotFoundException("Token ${tokenValue} not found")
         }
@@ -40,7 +41,7 @@ class RedisTokenStorageService implements TokenStorageService {
     }
 
     @Override
-    void storeToken(String tokenValue, Object principal) {
+    void storeToken(String tokenValue, UserDetails principal) {
         log.debug "Storing principal for token: ${tokenValue} with expiration of ${expiration} seconds"
         log.debug "Principal: ${principal}"
 
