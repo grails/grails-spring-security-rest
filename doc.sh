@@ -47,17 +47,3 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 	fi
 
 fi
-
-echo "Replacing version in index.html...\n"
-
-echo "Moving the generated documentation to the right place...\n"
-rm -rf docs/
-mv /tmp/docs .
-
-#add, commit and push files
-echo "Commiting and pushing...\n"
-git add -f .
-git commit -m "Documentation updated"
-git push -fq origin gh-pages > /dev/null
-
-echo "Done updating documentation\n"
