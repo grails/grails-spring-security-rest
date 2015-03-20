@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>4.2 GORM 1.3.2</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/authentication.html"><strong>2</strong><span>Authentication Endpoint</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenGeneration.html"><strong>3</strong><span>Token Generation</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenStorage.html"><strong>4</strong><span>Token Storage</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenValidation.html"><strong>5</strong><span>Token Validation Filter</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/cors.html"><strong>6</strong><span>CORS support</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/oauth.html"><strong>7</strong><span>Delegating authentication to OAuth providers</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/debugging.html"><strong>8</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>9</strong><span>Frequently Asked Questions</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>3</strong><span>Token Generation</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../../guide/tokenValidation.html"><strong>5</strong><span>Token Validation Filter</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>4.2 GORM - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
+
+                    <p><strong>Version:</strong> 1.3.2</p>
+
+                    
+                </div>
+
+                
+
+                
+
+<h2 id="gorm">4.2 GORM</h2>
+<blockquote class="warning">
+The GORM support is still experimental.
+</blockquote><p class="paragraph"/>To use GORM, those are the relevant configuration properties:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useGorm</code></td><td><code>false</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName</code></td><td><code>null</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.gorm.tokenValuePropertyName</code></td><td><code>tokenValue</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.gorm.usernamePropertyName</code></td><td><code>username</code></td></tr></table><p class="paragraph"/><blockquote class="note">
+Please note that for <code>tokenDomainClassName</code> you must enter a fully qualified class name.
+</blockquote><p class="paragraph"/>The domain class should look like this:<p class="paragraph"/><div class="code"><pre>class AuthenticationToken &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> tokenValue
+    <span class="java&#45;object">String</span> username
+&#125;</pre></div><p class="paragraph"/><blockquote class="note">
+In this case, instead of storing the whole <code>UserDetails</code> object, only the username is stored. This is because applications
+using this strategy will probably have the standard User and Role domain classes. Then, the username is passed to the
+default <code>userDetailsService</code> bean, which in the case of the default Spring Security Core GORM implementation will fetch
+the information from the mentioned domain classes.
+</blockquote>
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>3</strong><span>Token Generation</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../../guide/tokenValidation.html"><strong>5</strong><span>Token Validation Filter</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>

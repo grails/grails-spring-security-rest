@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>12 Frequently Asked Questions 1.4.1</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew14.html"><strong>2</strong><span>What's new in 1.4?</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>4</strong><span>Authentication Endpoint</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>5</strong><span>Token Generation</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>6</strong><span>Token Storage</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenRendering.html"><strong>7</strong><span>Token Rendering</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>8</strong><span>Token Validation Filter</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>9</strong><span>CORS support</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>10</strong><span>Delegating authentication to OAuth providers</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>11</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>12</strong><span>Frequently Asked Questions</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/debugging.html">&lt;&lt; <strong>11</strong><span>Debugging</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+
+
+                <div class="project">
+                    <h1>12 Frequently Asked Questions - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
+
+                    <p><strong>Version:</strong> 1.4.1</p>
+
+                    
+                </div>
+
+                
+
+                
+
+<h1 id="faq">12 Frequently Asked Questions</h1>
+<h2>Why this token-based implementation? Can't I use HTTP basic authentication?</h2><p class="paragraph"/>In theory you can. The only restriction to be truly stateless is to not use HTTP sessions at all. So if you go with
+basic authentication, you need to transfer the credentials back and forth every time.<p class="paragraph"/>Let's think about that. Keep in mind that your frontend is a pure HTML/Javascript application, consuming a REST API
+from the Grails side. So the first time, the Javascript application will make an API query and will receive a 401 response
+indicating that authentication is required. Then you present the user a form to enter credentials, you grab them, <strong class="bold">encode</strong>
+them with Base64 and in the next request, you send an HTTP header like <code>Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==</code>.<p class="paragraph"/>Now remember you are doing RESTful application, so the session state is maintained in the client. That means that you
+would need to store that Base64 encoded string somewhere: cookies? HTML5 local storage? In any case, they are accessible
+using browser tools. And that's the point: there is a huge security risk because Base64 it's not encryption, just encoding.
+And it can be easily decoded.<p class="paragraph"/>You could argue that someone can access the token in the browser. Yes, but having the token will not allow him to obtain
+user's credentials. The tokens are just not decodable. And they can be revoked if necessary.<p class="paragraph"/>Fortunately for you, a token-based solution is not a magic idea that I only got; it's actually a specification:
+<a href="http://tools.ietf.org/html/rfc6750" target="blank">RFC 6750 - The OAuth 2.0 Authorization Framework: Bearer Token Usage</a>.<p class="paragraph"/>There is also more reasons to be in favour of tokens:
+<ul class="star">
+<li>With basic auth, every single API call would have to check credentials. In the token-based implementation, specially if you use Memcached, the authentication results are cached.</li>
+<li>With basic auth, you are sending the credentials all the time. Ok, you can use SSL, but still I think it's more elegant to use tokens.</li>
+</ul><p class="paragraph"/>Moreover, if you use tokens, you have the chance to implement expiration policies.<p class="paragraph"/>A couple of link with further explanations on the token-based flow:
+<ul class="star">
+<li><a href="http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services" target="blank">http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services</a></li>
+<li><a href="http://blog.brunoscopelliti.com/authentication-to-a-restful-web-service-in-an-angularjs-web-app" target="blank">http://blog.brunoscopelliti.com/authentication-to-a-restful-web-service-in-an-angularjs-web-app</a></li>
+</ul><p class="paragraph"/><h2>Why can't the API be secured with OAuth?</h2><p class="paragraph"/><a href="http://tools.ietf.org/html/rfc6749" target="blank">RFC 6749 - OAuth 2.0</a> specification does cover this scenario in what they call
+"public clients":<p class="paragraph"/><div class="code"><pre>Clients incapable of maintaining the confidentiality of their credentials (e.g., clients executing on the device used by the
+resource owner, such as an installed <span class="java&#45;keyword">native</span> application or a web browser&#45;based application), and incapable of secure client
+authentication via any other means.</pre></div><p class="paragraph"/>Using OAuth, you would need to store consumer key and consumer secret in the browser. Seriously, you don't want
+to do that. The problem with OAuth is that it's designed for when the consumer is a server-side application. And it just
+does not work well with pure Javascript front-ends. In this scenario, your frontend would be the OAuth consumer and
+your Grails backend the OAuth provider.<p class="paragraph"/>The OAuth 2.0 specification supports public clients with the implicit grant. This plugin supports that by default when
+you <a href="../guide/single.html#oauth" class="guide">delegate the authentication to another OAuth provider</a>. If it's you who are authenticating the users
+(via DB, LDAP, etc), the token-based flow of this plugin is  <em class="italic">OAuth-ish</em> .<p class="paragraph"/><h2>Why you didn't use any of the existing OAuth plugins? Why pac4j?</h2><p class="paragraph"/>I'm aware of plugins like <a href="http://grails.org/plugin/oauth" target="blank">OAuth</a> and
+<a href="http://grails.org/plugin/spring-security-oauth" target="blank">Spring Security OAuth</a>, but all of them rely on Spring Security Core's
+way of using HTTP sessions. So not acceptable.<p class="paragraph"/>I chose pac4j because:
+<ol>
+<li>They support major OAuth 2.0 providers out-of-the-box, whereas Scribe does not.</li>
+<li>It's deadly simple and works just fine.</li>
+</ol><p class="paragraph"/>I'm also aware of a pac4j-spring-security module. See my previous response on HTTP sessions.<p class="paragraph"/><h2>Dude, this is awesome. How can I compensate you?</h2><p class="paragraph"/>I doubt you can :). You may try giving me free beers the next time you see me in a conference. Or you can just express
+your gratitude via <a href="https://twitter.com/alvaro_sanchez" target="blank">Twitter</a>.
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/debugging.html">&lt;&lt; <strong>11</strong><span>Debugging</span></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>10 Delegating authentication to OAuth providers 1.4.1</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew14.html"><strong>2</strong><span>What's new in 1.4?</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>4</strong><span>Authentication Endpoint</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>5</strong><span>Token Generation</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>6</strong><span>Token Storage</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenRendering.html"><strong>7</strong><span>Token Rendering</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>8</strong><span>Token Validation Filter</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>9</strong><span>CORS support</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>10</strong><span>Delegating authentication to OAuth providers</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>11</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>12</strong><span>Frequently Asked Questions</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/cors.html">&lt;&lt; <strong>9</strong><span>CORS support</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/debugging.html"><strong>11</strong><span>Debugging</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>10 Delegating authentication to OAuth providers - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
+
+                    <p><strong>Version:</strong> 1.4.1</p>
+
+                    
+                </div>
+
+                
+                <div id="table-of-content">
+                    <h2>Table of Contents</h2>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#google"><strong>10.1</strong><span>Google</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#facebook"><strong>10.2</strong><span>Facebook</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#twitter"><strong>10.3</strong><span>Twitter</span></a>
+                    </div>
+                    
+                </div>
+                
+
+                
+
+<h1 id="oauth">10 Delegating authentication to OAuth providers</h1>
+This plugin is meant to be used in applications serving a REST API's to pure Javascript clients. The main authentication
+flow of this plugin is to allow you to authenticate your users against any Spring Security-compatible user directory
+(like a DB or an LDAP server).<p class="paragraph"/>However, there might be situations where you want to delegate the authentication against a third-party provider, like
+Google or Facebook. Unfortunately, your pure Javascript front-end application cannot request the providers directly using
+OAuth, because then the access keys will be made public.<p class="paragraph"/>So is this plugin's responsibility to provide endpoints so your Grails backend acts as a proxy for your front-end client.<p class="paragraph"/>The flow is something like the following:<p class="paragraph"/><img border="0" class="center" src="../img/oauth.png"></img>
+<ol>
+<li>The client application requests and endpoint that requires authentication, so the server responds with a 401 response (*).</li>
+<li>The client redirects the user to the login form (*).</li>
+<li>This time, instead of using username and password, the user clicks on "Login with Google" button.</li>
+<li>Browser navigates to a Grails URL. Grails will generate a Google Login URL, giving Google a Grails callback URL.</li>
+<li>Browser navigates to Google Login. User logs in, and Google redirects the browser to the Grails callback URL.</li>
+<li>Browser navigates to that Grails callback URL. Then, Grails will use OAuth to fetch user information (like email) from Google. Based on that, will generate a REST API token and fetch and store principal information. The response from Grails will be a front-end URL where the token is a parameter.</li>
+<li>The browser will navigate to that URL, and the Javascript logic will read the token from the URL and store it locally.</li>
+<li>The client sends again a request to the protected resource, passing the token as an HTTP header (*).</li>
+</ol><p class="paragraph"/>The steps flagged with (*) remain unchanged from the <a href="../guide/single.html#authentication" class="guide">normal flow</a>.<p class="paragraph"/>To support OAuth, this plugin uses <a href="https://github.com/leleuj/pac4j" target="blank">Profile &#38; Authentication Client for Java</a>. So you
+can use any OAuth 2.0 provider they support. This includes at the time of writing:
+<ul class="star">
+<li>Dropbox.</li>
+<li>Facebook.</li>
+<li>GitHub.</li>
+<li>Google.</li>
+<li>LinkedIn.</li>
+<li>Windows Live.</li>
+<li>Wordpress.</li>
+<li>Yahoo.</li>
+<li>Paypal.</li>
+</ul><p class="paragraph"/>Note that OAuth 1.0a providers also work, like Twitter.<p class="paragraph"/>To start the OAuth authentication flow, from your frontend application, generate a link to
+<code>&#60;YOUR_GRAILS_APP&#62;/oauth/authenticate/&#60;provider&#62;</code>. The user clicking on that link represents step 4 in the previous
+diagram.<p class="paragraph"/>Note that you can define the frontend callback URL in <code>Config.groovy</code> under
+<code>grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl</code>. You need to define a closure that will be called with
+the token value as parameter:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.oauth.frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;</pre></div><p class="paragraph"/>You can also define the URL as a <code>callback</code> parameter in the original link, eg:<p class="paragraph"/><div class="code"><pre>http://your&#45;grails&#45;api.com/oauth/authenticate/google?callback=http://your&#45;frontend&#45;app.com/auth&#45;success.html?token=</pre></div><p class="paragraph"/>In this case, the token will be <strong class="bold">concatenated</strong> to the end of the URL.<p class="paragraph"/>Upon successful OAuth authorisation (after step 6.1 in the above diagram), an
+<a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/oauth/OauthUser.html" target="blank">OauthUser</a>
+will be stored in the security context. This is done by a bean named <code>oauthUserDetailsService</code>. The
+<a href="http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/oauth/DefaultOauthUserDetailsService.html" target="blank">default implementation</a>
+delegates to the configured <code>userDetailsService</code> bean, passing the profile ID as the username:<p class="paragraph"/><div class="code"><pre>/&#42;&#42;
+ &#42; Builds an &#123;<code>link OauthUser&#125;. Delegates to the <span class="java&#45;keyword">default</span> &#123;</code>link UserDetailsService&#35;loadUserByUsername(java.lang.<span class="java&#45;object">String</span>)&#125;
+ &#42; where the username passed is &#123;@link UserProfile&#35;getId()&#125;. If the user is not found, it will create a <span class="java&#45;keyword">new</span> one with
+ &#42; the the <span class="java&#45;keyword">default</span> roles.
+ &#42;/
+@Slf4j
+class DefaultOauthUserDetailsService <span class="java&#45;keyword">implements</span> OauthUserDetailsService &#123;<p class="paragraph"/>    @Delegate
+    UserDetailsService userDetailsService<p class="paragraph"/>    OauthUser loadUserByUserProfile(OAuth20Profile userProfile, Collection&#60;GrantedAuthority&#62; defaultRoles)
+            <span class="java&#45;keyword">throws</span> UsernameNotFoundException &#123;
+        UserDetails userDetails
+        OauthUser oauthUser<p class="paragraph"/>        <span class="java&#45;keyword">try</span> &#123;
+            log.debug <span class="java&#45;quote">"Trying to fetch user details <span class="java&#45;keyword">for</span> user profile: $&#123;userProfile&#125;"</span>
+            userDetails = userDetailsService.loadUserByUsername userProfile.id
+            Collection&#60;GrantedAuthority&#62; allRoles = userDetails.authorities + defaultRoles
+            oauthUser = <span class="java&#45;keyword">new</span> OauthUser(userDetails.username, userDetails.password, allRoles, userProfile)
+        &#125; <span class="java&#45;keyword">catch</span> (UsernameNotFoundException unfe) &#123;
+            log.debug <span class="java&#45;quote">"User not found. Creating a <span class="java&#45;keyword">new</span> one with <span class="java&#45;keyword">default</span> roles: $&#123;defaultRoles&#125;"</span>
+            oauthUser = <span class="java&#45;keyword">new</span> OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
+        &#125;
+        <span class="java&#45;keyword">return</span> oauthUser
+    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>
+If you want to provide your own implementation, define it in <code>resources.groovy</code> with bean name <code>oauthUserDetailsService</code>.
+Make sure you implements the interface <code>OauthUserDetailsService</code><p class="paragraph"/>If you want to do any additional post-OAuth authorisation check, you should do it on your <code>loadUserByUserProfile</code>
+implementation. This is useful if you want to allow your corporate users to log into your application using their Gmail
+account. In this case, you should decide based on OAuth20Profile.getEmail(), for instance:<p class="paragraph"/><div class="code"><pre>OauthUser loadUserByUserProfile(OAuth20Profile userProfile, Collection&#60;GrantedAuthority&#62; defaultRoles) <span class="java&#45;keyword">throws</span> UsernameNotFoundException &#123;
+    <span class="java&#45;keyword">if</span> (userProfile.email.endsWith('example.org')) &#123;
+        <span class="java&#45;keyword">return</span> <span class="java&#45;keyword">new</span> OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
+    &#125; <span class="java&#45;keyword">else</span> &#123;
+        <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> UsernameNotFoundException(<span class="java&#45;quote">"User with email $&#123;userProfile.email&#125; now allowed. Only @example.org accounts are allowed."</span>)
+    &#125;
+&#125;</pre></div><p class="paragraph"/>In case of any OAuth authentication failure, the plugin will redirect back to the frontend application anyway, so it
+has a chance to render a proper error message and/or offer the user the option to try again. In that case, the token
+parameter will be empty, and both <code>error</code> and <code>message</code> params will be appended:<p class="paragraph"/><div class="code"><pre>http://your&#45;frontend&#45;app.com/auth&#45;success.html?token=&#38;error=403&#38;message=User+with+email+jimmy%40gmail.com+now+allowed.+Only+%40example.com+accounts+are+allowed</pre></div><p class="paragraph"/>Below are some examples on how to configure it for Google, Facebook and Twitter.
+
+
+<h2 id="google">10.1 Google</h2>
+Define the following block in your <code>Config.groovy</code>:<p class="paragraph"/><div class="code"><pre>grails &#123;
+    plugin &#123;
+        springsecurity &#123;<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;<p class="paragraph"/>                oauth &#123;<p class="paragraph"/>                    frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;<p class="paragraph"/>                    google &#123;<p class="paragraph"/>                        client = org.pac4j.oauth.client.Google2Client
+                        key = 'xxxx.apps.googleusercontent.com'
+                        secret = 'xxx'
+                        scope = org.pac4j.oauth.client.Google2Client.Google2Scope.EMAIL_AND_PROFILE
+                        defaultRoles = &#91;'ROLE_USER', 'ROLE_GOOGLE'&#93;<p class="paragraph"/>                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;</pre></div><p class="paragraph"/><blockquote class="warning">
+The <code>scope</code> can be from any value of the enum <code>org.pac4j.oauth.client.Google2Client.Google2Scope</code>. But if you use the
+default <code>OauthUserDetailsService</code>, you need to use <code>EMAIL_AND_PROFILE</code>. That is because the default implementation
+uses the profile ID as the username, and that is only returned by Google if <code>EMAIL_AND_PROFILE</code> scope is used.
+</blockquote>
+
+
+
+<h2 id="facebook">10.2 Facebook</h2>
+Define the following block in your <code>Config.groovy</code>:<p class="paragraph"/><div class="code"><pre>grails &#123;
+    plugin &#123;
+        springsecurity &#123;<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;<p class="paragraph"/>                oauth &#123;<p class="paragraph"/>                    frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;<p class="paragraph"/>                    facebook &#123;<p class="paragraph"/>                        client = org.pac4j.oauth.client.FacebookClient
+                        key = 'xxx'
+                        secret = 'yyy'
+                        scope = 'email,user_location'
+                        fields = 'id,name,first_name,middle_name,last_name,username'
+                        defaultRoles = &#91;'ROLE_USER', 'ROLE_FACEBOOK'&#93;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;</pre></div><p class="paragraph"/>The <code>scope</code> is a comma-separated list, <strong class="bold">without blanks</strong>, of Facebook permissions. See the
+<a href="https://developers.facebook.com/docs/reference/login/" target="blank">Facebook documentation</a> for more details.<p class="paragraph"/><code>fields</code> may contain a comma-separated list, <strong class="bold">without blanks</strong>, of
+<a href="https://developers.facebook.com/docs/graph-api/reference/user/" target="blank">user fields</a>.<p class="paragraph"/>Both <code>scope</code> and <code>fields</code> are optional, but it's highly recommendable to fine tune those lists so you don't ask for
+information you don't need.
+
+
+<h2 id="twitter">10.3 Twitter</h2>
+Define the following block in your <code>Config.groovy</code>:<p class="paragraph"/><div class="code"><pre>grails &#123;
+    plugin &#123;
+        springsecurity &#123;<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;<p class="paragraph"/>                oauth &#123;<p class="paragraph"/>                    frontendCallbackUrl = &#123; <span class="java&#45;object">String</span> tokenValue &#45;&#62; <span class="java&#45;quote">"http://my.frontend&#45;app.com/welcome&#35;token=$&#123;tokenValue&#125;"</span> &#125;<p class="paragraph"/>                    twitter &#123;<p class="paragraph"/>                        client = org.pac4j.oauth.client.TwitterClient
+                        key = 'xxx'
+                        secret = 'yyy'
+                        defaultRoles = &#91;'ROLE_USER', 'ROLE_TWITTER'&#93;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;</pre></div><p class="paragraph"/>There is no additional configuration for Twitter.
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/cors.html">&lt;&lt; <strong>9</strong><span>CORS support</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/debugging.html"><strong>11</strong><span>Debugging</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>
