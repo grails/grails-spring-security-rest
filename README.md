@@ -30,6 +30,7 @@ Contributors
 * [Burt Beckwith](https://github.com/burtbeckwith).
 * [Conall Laverty](https://github.com/conalllaverty).
 * [Dhiraj Mahapatro](https://github.com/dmahapatro).
+* [Donal Murtagh](https://github.com/domurtag).
 * [Greg Pagendam-Turner](https://github.com/liftyourgame).
 * [James Kleeh](https://github.com/Schlogen).
 * [Jonas Ladenfors](https://github.com/jladenfors).

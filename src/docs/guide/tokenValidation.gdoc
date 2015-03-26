@@ -102,3 +102,7 @@ The relevant configuration properties for the validation endpoint are:
 @grails.plugin.springsecurity.rest.token.validation.headerName@                     | @X-Auth-Token@
 @grails.plugin.springsecurity.rest.token.validation.endpointUrl@                    | @/api/validate@
 {table}
+
+Note that @headerName@ is only considered if @grails.plugin.springsecurity.rest.token.validation.useBearerToken@ is set
+to @false@. Otherwise (the default approach), as per RFC 6750, the header name will be @Authorization@ and the value
+will be @Bearer TOKEN_VALUE@

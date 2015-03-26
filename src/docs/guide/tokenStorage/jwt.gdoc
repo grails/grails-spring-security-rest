@@ -74,7 +74,7 @@ In the previous strategy, the claims are just signed, so it prevents an attacker
 malicious data or try a privilege escalation by adding more roles. However, the claims can be decoded just by using
 Base 64.
 
-If the claims contains sensible information, you can use a
+If the claims contains sensitive information, you can use a
 [JSON Web Encryption|https://tools.ietf.org/html/draft-ietf-jose-json-web-encryption] algorithm to prevent them to be decoded.
 Particularly, this plugin uses RSAES OAEP for key encryption and AES GCM (Galois/Counter Mode) algorithm with a 256 bit key
 for content encryption.
