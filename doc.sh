@@ -10,8 +10,7 @@ echo "https://$GH_TOKEN:@github.com" > ~/.git-credentials
 
 version=`cat SpringSecurityRestGrailsPlugin.groovy | grep version | sed -e 's/^.*"\(.*\)"$/\1/g'`
 find target/docs/guide -name "*.html" | xargs sed -e "s/&#123;&#123;VERSION&#125;&#125;/${version}/g" -i
-cp index.tmpl index.html
-sed -e "s/{{VERSION}}/${version}/g" -i index.html
+
 
 
 if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
@@ -21,29 +20,16 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 		git clone https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git -b gh-pages gh-pages --single-branch > /dev/null
 		cd gh-pages
 
-		milestone=${version:5}
-		if [[ -n $milestone ]]; then
-			git rm -rf latest/
-			mkdir -p latest
-			cp -r ../build/docs/. ./latest/
-			git add latest/*
-		fi
-
-		majorVersion=${version:0:4}
-		majorVersion="${majorVersion}x"
+		./gradlew generateIndex
 
 		mkdir -p "$version"
-		cp -r ../build/docs/. "./$version/"
+		mv ../target/docs "./$version/"
 		git add "$version/*"
 
-		mkdir -p "$majorVersion"
-		cp -r ../build/docs/. "./$majorVersion/"
-		git add "$majorVersion/*"
 		git commit -a -m "Updating docs for Travis build: https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID"
 		git push origin HEAD
 		cd ..
 		rm -rf gh-pages
-
 	fi
 
 fi

@@ -20,4 +20,5 @@ his initial contribution.
 
 h2. Other minor changes
 
-The plugin now uses Grails 2.4.4, and the build and tests are run using both Java 7 and Java 8.
+* The plugin now uses Grails 2.4.4, and the build and tests are run using both Java 7 and Java 8.
+* Documentation for older versions is now published
