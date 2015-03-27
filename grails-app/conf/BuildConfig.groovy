@@ -19,6 +19,8 @@ grails.project.dependency.resolution = {
         compile 'org.pac4j:pac4j-core:1.6.0'
         compile 'org.pac4j:pac4j-oauth:1.6.0'
         compile 'com.nimbusds:nimbus-jose-jwt:3.9'
+
+        build("com.lowagie:itext:2.0.8") { excludes "bouncycastle:bcprov-jdk14:138", "org.bouncycastle:bcprov-jdk14:1.38" }
     }
 
     plugins {
