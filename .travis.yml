@@ -15,6 +15,9 @@ services:
 - memcached
 - redis-server
 
+install:
+  - npm install divshot-cli -g
+
 script: "./test-app.sh"
 
 after_success: if [[ $TRAVIS_BRANCH == "master" ]] || [[ $TRAVIS_BRANCH =~ ^release.*$ ]]; then ./doc.sh; fi
