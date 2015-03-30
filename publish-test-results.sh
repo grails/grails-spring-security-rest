@@ -12,5 +12,9 @@ echo "Renaming files with spaces"
 
 divshot -t $DIVSHOT_TOKEN config:add name spring-security-rest
 divshot -t $DIVSHOT_TOKEN pull production
+
+echo "Removing old builds. Basically everything but ${TRAVIS_JOB_NUMBER/.*/}*"
+rm -rf !(${TRAVIS_JOB_NUMBER/.*/}*)
+
+echo "Pusing files to divshot"
 divshot -t $DIVSHOT_TOKEN push production
-divshot -t $DIVSHOT_TOKEN files production
