@@ -73,6 +73,6 @@ class RestOauthService {
 
         SecurityContextHolder.context.setAuthentication(accessToken)
 
-        return accessToken
+        return accessToken.accessToken
     }
 }
