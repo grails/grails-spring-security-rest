@@ -8,7 +8,7 @@ for app in `ls test/apps` ; do mv test/apps/$app/target/test-reports target/divs
 cd target/divshot
 
 echo "Renaming files with spaces"
-./renameFiles.groovy .
+../../renameFiles.groovy .
 
 divshot -t $DIVSHOT_TOKEN config:add name spring-security-rest
 divshot -t $DIVSHOT_TOKEN pull production
