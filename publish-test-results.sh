@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo "Renaming files with spaces"
+./renameFiles.groovy target
+
 echo "Creating folder target/divshot/$TRAVIS_JOB_NUMBER"
 mkdir -p target/divshot/$TRAVIS_JOB_NUMBER
 mv target/test-reports target/divshot/$TRAVIS_JOB_NUMBER/core
@@ -7,7 +10,5 @@ for app in `ls test/apps` ; do mv test/apps/$app/target/test-reports target/divs
 cd target/divshot
 divshot -t $DIVSHOT_TOKEN config:add name spring-security-rest
 divshot -t $DIVSHOT_TOKEN pull production
-divshot -t $DIVSHOT_TOKEN files production
 divshot -t $DIVSHOT_TOKEN push production
-ls -l
 divshot -t $DIVSHOT_TOKEN files production
