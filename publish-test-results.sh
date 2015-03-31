@@ -14,7 +14,7 @@ divshot -t $DIVSHOT_TOKEN config:add name spring-security-rest
 divshot -t $DIVSHOT_TOKEN pull production
 
 echo "Removing old builds. Basically everything but ${TRAVIS_JOB_NUMBER/.*/}*"
-rm -rf !(${TRAVIS_JOB_NUMBER/.*/}*)
+for dir in `ls -1 -d */ | grep -v "${TRAVIS_JOB_NUMBER/.*/}"` ; do rm -rf $dir ; done
 
 echo "Pusing files to divshot"
 divshot -t $DIVSHOT_TOKEN push production
