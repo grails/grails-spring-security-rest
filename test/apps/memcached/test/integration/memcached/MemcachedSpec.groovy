@@ -80,13 +80,5 @@ class MemcachedSpec extends IntegrationSpec {
 
         then: "is still found"
         notThrown(TokenNotFoundException)
-
-        when: "accessed after it's live period"
-        Thread.sleep(5000)
-        tokenStorageService.loadUserByToken(token)
-
-        then: "is not found anymore"
-        thrown(TokenNotFoundException)
-
     }
 }
