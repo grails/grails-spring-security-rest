@@ -16,6 +16,8 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 		version=`cat SpringSecurityRestGrailsPlugin.groovy | grep version | sed -e 's/^.*"\(.*\)"$/\1/g'`
 		find target/docs/guide -name "*.html" | xargs sed -e "s/&#123;&#123;VERSION&#125;&#125;/${version}/g" -i
 
+		export TAG_LIST=`git tag`
+
 		echo "* Preparing release of version $version"
 
 		git clone https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git -b gh-pages gh-pages --single-branch > /dev/null
