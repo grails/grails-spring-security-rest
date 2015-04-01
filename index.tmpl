@@ -1,4 +1,5 @@
-def versions = "git tag".execute().text.tokenize("\n")
+def versions = System.getenv('TAG_LIST').tokenize("\n")
+assert versions
 
 yieldUnescaped '<!DOCTYPE html>'
 
