@@ -5,4 +5,6 @@ echo "grails.project.repos.grailsCentral.username = '${PLUGIN_PORTAL_PASSWORD}'"
 
 ./grailsw clean
 ./grailsw package-plugin
+
+echo "Publishing plugin"
 ./grailsw publish-plugin
