@@ -13,7 +13,7 @@ install:
 
 script: "./test-app.sh"
 
-after_success: if [[ $TRAVIS_BRANCH == "master" ]] || [[ $TRAVIS_BRANCH =~ ^release.*$ ]]; then ./doc.sh; fi
+after_success: "./doc.sh"
 
 after_script: "./publish-test-results.sh"
 
