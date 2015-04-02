@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+export TAG_LIST=`git tag`
+echo "List of releases: ${TAG_LIST}"
+
 if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
 	# If there is a tag present then this becomes the latest
@@ -9,9 +12,6 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
 		version=`cat SpringSecurityRestGrailsPlugin.groovy | grep version | sed -e 's/^.*"\(.*\)"$/\1/g'`
 		find target/docs/guide -name "*.html" | xargs sed -e "s/&#123;&#123;VERSION&#125;&#125;/${version}/g" -i
-
-		export TAG_LIST=`git tag`
-		echo "List of releases: ${TAG_LIST}"
 		echo "Preparing release of version $version"
 
 		echo "Configuring git with name ${GIT_NAME} and email ${GIT_EMAIL}"
