@@ -1,6 +1,5 @@
 package grails.plugin.springsecurity.rest
 
-import geb.Page
 import geb.spock.GebReportingSpec
 import grails.plugin.springsecurity.SpringSecurityUtils
 import spock.lang.IgnoreIf
@@ -13,13 +12,13 @@ class FacebookSpec extends GebReportingSpec {
         go "/jwt/oauth/authenticate/facebook"
 
         then: "its redirected to Facebook Sign In page"
-        FacebookSignInPage facebookSignInPage = Page.at FacebookSignInPage
+        FacebookSignInPage facebookSignInPage = at FacebookSignInPage
 
         when: "credentials are entered"
         facebookSignInPage.login 'open_pmazedy_user@tfbnw.net', System.getenv('FB_PASSWORD')
 
         then: "is redirected to the frontend callback URL, with a token"
-        FrontendCallbackPage frontendCallbackPage = Page.at FrontendCallbackPage
+        FrontendCallbackPage frontendCallbackPage = at FrontendCallbackPage
         frontendCallbackPage.jsUrl.contains("token")
     }
 
