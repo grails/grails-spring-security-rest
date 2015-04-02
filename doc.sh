@@ -5,6 +5,10 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
 	# If there is a tag present then this becomes the latest
 	if [[ -n $TRAVIS_TAG ]]; then
+
+		export TAG_LIST=`git fetch origin && git tag -l`
+		echo "List of releases: `git tag -l`"
+
 		./grailsw doc
 
 		version=`cat SpringSecurityRestGrailsPlugin.groovy | grep version | sed -e 's/^.*"\(.*\)"$/\1/g'`

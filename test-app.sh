@@ -1,8 +1,5 @@
 #!/bin/bash
 
-export TAG_LIST=`git tag`
-echo "List of releases: ${TAG_LIST}"
-
 ./grailsw compile
 
 ./grailsw maven-install
