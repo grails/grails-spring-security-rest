@@ -67,7 +67,7 @@ Disabling bearer token support impacts the way tokens are extracted from the HTT
 {warning}
 
 If you want your own implementation, simply create a class implementing
-[RestAuthenticationTokenJsonRenderer|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/grails/plugin/springsecurity/rest/token/rendering/RestAuthenticationTokenJsonRenderer.html]
+[RestAuthenticationTokenJsonRenderer|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/grails/plugin/springsecurity/rest/token/rendering/AccessTokenJsonRenderer.html]
 and wire it up in @resources.groovy@ with name @restAuthenticationTokenJsonRenderer@.
 
 {note}
