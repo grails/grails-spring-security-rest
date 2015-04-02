@@ -30,8 +30,8 @@ env:
   - secure: i+HYyyMe2qXPZkP113Vo+uXDzWeiS96dE8EiURxB75HDLuQ1UuIKkfZylNyWXcJHh8gy6ypKffxjZ0FeN44FQeiChE+WC20Xh9UOG076zHogFIE/IooFawau+jcvqJzQU+3koDO9zocu8HfULqenfapSKri/5vMxaPTj85VdFfk=
   - secure: NaMlpUqQsK2YSCGpQk4OC+DOaSIT7fpV0APBbIQze9T5k5HIsu2DjX36kCkCGf8fLRhHnknqQgezGJjVX4WNLZqe6DeHt8r5XzxjwSRRBzdaN3Al9iJSK2/89c9YiqzGV4chqDJupMbQU43Fl2DNLE5b/bP/s7R/cmy43DK23o4=
   - secure: XBD/lDc+U/9c6qKKRKuhjxrMe8nIz6T3MtAgPr77bowh0c4EpZiIOQ5+dpUBvA6jL5h8UYck8DAeqC9H7RTG0ZQS+2eJQiEVQXTKfwfe53LQP1CUfAC94o4yNnIpZ9nRikbHKUIqIqla8PXl94TteSpbO9fhb6byFyiGFgGwi34=
-  - GIT_NAME = "Alvaro Sanchez-Mariscal"
-  - GIT_EMAIL = "alvaro.sanchezmariscal@gmail.com"
+  - GIT_NAME="Alvaro Sanchez-Mariscal"
+  - GIT_EMAIL="alvaro.sanchezmariscal@gmail.com"
 
 before_deploy: ./publish-plugin.sh
 deploy:
