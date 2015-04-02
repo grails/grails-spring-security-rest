@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>9 Token Validation Filter 1.5.0.RC1</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew15.html"><strong>2</strong><span>What's new in 1.5?</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew14.html"><strong>3</strong><span>What's new in 1.4?</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>4</strong><span>Configuration</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>5</strong><span>Authentication Endpoint</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>6</strong><span>Token Generation</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>7</strong><span>Token Storage</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenRendering.html"><strong>8</strong><span>Token Rendering</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>9</strong><span>Token Validation Filter</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>10</strong><span>CORS support</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>11</strong><span>Delegating authentication to OAuth providers</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>12</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>13</strong><span>Frequently Asked Questions</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/tokenRendering.html">&lt;&lt; <strong>8</strong><span>Token Rendering</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/cors.html"><strong>10</strong><span>CORS support</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>9 Token Validation Filter - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
+
+                    <p><strong>Version:</strong> 1.5.0.RC1</p>
+
+                    
+                </div>
+
+                
+
+                
+
+<h1 id="tokenValidation">9 Token Validation Filter</h1>
+The token validation filter looks for the token in the request and then tries to validate it using the configured
+<a href="../guide/single.html#tokenStorage" class="guide">token storage</a> implementation.<p class="paragraph"/>If the validation is successful, the principal object is stored in the security context. This allows you to use in
+your application <code>&#64;Secured</code>, <code>springSecurityService.principal</code> and so on.<p class="paragraph"/><blockquote class="note">
+<code>springSecurityService.currentUser</code> expects a <code>grails.plugin.springsecurity.userdetails.GrailsUser</code> to perform a DB query.
+However, this plugins stores in the security context just a principal <code>Object</code>, because it does not assume you are using
+domain classes to store the users. Use <code>springSecurityService.principal</code> instead.
+</blockquote><p class="paragraph"/>This plugin supports <a href="http://tools.ietf.org/html/rfc6750" target="blank">RFC 6750 Bearer Token</a> specification out-of-the-box.<p class="paragraph"/><h2>Sending tokens in the request</h2><p class="paragraph"/>The token can be sent in the <code>Authorization</code> request reader:<p class="paragraph"/><div class="code"><pre>GET /protectedResource HTTP/1.1
+Host: server.example.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0MjI5OTU5MjIsInN1YiI6ImppbWkiLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlhdCI6MTQyMjk5MjMyMn0.rA7A2Gwt14LaYMpxNRtrCdO24RGrfHtZXY9fIjV8x8o</pre></div><p class="paragraph"/>Or using form-encoded body parameters:<p class="paragraph"/><div class="code"><pre>POST /protectedResource HTTP/1.1
+Host: server.example.com
+Content&#45;Type: application/x&#45;www&#45;form&#45;urlencoded<p class="paragraph"/>access_token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0MjI5OTU5MjIsInN1YiI6ImppbWkiLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlhdCI6MTQyMjk5MjMyMn0.rA7A2Gwt14LaYMpxNRtrCdO24RGrfHtZXY9fIjV8x8o</pre></div><p class="paragraph"/>Note that in this case, <code>GET</code> HTTP method is not supported.<p class="paragraph"/>If you disable the bearer token support, you can customise it further:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.token.validation.useBearerToken = <span class="java&#45;keyword">false</span>
+grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.token.validation.headerName = 'X&#45;Auth&#45;Token'</pre></div><p class="paragraph"/>If you still want to have full access and read the token from a different part of the request, you can implement a
+<a href="http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/TokenReader.html" target="blank">TokenReader</a>
+and register it in your <code>resources.groovy</code>  as <code>tokenReader</code>.<p class="paragraph"/><h2>Anonymous access</h2><p class="paragraph"/>If you want to enable anonymous access to URL's where this plugin's filters are applied, you need to:
+<ol>
+<li>Configure <code>enableAnonymousAccess = true</code> (see table below).</li>
+<li>Make sure that the <code>anonymousAuthenticationFilter</code> is applied before <code>restTokenValidationFilter</code>. See <a href="../guide/single.html#configuration" class="guide">how to configure filters</a> for more details.</li>
+</ol><p class="paragraph"/>For example, with this configuration:<p class="paragraph"/><div class="code"><pre>grails &#123;
+    plugin &#123;
+        springsecurity &#123;
+            filterChain &#123;
+                chainMap = &#91;
+                    '/api/guest/&#42;&#42;': 'anonymousAuthenticationFilter,restTokenValidationFilter,restExceptionTranslationFilter,filterInvocationInterceptor',
+                    '/api/&#42;&#42;': 'JOINED_FILTERS,&#45;anonymousAuthenticationFilter,&#45;exceptionTranslationFilter,&#45;authenticationProcessingFilter,&#45;securityContextPersistenceFilter',
+                    '/&#42;&#42;': 'JOINED_FILTERS,&#45;restTokenValidationFilter,&#45;restExceptionTranslationFilter'
+                &#93;
+            &#125;<p class="paragraph"/>            //Other Spring Security settings
+            //...<p class="paragraph"/>            <span class="java&#45;keyword">rest</span> &#123;
+                token &#123;
+                    validation &#123;
+                        enableAnonymousAccess = <span class="java&#45;keyword">true</span>
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;</pre></div><p class="paragraph"/>The following chains are configured:
+<ol>
+<li><code>/api/guest/&#42;*</code> is a stateless chain that allows anonymous access when no token is sent. If however a token is on the request, it will be validated.</li>
+<li><code>/api/&#42;*</code> is a stateless chain that doesn't allow anonymous access. Thus, the token will always be required, and if missing, a Bad Request reponse will be sent back to the client.</li>
+<li><code>/&#42;*</code> (read: everything else) is a traditional stateful chain.</li>
+</ol><p class="paragraph"/><h2>Validation Endpoint</h2><p class="paragraph"/>There is also an endpoint available that you can call in case you want to know if a given token is valid. It looks for
+the token in a HTTP header as well, and if the token is still valid, it renders <a href="../guide/single.html#authentication" class="guide">its JSON representation</a>.
+If the token does not exist, it will render a <code>grails.plugin.springsecurity.rest.login.failureStatusCode</code> response
+(<code>401</code> by default).<p class="paragraph"/>The relevant configuration properties for the validation endpoint are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.active</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.validation.headerName</code></td><td><code>X-Auth-Token</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.validation.endpointUrl</code></td><td><code>/api/validate</code></td></tr></table><p class="paragraph"/>Note that <code>headerName</code> is only considered if <code>grails.plugin.springsecurity.rest.token.validation.useBearerToken</code> is set
+to <code>false</code>. Otherwise (the default approach), as per RFC 6750, the header name will be <code>Authorization</code> and the value
+will be <code>Bearer TOKEN_VALUE</code>
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/tokenRendering.html">&lt;&lt; <strong>8</strong><span>Token Rendering</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/cors.html"><strong>10</strong><span>CORS support</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>4 Configuration 1.5.0.RC1</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew15.html"><strong>2</strong><span>What's new in 1.5?</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew14.html"><strong>3</strong><span>What's new in 1.4?</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>4</strong><span>Configuration</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/authentication.html"><strong>5</strong><span>Authentication Endpoint</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenGeneration.html"><strong>6</strong><span>Token Generation</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenStorage.html"><strong>7</strong><span>Token Storage</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenRendering.html"><strong>8</strong><span>Token Rendering</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tokenValidation.html"><strong>9</strong><span>Token Validation Filter</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/cors.html"><strong>10</strong><span>CORS support</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/oauth.html"><strong>11</strong><span>Delegating authentication to OAuth providers</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/debugging.html"><strong>12</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/faq.html"><strong>13</strong><span>Frequently Asked Questions</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/whatsNew14.html">&lt;&lt; <strong>3</strong><span>What's new in 1.4?</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/authentication.html"><strong>5</strong><span>Authentication Endpoint</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>4 Configuration - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
+
+                    <p><strong>Version:</strong> 1.5.0.RC1</p>
+
+                    
+                </div>
+
+                
+
+                
+
+<h1 id="configuration">4 Configuration</h1>
+Once the plugin is installed, you are ready to go. The default configuration is to use signed
+<a href="../guide/single.html#jwt" class="guide">JWT's</a> for tokens. However, you can select any other <a href="../guide/single.html#tokenStorage" class="guide">token storage</a> strategy:
+<ol>
+<li><a href="../guide/single.html#grailsCache" class="guide">Grails Cache</a>.</li>
+<li><a href="../guide/single.html#memcached" class="guide">Memcached</a></li>
+<li><a href="../guide/single.html#gorm" class="guide">GORM</a>.</li>
+<li><a href="../guide/single.html#redis" class="guide">Redis</a></li>
+<li>Provide your own: implement <a href="http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html" target="blank">TokenStorageService</a> and register it in <code>resources.groovy</code> as <code>tokenStorageService</code></li>
+</ol><p class="paragraph"/><h2>Plugin configuration</h2><p class="paragraph"/><blockquote class="note">
+This plugin depends on <a href="http://grails-plugins.github.io/grails-spring-security-core/docs/manual/guide/newInV2.html" target="blank">Spring Security Core 2.x</a>.
+Make sure your application is compatible with that version first.
+</blockquote><p class="paragraph"/>This plugin is compatible by default with Spring Security core traditional, form-based authentication. The important thing
+to remember is: you have to separate the filter chains, so different filters are applied on each case.<p class="paragraph"/>The stateless, token-based approach of this plugin is incompatible with the HTTP session-based approach of Spring Security,
+core, so the trick is to identify what URL patterns have to be stateless, and what others have to be stateful (if any).<p class="paragraph"/>To configure the chains properly, you can use the <code>grails.plugin.springsecurity.filterChain.chainMap</code> property:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.filterChain.chainMap = &#91;
+    '/api/&#42;&#42;': 'JOINED_FILTERS,&#45;exceptionTranslationFilter,&#45;authenticationProcessingFilter,&#45;securityContextPersistenceFilter,&#45;rememberMeAuthenticationFilter',  // Stateless chain
+    '/&#42;&#42;': 'JOINED_FILTERS,&#45;restTokenValidationFilter,&#45;restExceptionTranslationFilter'                                                                          // Traditional chain
+&#93;</pre></div><p class="paragraph"/>To understand this syntax, please read the
+<a href="http://grails-plugins.github.io/grails-spring-security-core/guide/filters.html" target="blank">Spring Security Core documentation</a>.
+Long story short: <code>JOINED_FILTERS</code> refers to all the configured filters. The minus (<code>-</code>) notation means all the previous values
+but the neglected one.<p class="paragraph"/>So the first chain applies all the filters except the stateful ones. The second one applies all the filters but the stateless ones.<p class="paragraph"/><blockquote class="note">
+Make sure that the stateless chain applies not only to your REST controllers, but also to the URL's where this plugin
+filters are listening: by default, <code>/api/login</code> for <a href="../guide/single.html#authentication" class="guide">authentication</a>, <code>/api/logout</code> for
+<a href="../guide/single.html#authentication" class="guide">logout</a> and <code>/api/validate</code> for <a href="../guide/single.html#tokenValidation" class="guide">token validation</a>.
+</blockquote><p class="paragraph"/>The difference is that, in a traditional form-based authentication, Spring Security will respond with an HTTP 302 redirect
+to the login controller. That doesn't work for an API, so in the stateless approach, an HTTP 401 response will be sent back.
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/whatsNew14.html">&lt;&lt; <strong>3</strong><span>What's new in 1.4?</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/authentication.html"><strong>5</strong><span>Authentication Endpoint</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>
