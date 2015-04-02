@@ -1,4 +1,4 @@
-def versions = System.getenv('TAG_LIST').tokenize("\n")
+def versions = new groovy.json.JsonSlurper().parseText(new URL('https://api.github.com/repos/alvarosanchez/grails-spring-security-rest/tags').text)*.name
 assert versions
 
 yieldUnescaped '<!DOCTYPE html>'
@@ -49,7 +49,7 @@ html {
 
 plugins {
 	compile ':spring-security-core:2.0-RC4'
-	compile ':spring-security-rest:${versions[-1]}', {
+	compile ':spring-security-rest:${versions[0]}', {
     		excludes: 'spring-security-core'
 	}
 }"""}}
@@ -57,7 +57,7 @@ plugins {
 				h3("Versions") 
 
 				ul {
-					versions.reverse().each { v ->
+					versions.each { v ->
 						li("<strong>${v}</strong>: <a href=\"${v}/docs/index.html\">Reference documentation</a> | <a href=\"${v}/docs/gapi/index.html\">Javadoc API</a>")
 					}						
 				}
