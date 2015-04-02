@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-export TAG_LIST=`git tag`
-echo "List of releases: ${TAG_LIST}"
-
 if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
 	# If there is a tag present then this becomes the latest
@@ -27,6 +24,7 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
 		./gradlew generateIndex
 
+		rm -rf "$version"
 		mkdir -p "$version"
 		mv ../target/docs "./$version/"
 		git add "$version/*"
