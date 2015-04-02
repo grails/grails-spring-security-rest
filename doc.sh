@@ -5,10 +5,6 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
 	# If there is a tag present then this becomes the latest
 	if [[ -n $TRAVIS_TAG ]]; then
-
-		export TAG_LIST=`git fetch origin && git tag -l`
-		echo "List of releases: `git tag -l`"
-
 		./grailsw doc
 
 		version=`cat SpringSecurityRestGrailsPlugin.groovy | grep version | sed -e 's/^.*"\(.*\)"$/\1/g'`
@@ -28,7 +24,7 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
 		./gradlew generateIndex
 
-		git rm -rf latest/
+		rm -rf latest/
 		mkdir -p latest
 		cp -r ../target/docs/. ./latest/
 		git add latest/*
@@ -37,7 +33,6 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 		mkdir -p "$version"
 		mv ../target/docs "./$version/"
 		git add "$version/*"
-
 
 		git commit -a -m "Updating docs for Travis build: https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID"
 		git push origin HEAD
