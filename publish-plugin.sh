@@ -7,4 +7,4 @@ echo "grails.project.repos.grailsCentral.password = '${PLUGIN_PORTAL_PASSWORD}'"
 ./grailsw package-plugin
 
 echo "Publishing plugin"
-./grailsw publish-plugin
+./grailsw --non-interactive publish-plugin --allow-overwrite
