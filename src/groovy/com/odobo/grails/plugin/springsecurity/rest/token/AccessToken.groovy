@@ -7,7 +7,7 @@ import org.springframework.security.core.SpringSecurityCoreVersion
 import org.springframework.security.core.userdetails.UserDetails
 
 /**
- * TODO: write doc
+ * Encapsulates an OAuth 2.0 access token.
  */
 @ToString(includeNames = true, includeSuper = true, includes = ['principal', 'accessToken', 'refreshToken', 'expiration'])
 class AccessToken extends AbstractAuthenticationToken {
