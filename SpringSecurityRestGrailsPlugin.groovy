@@ -1,4 +1,3 @@
-import grails.plugin.springsecurity.rest.*
 import grails.plugin.springsecurity.rest.CustomSerializingTranscoder
 import grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler
 import grails.plugin.springsecurity.rest.RestAuthenticationFilter
@@ -38,7 +37,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.5.0.M3"
+    String version = "1.5.0.RC1"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
