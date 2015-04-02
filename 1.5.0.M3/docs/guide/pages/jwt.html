@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>7.1 JSON Web Token 1.5.0.M3</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/introduction.html"><strong>1</strong><span>Introduction to the Spring Security REST plugin</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/whatsNew15.html"><strong>2</strong><span>What's new in 1.5?</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/whatsNew14.html"><strong>3</strong><span>What's new in 1.4?</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/configuration.html"><strong>4</strong><span>Configuration</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/authentication.html"><strong>5</strong><span>Authentication Endpoint</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenGeneration.html"><strong>6</strong><span>Token Generation</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenStorage.html"><strong>7</strong><span>Token Storage</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenRendering.html"><strong>8</strong><span>Token Rendering</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/tokenValidation.html"><strong>9</strong><span>Token Validation Filter</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/cors.html"><strong>10</strong><span>CORS support</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/oauth.html"><strong>11</strong><span>Delegating authentication to OAuth providers</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/debugging.html"><strong>12</strong><span>Debugging</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/faq.html"><strong>13</strong><span>Frequently Asked Questions</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>6</strong><span>Token Generation</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../../guide/tokenRendering.html"><strong>8</strong><span>Token Rendering</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>7.1 JSON Web Token - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Alvaro Sanchez-Mariscal</p>
+
+                    <p><strong>Version:</strong> 1.5.0.M3</p>
+
+                    
+                </div>
+
+                
+
+                
+
+<h2 id="jwt">7.1 JSON Web Token</h2>
+JSON Web Token (JWT) is an <a href="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token" target="blank">IETF standard</a> (in progress)
+which defines a secure way to encapsulate arbitrary data that can be sent over unsecure URL's.<p class="paragraph"/>Generally speaking, JWT's can be useful in the following use cases:
+<ul class="star">
+<li>When generating "one click" action emails, like "delete this comment" or "add this to favorites". Instead of giving the users URL's like <code>/comment/delete/123</code>, you can give them something like <code>/comment/delete/&#60;JWT_TOKEN&#62;</code>, where the <code>JWT_TOKEN</code> contains encapsulated information about the user and the comment, in a safe way, so authentication is not required.</li>
+<li>To achieve single sign-on, by sharing a JWT across applications.</li>
+</ul><p class="paragraph"/>In the context of authentication and authorization, JWT will help you implement a stateless implementation, as the
+principal information is stored directly in the JWT.<p class="paragraph"/><h2>How does a JWT looks like?</h2><p class="paragraph"/><img border="0" class="center" src="../img/jwt.png"></img><p class="paragraph"/><h3>Header</h3><p class="paragraph"/>A base64-encoded JSON like:<p class="paragraph"/><div class="code"><pre>&#123;
+    <span class="java&#45;quote">"alg"</span>: <span class="java&#45;quote">"HS256"</span>,
+    <span class="java&#45;quote">"typ"</span>: <span class="java&#45;quote">"JWT"</span>
+&#125;</pre></div><p class="paragraph"/><h3>Claims</h3><p class="paragraph"/>A base64-encoded JSON like:<p class="paragraph"/><div class="code"><pre>&#123;
+    <span class="java&#45;quote">"exp"</span>: 1422990129,
+    <span class="java&#45;quote">"sub"</span>: <span class="java&#45;quote">"jimi"</span>,
+    <span class="java&#45;quote">"roles"</span>: &#91;
+        <span class="java&#45;quote">"ROLE_ADMIN"</span>,
+        <span class="java&#45;quote">"ROLE_USER"</span>
+    &#93;,
+    <span class="java&#45;quote">"iat"</span>: 1422986529
+&#125;</pre></div><p class="paragraph"/><h3>Signature</h3><p class="paragraph"/>Depends on the algorithm specified on the header, it can be a digital signature of the base64-encoded header and claims,
+or an encryption of them using RSA.<p class="paragraph"/><h2>Signed JWT's</h2><p class="paragraph"/>By default, this plugin uses signed JWT's as specified by the
+<a href="https://tools.ietf.org/html/draft-ietf-jose-json-web-signature" target="blank">JSON Web Signature</a> specification. More specifically,
+the algorithm used is HMAC SHA-256 with a specified shared secret. The relevant configuration properties are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useJwt</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.jwt.useSignedJwt</code></td><td><code>true</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.jwt.secret</code></td><td><code>'qrD6h8K6S9503Q06Y6Rfk21TErImPYqa'</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.jwt.expiration</code></td><td><code>3600</code></td></tr></table><p class="paragraph"/><h2>Encrypted JWT's</h2><p class="paragraph"/><blockquote class="note">
+Grails's <code>grails-docs</code> artifact includes a version of <code>com.lowagie:itext</code> which in turns bring old BouncyCastle's libraries
+into the classpath. To avoid the problem, you have to override explicitly that dependency:<p class="paragraph"/><div class="code"><pre>build(<span class="java&#45;quote">"com.lowagie:itext:2.0.8"</span>) &#123; excludes <span class="java&#45;quote">"bouncycastle:bcprov&#45;jdk14:138"</span>, <span class="java&#45;quote">"org.bouncycastle:bcprov&#45;jdk14:1.38"</span> &#125;</pre></div>
+</blockquote><p class="paragraph"/>In the previous strategy, the claims are just signed, so it prevents an attacker to tamper its contents to introduce
+malicious data or try a privilege escalation by adding more roles. However, the claims can be decoded just by using
+Base 64.<p class="paragraph"/>If the claims contains sensitive information, you can use a
+<a href="https://tools.ietf.org/html/draft-ietf-jose-json-web-encryption" target="blank">JSON Web Encryption</a> algorithm to prevent them to be decoded.
+Particularly, this plugin uses RSAES OAEP for key encryption and AES GCM (Galois/Counter Mode) algorithm with a 256 bit key
+for content encryption.<p class="paragraph"/>By default, RSA public/private keys ar generated every time the application runs. This means that  generated tokens
+won't be decrypted across executions of the application. So better create your own key pair using OpenSSL:<p class="paragraph"/><div class="code"><pre>openssl genrsa &#45;out private_key.pem 2048
+openssl pkcs8 &#45;topk8 &#45;inform PEM &#45;outform DER &#45;in private_key.pem &#45;out private_key.der &#45;nocrypt
+openssl rsa &#45;in private_key.pem &#45;pubout &#45;outform DER &#45;out public_key.der</pre></div><p class="paragraph"/>Then, configure the keys properly, along with the rest of the configuration:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Config key</strong></th><th><strong class="bold">Default value</strong></th></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.useJwt</code></td><td><code>true</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.jwt.useEncryptedJwt</code></td><td><code>false</code></td></tr><tr class="table-odd"><td><code>grails.plugin.springsecurity.rest.token.storage.jwt.privateKeyPath</code></td><td><code>null</code></td></tr><tr class="table-even"><td><code>grails.plugin.springsecurity.rest.token.storage.jwt.publicKeyPath</code></td><td><code>null</code></td></tr></table><p class="paragraph"/>Example configuration:<p class="paragraph"/><div class="code"><pre>grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.token.storage.jwt.useEncryptedJwt = <span class="java&#45;keyword">true</span>
+grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.token.storage.jwt.privateKeyPath = '/path/to/private_key.der'
+grails.plugin.springsecurity.<span class="java&#45;keyword">rest</span>.token.storage.jwt.publicKeyPath = '/path/to/public_key.der'</pre></div>
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../../guide/tokenGeneration.html">&lt;&lt; <strong>6</strong><span>Token Generation</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../../guide/tokenRendering.html"><strong>8</strong><span>Token Rendering</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>
