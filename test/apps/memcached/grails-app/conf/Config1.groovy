@@ -122,7 +122,7 @@ log4j = {
            'grails.app.taglib.org.grails.plugin.resource',
            'org.grails.plugin.resource'
 
-    debug  'com.odobo',
+    debug  'grails.plugin.springsecurity.rest',
            'org.pac4j',
            'grails.app',
            'org.springframework.security'

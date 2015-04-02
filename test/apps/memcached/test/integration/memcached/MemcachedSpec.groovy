@@ -1,7 +1,7 @@
 package memcached
 
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
+import grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.test.spock.IntegrationSpec
 import net.spy.memcached.MemcachedClient
 import org.springframework.security.core.userdetails.User

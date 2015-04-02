@@ -1,7 +1,7 @@
 package redis
 
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
+import grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import spock.lang.Shared

@@ -1,25 +1,32 @@
-import com.odobo.grails.plugin.springsecurity.rest.*
-import com.odobo.grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
-import com.odobo.grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
-import com.odobo.grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
-import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAccessDeniedHandler
-import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
-import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
-import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
-import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
-import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
-import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
-import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.FileRSAKeyProvider
-import com.odobo.grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
-import com.odobo.grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
-import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultAccessTokenJsonRenderer
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
+import grails.plugin.springsecurity.rest.*
+import grails.plugin.springsecurity.rest.CustomSerializingTranscoder
+import grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler
+import grails.plugin.springsecurity.rest.RestAuthenticationFilter
+import grails.plugin.springsecurity.rest.RestAuthenticationProvider
+import grails.plugin.springsecurity.rest.RestAuthenticationSuccessHandler
+import grails.plugin.springsecurity.rest.RestLogoutFilter
+import grails.plugin.springsecurity.rest.RestTokenValidationFilter
+import grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
+import grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
+import grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
+import grails.plugin.springsecurity.rest.token.bearer.BearerTokenAccessDeniedHandler
+import grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
+import grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
+import grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
+import grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
+import grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
+import grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
+import grails.plugin.springsecurity.rest.token.generation.jwt.FileRSAKeyProvider
+import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
+import grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
+import grails.plugin.springsecurity.rest.token.rendering.DefaultAccessTokenJsonRenderer
+import grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
 import net.spy.memcached.DefaultHashAlgorithm
 import net.spy.memcached.spring.MemcachedClientFactoryBean
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
@@ -40,13 +47,13 @@ class SpringSecurityRestGrailsPlugin {
 
     String title = "Spring Security REST Plugin"
     String author = "Alvaro Sanchez-Mariscal"
-    String authorEmail = "alvaro.sanchez@odobo.com"
+    String authorEmail = "alvaro.sanchezmariscal@gmail.com"
     String description = 'Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow'
 
     String documentation = "http://alvarosanchez.github.io/grails-spring-security-rest/"
 
     String license = "APACHE"
-    def organization = [ name: "Odobo Limited", url: "http://www.odobo.com" ]
+    def organization = [ name: "Odobo", url: "http://www.odobo.com" ]
 
     def issueManagement = [ system: "GitHub", url: "https://github.com/alvarosanchez/grails-spring-security-rest/issues" ]
     def scm = [ url: "https://github.com/alvarosanchez/grails-spring-security-rest" ]

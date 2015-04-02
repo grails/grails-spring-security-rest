@@ -18,6 +18,11 @@ h2. Redis support
 Redis can now be used as [token storage service|guide:redis]. Thanks to [Philipp Eschenbach|https://github.com/peh] for
 his initial contribution.
 
+h2. New package base
+
+Packages @com.odobo.grails.plugin.springsecurity.rest.*@ have been refactored to simply @grails.plugin.springsecurity.rest.*@.
+Make sure to double-check your imports when upgrading to 1.5.
+
 h2. Other minor changes
 
 * The plugin now uses Grails 2.4.4, and the build and tests are executed with Java 8.

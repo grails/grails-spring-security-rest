@@ -5,7 +5,7 @@ Once the plugin is installed, you are ready to go. The default configuration is 
 # [Memcached|guide:memcached]
 # [GORM|guide:gorm].
 # [Redis|guide:redis]
-# Provide your own: implement [TokenStorageService|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html] and register it in @resources.groovy@ as @tokenStorageService@
+# Provide your own: implement [TokenStorageService|http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html] and register it in @resources.groovy@ as @tokenStorageService@
 
 h2. Plugin configuration
 

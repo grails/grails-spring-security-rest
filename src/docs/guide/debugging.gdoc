@@ -4,9 +4,9 @@ If you need debug information, you can specify the following entries in @Config.
 log4j = {
     ...
 
-    debug  'com.odobo',
-           'grails.app.controllers.com.odobo',
-           'grails.app.services.com.odobo',
+    debug  'grails.plugin.springsecurity',
+           'grails.app.controllers.grails.plugin.springsecurity',
+           'grails.app.services.grails.plugin.springsecurity',
            'org.pac4j',
            'org.springframework.security'
 
