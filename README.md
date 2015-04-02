@@ -1,14 +1,19 @@
 Spring Security REST for Grails
 ===========================
 [![Build Status](https://travis-ci.org/alvarosanchez/grails-spring-security-rest.png?branch=master)](https://travis-ci.org/alvarosanchez/grails-spring-security-rest)
-[![Stories in Ready](https://badge.waffle.io/alvarosanchez/grails-spring-security-rest.png?label=ready)](https://waffle.io/alvarosanchez/grails-spring-security-rest)
 [![Latest Release](http://img.shields.io/github/release/alvarosanchez/grails-spring-security-rest.svg)](https://github.com/alvarosanchez/grails-spring-security-rest/releases)
 [![Gitter chat](https://badges.gitter.im/alvarosanchez/spring-security-rest.png)](https://gitter.im/alvarosanchez/spring-security-rest)
 
 Grails plugin to implement a stateless, token-based, RESTful authentication using Spring Security.
 
-* Documentation at [http://alvarosanchez.github.io/grails-spring-security-rest/](http://alvarosanchez.github.io/grails-spring-security-rest/).
-* Javadoc: [http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/index.html](http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/index.html).
+Read the documentation at [http://alvarosanchez.github.io/grails-spring-security-rest/](http://alvarosanchez.github.io/grails-spring-security-rest/).
+
+Companies using this plugin
+---------------------------
+
+* [Odobo](http://www.odobo.com)
+
+_Are you using this plugin and want to be listed here? [Include your company yourself](https://github.com/alvarosanchez/grails-spring-security-rest/edit/develop/README.md)_.
 
 Support
 -------
