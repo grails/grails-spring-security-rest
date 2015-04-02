@@ -13,4 +13,6 @@
         exit -1
      fi
      done \
-  && cd ../../../
+  && cd ../../
+
+./gradlew license
