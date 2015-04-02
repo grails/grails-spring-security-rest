@@ -24,8 +24,8 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 		./gradlew generateIndex
 
 		rm -rf latest/
-		mkdir -p latest
-		cp -r ../target/docs/. ./latest/
+		mkdir -p latest/docs
+		cp -r ../target/docs/. ./latest/docs
 		git add latest/*
 
 		rm -rf "$version"
