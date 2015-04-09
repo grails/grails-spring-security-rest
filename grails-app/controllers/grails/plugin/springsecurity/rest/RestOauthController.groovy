@@ -22,6 +22,7 @@ import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
+import grails.util.Holders
 import org.apache.commons.codec.binary.Base64
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.pac4j.core.client.RedirectAction
@@ -47,6 +48,9 @@ class RestOauthController {
     TokenStorageService tokenStorageService
     TokenGenerator tokenGenerator
     AccessTokenJsonRenderer accessTokenJsonRenderer
+
+    String headerName = Holders.config.grails.plugin.springsecurity.rest.token.validation.headerName
+    Boolean useBearerToken = Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken
 
     /**
      * Starts the OAuth authentication flow, redirecting to the provider's Login URL. An optional callback parameter
@@ -125,7 +129,7 @@ class RestOauthController {
      * Generates a new access token given the refresh token passed
      */
     def accessToken() {
-        String refreshToken = params['refresh_token']
+        String refreshToken = useBearerToken ? request.getHeader('Authorization').substring(7) : request.getHeader(headerName)
         log.debug "Trying to generate an access token for the refresh token: ${refreshToken}"
         if (refreshToken) {
             User principal = tokenStorageService.loadUserByToken(refreshToken) as User

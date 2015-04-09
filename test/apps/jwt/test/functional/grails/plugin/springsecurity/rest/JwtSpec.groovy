@@ -21,7 +21,6 @@ import grails.util.Holders
 import spock.lang.IgnoreIf
 
 @IgnoreIf({ !Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
-
 class JwtSpec extends AbstractRestSpec {
 
     void "token expiration applies"() {
@@ -83,8 +82,7 @@ class JwtSpec extends AbstractRestSpec {
 
         when:
         def response = restBuilder.post("${baseUrl}/oauth/access_token") {
-            contentType "application/x-www-form-urlencoded"
-            body "refresh_token=${refreshToken}".toString()
+            header "Authorization", "Bearer ${refreshToken}"
         }
 
         then:
