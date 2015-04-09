@@ -5,6 +5,10 @@ you still want to have logout, you can provide your own implementation by creati
 and overriding the methods @storeToken@ and @removeToken@.
 
 Then, register your implementation in @resources.groovy@ as @tokenStorageService@.
+
+However, a more rational approach would be just to remove the token from the client (eg, browser's local storage) and
+let the tokens expire (they will expire anyway, unlike with other storages like Memcached or Redis where they get refreshed
+on every access).
 {note}
 
 The [logout filter|http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/RestLogoutFilter.html]
