@@ -31,14 +31,22 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
 
     JwtTokenStorageService jwtTokenStorageService
 
+    @Override
     AccessToken generateAccessToken(UserDetails details) {
+        generateAccessToken(details, true)
+    }
+
+    AccessToken generateAccessToken(UserDetails details, boolean withRefreshToken) {
         JWTClaimsSet claimsSet = generateClaims(details)
 
         log.debug "Generating access token..."
         String accessToken = generateAccessToken(claimsSet)
 
-        log.debug "Generating refresh token..."
-        String refreshToken = generateRefreshToken(accessToken)
+        String refreshToken
+        if (withRefreshToken) {
+            log.debug "Generating refresh token..."
+            refreshToken = generateRefreshToken(accessToken)
+        }
 
         return new AccessToken(details, details.authorities, accessToken, refreshToken, expiration)
     }

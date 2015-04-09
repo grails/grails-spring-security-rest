@@ -83,17 +83,34 @@ class JwtSpec extends AbstractRestSpec {
 
         when:
         def response = restBuilder.post("${baseUrl}/oauth/access_token") {
-            header "Authorization", "Bearer ${refreshToken}"
+            contentType "application/x-www-form-urlencoded"
+            body "grant_type=refresh_token&refresh_token=${refreshToken}".toString()
         }
 
         then:
         response.json.access_token
-        response.json.refresh_token
+
+        and:
+        response.json.refresh_token == refreshToken
     }
 
-    void "header is required to send the refresh token"() {
+    void "refresh token is required to send the refresh token"() {
         when:
-        def response = restBuilder.post("${baseUrl}/oauth/access_token")
+        def response = restBuilder.post("${baseUrl}/oauth/access_token") {
+            contentType "application/x-www-form-urlencoded"
+            body "grant_type=refresh_token".toString()
+        }
+
+        then:
+        response.status == 400
+    }
+
+    void "grant_type is required to send the refresh token"() {
+        when:
+        def response = restBuilder.post("${baseUrl}/oauth/access_token") {
+            contentType "application/x-www-form-urlencoded"
+            body "refresh_token=whatever".toString()
+        }
 
         then:
         response.status == 400
@@ -107,7 +124,8 @@ class JwtSpec extends AbstractRestSpec {
 
         when:
         def response = restBuilder."${method}"("${baseUrl}/oauth/access_token") {
-            header "Authorization", "Bearer ${refreshToken}"
+            contentType "application/x-www-form-urlencoded"
+            body "grant_type=refresh_token&refresh_token=${refreshToken}".toString()
         }
 
         then:
@@ -124,7 +142,8 @@ class JwtSpec extends AbstractRestSpec {
     void "an invalid refresh token is rejected as forbidden"() {
         when:
         def response = restBuilder.post("${baseUrl}/oauth/access_token") {
-            header "Authorization", "Bearer thisIsNotAJWT"
+            contentType "application/x-www-form-urlencoded"
+            body "grant_type=refresh_token&refresh_token=thisIsNotAJWT".toString()
         }
 
         then:

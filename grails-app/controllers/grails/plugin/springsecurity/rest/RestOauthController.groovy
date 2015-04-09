@@ -16,13 +16,11 @@
  */
 package grails.plugin.springsecurity.rest
 
-import com.nimbusds.jwt.JWTClaimsSet
 import grails.plugin.springsecurity.annotation.Secured
 import grails.plugin.springsecurity.rest.token.AccessToken
-import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
+import grails.plugin.springsecurity.rest.token.generation.jwt.AbstractJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
-import grails.util.Holders
 import org.apache.commons.codec.binary.Base64
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.pac4j.core.client.RedirectAction
@@ -46,11 +44,8 @@ class RestOauthController {
     GrailsApplication grailsApplication
 
     TokenStorageService tokenStorageService
-    TokenGenerator tokenGenerator
+    AbstractJwtTokenGenerator tokenGenerator
     AccessTokenJsonRenderer accessTokenJsonRenderer
-
-    String headerName = Holders.config.grails.plugin.springsecurity.rest.token.validation.headerName
-    Boolean useBearerToken = Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken
 
     /**
      * Starts the OAuth authentication flow, redirecting to the provider's Login URL. An optional callback parameter
@@ -129,14 +124,22 @@ class RestOauthController {
      * Generates a new access token given the refresh token passed
      */
     def accessToken() {
-        String refreshToken = useBearerToken ? request.getHeader('Authorization')?.substring(7) : request.getHeader(headerName)
+        String grantType = params['grant_type']
+        if (!grantType || grantType != 'refresh_token') {
+            render status: HttpStatus.BAD_REQUEST, text: "Invalid grant_type"
+            return
+        }
+
+        String refreshToken = params['refresh_token']
         log.debug "Trying to generate an access token for the refresh token: ${refreshToken}"
         if (refreshToken) {
             try {
                 User principal = tokenStorageService.loadUserByToken(refreshToken) as User
                 log.debug "Principal found for refresh token: ${principal}"
 
-                AccessToken accessToken = tokenGenerator.generateAccessToken(principal)
+                AccessToken accessToken = tokenGenerator.generateAccessToken(principal, false)
+                accessToken.refreshToken = refreshToken
+
                 response.addHeader 'Cache-Control', 'no-store'
                 response.addHeader 'Pragma', 'no-cache'
                 render contentType: 'application/json', encoding: 'UTF-8',  text:  accessTokenJsonRenderer.generateJson(accessToken)
@@ -144,6 +147,7 @@ class RestOauthController {
                 render status: HttpStatus.FORBIDDEN
             }
         } else {
+            log.debug "Refresh token is missing. Replying with bad request"
             render status: HttpStatus.BAD_REQUEST, text: "Refresh token is required"
         }
     }
