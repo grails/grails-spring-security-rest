@@ -44,7 +44,7 @@ class RestOauthController {
     GrailsApplication grailsApplication
 
     TokenStorageService tokenStorageService
-    AbstractJwtTokenGenerator tokenGenerator
+    def tokenGenerator
     AccessTokenJsonRenderer accessTokenJsonRenderer
 
     /**
