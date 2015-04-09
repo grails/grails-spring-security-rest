@@ -34,7 +34,10 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
     AccessToken generateAccessToken(UserDetails details) {
         JWTClaimsSet claimsSet = generateClaims(details)
 
+        log.debug "Generating access token..."
         String accessToken = generateAccessToken(claimsSet)
+
+        log.debug "Generating refresh token..."
         String refreshToken = generateRefreshToken(accessToken)
 
         return new AccessToken(details, details.authorities, accessToken, refreshToken, expiration)

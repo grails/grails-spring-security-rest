@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest.token.storage.jwt
 
+import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
@@ -34,8 +35,8 @@ class JwtTokenStorageServiceSpec extends Specification {
     SignedJwtTokenGenerator tokenGenerator
 
     void setup() {
-        service = new JwtTokenStorageService(jwtSecret: 'fooo'*8)
-        tokenGenerator = new SignedJwtTokenGenerator(jwtSecret: service.jwtSecret, expiration: 60, jwtTokenStorageService: service)
+        service = new JwtTokenStorageService(jwtService: new JwtService(jwtSecret: 'fooo'*8))
+        tokenGenerator = new SignedJwtTokenGenerator(jwtSecret: service.jwtService.jwtSecret, expiration: 60, jwtTokenStorageService: service)
         tokenGenerator.afterPropertiesSet()
     }
 

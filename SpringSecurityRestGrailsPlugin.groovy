@@ -1,4 +1,5 @@
 import grails.plugin.springsecurity.rest.CustomSerializingTranscoder
+import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler
 import grails.plugin.springsecurity.rest.RestAuthenticationFilter
 import grails.plugin.springsecurity.rest.RestAuthenticationProvider
@@ -184,6 +185,7 @@ class SpringSecurityRestGrailsPlugin {
 
         /* tokenStorageService */
         if (conf.rest.token.storage.useMemcached) {
+            conf.rest.token.storage.useJwt = false
 
             Properties systemProperties = System.properties
             systemProperties.put("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.SLF4JLogger")
@@ -206,15 +208,18 @@ class SpringSecurityRestGrailsPlugin {
                 expiration = conf.rest.token.storage.memcached.expiration
             }
         } else if (conf.rest.token.storage.useGrailsCache) {
+            conf.rest.token.storage.useJwt = false
             tokenStorageService(GrailsCacheTokenStorageService) {
                 grailsCacheManager = ref('grailsCacheManager')
                 cacheName = conf.rest.token.storage.grailsCacheName
             }
         } else if (conf.rest.token.storage.useGorm) {
+            conf.rest.token.storage.useJwt = false
             tokenStorageService(GormTokenStorageService) {
                 userDetailsService = ref('userDetailsService')
             }
         }else if (conf.rest.token.storage.useRedis) {
+            conf.rest.token.storage.useJwt = false
             tokenStorageService(RedisTokenStorageService) {
                 redisService = ref('redisService')
                 userDetailsService = ref('userDetailsService')
@@ -223,9 +228,13 @@ class SpringSecurityRestGrailsPlugin {
         } else if (conf.rest.token.storage.useJwt) {
             keyProvider(DefaultRSAKeyProvider)
 
-            tokenStorageService(JwtTokenStorageService) {
+            jwtService(JwtService) {
                 keyProvider = ref('keyProvider')
                 jwtSecret = conf.rest.token.storage.jwt.secret
+            }
+
+            tokenStorageService(JwtTokenStorageService) {
+                jwtService = ref('jwtService')
             }
 
             if (conf.rest.token.storage.jwt.useEncryptedJwt) {
@@ -257,14 +266,14 @@ class SpringSecurityRestGrailsPlugin {
         /* restAuthenticationProvider */
         restAuthenticationProvider(RestAuthenticationProvider) {
             tokenStorageService = ref('tokenStorageService')
+            useJwt = conf.rest.token.storage.useJwt
+            jwtService = ref('jwtService')
         }
 
         /* oauthUserDetailsService */
         oauthUserDetailsService(DefaultOauthUserDetailsService) {
             userDetailsService = ref('userDetailsService')
         }
-
-        //*/
 
         if (printStatusMessages) {
             println '... finished configuring Spring Security REST\n'

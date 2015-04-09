@@ -16,8 +16,11 @@
  */
 package grails.plugin.springsecurity.rest
 
+import com.nimbusds.jwt.JWT
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
+import groovy.time.TimeCategory
+import groovy.time.TimeDuration
 import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
@@ -32,6 +35,9 @@ import org.springframework.util.Assert
 class RestAuthenticationProvider implements AuthenticationProvider {
 
     TokenStorageService tokenStorageService
+
+    Boolean useJwt
+    JwtService jwtService
 
     /**
      * Returns an authentication object based on the token value contained in the authentication parameter. To do so,
@@ -48,7 +54,20 @@ class RestAuthenticationProvider implements AuthenticationProvider {
             log.debug "Trying to validate token ${authenticationRequest.accessToken}"
             UserDetails userDetails = tokenStorageService.loadUserByToken(authenticationRequest.accessToken) as UserDetails
 
-            authenticationResult = new AccessToken(userDetails, userDetails.authorities, authenticationRequest.accessToken)
+            Integer expiration = null
+            if (useJwt) {
+                Date now = new Date()
+                JWT jwt = jwtService.parse(authenticationRequest.accessToken)
+                Date expiry = jwt.JWTClaimsSet.expirationTime
+
+                log.debug "Now is ${now} and token expires at ${expiry}"
+
+                TimeDuration timeDuration = TimeCategory.minus(expiry, now)
+                expiration = timeDuration.seconds
+                log.debug "Expiration: ${expiration}"
+            }
+
+            authenticationResult = new AccessToken(userDetails, userDetails.authorities, authenticationRequest.accessToken, null, expiration?:null)
             log.debug "Authentication result: ${authenticationResult}"
         }
 

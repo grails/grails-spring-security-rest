@@ -23,6 +23,7 @@ import com.nimbusds.jwt.EncryptedJWT
 import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTParser
 import com.nimbusds.jwt.SignedJWT
+import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
 import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
@@ -39,35 +40,15 @@ import java.text.ParseException
 @Slf4j
 class JwtTokenStorageService implements TokenStorageService {
 
-    String jwtSecret
-
-    RSAKeyProvider keyProvider
+    JwtService jwtService
 
     @Override
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
         Date now = new Date()
-        JWT jwt
         try {
-            jwt = JWTParser.parse(tokenValue)
+            JWT jwt = jwtService.parse(tokenValue)
 
-            if (jwt instanceof  SignedJWT) {
-                log.debug "Parsed an HMAC signed JWT"
-
-                SignedJWT signedJwt = jwt as SignedJWT
-                if(!signedJwt.verify(new MACVerifier(jwtSecret))) {
-                    throw new JOSEException('Invalid signature')
-                }
-            } else if (jwt instanceof EncryptedJWT) {
-                log.debug "Parsed an RSA encrypted JWT"
-
-                EncryptedJWT encryptedJWT = jwt as EncryptedJWT
-                RSADecrypter decrypter = new RSADecrypter(keyProvider.privateKey)
-
-                // Decrypt
-                encryptedJWT.decrypt(decrypter)
-            }
-
-            if (jwt.JWTClaimsSet.expirationTime.before(now)) {
+            if (jwt.JWTClaimsSet.expirationTime?.before(now)) {
                 throw new TokenNotFoundException("Token ${tokenValue} has expired")
             }
 
