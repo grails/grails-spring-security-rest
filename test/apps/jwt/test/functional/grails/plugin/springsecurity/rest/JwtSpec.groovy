@@ -19,6 +19,7 @@ package grails.plugin.springsecurity.rest
 import grails.plugins.rest.client.RestResponse
 import grails.util.Holders
 import spock.lang.IgnoreIf
+import spock.lang.Unroll
 
 @IgnoreIf({ !Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
 class JwtSpec extends AbstractRestSpec {
@@ -88,6 +89,46 @@ class JwtSpec extends AbstractRestSpec {
         then:
         response.json.access_token
         response.json.refresh_token
+    }
+
+    void "header is required to send the refresh token"() {
+        when:
+        def response = restBuilder.post("${baseUrl}/oauth/access_token")
+
+        then:
+        response.status == 400
+    }
+
+    @Unroll
+    void "#method.toUpperCase() HTTP method produces a #status response code when requesting the refresh token endpoint"() {
+        given:
+        RestResponse authResponse = sendCorrectCredentials() as RestResponse
+        String refreshToken = authResponse.json.refresh_token
+
+        when:
+        def response = restBuilder."${method}"("${baseUrl}/oauth/access_token") {
+            header "Authorization", "Bearer ${refreshToken}"
+        }
+
+        then:
+        response.status == status
+
+        where:
+        method      | status
+        'get'       | 405
+        'post'      | 200
+        'put'       | 405
+        'delete'    | 405
+    }
+
+    void "an invalid refresh token is rejected as forbidden"() {
+        when:
+        def response = restBuilder.post("${baseUrl}/oauth/access_token") {
+            header "Authorization", "Bearer thisIsNotAJWT"
+        }
+
+        then:
+        response.status == 403
     }
 
 }

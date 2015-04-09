@@ -129,16 +129,20 @@ class RestOauthController {
      * Generates a new access token given the refresh token passed
      */
     def accessToken() {
-        String refreshToken = useBearerToken ? request.getHeader('Authorization').substring(7) : request.getHeader(headerName)
+        String refreshToken = useBearerToken ? request.getHeader('Authorization')?.substring(7) : request.getHeader(headerName)
         log.debug "Trying to generate an access token for the refresh token: ${refreshToken}"
         if (refreshToken) {
-            User principal = tokenStorageService.loadUserByToken(refreshToken) as User
-            log.debug "Principal found for refresh token: ${principal}"
+            try {
+                User principal = tokenStorageService.loadUserByToken(refreshToken) as User
+                log.debug "Principal found for refresh token: ${principal}"
 
-            AccessToken accessToken = tokenGenerator.generateAccessToken(principal)
-            response.addHeader 'Cache-Control', 'no-store'
-            response.addHeader 'Pragma', 'no-cache'
-            render contentType: 'application/json', encoding: 'UTF-8',  text:  accessTokenJsonRenderer.generateJson(accessToken)
+                AccessToken accessToken = tokenGenerator.generateAccessToken(principal)
+                response.addHeader 'Cache-Control', 'no-store'
+                response.addHeader 'Pragma', 'no-cache'
+                render contentType: 'application/json', encoding: 'UTF-8',  text:  accessTokenJsonRenderer.generateJson(accessToken)
+            } catch (exception) {
+                render status: HttpStatus.FORBIDDEN
+            }
         } else {
             render status: HttpStatus.BAD_REQUEST, text: "Refresh token is required"
         }
