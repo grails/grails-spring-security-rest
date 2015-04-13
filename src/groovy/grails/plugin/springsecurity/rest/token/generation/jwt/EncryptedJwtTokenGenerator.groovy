@@ -34,15 +34,6 @@ class EncryptedJwtTokenGenerator extends AbstractJwtTokenGenerator {
     RSAKeyProvider keyProvider
 
     @Override
-    protected String generateRefreshToken(String accessToken) {
-        User principal = jwtTokenStorageService.loadUserByToken(accessToken) as User
-        JWTClaimsSet claimsSet = generateClaims(principal)
-        claimsSet.expirationTime = null
-
-        return generateAccessToken(claimsSet)
-    }
-
-    @Override
     protected String generateAccessToken(JWTClaimsSet claimsSet) {
         JWEHeader header = new JWEHeader(JWEAlgorithm.RSA_OAEP, EncryptionMethod.A256GCM)
 

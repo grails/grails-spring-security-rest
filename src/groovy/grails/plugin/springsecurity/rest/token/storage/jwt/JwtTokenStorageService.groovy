@@ -31,6 +31,7 @@ import groovy.util.logging.Slf4j
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.util.SerializationUtils
 
 import java.text.ParseException
 
@@ -55,6 +56,19 @@ class JwtTokenStorageService implements TokenStorageService {
             def roles = jwt.JWTClaimsSet.getStringArrayClaim('roles')?.collect { new SimpleGrantedAuthority(it) }
 
             log.debug "Successfully verified JWT"
+
+            log.debug "Trying to deserialize the principal object"
+            try {
+                UserDetails details = SerializationUtils.deserialize(jwt.JWTClaimsSet.getCustomClaim('principal')?.decodeBase64()) as UserDetails
+                log.debug "UserDetails deserialized: ${details}"
+                if (details) {
+                    return details
+                }
+            } catch (IllegalArgumentException iae) {
+                log.debug(iae.message)
+            }
+
+            log.debug "Returning a org.springframework.security.core.userdetails.User instance"
             return new User(jwt.JWTClaimsSet.subject, 'N/A', roles)
         } catch (ParseException pe) {
             throw new TokenNotFoundException("Token ${tokenValue} is not valid")

@@ -42,15 +42,6 @@ class SignedJwtTokenGenerator extends AbstractJwtTokenGenerator implements Initi
     }
 
     @Override
-    protected String generateRefreshToken(String accessToken) {
-        User principal = jwtTokenStorageService.loadUserByToken(accessToken) as User
-        JWTClaimsSet claimsSet = generateClaims(principal)
-        claimsSet.expirationTime = null
-
-        return generateAccessToken(claimsSet)
-    }
-
-    @Override
     protected String generateAccessToken(JWTClaimsSet claimsSet) {
         SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet)
         signedJWT.sign(signer)

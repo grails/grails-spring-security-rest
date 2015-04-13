@@ -22,7 +22,10 @@ import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import groovy.time.TimeCategory
 import groovy.util.logging.Slf4j
+import org.codehaus.groovy.grails.plugins.codecs.Base64Codec
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.util.SerializationUtils
 
 @Slf4j
 abstract class AbstractJwtTokenGenerator implements TokenGenerator {
@@ -63,11 +66,25 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
 
         claimsSet.setCustomClaim('roles', details.authorities?.collect { it.authority })
 
+        log.debug "Serializing the principal received"
+        try {
+            String serializedPrincipal = SerializationUtils.serialize(details)?.encodeBase64()
+            claimsSet.setCustomClaim('principal', serializedPrincipal)
+        } catch (IllegalArgumentException iae) {
+            log.debug "The principal class (${details.class}) is not serializable. Object: ${details}"
+        }
+
         log.debug "Generated claim set: ${claimsSet.toJSONObject().toString()}"
         return claimsSet
     }
 
     protected abstract String generateAccessToken(JWTClaimsSet claimsSet)
 
-    protected abstract String generateRefreshToken(String accessToken)
+    protected String generateRefreshToken(String accessToken) {
+        User principal = jwtTokenStorageService.loadUserByToken(accessToken) as User
+        JWTClaimsSet claimsSet = generateClaims(principal)
+        claimsSet.expirationTime = null
+
+        return generateAccessToken(claimsSet)
+    }
 }
