@@ -36,6 +36,8 @@ h4. Release History
 
 You can view all releases at https://github.com/alvarosanchez/grails-spring-security-rest/releases.
 
+* 13 April 2015
+** [1.5.0.RC3|https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.5.0.RC3+is%3Aclosed]
 * 9 April 2015
 ** [1.5.0.RC2|https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.5.0.RC2+is%3Aclosed]
 * 2 April 2015
