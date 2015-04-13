@@ -27,12 +27,15 @@ import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
 import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
+import groovy.transform.InheritConstructors
 import groovy.util.logging.Slf4j
+import org.apache.commons.lang3.SerializationUtils
+import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.util.SerializationUtils
 
+import java.beans.ObjectInputStreamWithLoader
 import java.text.ParseException
 
 /**
@@ -42,6 +45,7 @@ import java.text.ParseException
 class JwtTokenStorageService implements TokenStorageService {
 
     JwtService jwtService
+    GrailsApplication grailsApplication
 
     @Override
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
@@ -59,13 +63,15 @@ class JwtTokenStorageService implements TokenStorageService {
 
             log.debug "Trying to deserialize the principal object"
             try {
-                UserDetails details = SerializationUtils.deserialize(jwt.JWTClaimsSet.getCustomClaim('principal')?.decodeBase64()) as UserDetails
+                ByteArrayInputStream bais = new ByteArrayInputStream(jwt.JWTClaimsSet.getCustomClaim('principal')?.decodeBase64())
+                ContextClassLoaderAwareObjectInputStream objectInputStream = new ContextClassLoaderAwareObjectInputStream(bais)
+                UserDetails details = objectInputStream.readObject() as UserDetails
                 log.debug "UserDetails deserialized: ${details}"
                 if (details) {
                     return details
                 }
-            } catch (IllegalArgumentException iae) {
-                log.debug(iae.message)
+            } catch (exception) {
+                log.debug(exception.message)
             }
 
             log.debug "Returning a org.springframework.security.core.userdetails.User instance"
@@ -86,5 +92,26 @@ class JwtTokenStorageService implements TokenStorageService {
     void removeToken(String tokenValue) throws TokenNotFoundException {
         log.debug "Nothing to remove as this is a stateless implementation"
         throw new TokenNotFoundException("Token ${tokenValue} cannot be removed as this is a stateless implementation")
+    }
+
+    @Slf4j
+    class ContextClassLoaderAwareObjectInputStream extends ObjectInputStream {
+
+        public ContextClassLoaderAwareObjectInputStream(InputStream is) throws IOException {
+            super(is)
+        }
+
+        @Override
+        protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+            ClassLoader currentTccl = null
+            try {
+                currentTccl = grailsApplication.classLoader
+                return currentTccl.loadClass(desc.name)
+            } catch (Exception e) {
+                log.debug e.message
+            }
+
+            return super.resolveClass(desc)
+        }
     }
 }

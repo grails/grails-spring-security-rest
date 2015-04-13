@@ -25,7 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails
 /**
  * A {@link UserDetails} implementation that holds the {@link CommonProfile} returned by the OAuth provider
  */
-class OauthUser extends User {
+class OauthUser extends User implements Serializable {
 
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID
 

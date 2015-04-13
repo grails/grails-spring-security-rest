@@ -17,15 +17,16 @@
 package grails.plugin.springsecurity.rest.token.generation.jwt
 
 import com.nimbusds.jwt.JWTClaimsSet
+import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import groovy.time.TimeCategory
 import groovy.util.logging.Slf4j
+import org.apache.commons.lang3.SerializationUtils
 import org.codehaus.groovy.grails.plugins.codecs.Base64Codec
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.util.SerializationUtils
 
 @Slf4j
 abstract class AbstractJwtTokenGenerator implements TokenGenerator {
@@ -70,7 +71,8 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         try {
             String serializedPrincipal = SerializationUtils.serialize(details)?.encodeBase64()
             claimsSet.setCustomClaim('principal', serializedPrincipal)
-        } catch (IllegalArgumentException iae) {
+        } catch (exception) {
+            log.debug(exception.message)
             log.debug "The principal class (${details.class}) is not serializable. Object: ${details}"
         }
 

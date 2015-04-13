@@ -234,6 +234,7 @@ class SpringSecurityRestGrailsPlugin {
             }
 
             tokenStorageService(JwtTokenStorageService) {
+                grailsApplication = ref('grailsApplication')
                 jwtService = ref('jwtService')
             }
 
