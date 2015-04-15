@@ -18,7 +18,6 @@ package grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.annotation.Secured
 import grails.plugin.springsecurity.rest.token.AccessToken
-import grails.plugin.springsecurity.rest.token.generation.jwt.AbstractJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import org.apache.commons.codec.binary.Base64

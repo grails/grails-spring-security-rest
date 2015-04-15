@@ -23,8 +23,6 @@ import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import groovy.time.TimeCategory
 import groovy.util.logging.Slf4j
-import org.apache.commons.lang3.SerializationUtils
-import org.codehaus.groovy.grails.plugins.codecs.Base64Codec
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 
@@ -69,7 +67,7 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
 
         log.debug "Serializing the principal received"
         try {
-            String serializedPrincipal = SerializationUtils.serialize(details)?.encodeBase64()
+            String serializedPrincipal = JwtService.serialize(details)
             claimsSet.setCustomClaim('principal', serializedPrincipal)
         } catch (exception) {
             log.debug(exception.message)

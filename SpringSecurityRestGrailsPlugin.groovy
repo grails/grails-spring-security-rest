@@ -1,11 +1,6 @@
-import grails.plugin.springsecurity.rest.CustomSerializingTranscoder
-import grails.plugin.springsecurity.rest.JwtService
-import grails.plugin.springsecurity.rest.RestAuthenticationFailureHandler
-import grails.plugin.springsecurity.rest.RestAuthenticationFilter
-import grails.plugin.springsecurity.rest.RestAuthenticationProvider
-import grails.plugin.springsecurity.rest.RestAuthenticationSuccessHandler
-import grails.plugin.springsecurity.rest.RestLogoutFilter
-import grails.plugin.springsecurity.rest.RestTokenValidationFilter
+import grails.plugin.springsecurity.SecurityFilterPosition
+import grails.plugin.springsecurity.SpringSecurityUtils
+import grails.plugin.springsecurity.rest.*
 import grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
 import grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
 import grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
@@ -23,10 +18,8 @@ import grails.plugin.springsecurity.rest.token.rendering.DefaultAccessTokenJsonR
 import grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
 import grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
 import grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
-import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
-import grails.plugin.springsecurity.SecurityFilterPosition
-import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import net.spy.memcached.DefaultHashAlgorithm
 import net.spy.memcached.spring.MemcachedClientFactoryBean
 import org.springframework.security.web.access.AccessDeniedHandlerImpl

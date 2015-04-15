@@ -23,7 +23,6 @@ import com.nimbusds.jose.crypto.RSAEncrypter
 import com.nimbusds.jwt.EncryptedJWT
 import com.nimbusds.jwt.JWTClaimsSet
 import groovy.util.logging.Slf4j
-import org.springframework.security.core.userdetails.User
 
 /**
  * Generates RSA-encrypted JWT's

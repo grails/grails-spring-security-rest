@@ -16,8 +16,8 @@
  */
 package grails.plugin.springsecurity.rest
 
-import grails.plugin.springsecurity.rest.oauth.OauthUserDetailsService
 import grails.plugin.springsecurity.rest.oauth.OauthUser
+import grails.plugin.springsecurity.rest.oauth.OauthUserDetailsService
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService

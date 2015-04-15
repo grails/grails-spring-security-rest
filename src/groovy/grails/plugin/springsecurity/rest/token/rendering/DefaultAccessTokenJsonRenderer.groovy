@@ -16,8 +16,8 @@
  */
 package grails.plugin.springsecurity.rest.token.rendering
 
-import grails.plugin.springsecurity.rest.oauth.OauthUser
 import grails.converters.JSON
+import grails.plugin.springsecurity.rest.oauth.OauthUser
 import grails.plugin.springsecurity.rest.token.AccessToken
 import groovy.util.logging.Slf4j
 import org.pac4j.core.profile.CommonProfile

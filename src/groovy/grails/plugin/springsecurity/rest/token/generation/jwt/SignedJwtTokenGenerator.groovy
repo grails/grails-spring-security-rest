@@ -24,7 +24,6 @@ import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.SignedJWT
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.InitializingBean
-import org.springframework.security.core.userdetails.User
 
 /**
  * Generates JWT's protected using HMAC with SHA-256

@@ -24,6 +24,10 @@ import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTParser
 import com.nimbusds.jwt.SignedJWT
 import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
+import org.springframework.security.core.userdetails.UserDetails
+
+import java.util.zip.GZIPInputStream
+import java.util.zip.GZIPOutputStream
 
 /**
  * Helper to perform actions with JWT tokens
@@ -61,5 +65,25 @@ class JwtService {
         }
 
         return jwt
+    }
+
+    static String serialize(UserDetails userDetails) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        GZIPOutputStream gzipOut = new GZIPOutputStream(baos)
+        ObjectOutputStream objectOut = new ObjectOutputStream(gzipOut)
+        objectOut.writeObject(userDetails)
+        objectOut.close()
+        byte[] outputBytes = baos.toByteArray()
+        return outputBytes.encodeBase64()
+    }
+
+    static UserDetails deserialize(String userDetails) {
+        byte[] inputBytes = userDetails.decodeBase64()
+        ByteArrayInputStream bais = new ByteArrayInputStream(inputBytes)
+        GZIPInputStream gzipIn = new GZIPInputStream(bais)
+        ObjectInputStream objectIn = new ObjectInputStream(gzipIn)
+        UserDetails userDetailsObject = objectIn.readObject() as UserDetails
+        objectIn.close()
+        return userDetailsObject
     }
 }

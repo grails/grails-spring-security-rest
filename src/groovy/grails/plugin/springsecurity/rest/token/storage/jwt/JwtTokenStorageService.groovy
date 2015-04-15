@@ -17,25 +17,16 @@
 package grails.plugin.springsecurity.rest.token.storage.jwt
 
 import com.nimbusds.jose.JOSEException
-import com.nimbusds.jose.crypto.MACVerifier
-import com.nimbusds.jose.crypto.RSADecrypter
-import com.nimbusds.jwt.EncryptedJWT
 import com.nimbusds.jwt.JWT
-import com.nimbusds.jwt.JWTParser
-import com.nimbusds.jwt.SignedJWT
 import grails.plugin.springsecurity.rest.JwtService
-import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
 import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
-import groovy.transform.InheritConstructors
 import groovy.util.logging.Slf4j
-import org.apache.commons.lang3.SerializationUtils
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 
-import java.beans.ObjectInputStreamWithLoader
 import java.text.ParseException
 
 /**
@@ -63,9 +54,7 @@ class JwtTokenStorageService implements TokenStorageService {
 
             log.debug "Trying to deserialize the principal object"
             try {
-                ByteArrayInputStream bais = new ByteArrayInputStream(jwt.JWTClaimsSet.getCustomClaim('principal')?.decodeBase64())
-                ContextClassLoaderAwareObjectInputStream objectInputStream = new ContextClassLoaderAwareObjectInputStream(bais)
-                UserDetails details = objectInputStream.readObject() as UserDetails
+                UserDetails details = JwtService.deserialize(jwt.JWTClaimsSet.getCustomClaim('principal')?.toString())
                 log.debug "UserDetails deserialized: ${details}"
                 if (details) {
                     return details
