@@ -39,7 +39,10 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
     }
 
     AccessToken generateAccessToken(UserDetails details, boolean withRefreshToken) {
-        JWTClaimsSet claimsSet = generateClaims(details)
+        log.debug "Serializing the principal received"
+        String serializedPrincipal = serializePrincipal(details)
+
+        JWTClaimsSet claimsSet = generateClaims(details, serializedPrincipal)
 
         log.debug "Generating access token..."
         String accessToken = generateAccessToken(claimsSet)
@@ -47,13 +50,13 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         String refreshToken
         if (withRefreshToken) {
             log.debug "Generating refresh token..."
-            refreshToken = generateRefreshToken(accessToken)
+            refreshToken = generateRefreshToken(details, serializedPrincipal)
         }
 
         return new AccessToken(details, details.authorities, accessToken, refreshToken, expiration)
     }
 
-    JWTClaimsSet generateClaims(UserDetails details) {
+    JWTClaimsSet generateClaims(UserDetails details, String serializedPrincipal) {
         JWTClaimsSet claimsSet = new JWTClaimsSet()
         claimsSet.setSubject(details.username)
 
@@ -64,25 +67,26 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         }
 
         claimsSet.setCustomClaim('roles', details.authorities?.collect { it.authority })
-
-        log.debug "Serializing the principal received"
-        try {
-            String serializedPrincipal = JwtService.serialize(details)
-            claimsSet.setCustomClaim('principal', serializedPrincipal)
-        } catch (exception) {
-            log.debug(exception.message)
-            log.debug "The principal class (${details.class}) is not serializable. Object: ${details}"
-        }
+        claimsSet.setCustomClaim('principal', serializedPrincipal)
 
         log.debug "Generated claim set: ${claimsSet.toJSONObject().toString()}"
         return claimsSet
     }
 
+    protected String serializePrincipal(UserDetails principal) {
+        try {
+            return JwtService.serialize(principal)
+        } catch (exception) {
+            log.debug(exception.message)
+            log.debug "The principal class (${principal.class}) is not serializable. Object: ${principal}"
+            return null
+        }
+    }
+
     protected abstract String generateAccessToken(JWTClaimsSet claimsSet)
 
-    protected String generateRefreshToken(String accessToken) {
-        User principal = jwtTokenStorageService.loadUserByToken(accessToken) as User
-        JWTClaimsSet claimsSet = generateClaims(principal)
+    protected String generateRefreshToken(UserDetails principal, String serializedPrincipal) {
+        JWTClaimsSet claimsSet = generateClaims(principal, serializedPrincipal)
         claimsSet.expirationTime = null
 
         return generateAccessToken(claimsSet)
