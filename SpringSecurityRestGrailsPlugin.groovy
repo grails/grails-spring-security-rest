@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.5.0.RC3"
+    String version = "1.5.0.RC4"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -227,7 +227,6 @@ class SpringSecurityRestGrailsPlugin {
             }
 
             tokenStorageService(JwtTokenStorageService) {
-                grailsApplication = ref('grailsApplication')
                 jwtService = ref('jwtService')
             }
 

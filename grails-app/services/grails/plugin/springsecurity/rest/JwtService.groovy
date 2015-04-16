@@ -24,6 +24,9 @@ import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTParser
 import com.nimbusds.jwt.SignedJWT
 import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
+import grails.util.Holders
+import groovy.util.logging.Slf4j
+import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.security.core.userdetails.UserDetails
 
 import java.util.zip.GZIPInputStream
@@ -36,6 +39,7 @@ class JwtService {
 
     String jwtSecret
     RSAKeyProvider keyProvider
+    GrailsApplication grailsApplication
 
     /**
      * Parses and verifies (for signed tokens) or decrypts (for encrypted tokens) the given token
@@ -81,9 +85,32 @@ class JwtService {
         byte[] inputBytes = userDetails.decodeBase64()
         ByteArrayInputStream bais = new ByteArrayInputStream(inputBytes)
         GZIPInputStream gzipIn = new GZIPInputStream(bais)
-        ObjectInputStream objectIn = new ObjectInputStream(gzipIn)
+        ContextClassLoaderAwareObjectInputStream objectIn = new ContextClassLoaderAwareObjectInputStream(gzipIn)
         UserDetails userDetailsObject = objectIn.readObject() as UserDetails
         objectIn.close()
         return userDetailsObject
+    }
+
+}
+
+
+@Slf4j
+class ContextClassLoaderAwareObjectInputStream extends ObjectInputStream {
+
+    public ContextClassLoaderAwareObjectInputStream(InputStream is) throws IOException {
+        super(is)
+    }
+
+    @Override
+    protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+        ClassLoader currentTccl = null
+        try {
+            currentTccl = Holders.grailsApplication.classLoader
+            return currentTccl.loadClass(desc.name)
+        } catch (Exception e) {
+            log.debug e.message
+        }
+
+        return super.resolveClass(desc)
     }
 }

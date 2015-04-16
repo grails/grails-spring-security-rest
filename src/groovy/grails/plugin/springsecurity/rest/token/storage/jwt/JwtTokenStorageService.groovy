@@ -36,7 +36,6 @@ import java.text.ParseException
 class JwtTokenStorageService implements TokenStorageService {
 
     JwtService jwtService
-    GrailsApplication grailsApplication
 
     @Override
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
@@ -83,24 +82,4 @@ class JwtTokenStorageService implements TokenStorageService {
         throw new TokenNotFoundException("Token ${tokenValue} cannot be removed as this is a stateless implementation")
     }
 
-    @Slf4j
-    class ContextClassLoaderAwareObjectInputStream extends ObjectInputStream {
-
-        public ContextClassLoaderAwareObjectInputStream(InputStream is) throws IOException {
-            super(is)
-        }
-
-        @Override
-        protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
-            ClassLoader currentTccl = null
-            try {
-                currentTccl = grailsApplication.classLoader
-                return currentTccl.loadClass(desc.name)
-            } catch (Exception e) {
-                log.debug e.message
-            }
-
-            return super.resolveClass(desc)
-        }
-    }
 }
