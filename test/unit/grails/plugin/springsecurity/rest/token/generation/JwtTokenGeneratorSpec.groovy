@@ -87,13 +87,13 @@ class JwtTokenGeneratorSpec extends Specification {
     private setupSignedJwtTokenGenerator() {
         String secret = 'foobar'*10
         def jwtTokenStorageService = new JwtTokenStorageService(jwtService: new JwtService(jwtSecret: secret))
-        return new SignedJwtTokenGenerator(expiration: 3600, jwtSecret: secret, signer: new MACSigner(secret), jwtTokenStorageService: jwtTokenStorageService)
+        return new SignedJwtTokenGenerator(defaultExpiration: 3600, jwtSecret: secret, signer: new MACSigner(secret), jwtTokenStorageService: jwtTokenStorageService)
     }
 
     private setupEncryptedJwtTokenGenerator() {
         RSAKeyProvider keyProvider = new DefaultRSAKeyProvider()
         def jwtTokenStorageService = new JwtTokenStorageService(jwtService: new JwtService(keyProvider: keyProvider))
-        return new EncryptedJwtTokenGenerator(expiration: 3600, jwtTokenStorageService: jwtTokenStorageService, keyProvider: keyProvider)
+        return new EncryptedJwtTokenGenerator(defaultExpiration: 3600, jwtTokenStorageService: jwtTokenStorageService, keyProvider: keyProvider)
     }
 
 }

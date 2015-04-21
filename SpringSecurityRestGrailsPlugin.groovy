@@ -234,7 +234,7 @@ class SpringSecurityRestGrailsPlugin {
                 tokenGenerator(EncryptedJwtTokenGenerator) {
                     jwtTokenStorageService = ref('tokenStorageService')
                     keyProvider = ref('keyProvider')
-                    expiration = conf.rest.token.storage.jwt.expiration
+                    defaultExpiration = conf.rest.token.storage.jwt.expiration
                 }
 
                 if (conf.rest.token.storage.jwt.privateKeyPath instanceof CharSequence &&
@@ -249,7 +249,7 @@ class SpringSecurityRestGrailsPlugin {
                 tokenGenerator(SignedJwtTokenGenerator) {
                     jwtTokenStorageService = ref('tokenStorageService')
                     jwtSecret = conf.rest.token.storage.jwt.secret
-                    expiration = conf.rest.token.storage.jwt.expiration
+                    defaultExpiration = conf.rest.token.storage.jwt.expiration
                 }
             }
 

@@ -26,9 +26,14 @@ public interface TokenGenerator {
 
     /**
      * Generates a globally unique token.
-     *
-     * @return a String based token.
      */
     AccessToken generateAccessToken(UserDetails principal)
+
+    /**
+     * Generates a token with the given expiration
+     *
+     * @param expiration the expiration time in seconds
+     */
+    AccessToken generateAccessToken(UserDetails principal, Integer expiration)
 
 }

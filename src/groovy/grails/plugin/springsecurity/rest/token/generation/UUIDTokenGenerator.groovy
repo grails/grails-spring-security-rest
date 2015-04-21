@@ -34,4 +34,11 @@ class UUIDTokenGenerator implements TokenGenerator {
         return new AccessToken(principal, principal.authorities, token)
     }
 
+    @Override
+    AccessToken generateAccessToken(UserDetails principal, Integer expiration) {
+        AccessToken accessToken = generateAccessToken(principal)
+        accessToken.expiration = expiration
+        return accessToken
+    }
+
 }

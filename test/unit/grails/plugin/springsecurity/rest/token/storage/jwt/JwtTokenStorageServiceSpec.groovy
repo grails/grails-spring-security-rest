@@ -36,7 +36,7 @@ class JwtTokenStorageServiceSpec extends Specification {
 
     void setup() {
         service = new JwtTokenStorageService(jwtService: new JwtService(jwtSecret: 'fooo'*8))
-        tokenGenerator = new SignedJwtTokenGenerator(jwtSecret: service.jwtService.jwtSecret, expiration: 60, jwtTokenStorageService: service)
+        tokenGenerator = new SignedJwtTokenGenerator(jwtSecret: service.jwtService.jwtSecret, defaultExpiration: 60, jwtTokenStorageService: service)
         tokenGenerator.afterPropertiesSet()
     }
 
