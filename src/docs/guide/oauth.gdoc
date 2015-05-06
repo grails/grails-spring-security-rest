@@ -23,6 +23,9 @@ The flow is something like the following:
 
 The steps flagged with (*) remain unchanged from the [normal flow|guide:authentication].
 
+The Grails callback URL mentioned above has this general format: @${grails.serverURL}/oauth/callback/${providerName}@.
+You will need to configure such URL in your OAuth 2.0 provider.
+
 To support OAuth, this plugin uses [Profile & Authentication Client for Java|https://github.com/leleuj/pac4j]. So you
 can use any OAuth 2.0 provider they support. This includes at the time of writing:
 
