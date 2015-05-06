@@ -63,7 +63,7 @@ class RestAuthenticationProvider implements AuthenticationProvider {
                 log.debug "Now is ${now} and token expires at ${expiry}"
 
                 TimeDuration timeDuration = TimeCategory.minus(expiry, now)
-                expiration = timeDuration.seconds
+                expiration = Math.round(timeDuration.toMilliseconds() / 1000)
                 log.debug "Expiration: ${expiration}"
             }
 
