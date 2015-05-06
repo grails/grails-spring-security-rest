@@ -21,6 +21,8 @@ grails.project.dependency.resolution = {
         compile 'com.nimbusds:nimbus-jose-jwt:3.9'
 
         build("com.lowagie:itext:2.0.8") { excludes "bouncycastle:bcprov-jdk14:138", "org.bouncycastle:bcprov-jdk14:1.38" }
+
+        test 'org.gperfutils:gbench:0.4.3-groovy-2.3'
     }
 
     plugins {
