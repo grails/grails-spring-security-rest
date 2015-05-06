@@ -32,7 +32,8 @@ Content-Type: application/x-www-form-urlencoded
 access_token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0MjI5OTU5MjIsInN1YiI6ImppbWkiLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlhdCI6MTQyMjk5MjMyMn0.rA7A2Gwt14LaYMpxNRtrCdO24RGrfHtZXY9fIjV8x8o
 {code}
 
-Note that in this case, @GET@ HTTP method is not supported.
+If you need to use the @GET@ HTTP method (to render images in an @img@ tag, for example), you can also send the access token
+in a query string parameter named @access_token@:
 
 If you disable the bearer token support, you can customise it further:
 
