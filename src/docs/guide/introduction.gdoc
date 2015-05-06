@@ -7,14 +7,14 @@ Make sure your application is compatible with that version first. There is a
 future if there is enough community interest / love :)
 {note}
 
+{note}
+This plugin is only for Grails 2.x
+{note}
+
 The default behaviour of Spring Security is to store the authenticated principal in the HTTP session. However, in a
 RESTful scenario, we need to make sure our server is stateless.
 
-If you are writing an API that will be used by other programs, you can use OAuth for this. But if you are exposing your API
-for a front-end Javascript client to implement a
-[Single Page Interface|http://www.slideshare.net/alvarosanchezmariscal/developing-spi-applications-using-grails-and-angularjs],
-OAuth is not an option, specially if you want to authentication end users against your own user backend (eg: LDAP). In
-this case, a token-based authentication may be a more suitable implementation, like the following:
+The typical flow could be the following:
 
 !rest.png!
 
@@ -26,19 +26,32 @@ this case, a token-based authentication may be a more suitable implementation, l
 # The server validates the token, and if valid, executes the actual operation requested.
 
 As per the [REST definition|http://en.wikipedia.org/wiki/Representational_state_transfer], the client is transferring its
-state on every request so the server is truly stateless. The approach to store tokens on the server is just an alternative
-to use HTTP basic authentication ([see FAQ|guide:faq]) (so credentials are not passed on every request). It also helps to perform the validation
-step (#5 in the diagram) faster, because the tokens, and the associated principal information may be cached. Finally,
-storing tokens gives you the chance to decide about expiration strategies.
-
-More information about this strategy can be found [on this post by James Ward|http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services].
+state on every request so the server is truly stateless.
 
 This plugin helps you to wire your existing Spring Security [authentication mechanism|guide:authentication], provides you
-with ready-to-use [token generation strategies|guide:tokenGeneration] and comes prepackaged with Memcached, GORM and Grails
-Cache support for [token storage|guide:tokenStorage].
+with ready-to-use [token generation strategies|guide:tokenGeneration] and comes prepackaged with JWT, Memcached, GORM, Redis
+and Grails Cache support for [token storage|guide:tokenStorage].
 
 h4. Release History
 
+You can view all releases at https://github.com/alvarosanchez/grails-spring-security-rest/releases.
+
+* 6 May 2015
+** [1.5.0|https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.5.0+is%3Aclosed]
+* 21 April 2015
+** [1.5.0.RC4|https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.5.0.RC4+is%3Aclosed]
+* 13 April 2015
+** [1.5.0.RC3|https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.5.0.RC3+is%3Aclosed]
+* 9 April 2015
+** [1.5.0.RC2|https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.5.0.RC2+is%3Aclosed]
+* 2 April 2015
+** [1.5.0.RC1|https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.5.0.RC1+is%3Aclosed]
+* 1 April 2015
+** [1.5.0.M3|https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.5.0.M3+is%3Aclosed]
+* 24 February 2015
+** [1.5.0.M2|https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.5.0.M2+is%3Aclosed]
+* 3 February 2015
+** [1.5.0.M1|https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.5.0.M1+is%3Aclosed]
 * 28 January 2015
 ** [1.4.1|https://github.com/alvarosanchez/grails-spring-security-rest/issues?q=milestone%3A1.4.1+is%3Aclosed]
 * 12 November 2014

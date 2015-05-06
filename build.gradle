@@ -1,0 +1,51 @@
+plugins {
+    id "com.github.hierynomus.license" version "0.11.0"
+}
+
+apply plugin:'groovy'
+
+license {
+
+    sourceSets {
+        main {
+            groovy {
+                srcDirs = [
+                    'grails-app/controllers',
+                    'grails-app/domain',
+                    'grails-app/services',
+                    'grails-app/taglib',
+                    'grails-app/utils',
+                    'src/groovy',
+                    'scripts'
+                ]
+            }
+            java {
+                srcDirs = [
+                    'src/java'
+                ]
+            }
+        }
+        test {
+            groovy {
+                def dirs = [
+                    'test/functional',
+                    'test/integration',
+                    'test/unit'
+                ]
+                new File('test/apps').eachDir { File app ->
+                    dirs << "test/apps/${app.name}/test/functional"
+                    dirs << "test/apps/${app.name}/test/integration"
+                    dirs << "test/apps/${app.name}/test/unit"
+                }
+
+                srcDirs = dirs
+            }
+        }
+    }
+
+    ext.year = Calendar.instance.get(Calendar.YEAR)
+    ext.name = 'Alvaro Sanchez-Mariscal'
+    ext.email = 'alvaro.sanchezmariscal@gmail.com'
+}
+
+licenseMain.dependsOn 'licenseTest'

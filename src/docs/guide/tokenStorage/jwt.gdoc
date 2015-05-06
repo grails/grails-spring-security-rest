@@ -1,0 +1,151 @@
+JSON Web Token (JWT) is an [IETF standard|http://tools.ietf.org/html/draft-ietf-oauth-json-web-token] (in progress)
+which defines a secure way to encapsulate arbitrary data that can be sent over unsecure URL's.
+
+Generally speaking, JWT's can be useful in the following use cases:
+
+* When generating "one click" action emails, like "delete this comment" or "add this to favorites". Instead of giving the users URL's like @/comment/delete/123@, you can give them something like @/comment/delete/<JWT_TOKEN>@, where the @JWT_TOKEN@ contains encapsulated information about the user and the comment, in a safe way, so authentication is not required.
+* To achieve single sign-on, by sharing a JWT across applications.
+
+In the context of authentication and authorization, JWT will help you implement a stateless implementation, as the
+principal information is stored directly in the JWT.
+
+h2. How does a JWT looks like?
+
+!jwt.png!
+
+h3. Header
+
+A base64-encoded JSON like:
+
+{code}
+{
+    "alg": "HS256",
+    "typ": "JWT"
+}
+{code}
+
+h3. Claims
+
+A base64-encoded JSON like:
+
+{code}
+{
+    "exp": 1422990129,
+    "sub": "jimi",
+    "roles": [
+        "ROLE_ADMIN",
+        "ROLE_USER"
+    ],
+    "iat": 1422986529
+}
+{code}
+
+h3. Signature
+
+Depends on the algorithm specified on the header, it can be a digital signature of the base64-encoded header and claims,
+or an encryption of them using RSA.
+
+h2. Signed JWT's
+
+By default, this plugin uses signed JWT's as specified by the
+[JSON Web Signature|https://tools.ietf.org/html/draft-ietf-jose-json-web-signature] specification. More specifically,
+the algorithm used is HMAC SHA-256 with a specified shared secret. The relevant configuration properties are:
+
+{table}
+*Config key*                                                            | *Default value*
+@grails.plugin.springsecurity.rest.token.storage.useJwt@                | @true@
+@grails.plugin.springsecurity.rest.token.storage.jwt.useSignedJwt@      | @true@
+@grails.plugin.springsecurity.rest.token.storage.jwt.secret@            | @'qrD6h8K6S9503Q06Y6Rfk21TErImPYqa'@
+@grails.plugin.springsecurity.rest.token.storage.jwt.expiration@        | @3600@
+{table}
+
+h2. Encrypted JWT's
+
+{note}
+Grails's @grails-docs@ artifact includes a version of @com.lowagie:itext@ which in turns bring old BouncyCastle's libraries
+into the classpath. To avoid the problem, you have to override explicitly that dependency:
+
+{code}
+build("com.lowagie:itext:2.0.8") { excludes "bouncycastle:bcprov-jdk14:138", "org.bouncycastle:bcprov-jdk14:1.38" }
+{code}
+{note}
+
+In the previous strategy, the claims are just signed, so it prevents an attacker to tamper its contents to introduce
+malicious data or try a privilege escalation by adding more roles. However, the claims can be decoded just by using
+Base 64.
+
+If the claims contains sensitive information, you can use a
+[JSON Web Encryption|https://tools.ietf.org/html/draft-ietf-jose-json-web-encryption] algorithm to prevent them to be decoded.
+Particularly, this plugin uses RSAES OAEP for key encryption and AES GCM (Galois/Counter Mode) algorithm with a 256 bit key
+for content encryption.
+
+By default, RSA public/private keys ar generated every time the application runs. This means that  generated tokens
+won't be decrypted across executions of the application. So better create your own key pair using OpenSSL:
+
+{code}
+openssl genrsa -out private_key.pem 2048
+openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.der -nocrypt
+openssl rsa -in private_key.pem -pubout -outform DER -out public_key.der
+{code}
+
+Then, configure the keys properly, along with the rest of the configuration:
+
+{table}
+*Config key*                                                            | *Default value*
+@grails.plugin.springsecurity.rest.token.storage.useJwt@                | @true@
+@grails.plugin.springsecurity.rest.token.storage.jwt.useEncryptedJwt@   | @false@
+@grails.plugin.springsecurity.rest.token.storage.jwt.privateKeyPath@    | @null@
+@grails.plugin.springsecurity.rest.token.storage.jwt.publicKeyPath@     | @null@
+{table}
+
+Example configuration:
+
+{code}
+grails.plugin.springsecurity.rest.token.storage.jwt.useEncryptedJwt = true
+grails.plugin.springsecurity.rest.token.storage.jwt.privateKeyPath = '/path/to/private_key.der'
+grails.plugin.springsecurity.rest.token.storage.jwt.publicKeyPath = '/path/to/public_key.der'
+{code}
+
+{warning}
+The performance of encryption algorithms is much slower compared with signing ones. If you are considering encrypting
+you JWT's, think if you really need it.
+{warning}
+
+h2. Token expiration and refresh tokens
+
+When using JWT, issued access tokens expire after a period of time, and they are paired with refresh tokens, eg:
+
+{code}
+{
+   "username": "jimi",
+   "roles": [
+      "ROLE_ADMIN",
+      "ROLE_USER"
+   ],
+   "expires_in": 3600,
+   "token_type": "Bearer",
+   "refresh_token": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00ifQ.fUaSWIdZakFX7CyimRIPhuw0sfevgmwL2xzm5H0TuaqwKx24EafCO0TruGKG-lN-wGCITssnF2LQTqRzQGp0PoLXHfUJ0kkz5rBl6LtnRu7cdD1ZUNYXLJtFjQ3IATzoo15tPafRPyStG1Qm7-1L0VxquhrLxkkpti0F1_VTytZAq8ltFrnxM4ahJUwS7eriivvdLqmHtnwuXw0kBXEseIyCkiyKklWDJAcD_P_gHoQJvSCoXedlr7Pp0n6LEUrRWJ2Hb-Zyt9dWqWDxm9nyDeEVtEZGcQtpgCGgbXxaUpULIy5nvrbRzXSNyT6iXhK1CLqiFVkfh-Y-DHXdB6Q4sg.uYdpxl835KnlkqC5.gBgSnPWZOo6FINovJNG7Xx2RuS09QJbU4-_J4EgZQkygt8xE-HfdYaOmtmJLjGJR1XKoaRsuX1gNjFoCZgqWAon6.Zsrk52dkjskSVQLXZBQooQ",
+   "access_token": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00ifQ.n-gGe65x0SlSXS3fTG8ZLdXvv6b5_1pDvkcGyCjFy-vm1VhaBEQL5p3hc6iUcCAcuyrqzGk95lV9dHCv46cNfCiUFHWfbEcd4nqScIxBbc28xO9L1mNLnZ0G1rx1Mx1L0Y_ZPoSxDXpJaHCT28cdZffHLxx2B9ioIClgdlYBAJ5Oz8VT39-D0QSomS6QhFqmcpbDsXrsKxs545Pn-TIlu-fSQ4wpIvAxusOKB6CV2EYKqBplMBrh-3btE8WksVcX2N3LsrcMhrKxSKi93c06MZh6JzSLWe5bl9hvUvBdEuwDrk-fQgD3ZlmjjoevRWYhv_kslW1PlqUHYmKOQ7csUw.3mvvsFWikEjZzExA.YixjnnzzcPRy_uUpgPv5zqOfshv3pUwfrME0AijpsB7u9CmJe94g6f2y_3vqUps-5weKKGZyk3ZtnwEbPVAk9-HZt-Y27SbZl4JNCFEOLVsMsK8.h4j9BdFXuWKKez6xxRAwJA"
+}
+{code}
+
+Refresh tokens never expire, and can be used to obtain a new access token by sending a POST request to the
+@/oauth/access_token@ endpoint:
+
+{code}
+POST /myApp/oauth/access_token HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&refresh_token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00ifQ....
+{code}
+
+As you can see, is a form request with 2 parameters:
+
+* @grant_type@: must be @refres_token@ always.
+* @refresh_token@: the refresh token provided earlier.
+
+{note}
+As refresh tokens never expire, they must be securely stored in your client application. See
+[section 10.4 of the OAuth 2.0 spec|https://tools.ietf.org/html/rfc6749#section-10.4] for more information.
+{note}

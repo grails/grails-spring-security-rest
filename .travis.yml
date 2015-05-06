@@ -1,29 +1,43 @@
 language: groovy
 
 jdk:
-- oraclejdk7
+- oraclejdk8
 
-branches:
-  only:
-  - master
-  - develop
-  - /^release.*$/
-  - /^feature.*$/
+services:
+- memcached
+- redis-server
 
-services: memcached
+install:
+  - npm install divshot-cli -g
 
-script: ./test-app.sh
+script: "./test-app.sh"
 
-after_success: if [[ $TRAVIS_BRANCH == "master" ]] || [[ $TRAVIS_BRANCH =~ ^release.*$ ]]; then ./doc.sh; fi
+after_success: "./doc.sh"
+
+after_script: "./publish-test-results.sh"
 
 notifications:
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/ab2251f887cfa63260af
-    on_success: change  # options: [always|never|change] default: always
-    on_failure: always  # options: [always|never|change] default: always
-    on_start: false     # default: false
-
+    - https://webhooks.gitter.im/e/ab2251f887cfa63260af
+    on_success: change
+    on_failure: always
+    on_start: false
 env:
   global:
-    secure: NDX1oObVIHhG5zUZzhmL8m/601SFB2pE29dci1EcgKrYhdZf+50+Va/b0/7lNzYXnT76CwQmdkbsJmwqBh6+YO+SXcJFE13zudyGfZhLOwY+/oueQB8Up/gk2WbkY4FdIlo0XP/jl+atz4gR9EoAnKCYbdcjYj2lQnJ8ocDpi5U=
+  - secure: NDX1oObVIHhG5zUZzhmL8m/601SFB2pE29dci1EcgKrYhdZf+50+Va/b0/7lNzYXnT76CwQmdkbsJmwqBh6+YO+SXcJFE13zudyGfZhLOwY+/oueQB8Up/gk2WbkY4FdIlo0XP/jl+atz4gR9EoAnKCYbdcjYj2lQnJ8ocDpi5U=
+  - secure: i+HYyyMe2qXPZkP113Vo+uXDzWeiS96dE8EiURxB75HDLuQ1UuIKkfZylNyWXcJHh8gy6ypKffxjZ0FeN44FQeiChE+WC20Xh9UOG076zHogFIE/IooFawau+jcvqJzQU+3koDO9zocu8HfULqenfapSKri/5vMxaPTj85VdFfk=
+  - secure: XBD/lDc+U/9c6qKKRKuhjxrMe8nIz6T3MtAgPr77bowh0c4EpZiIOQ5+dpUBvA6jL5h8UYck8DAeqC9H7RTG0ZQS+2eJQiEVQXTKfwfe53LQP1CUfAC94o4yNnIpZ9nRikbHKUIqIqla8PXl94TteSpbO9fhb6byFyiGFgGwi34=
+  - GIT_NAME="Alvaro Sanchez-Mariscal"
+  - GIT_EMAIL="alvaro.sanchezmariscal@gmail.com"
+
+before_deploy: ./publish-plugin.sh
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: QpD/nt7wNuLHntXz2+C0LeD/W1m1F8x84t7KbFjNg+lswa3tfq7CZE4w979JUt0BQKJWR4mKb61ENtJtsVey/gth8tpO65xMLdDZ0+eYJ+oN9lCMfnzNfMOi7NWAixHeKe6bfClvW7xU8LsfY3eMZKiRPJ1SBNJ26b9YtkptTTU=
+  file: grails-spring-security-rest-${TRAVIS_TAG}.zip
+  on:
+    repo: alvarosanchez/grails-spring-security-rest
+    tags: true

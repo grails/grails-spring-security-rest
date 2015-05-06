@@ -11,7 +11,7 @@ To use GORM, these are the relevant configuration properties:
 The relevant domain class should look something like this:
 
 {code}
-package org.my.path
+package org.example.product
 
 class AuthenticationToken {
 
@@ -26,7 +26,7 @@ class AuthenticationToken {
 
 {note}
 For the @tokenDomainClassName@ configuration you must enter a fully qualified class name. In the case of the example above:
-@grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName = 'org.my.path.AuthenticationToken'@
+@grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName = 'org.example.product.AuthenticationToken'@
 {note}
 
 A few things to take into consideration when using GORM for token storage:
@@ -35,11 +35,11 @@ A few things to take into consideration when using GORM for token storage:
 using this strategy will probably have the standard User and Role domain classes. When the token is verified the username
 is passed to the default @userDetailsService@ bean, which in the case of the default Spring Security Core GORM
 implementation will fetch the information from the mentioned domain classes.
-* GORM's optimistic locking feature is likely unecessary and may cause performance issues.
+* GORM's optimistic locking feature is likely unnecessary and may cause performance issues.
 * You'll have to handle token expiration by yourself via Quartz jobs or a similar mechanism. There are various ways you might
 go about this.
 
-*Gorm Token Expiration Examples:*
+*GORM Token Expiration Examples:*
 
 Adding a GORM autoTimestamp property like @lastUpdated@ or @dateCreated@ and sorting out stale or old tokens with Quartz jobs
 are the most obvious routes. Each has its drawbacks though.

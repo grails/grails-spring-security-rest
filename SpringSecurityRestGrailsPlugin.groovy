@@ -1,22 +1,27 @@
-import com.odobo.grails.plugin.springsecurity.rest.*
-import com.odobo.grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
-import com.odobo.grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
-import com.odobo.grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
-import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
-import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
-import com.odobo.grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
-import com.odobo.grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
-import com.odobo.grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
-import com.odobo.grails.plugin.springsecurity.rest.token.rendering.DefaultRestAuthenticationTokenJsonRenderer
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
-import com.odobo.grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
+import grails.plugin.springsecurity.rest.*
+import grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
+import grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
+import grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
+import grails.plugin.springsecurity.rest.token.bearer.BearerTokenAccessDeniedHandler
+import grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
+import grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
+import grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
+import grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
+import grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
+import grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
+import grails.plugin.springsecurity.rest.token.generation.jwt.FileRSAKeyProvider
+import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
+import grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
+import grails.plugin.springsecurity.rest.token.rendering.DefaultAccessTokenJsonRenderer
+import grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import net.spy.memcached.DefaultHashAlgorithm
 import net.spy.memcached.spring.MemcachedClientFactoryBean
-import org.apache.commons.lang3.StringUtils
-import org.springframework.context.ApplicationContext
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
 import org.springframework.security.web.access.ExceptionTranslationFilter
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
@@ -26,7 +31,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.4.1"
+    String version = "1.5.0"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -35,13 +40,13 @@ class SpringSecurityRestGrailsPlugin {
 
     String title = "Spring Security REST Plugin"
     String author = "Alvaro Sanchez-Mariscal"
-    String authorEmail = "alvaro.sanchez@odobo.com"
+    String authorEmail = "alvaro.sanchezmariscal@gmail.com"
     String description = 'Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow'
 
     String documentation = "http://alvarosanchez.github.io/grails-spring-security-rest/"
 
     String license = "APACHE"
-    def organization = [ name: "Odobo Limited", url: "http://www.odobo.com" ]
+    def organization = [ name: "Odobo", url: "http://www.odobo.com" ]
 
     def issueManagement = [ system: "GitHub", url: "https://github.com/alvarosanchez/grails-spring-security-rest/issues" ]
     def scm = [ url: "https://github.com/alvarosanchez/grails-spring-security-rest" ]
@@ -108,9 +113,9 @@ class SpringSecurityRestGrailsPlugin {
 
 
         restAuthenticationSuccessHandler(RestAuthenticationSuccessHandler) {
-            renderer = ref('restAuthenticationTokenJsonRenderer')
+            renderer = ref('accessTokenJsonRenderer')
         }
-        restAuthenticationTokenJsonRenderer(DefaultRestAuthenticationTokenJsonRenderer) {
+        accessTokenJsonRenderer(DefaultAccessTokenJsonRenderer) {
             usernamePropertyName = conf.rest.token.rendering.usernamePropertyName
             tokenPropertyName = conf.rest.token.rendering.tokenPropertyName
             authoritiesPropertyName = conf.rest.token.rendering.authoritiesPropertyName
@@ -125,6 +130,9 @@ class SpringSecurityRestGrailsPlugin {
             restAuthenticationEntryPoint(BearerTokenAuthenticationEntryPoint) {
                 tokenReader = ref('tokenReader')
             }
+            restAccessDeniedHandler(BearerTokenAccessDeniedHandler) {
+                errorPage = null //403
+            }
 
         } else {
             restAuthenticationEntryPoint(Http403ForbiddenEntryPoint)
@@ -133,6 +141,9 @@ class SpringSecurityRestGrailsPlugin {
             }
             restAuthenticationFailureHandler(RestAuthenticationFailureHandler) {
                 statusCode = conf.rest.login.failureStatusCode?:HttpServletResponse.SC_UNAUTHORIZED
+            }
+            restAccessDeniedHandler(AccessDeniedHandlerImpl) {
+                errorPage = null //403
             }
         }
 
@@ -161,12 +172,13 @@ class SpringSecurityRestGrailsPlugin {
         }
 
         restRequestCache(NullRequestCache)
-        restAccessDeniedHandler(AccessDeniedHandlerImpl) {
-            errorPage = null //403
-        }
+
+        /* tokenGenerator */
+        tokenGenerator(SecureRandomTokenGenerator)
 
         /* tokenStorageService */
         if (conf.rest.token.storage.useMemcached) {
+            conf.rest.token.storage.useJwt = false
 
             Properties systemProperties = System.properties
             systemProperties.put("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.SLF4JLogger")
@@ -189,26 +201,66 @@ class SpringSecurityRestGrailsPlugin {
                 expiration = conf.rest.token.storage.memcached.expiration
             }
         } else if (conf.rest.token.storage.useGrailsCache) {
+            conf.rest.token.storage.useJwt = false
             tokenStorageService(GrailsCacheTokenStorageService) {
                 grailsCacheManager = ref('grailsCacheManager')
                 cacheName = conf.rest.token.storage.grailsCacheName
             }
         } else if (conf.rest.token.storage.useGorm) {
+            conf.rest.token.storage.useJwt = false
             tokenStorageService(GormTokenStorageService) {
                 userDetailsService = ref('userDetailsService')
             }
-        } else {
-            tokenStorageService(GormTokenStorageService) {
+        }else if (conf.rest.token.storage.useRedis) {
+            conf.rest.token.storage.useJwt = false
+            tokenStorageService(RedisTokenStorageService) {
+                redisService = ref('redisService')
                 userDetailsService = ref('userDetailsService')
+                expiration = conf.rest.token.storage.redis.expiration
             }
-        }
+        } else if (conf.rest.token.storage.useJwt) {
+            keyProvider(DefaultRSAKeyProvider)
 
-        /* tokenGenerator */
-        tokenGenerator(SecureRandomTokenGenerator)
+            jwtService(JwtService) {
+                keyProvider = ref('keyProvider')
+                jwtSecret = conf.rest.token.storage.jwt.secret
+            }
+
+            tokenStorageService(JwtTokenStorageService) {
+                jwtService = ref('jwtService')
+            }
+
+            if (conf.rest.token.storage.jwt.useEncryptedJwt) {
+                tokenGenerator(EncryptedJwtTokenGenerator) {
+                    jwtTokenStorageService = ref('tokenStorageService')
+                    keyProvider = ref('keyProvider')
+                    defaultExpiration = conf.rest.token.storage.jwt.expiration
+                }
+
+                if (conf.rest.token.storage.jwt.privateKeyPath instanceof CharSequence &&
+                        conf.rest.token.storage.jwt.publicKeyPath instanceof CharSequence) {
+                    keyProvider(FileRSAKeyProvider) {
+                        privateKeyPath = conf.rest.token.storage.jwt.privateKeyPath
+                        publicKeyPath = conf.rest.token.storage.jwt.publicKeyPath
+                    }
+                }
+
+            } else {
+                tokenGenerator(SignedJwtTokenGenerator) {
+                    jwtTokenStorageService = ref('tokenStorageService')
+                    jwtSecret = conf.rest.token.storage.jwt.secret
+                    defaultExpiration = conf.rest.token.storage.jwt.expiration
+                }
+            }
+
+            SpringSecurityUtils.orderedFilters.remove(SecurityFilterPosition.LOGOUT_FILTER.order - 1)
+        }
 
         /* restAuthenticationProvider */
         restAuthenticationProvider(RestAuthenticationProvider) {
             tokenStorageService = ref('tokenStorageService')
+            useJwt = conf.rest.token.storage.useJwt
+            jwtService = ref('jwtService')
         }
 
         /* oauthUserDetailsService */
@@ -216,24 +268,10 @@ class SpringSecurityRestGrailsPlugin {
             userDetailsService = ref('userDetailsService')
         }
 
-        //*/
-
         if (printStatusMessages) {
             println '... finished configuring Spring Security REST\n'
         }
 
     }
-
-    def doWithDynamicMethods = {ApplicationContext ctx ->
-
-        CharSequence.metaClass.mask = {
-            def max = delegate.length() - 1
-            def half = (delegate.length() / 2) as int
-            def halfSize = half > 1 ? half : 1
-            StringUtils.abbreviateMiddle(delegate, "*" * halfSize + 1, max)
-        }
-
-    }
-
 
 }

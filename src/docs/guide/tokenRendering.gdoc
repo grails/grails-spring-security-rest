@@ -7,7 +7,7 @@ Cache-Control: no-store
 Pragma: no-cache
 
 {
-    "access_token":"3bicek1gc63oai6tfjkhog4kqn8ojd6a",
+    "access_token":"eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0MjI5OTU5MjIsInN1YiI6ImppbWkiLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlhdCI6MTQyMjk5MjMyMn0.rA7A2Gwt14LaYMpxNRtrCdO24RGrfHtZXY9fIjV8x8o",
     "token_type":"Bearer",
     "username": "john.doe",
     "roles": [
@@ -40,7 +40,7 @@ The output will look like:
 
 {code}
 {
-    "access_token":"3bicek1gc63oai6tfjkhog4kqn8ojd6a",
+    "access_token":"eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0MjI5OTU5MjIsInN1YiI6ImppbWkiLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlhdCI6MTQyMjk5MjMyMn0.rA7A2Gwt14LaYMpxNRtrCdO24RGrfHtZXY9fIjV8x8o",
     "token_type":"Bearer",
     "login": "john.doe",
     "permissions": [
@@ -67,13 +67,13 @@ Disabling bearer token support impacts the way tokens are extracted from the HTT
 {warning}
 
 If you want your own implementation, simply create a class implementing
-[RestAuthenticationTokenJsonRenderer|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/rendering/RestAuthenticationTokenJsonRenderer.html]
-and wire it up in @resources.groovy@ with name @restAuthenticationTokenJsonRenderer@.
+[AccessTokenJsonRenderer|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/grails/plugin/springsecurity/rest/token/rendering/AccessTokenJsonRenderer.html]
+and wire it up in @resources.groovy@ with name @accessTokenJsonRenderer@.
 
 {note}
 The principal object stored in the security context, and passed to the JSON renderer, is coming from the configured
 authentication providers. In most cases, this will be a @UserDetails@ object retrieved using the @userDetailsService@ bean.
 If you want to render additional information in your JSON response, you have to:
 # Configure an alternative @userDetailsService@ bean that retrieves the additional information you want, and put it in a principal object.
-# Configure an alternative @restAuthenticationTokenJsonRenderer@ that reads that information from the @restAuthenticationToken.principal@ object.
+# Configure an alternative @accessTokenJsonRenderer@ that reads that information from the @restAuthenticationToken.principal@ object.
 {note}
