@@ -11,6 +11,7 @@ tokenStorage:
   jwt: JSON Web Token
   memcached: Memcached
   gorm: GORM
+  redis: Redis
   grailsCache: Grails Cache
 tokenRendering: Token Rendering
 tokenValidation: Token Validation Filter

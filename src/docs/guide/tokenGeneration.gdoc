@@ -1,8 +1,8 @@
 By default, the plugin generates [JWT|guide:jwt] tokens. Note that when using JWT, you can't plug any other token generator.
 
 If you are not using JWT, but any stateful strategy like Memcached or GORM, the following strategies are available:
-* [Using java.security.SecureRandom|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/generation/SecureRandomTokenGenerator.html].
-* [Using java.util.UUID|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/generation/UUIDTokenGenerator.html].
+* [Using java.security.SecureRandom|http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/SecureRandomTokenGenerator.html].
+* [Using java.util.UUID|http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/UUIDTokenGenerator.html].
 
 The strategy used is configurable in @Config.groovy@:
 
@@ -16,5 +16,5 @@ Both of them generate tokens of 32 alphanumeric characters.
 
 That should be enough for most of the human beings. But if you still want to provide your own implementation,
 simply write a class implementing
-[TokenGenerator|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/generation/TokenGenerator.html]
+[TokenGenerator|http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/TokenGenerator.html]
 and wire it up in @resources.groovy@ as @tokenGenerator@.

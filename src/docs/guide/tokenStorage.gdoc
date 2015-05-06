@@ -1,4 +1,9 @@
 The tokens are stored on the server using a @tokenStorageService@ bean. The plugin comes with out-of-the-box support
 for JWT, Memcached, GORM and [Grails Cache|http://grails.org/plugin/cache], but you can use your own strategy implementing the
-[TokenStorageService|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html]
+[TokenStorageService|http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html]
 interface.
+
+{note}
+The default implementation, [JWT|guide:jwt], is stateless. Nothing is really stored. However, the plugin still gives a
+chance to the other implementations to store the principal if they need to.
+{note}

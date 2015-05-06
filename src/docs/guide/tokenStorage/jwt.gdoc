@@ -61,11 +61,20 @@ the algorithm used is HMAC SHA-256 with a specified shared secret. The relevant 
 
 h2. Encrypted JWT's
 
+{note}
+Grails's @grails-docs@ artifact includes a version of @com.lowagie:itext@ which in turns bring old BouncyCastle's libraries
+into the classpath. To avoid the problem, you have to override explicitly that dependency:
+
+{code}
+build("com.lowagie:itext:2.0.8") { excludes "bouncycastle:bcprov-jdk14:138", "org.bouncycastle:bcprov-jdk14:1.38" }
+{code}
+{note}
+
 In the previous strategy, the claims are just signed, so it prevents an attacker to tamper its contents to introduce
 malicious data or try a privilege escalation by adding more roles. However, the claims can be decoded just by using
 Base 64.
 
-If the claims contains sensible information, you can use a
+If the claims contains sensitive information, you can use a
 [JSON Web Encryption|https://tools.ietf.org/html/draft-ietf-jose-json-web-encryption] algorithm to prevent them to be decoded.
 Particularly, this plugin uses RSAES OAEP for key encryption and AES GCM (Galois/Counter Mode) algorithm with a 256 bit key
 for content encryption.
@@ -96,3 +105,47 @@ grails.plugin.springsecurity.rest.token.storage.jwt.useEncryptedJwt = true
 grails.plugin.springsecurity.rest.token.storage.jwt.privateKeyPath = '/path/to/private_key.der'
 grails.plugin.springsecurity.rest.token.storage.jwt.publicKeyPath = '/path/to/public_key.der'
 {code}
+
+{warning}
+The performance of encryption algorithms is much slower compared with signing ones. If you are considering encrypting
+you JWT's, think if you really need it.
+{warning}
+
+h2. Token expiration and refresh tokens
+
+When using JWT, issued access tokens expire after a period of time, and they are paired with refresh tokens, eg:
+
+{code}
+{
+   "username": "jimi",
+   "roles": [
+      "ROLE_ADMIN",
+      "ROLE_USER"
+   ],
+   "expires_in": 3600,
+   "token_type": "Bearer",
+   "refresh_token": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00ifQ.fUaSWIdZakFX7CyimRIPhuw0sfevgmwL2xzm5H0TuaqwKx24EafCO0TruGKG-lN-wGCITssnF2LQTqRzQGp0PoLXHfUJ0kkz5rBl6LtnRu7cdD1ZUNYXLJtFjQ3IATzoo15tPafRPyStG1Qm7-1L0VxquhrLxkkpti0F1_VTytZAq8ltFrnxM4ahJUwS7eriivvdLqmHtnwuXw0kBXEseIyCkiyKklWDJAcD_P_gHoQJvSCoXedlr7Pp0n6LEUrRWJ2Hb-Zyt9dWqWDxm9nyDeEVtEZGcQtpgCGgbXxaUpULIy5nvrbRzXSNyT6iXhK1CLqiFVkfh-Y-DHXdB6Q4sg.uYdpxl835KnlkqC5.gBgSnPWZOo6FINovJNG7Xx2RuS09QJbU4-_J4EgZQkygt8xE-HfdYaOmtmJLjGJR1XKoaRsuX1gNjFoCZgqWAon6.Zsrk52dkjskSVQLXZBQooQ",
+   "access_token": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00ifQ.n-gGe65x0SlSXS3fTG8ZLdXvv6b5_1pDvkcGyCjFy-vm1VhaBEQL5p3hc6iUcCAcuyrqzGk95lV9dHCv46cNfCiUFHWfbEcd4nqScIxBbc28xO9L1mNLnZ0G1rx1Mx1L0Y_ZPoSxDXpJaHCT28cdZffHLxx2B9ioIClgdlYBAJ5Oz8VT39-D0QSomS6QhFqmcpbDsXrsKxs545Pn-TIlu-fSQ4wpIvAxusOKB6CV2EYKqBplMBrh-3btE8WksVcX2N3LsrcMhrKxSKi93c06MZh6JzSLWe5bl9hvUvBdEuwDrk-fQgD3ZlmjjoevRWYhv_kslW1PlqUHYmKOQ7csUw.3mvvsFWikEjZzExA.YixjnnzzcPRy_uUpgPv5zqOfshv3pUwfrME0AijpsB7u9CmJe94g6f2y_3vqUps-5weKKGZyk3ZtnwEbPVAk9-HZt-Y27SbZl4JNCFEOLVsMsK8.h4j9BdFXuWKKez6xxRAwJA"
+}
+{code}
+
+Refresh tokens never expire, and can be used to obtain a new access token by sending a POST request to the
+@/oauth/access_token@ endpoint:
+
+{code}
+POST /myApp/oauth/access_token HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&refresh_token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00ifQ....
+{code}
+
+As you can see, is a form request with 2 parameters:
+
+* @grant_type@: must be @refres_token@ always.
+* @refresh_token@: the refresh token provided earlier.
+
+{note}
+As refresh tokens never expire, they must be securely stored in your client application. See
+[section 10.4 of the OAuth 2.0 spec|https://tools.ietf.org/html/rfc6749#section-10.4] for more information.
+{note}

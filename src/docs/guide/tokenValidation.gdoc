@@ -32,7 +32,8 @@ Content-Type: application/x-www-form-urlencoded
 access_token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0MjI5OTU5MjIsInN1YiI6ImppbWkiLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlhdCI6MTQyMjk5MjMyMn0.rA7A2Gwt14LaYMpxNRtrCdO24RGrfHtZXY9fIjV8x8o
 {code}
 
-Note that in this case, @GET@ HTTP method is not supported.
+If you need to use the @GET@ HTTP method (to render images in an @img@ tag, for example), you can also send the access token
+in a query string parameter named @access_token@:
 
 If you disable the bearer token support, you can customise it further:
 
@@ -42,7 +43,7 @@ grails.plugin.springsecurity.rest.token.validation.headerName = 'X-Auth-Token'
 {code}
 
 If you still want to have full access and read the token from a different part of the request, you can implement a
-[TokenReader|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/TokenReader.html]
+[TokenReader|http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/reader/TokenReader.html]
 and register it in your @resources.groovy@  as @tokenReader@.
 
 h2. Anonymous access
@@ -102,3 +103,7 @@ The relevant configuration properties for the validation endpoint are:
 @grails.plugin.springsecurity.rest.token.validation.headerName@                     | @X-Auth-Token@
 @grails.plugin.springsecurity.rest.token.validation.endpointUrl@                    | @/api/validate@
 {table}
+
+Note that @headerName@ is only considered if @grails.plugin.springsecurity.rest.token.validation.useBearerToken@ is set
+to @false@. Otherwise (the default approach), as per RFC 6750, the header name will be @Authorization@ and the value
+will be @Bearer TOKEN_VALUE@

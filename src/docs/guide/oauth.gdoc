@@ -23,6 +23,9 @@ The flow is something like the following:
 
 The steps flagged with (*) remain unchanged from the [normal flow|guide:authentication].
 
+The Grails callback URL mentioned above has this general format: @${grails.serverURL}/oauth/callback/${providerName}@.
+You will need to configure such URL in your OAuth 2.0 provider.
+
 To support OAuth, this plugin uses [Profile & Authentication Client for Java|https://github.com/leleuj/pac4j]. So you
 can use any OAuth 2.0 provider they support. This includes at the time of writing:
 
@@ -59,9 +62,9 @@ http://your-grails-api.com/oauth/authenticate/google?callback=http://your-fronte
 In this case, the token will be *concatenated* to the end of the URL.
 
 Upon successful OAuth authorisation (after step 6.1 in the above diagram), an
-[OauthUser|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/oauth/OauthUser.html]
+[OauthUser|http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/oauth/OauthUser.html]
 will be stored in the security context. This is done by a bean named @oauthUserDetailsService@. The
-[default implementation|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/oauth/DefaultOauthUserDetailsService.html]
+[default implementation|http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/oauth/DefaultOauthUserDetailsService.html]
 delegates to the configured @userDetailsService@ bean, passing the profile ID as the username:
 
 {code}

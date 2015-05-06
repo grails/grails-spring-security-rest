@@ -35,28 +35,25 @@ grails.project.dependency.resolution = {
     }
 
     dependencies {
-        test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
         compile 'org.apache.httpcomponents:httpclient:4.3.3'
     }
 
     plugins {
         // plugins for the build system only
-        build ":tomcat:7.0.47"
+        build ":tomcat:7.0.54"
 
         // plugins for the compile step
-        compile ":scaffolding:2.0.1"
-        compile ':cache:1.1.1'
+        compile ":scaffolding:2.1.1"
+        compile ':cache:1.1.8'
 
         // plugins needed at runtime but not for compilation
-        runtime ":hibernate:3.6.10.6" // or ":hibernate4:4.1.11.6"
-        runtime ":database-migration:1.3.8"
-        runtime ":jquery:1.10.2.2"
-        runtime ":resources:1.2.1"
+        runtime ":hibernate4:4.3.6.1" // or ":hibernate4:4.1.11.6"
+        runtime ":database-migration:1.4.0"
+        runtime ":jquery:1.11.1"
+        runtime ":resources:1.2.14"
 
         compile ":functional-spock:0.7"
-        test(":spock:0.7") {
-            exclude("spock-grails-support")
-        }
+        test ":rest-client-builder:1.0.3"
 
 
     }

@@ -1,42 +1,42 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
-echo "Starting to update documentation...\n"
+if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
-rm -rf docs/                         ç
-./grailsw doc
+	# If there is a tag present then this becomes the latest
+	if [[ -n $TRAVIS_TAG ]]; then
+		./grailsw doc
 
-echo "Replacing version in documentation...\n"
-version=`cat SpringSecurityRestGrailsPlugin.groovy | grep version | sed -e 's/^.*"\(.*\)"$/\1/g'`
-find target/docs/guide -name "*.html" | xargs sed -e "s/&#123;&#123;VERSION&#125;&#125;/${version}/g" -i
+		version=`cat SpringSecurityRestGrailsPlugin.groovy | grep version | sed -e 's/^.*"\(.*\)"$/\1/g'`
+		find target/docs/guide -name "*.html" | xargs sed -e "s/&#123;&#123;VERSION&#125;&#125;/${version}/g" -i
+		echo "Preparing release of version $version"
 
-rm -rf /tmp/docs/
-mv target/docs /tmp
+		echo "Configuring git with name ${GIT_NAME} and email ${GIT_EMAIL}"
+		git config --global user.name "$GIT_NAME"
+		git config --global user.email "$GIT_EMAIL"
+		git config --global credential.helper "store --file=~/.git-credentials"
+		echo "https://$GH_TOKEN:@github.com" > ~/.git-credentials
 
-#go to home and setup git
-echo "Configuring git...\n"
-cd $HOME
-git config --global user.email "travis@travis-ci.org"
-git config --global user.name "Travis"
+		git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages > /dev/null
 
-#using token clone gh-pages branch
-echo "Cloning...\n"
-git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/alvarosanchez/grails-spring-security-rest.git gh-pages > /dev/null
+		cd gh-pages
 
-#go into that directory and copy data we're interested in to that directory
-cd gh-pages
+		./gradlew generateIndex
 
-echo "Replacing version in index.html...\n"
-cp index.tmpl index.html
-sed -e "s/{{VERSION}}/${version}/g" -i index.html
+		rm -rf latest/
+		mkdir -p latest/docs
+		cp -r ../target/docs/. ./latest/docs
+		git add latest/*
 
-echo "Moving the generated documentation to the right place...\n"
-rm -rf docs/
-mv /tmp/docs .
+		rm -rf "$version"
+		mkdir -p "$version"
+		mv ../target/docs "./$version/"
+		git add "$version/*"
 
-#add, commit and push files
-echo "Commiting and pushing...\n"
-git add -f .
-git commit -m "Documentation updated"
-git push -fq origin gh-pages > /dev/null
+		git commit -a -m "Updating docs for Travis build: https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID"
+		git push origin HEAD
+		cd ..
+		rm -rf gh-pages
+	fi
 
-echo "Done updating documentation\n"
+fi

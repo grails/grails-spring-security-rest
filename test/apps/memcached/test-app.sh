@@ -3,7 +3,8 @@
 rm -f grails-app/conf/Config.groovy \
     && for config in `ls grails-app/conf/Config*.groovy`; do
         cp $config grails-app/conf/Config.groovy \
-           && rm -rf target \
+           && ./grailsw clean-all \
+           && ./grailsw compile \
            && ./grailsw test-app --echoOut \
            && rm grails-app/conf/Config.groovy
            if [ $? -ne 0 ]; then

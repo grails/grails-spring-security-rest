@@ -1,4 +1,4 @@
-The [authentication filter|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html]
+The [authentication filter|http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/RestAuthenticationFilter.html]
 uses the default @authenticationManager@ bean, which in turn uses all the registered authentication
 providers. See the [Spring Security Core guide|http://grails-plugins.github.io/grails-spring-security-core/guide/authenticationProviders.html]
 for more information about how to define your own providers. Note that you can easily plug any Spring Security sub-plugin
@@ -69,7 +69,7 @@ grails.plugin.springsecurity.rest.login.passwordPropertyName = 'pwd'
 {code}
 
 If your JSON request format is different, you can plug your own implementation by defining a class which extends
-@[AbstractJsonPayloadCredentialsExtractor|http://alvarosanchez.github.io/grails-spring-security-rest/docs/gapi/com/odobo/grails/plugin/springsecurity/rest/AbstractJsonPayloadCredentialsExtractor.html]@.
+@[AbstractJsonPayloadCredentialsExtractor|http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/credentials/AbstractJsonPayloadCredentialsExtractor.html]@.
 The default implementation looks like this:
 
 {code}
