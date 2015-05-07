@@ -219,18 +219,18 @@ class SpringSecurityRestGrailsPlugin {
                 expiration = conf.rest.token.storage.redis.expiration
             }
         } else if (conf.rest.token.storage.useJwt) {
-            keyProvider(DefaultRSAKeyProvider)
-
             jwtService(JwtService) {
-                keyProvider = ref('keyProvider')
                 jwtSecret = conf.rest.token.storage.jwt.secret
             }
-
             tokenStorageService(JwtTokenStorageService) {
                 jwtService = ref('jwtService')
             }
 
             if (conf.rest.token.storage.jwt.useEncryptedJwt) {
+                jwtService(JwtService) {
+                    keyProvider = ref('keyProvider')
+                    jwtSecret = conf.rest.token.storage.jwt.secret
+                }
                 tokenGenerator(EncryptedJwtTokenGenerator) {
                     jwtTokenStorageService = ref('tokenStorageService')
                     keyProvider = ref('keyProvider')
@@ -243,6 +243,8 @@ class SpringSecurityRestGrailsPlugin {
                         privateKeyPath = conf.rest.token.storage.jwt.privateKeyPath
                         publicKeyPath = conf.rest.token.storage.jwt.publicKeyPath
                     }
+                } else {
+                    keyProvider(DefaultRSAKeyProvider)
                 }
 
             } else {
