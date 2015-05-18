@@ -21,6 +21,7 @@ import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.util.logging.Slf4j
+import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.security.authentication.AuthenticationDetailsSource
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -65,6 +66,8 @@ class RestAuthenticationFilter extends GenericFilterBean {
 
     TokenGenerator tokenGenerator
     TokenStorageService tokenStorageService
+    
+    GrailsApplication grailsApplication
 
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -129,6 +132,8 @@ class RestAuthenticationFilter extends GenericFilterBean {
                 log.debug "Generated token: ${accessToken}"
 
                 tokenStorageService.storeToken(accessToken.accessToken, authenticationResult.principal as UserDetails)
+
+                grailsApplication.mainContext.publishEvent(new RestAuthenticationSuccessEvent(accessToken))
 
                 authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, accessToken)
             }else{
