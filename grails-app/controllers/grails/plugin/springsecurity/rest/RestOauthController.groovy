@@ -89,7 +89,7 @@ class RestOauthController {
 
         try {
             String tokenValue = restOauthService.storeAuthentication(provider, context)
-
+            
             if (session[CALLBACK_ATTR]) {
                 frontendCallbackUrl += tokenValue
                 session[CALLBACK_ATTR] = null

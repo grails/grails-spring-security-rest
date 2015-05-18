@@ -89,6 +89,7 @@ class SpringSecurityRestGrailsPlugin {
                 endpointUrl = conf.rest.login.endpointUrl
                 tokenGenerator = ref('tokenGenerator')
                 tokenStorageService = ref('tokenStorageService')
+                grailsApplication = ref('grailsApplication')
             }
 
             def paramsClosure = {

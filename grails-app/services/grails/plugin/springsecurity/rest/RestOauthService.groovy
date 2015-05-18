@@ -88,6 +88,8 @@ class RestOauthService {
 
         SecurityContextHolder.context.setAuthentication(accessToken)
 
+        grailsApplication.mainContext.publishEvent(new RestAuthenticationSuccessEvent(accessToken))
+
         return accessToken.accessToken
     }
 }
