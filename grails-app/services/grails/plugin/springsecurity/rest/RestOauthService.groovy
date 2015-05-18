@@ -68,7 +68,7 @@ class RestOauthService {
         return client
     }
 
-    AccessToken storeAuthentication(String provider, WebContext context) {
+    String storeAuthentication(String provider, WebContext context) {
         BaseOAuthClient client = getClient(provider)
         Credentials credentials = client.getCredentials context
 
@@ -88,6 +88,8 @@ class RestOauthService {
 
         SecurityContextHolder.context.setAuthentication(accessToken)
 
-        return accessToken
+        grailsApplication.mainContext.publishEvent(new RestAuthenticationSuccessEvent(accessToken))
+
+        return accessToken.accessToken
     }
 }
