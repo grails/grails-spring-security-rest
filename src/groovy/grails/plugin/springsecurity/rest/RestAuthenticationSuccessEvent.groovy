@@ -23,6 +23,8 @@ import org.springframework.context.ApplicationEvent
  * Stores the {@link AccessToken} for authentication success event handlers.
  */
 class RestAuthenticationSuccessEvent extends ApplicationEvent {
+    
+    @Delegate
     AccessToken accessToken
 
     RestAuthenticationSuccessEvent(Object source) {
