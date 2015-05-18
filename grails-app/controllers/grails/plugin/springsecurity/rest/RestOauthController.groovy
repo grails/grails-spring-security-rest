@@ -88,9 +88,7 @@ class RestOauthController {
         }
 
         try {
-            AccessToken accessToken = restOauthService.storeAuthentication(provider, context)
-            grailsApplication.mainContext.publishEvent(new RestAuthenticationSuccessEvent(accessToken))
-            String tokenValue = accessToken.accessToken
+            String tokenValue = restOauthService.storeAuthentication(provider, context)
             
             if (session[CALLBACK_ATTR]) {
                 frontendCallbackUrl += tokenValue
