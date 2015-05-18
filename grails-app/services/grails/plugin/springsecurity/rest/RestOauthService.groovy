@@ -68,7 +68,7 @@ class RestOauthService {
         return client
     }
 
-    String storeAuthentication(String provider, WebContext context) {
+    AccessToken storeAuthentication(String provider, WebContext context) {
         BaseOAuthClient client = getClient(provider)
         Credentials credentials = client.getCredentials context
 
@@ -88,6 +88,6 @@ class RestOauthService {
 
         SecurityContextHolder.context.setAuthentication(accessToken)
 
-        return accessToken.accessToken
+        return accessToken
     }
 }
