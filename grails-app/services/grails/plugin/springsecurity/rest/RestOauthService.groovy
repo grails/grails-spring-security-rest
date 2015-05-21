@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest
 
+import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.oauth.OauthUser
 import grails.plugin.springsecurity.rest.oauth.OauthUserDetailsService
 import grails.plugin.springsecurity.rest.token.AccessToken
@@ -44,7 +45,7 @@ class RestOauthService {
     GrailsApplication grailsApplication
     LinkGenerator grailsLinkGenerator
     OauthUserDetailsService oauthUserDetailsService
-
+    RestAuthenticationEventPublisher authenticationEventPublisher
 
     BaseOAuthClient getClient(String provider) {
         log.debug "Creating OAuth client for provider: ${provider}"
@@ -85,6 +86,8 @@ class RestOauthService {
 
         log.debug "Storing token on the token storage"
         tokenStorageService.storeToken(accessToken.accessToken, userDetails)
+
+        authenticationEventPublisher.publishTokenCreation(accessToken)
 
         SecurityContextHolder.context.setAuthentication(accessToken)
 

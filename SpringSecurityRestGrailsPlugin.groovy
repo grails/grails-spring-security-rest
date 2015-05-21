@@ -1,6 +1,8 @@
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.rest.*
+import grails.plugin.springsecurity.rest.authentication.DefaultRestAuthenticationEventPublisher
+import grails.plugin.springsecurity.rest.authentication.NullRestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
 import grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
 import grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
@@ -89,6 +91,7 @@ class SpringSecurityRestGrailsPlugin {
                 endpointUrl = conf.rest.login.endpointUrl
                 tokenGenerator = ref('tokenGenerator')
                 tokenStorageService = ref('tokenStorageService')
+                authenticationEventPublisher = ref('authenticationEventPublisher')
             }
 
             def paramsClosure = {
@@ -160,9 +163,7 @@ class SpringSecurityRestGrailsPlugin {
             authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')
-            if (conf.useSecurityEventListener) {
-                authenticationEventPublisher = ref('authenticationEventPublisher')
-            }
+            authenticationEventPublisher = ref('authenticationEventPublisher')
         }
 
         restExceptionTranslationFilter(ExceptionTranslationFilter, ref('restAuthenticationEntryPoint'), ref('restRequestCache')) {
@@ -268,6 +269,15 @@ class SpringSecurityRestGrailsPlugin {
         /* oauthUserDetailsService */
         oauthUserDetailsService(DefaultOauthUserDetailsService) {
             userDetailsService = ref('userDetailsService')
+        }
+
+        // SecurityEventListener
+        if (conf.useSecurityEventListener) {
+            restSecurityEventListener(RestSecurityEventListener)
+
+            authenticationEventPublisher(DefaultRestAuthenticationEventPublisher)
+        } else {
+            authenticationEventPublisher(NullRestAuthenticationEventPublisher)
         }
 
         if (printStatusMessages) {
