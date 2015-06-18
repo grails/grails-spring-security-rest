@@ -169,8 +169,8 @@ grails {
                         secret = 'f6bfaff8c66a3fd7b1e9ec4c986fda8b'
 
                         //https://developers.facebook.com/docs/reference/login/
-                        scope = 'email,user_location'
-                        fields = 'id,name,first_name,middle_name,last_name,username'
+                        scope = 'public_profile,email'
+                        fields = 'id,name,first_name,middle_name,last_name,link,gender,email,birthday'
                         defaultRoles = ['ROLE_USER', 'ROLE_FACEBOOK']
                     }
 
