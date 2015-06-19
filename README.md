@@ -37,6 +37,7 @@ Contributors
 * [Andrew Wharton](https://github.com/andrew-wharton).
 * [Alonso Torres](https://github.com/Alotor).
 * [Bartek Gawel](https://github.com/bgawel).
+* [Bob Finch](https://github.com/rbfinch).
 * [Bobby Warner](https://github.com/bobbywarner).
 * [Burt Beckwith](https://github.com/burtbeckwith).
 * [Conall Laverty](https://github.com/conalllaverty).
