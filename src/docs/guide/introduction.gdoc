@@ -8,7 +8,7 @@ future if there is enough community interest / love :)
 {note}
 
 {note}
-This plugin is only for Grails 2.x
+This plugin is only for Grails 2.x, and it requires at least Java 7.
 {note}
 
 The default behaviour of Spring Security is to store the authenticated principal in the HTTP session. However, in a
