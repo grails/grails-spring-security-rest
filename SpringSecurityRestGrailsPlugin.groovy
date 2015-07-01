@@ -268,6 +268,7 @@ class SpringSecurityRestGrailsPlugin {
         /* oauthUserDetailsService */
         oauthUserDetailsService(DefaultOauthUserDetailsService) {
             userDetailsService = ref('userDetailsService')
+            preAuthenticationChecks = ref('preAuthenticationChecks')
         }
 
         if (printStatusMessages) {
