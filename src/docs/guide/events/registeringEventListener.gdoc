@@ -4,13 +4,13 @@ Enable events with @grails.plugin.springsecurity.useSecurityEventListener = true
 package com.foo.bar
 
 import org.springframework.context.ApplicationListener
-import org.springframework.security.authentication.event. AuthenticationSuccessEvent
+import grails.plugin.springsecurity.rest.RestTokenCreationEvent
 
 class MySecurityEventListener
-      implements ApplicationListener<AuthenticationSuccessEvent> {
+      implements ApplicationListener<RestTokenCreationEvent> {
 
-   void onApplicationEvent(AuthenticationSuccessEvent event) {
-      // handle the event
+   void onApplicationEvent(RestTokenCreationEvent event) {
+      // The access token is a delegate of the event, so you have access to an instance of @grails.plugin.springsecurity.rest.token.AccessToken@
    }
 }
 {code}

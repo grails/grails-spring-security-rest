@@ -2,7 +2,11 @@ introduction: Introduction to the Spring Security REST plugin
 whatsNew15: What's new in 1.5?
 whatsNew14: What's new in 1.4?
 configuration: Configuration
-events: Events
+events:
+  title: Events
+  eventNotification: Event Notification
+  registeringEventListener: Registering an Event Listener
+  registeringCallbackClosures: Registering Callback Closures
 authentication:
   title: Authentication Endpoint
   logout: Logout Endpoint
