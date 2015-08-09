@@ -12,3 +12,5 @@ You can use the @useSecurityEventListener@ setting to temporarily disable and en
 h4. Token Creation
 
 Currently the Spring Security Rest plugin supports a single event in addition to the default spring security events. The event is fired whenever a new token is created. See @grails.plugin.springsecurity.rest.RestTokenCreationEvent@
+
+*Note:* Every time a token is successfully submitted, an @AuthenticationSuccessEvent@ will be fired.
