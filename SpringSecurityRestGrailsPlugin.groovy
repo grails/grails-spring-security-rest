@@ -1,6 +1,8 @@
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.rest.*
+import grails.plugin.springsecurity.rest.authentication.DefaultRestAuthenticationEventPublisher
+import grails.plugin.springsecurity.rest.authentication.NullRestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
 import grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
 import grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
@@ -31,7 +33,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.5.1"
+    String version = "2.5.1"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -89,6 +91,7 @@ class SpringSecurityRestGrailsPlugin {
                 endpointUrl = conf.rest.login.endpointUrl
                 tokenGenerator = ref('tokenGenerator')
                 tokenStorageService = ref('tokenStorageService')
+                authenticationEventPublisher = ref('authenticationEventPublisher')
             }
 
             def paramsClosure = {
@@ -160,9 +163,7 @@ class SpringSecurityRestGrailsPlugin {
             authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')
-            if (conf.useSecurityEventListener) {
-                authenticationEventPublisher = ref('authenticationEventPublisher')
-            }
+            authenticationEventPublisher = ref('authenticationEventPublisher')
         }
 
         restExceptionTranslationFilter(ExceptionTranslationFilter, ref('restAuthenticationEntryPoint'), ref('restRequestCache')) {
@@ -269,6 +270,15 @@ class SpringSecurityRestGrailsPlugin {
         oauthUserDetailsService(DefaultOauthUserDetailsService) {
             userDetailsService = ref('userDetailsService')
             preAuthenticationChecks = ref('preAuthenticationChecks')
+        }
+
+        // SecurityEventListener
+        if (conf.useSecurityEventListener) {
+            restSecurityEventListener(RestSecurityEventListener)
+
+            authenticationEventPublisher(DefaultRestAuthenticationEventPublisher)
+        } else {
+            authenticationEventPublisher(NullRestAuthenticationEventPublisher)
         }
 
         if (printStatusMessages) {

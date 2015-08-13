@@ -1,0 +1,13 @@
+Alternatively, enable events with @grails.plugin.springsecurity.useSecurityEventListener = true@ and register one or more callback closure(s) in @grails-app/conf/Config.groovy@ and let @SecurityEventListener@ do the filtering.
+
+Implement the event handlers that you need, for example:
+
+{code}
+grails.plugin.springsecurity.useSecurityEventListener = true
+
+grails.plugin.springsecurity.onRestTokenCreationEvent = { e, appCtx ->
+   // handle RestTokenCreationEvent
+}
+{code}
+
+None of these closures are required; if none are configured, nothing will be called. Just implement the event handlers that you need.
