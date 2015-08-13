@@ -22,10 +22,10 @@ import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import org.apache.commons.codec.binary.Base64
 import org.codehaus.groovy.grails.commons.GrailsApplication
+import org.pac4j.core.client.BaseClient
 import org.pac4j.core.client.RedirectAction
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext
-import org.pac4j.oauth.client.BaseOAuthClient
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -51,7 +51,7 @@ class RestOauthController {
      * allows the frontend application to define the frontend callback URL on demand.
      */
     def authenticate(String provider, String callback) {
-        BaseOAuthClient client = restOauthService.getClient(provider)
+        BaseClient client = restOauthService.getClient(provider)
         WebContext context = new J2EContext(request, response)
 
         RedirectAction redirectAction = client.getRedirectAction(context, true, false)

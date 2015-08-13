@@ -41,6 +41,9 @@ can use any OAuth 2.0 provider they support. This includes at the time of writin
 
 Note that OAuth 1.0a providers also work, like Twitter.
 
+The plugin also supports [CAS (Central Authentication Service)|https://www.apereo.org/projects/cas] using the OAuth
+authentication flow.  See [CAS Authentication|guide:oauth:cas] for details.
+
 To start the OAuth authentication flow, from your frontend application, generate a link to
 @<YOUR_GRAILS_APP>/oauth/authenticate/<provider>@. The user clicking on that link represents step 4 in the previous
 diagram.

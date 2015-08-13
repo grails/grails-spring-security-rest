@@ -26,5 +26,6 @@ oauth:
   google: Google
   facebook: Facebook
   twitter: Twitter
+  cas: CAS (Central Authentication Service)
 debugging: Debugging
 faq: Frequently Asked Questions

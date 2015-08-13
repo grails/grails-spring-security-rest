@@ -1,0 +1,26 @@
+Define the following block in your @Config.groovy@:
+
+{code}
+grails {
+    plugin {
+        springsecurity {
+
+            rest {
+
+                oauth {
+
+                    frontendCallbackUrl = { String tokenValue -> "http://my.frontend-app.com/welcome#token=${tokenValue}" }
+
+                    cas {
+
+                        client = org.pac4j.cas.client.CasClient
+                        casLoginUrl = "https://my.cas-server.com/cas/login"
+                    }
+                }
+            }
+        }
+    }
+}
+{code}
+
+Set @casLoginUrl@ to the login URL of your CAS server.
