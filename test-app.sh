@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 ./grailsw compile
 
 ./grailsw maven-install

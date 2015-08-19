@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest
 
+import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.reader.TokenReader
 import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
@@ -46,7 +47,7 @@ class RestTokenValidationFilterUnitSpec extends Specification {
         filter.authenticationSuccessHandler = Mock(AuthenticationSuccessHandler)
         filter.authenticationFailureHandler = Mock(AuthenticationFailureHandler)
         filter.tokenReader = Mock(TokenReader)
-        filter.authenticationEventPublisher = Mock(DefaultAuthenticationEventPublisher)
+        filter.authenticationEventPublisher = Mock(RestAuthenticationEventPublisher)
     }
 
     void "authentication passes when a valid token is found"() {
