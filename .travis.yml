@@ -30,6 +30,7 @@ notifications:
     on_success: change
     on_failure: always
     on_start: false
+
 env:
   global:
   - secure: NDX1oObVIHhG5zUZzhmL8m/601SFB2pE29dci1EcgKrYhdZf+50+Va/b0/7lNzYXnT76CwQmdkbsJmwqBh6+YO+SXcJFE13zudyGfZhLOwY+/oueQB8Up/gk2WbkY4FdIlo0XP/jl+atz4gR9EoAnKCYbdcjYj2lQnJ8ocDpi5U=
