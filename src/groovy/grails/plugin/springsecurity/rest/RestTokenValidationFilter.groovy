@@ -16,10 +16,10 @@
  */
 package grails.plugin.springsecurity.rest
 
+import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.reader.TokenReader
 import groovy.util.logging.Slf4j
-import org.springframework.security.authentication.AuthenticationEventPublisher
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
@@ -52,7 +52,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
     AuthenticationSuccessHandler authenticationSuccessHandler
     AuthenticationFailureHandler authenticationFailureHandler
-    AuthenticationEventPublisher authenticationEventPublisher
+    RestAuthenticationEventPublisher authenticationEventPublisher
 
     TokenReader tokenReader
     String validationEndpointUrl
@@ -79,7 +79,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
                     log.debug "Authentication result: ${accessToken}"
                     SecurityContextHolder.context.setAuthentication(accessToken)
 
-                    authenticationEventPublisher?.publishAuthenticationSuccess(accessToken)
+                    authenticationEventPublisher.publishAuthenticationSuccess(accessToken)
 
                     processFilterChain(request, response, chain, accessToken)
 
@@ -91,7 +91,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
             }
         } catch (AuthenticationException ae) {
             log.debug "Authentication failed: ${ae.message}"
-            authenticationEventPublisher?.publishAuthenticationFailure(ae, accessToken)
+            authenticationEventPublisher.publishAuthenticationFailure(ae, accessToken)
             authenticationFailureHandler.onAuthenticationFailure(httpRequest, httpResponse, ae)
         }
 

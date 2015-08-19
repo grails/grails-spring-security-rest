@@ -78,14 +78,8 @@ class RedisTokenStorageService implements TokenStorageService {
     }
 
     private Object deserialize(byte[] bytes) {
-        if(!bytes) {
-            return null
-        } else {
-            try {
-                return deserializer.convert(bytes)
-            } catch (Exception var3) {
-                throw new Exception("Cannot deserialize", var3)
-            }
+        new ByteArrayInputStream(bytes).withObjectInputStream(getClass().classLoader) { is ->
+            return is.readObject()
         }
     }
 

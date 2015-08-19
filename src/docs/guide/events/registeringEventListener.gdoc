@@ -1,0 +1,26 @@
+Enable events with @grails.plugin.springsecurity.useSecurityEventListener = true@ and create one or more Groovy or Java classes, for example:
+
+{code}
+package com.foo.bar
+
+import org.springframework.context.ApplicationListener
+import grails.plugin.springsecurity.rest.RestTokenCreationEvent
+
+class MySecurityEventListener
+      implements ApplicationListener<RestTokenCreationEvent> {
+
+   void onApplicationEvent(RestTokenCreationEvent event) {
+      // The access token is a delegate of the event, so you have access to an instance of @grails.plugin.springsecurity.rest.token.AccessToken@
+   }
+}
+{code}
+
+Register the class in @grails-app/conf/spring/resources.groovy@:
+
+{code}
+import com.foo.bar.MySecurityEventListener
+
+beans = {
+   mySecurityEventListener(MySecurityEventListener)
+}
+{code}

@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest
 
+import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.credentials.CredentialsExtractor
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
@@ -60,6 +61,7 @@ class RestAuthenticationFilter extends GenericFilterBean {
 
     AuthenticationSuccessHandler authenticationSuccessHandler
     AuthenticationFailureHandler authenticationFailureHandler
+    RestAuthenticationEventPublisher authenticationEventPublisher
 
     AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource
 
@@ -129,6 +131,8 @@ class RestAuthenticationFilter extends GenericFilterBean {
                 log.debug "Generated token: ${accessToken}"
 
                 tokenStorageService.storeToken(accessToken.accessToken, authenticationResult.principal as UserDetails)
+
+                authenticationEventPublisher.publishTokenCreation(accessToken)
 
                 authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, accessToken)
             }else{

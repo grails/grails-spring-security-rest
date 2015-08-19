@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest
 
+import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.oauth.OauthUser
 import grails.plugin.springsecurity.rest.oauth.OauthUserDetailsService
 import grails.plugin.springsecurity.rest.token.AccessToken
@@ -23,6 +24,7 @@ import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import org.pac4j.core.client.BaseClient
 import org.pac4j.core.context.WebContext
 import org.pac4j.core.credentials.Credentials
 import org.pac4j.core.profile.CommonProfile
@@ -44,18 +46,20 @@ class RestOauthService {
     GrailsApplication grailsApplication
     LinkGenerator grailsLinkGenerator
     OauthUserDetailsService oauthUserDetailsService
+    RestAuthenticationEventPublisher authenticationEventPublisher
 
-
-    BaseOAuthClient getClient(String provider) {
+    BaseClient getClient(String provider) {
         log.debug "Creating OAuth client for provider: ${provider}"
         def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
         def ClientClass = providerConfig.client
 
-        BaseOAuthClient client
+        BaseClient client
         if (ClientClass?.toString()?.endsWith("CasOAuthWrapperClient")) {
             client = ClientClass.newInstance(providerConfig.key, providerConfig.secret, providerConfig.casOAuthUrl)
-        } else {
+        } else if (BaseOAuthClient.class.isAssignableFrom(ClientClass)) {
             client = ClientClass.newInstance(providerConfig.key, providerConfig.secret)
+        } else {
+			client = ClientClass.newInstance()
         }
 
         String callbackUrl = grailsLinkGenerator.link controller: 'restOauth', action: 'callback', params: [provider: provider], mapping: 'oauth', absolute: true
@@ -64,12 +68,13 @@ class RestOauthService {
 
         if (providerConfig.scope) client.scope = providerConfig.scope
         if (providerConfig.fields) client.fields = providerConfig.fields
+        if (providerConfig.casLoginUrl) client.casLoginUrl = providerConfig.casLoginUrl
 
         return client
     }
 
     String storeAuthentication(String provider, WebContext context) {
-        BaseOAuthClient client = getClient(provider)
+        BaseClient client = getClient(provider)
         Credentials credentials = client.getCredentials context
 
         log.debug "Querying provider to fetch User ID"
@@ -85,6 +90,8 @@ class RestOauthService {
 
         log.debug "Storing token on the token storage"
         tokenStorageService.storeToken(accessToken.accessToken, userDetails)
+
+        authenticationEventPublisher.publishTokenCreation(accessToken)
 
         SecurityContextHolder.context.setAuthentication(accessToken)
 

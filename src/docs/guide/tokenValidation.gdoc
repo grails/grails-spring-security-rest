@@ -46,6 +46,10 @@ If you still want to have full access and read the token from a different part o
 [TokenReader|http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/reader/TokenReader.html]
 and register it in your @resources.groovy@  as @tokenReader@.
 
+{note}
+You must disable bearer token support to register your own @tokenReader@ implementation.
+{note}
+
 h2. Anonymous access
 
 If you want to enable anonymous access to URL's where this plugin's filters are applied, you need to:

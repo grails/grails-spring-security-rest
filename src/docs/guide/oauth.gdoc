@@ -41,6 +41,9 @@ can use any OAuth 2.0 provider they support. This includes at the time of writin
 
 Note that OAuth 1.0a providers also work, like Twitter.
 
+The plugin also supports [CAS (Central Authentication Service)|https://www.apereo.org/projects/cas] using the OAuth
+authentication flow.  See [CAS Authentication|guide:oauth:cas] for details.
+
 To start the OAuth authentication flow, from your frontend application, generate a link to
 @<YOUR_GRAILS_APP>/oauth/authenticate/<provider>@. The user clicking on that link represents step 4 in the previous
 diagram.
@@ -79,7 +82,9 @@ class DefaultOauthUserDetailsService implements OauthUserDetailsService {
     @Delegate
     UserDetailsService userDetailsService
 
-    OauthUser loadUserByUserProfile(OAuth20Profile userProfile, Collection<GrantedAuthority> defaultRoles)
+    UserDetailsChecker preAuthenticationChecks
+
+    OauthUser loadUserByUserProfile(CommonProfile userProfile, Collection<GrantedAuthority> defaultRoles)
             throws UsernameNotFoundException {
         UserDetails userDetails
         OauthUser oauthUser
@@ -87,12 +92,17 @@ class DefaultOauthUserDetailsService implements OauthUserDetailsService {
         try {
             log.debug "Trying to fetch user details for user profile: ${userProfile}"
             userDetails = userDetailsService.loadUserByUsername userProfile.id
+
+            log.debug "Checking user details with ${preAuthenticationChecks.class.name}"
+            preAuthenticationChecks?.check(userDetails)
+
             Collection<GrantedAuthority> allRoles = userDetails.authorities + defaultRoles
             oauthUser = new OauthUser(userDetails.username, userDetails.password, allRoles, userProfile)
         } catch (UsernameNotFoundException unfe) {
             log.debug "User not found. Creating a new one with default roles: ${defaultRoles}"
             oauthUser = new OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
         }
+
         return oauthUser
     }
 
