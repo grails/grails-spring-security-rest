@@ -26,4 +26,4 @@ Make sure to double-check your imports when upgrading to 1.5.
 h2. Other minor changes
 
 * The plugin now uses Grails 2.4.4, and the build and tests are executed with Java 8.
-* Documentation for older versions is now published at [http://alvarosanchez.github.io/grails-spring-security-rest]
+* Documentation for older versions is now published [here|http://alvarosanchez.github.io/grails-spring-security-rest].
