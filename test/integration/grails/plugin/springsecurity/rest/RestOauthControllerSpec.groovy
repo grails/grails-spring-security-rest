@@ -22,7 +22,10 @@ class RestOauthControllerSpec extends IntegrationSpec {
     TokenGenerator tokenGenerator
     AccessTokenJsonRenderer accessTokenJsonRenderer
 
-    private callbackUrlConfig = "http://config.com/welcome#token="
+    /**
+     * The frontend callback URL stored in config.groovy
+     */
+    private frontendCallbackBaseUrl = "http://config.com/welcome#token="
 
     def setup() {
 
@@ -36,7 +39,7 @@ class RestOauthControllerSpec extends IntegrationSpec {
         )
 
         grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl = { String tokenValue ->
-            callbackUrlConfig + tokenValue
+            frontendCallbackBaseUrl + tokenValue
         }
     }
 
@@ -57,21 +60,23 @@ class RestOauthControllerSpec extends IntegrationSpec {
 
         then:
         def message = caughtException.message
-        controller.response.redirectedUrl == "${callbackUrlConfig}&error=403&message=${message}&error_description=${message}&error_code=${caughtException.class.simpleName}"
+        String expectedUrl = "${frontendCallbackBaseUrl}&error=403&message=${message}&error_description=${message}&error_code=${caughtException.class.simpleName}"
+        controller.response.redirectedUrl == expectedUrl
     }
 
-//    def 'UsernameNotFoundException caught within callback action with frontend URL in session'() {
-//
-//        def callbackUrlSession = { String tokenValue -> "http://session.com/welcome#token=${tokenValue}" }
-//        controller.session[controller.CALLBACK_ATTR] = callbackUrlSession
-//        def caughtException = stubService(new UsernameNotFoundException('message'))
-//
-//        when:
-//        controller.params.provider = "google"
-//        controller.callback()
-//
-//        then:
-//        def message = caughtException.message
-//        controller.response.redirectedUrl == "${callbackUrlSession}&error=403&message=${message}&error_description=${message}&error_code=${caughtException.class.simpleName}"
-//    }
+    def 'UsernameNotFoundException caught within callback action with frontend URL in session'() {
+
+        def frontendCallbackBaseUrlSession = "http://session.com/welcome#token="
+        controller.session[controller.CALLBACK_ATTR] = frontendCallbackBaseUrlSession
+        def caughtException = stubService(new UsernameNotFoundException('message'))
+
+        when:
+        controller.params.provider = "google"
+        controller.callback()
+
+        then:
+        def message = caughtException.message
+        String expectedUrl = "${frontendCallbackBaseUrlSession}&error=403&message=${message}&error_description=${message}&error_code=${caughtException.class.simpleName}"
+        controller.response.redirectedUrl == expectedUrl
+    }
 }
