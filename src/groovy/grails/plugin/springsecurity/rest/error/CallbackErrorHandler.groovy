@@ -5,8 +5,8 @@ interface CallbackErrorHandler {
 
     /**
      * Converts an error that occurs during the callback to a parameter map that will be returned to the frontend
-     * @param e
+     * @param cause
      * @return
      */
-    Map convert(Exception e)
+    Map convert(Exception cause)
 }
