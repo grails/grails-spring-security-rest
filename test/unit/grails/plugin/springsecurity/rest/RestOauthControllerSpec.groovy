@@ -1,26 +1,17 @@
 package grails.plugin.springsecurity.rest
 
-import grails.plugin.springsecurity.rest.error.CallbackErrorHandler
 import grails.plugin.springsecurity.rest.error.DefaultCallbackErrorHandler
-import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
-import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
-import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
-import grails.test.spock.IntegrationSpec
+import grails.test.mixin.TestFor
 import groovy.transform.InheritConstructors
-import groovy.util.logging.Log4j
-import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import spock.lang.Issue
+import spock.lang.Specification
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 
-@Log4j
 @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/237")
-class RestOauthControllerSpec extends IntegrationSpec {
-
-    private RestOauthController controller
-
-    GrailsApplication grailsApplication
+@TestFor(RestOauthController)
+class RestOauthControllerSpec extends Specification {
 
     /**
      * The frontend callback URL stored in config.groovy
@@ -31,14 +22,13 @@ class RestOauthControllerSpec extends IntegrationSpec {
         grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl = { String tokenValue ->
             frontendCallbackBaseUrl + tokenValue
         }
-
-        controller = new RestOauthController(callbackErrorHandler: new DefaultCallbackErrorHandler())
     }
 
-    private Exception stubService(Exception caughtException) {
+    private Exception injectDependencies(Exception caughtException) {
         def stubRestOauthService = Stub(RestOauthService)
         stubRestOauthService.storeAuthentication(*_) >> { throw caughtException }
         controller.restOauthService = stubRestOauthService
+        controller.callbackErrorHandler = new DefaultCallbackErrorHandler()
         caughtException
     }
 
@@ -49,56 +39,56 @@ class RestOauthControllerSpec extends IntegrationSpec {
 
     def 'UsernameNotFoundException caught within callback action with frontend URL in Config.groovy'() {
 
-        def caughtException = stubService(new UsernameNotFoundException('message'))
-        controller.params.provider = "google"
+        def caughtException = injectDependencies(new UsernameNotFoundException('message'))
+        params.provider = "google"
 
         when:
         controller.callback()
 
         then:
         String expectedUrl = getExpectedUrl(caughtException, 403)
-        controller.response.redirectedUrl == expectedUrl
+        response.redirectedUrl == expectedUrl
     }
 
     def 'UsernameNotFoundException caught within callback action with frontend URL in session'() {
 
-        def caughtException = stubService(new UsernameNotFoundException('message'))
+        def caughtException = injectDependencies(new UsernameNotFoundException('message'))
         def frontendCallbackBaseUrlSession = "http://session.com/welcome#token="
-        controller.session[controller.CALLBACK_ATTR] = frontendCallbackBaseUrlSession
-        controller.params.provider = "google"
+        request.session[controller.CALLBACK_ATTR] = frontendCallbackBaseUrlSession
+        params.provider = "google"
 
         when:
         controller.callback()
 
         then:
         String expectedUrl = getExpectedUrl(caughtException, 403, frontendCallbackBaseUrlSession)
-        controller.response.redirectedUrl == expectedUrl
+        response.redirectedUrl == expectedUrl
     }
 
     def 'Non-UsernameNotFoundException with cause that has code caught within callback action'() {
 
-        ExceptionWithCodedCause caughtException = stubService(new ExceptionWithCodedCause('message'))
-        controller.params.provider = "google"
+        ExceptionWithCodedCause caughtException = injectDependencies(new ExceptionWithCodedCause('message'))
+        params.provider = "google"
 
         when:
         controller.callback()
 
         then:
         String expectedUrl = getExpectedUrl(caughtException, 'cause.code')
-        controller.response.redirectedUrl == expectedUrl
+        response.redirectedUrl == expectedUrl
     }
 
     def 'Non-UsernameNotFoundException without cause caught within callback action'() {
 
-        def caughtException = stubService(new Exception('message'))
-        controller.params.provider = "google"
+        def caughtException = injectDependencies(new Exception('message'))
+        params.provider = "google"
 
         when:
         controller.callback()
 
         then:
         String expectedUrl = getExpectedUrl(caughtException, INTERNAL_SERVER_ERROR.value())
-        controller.response.redirectedUrl == expectedUrl
+        response.redirectedUrl == expectedUrl
     }
 }
 
