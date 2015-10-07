@@ -26,7 +26,7 @@ class DefaultCallbackErrorHandler implements CallbackErrorHandler {
         // Add the error message under the keys 'error_description' and 'message' - the former for compatibility with
         // the RFC and the latter for backwards compatibility with plugin versions <= 1.5.2
         params.error_description = params.message = e.message ?: ''
-        params.error_code= e.cause ? e.cause.class.simpleName : e.class.simpleName
+        params.error_code = e.cause ? e.cause.class.simpleName : e.class.simpleName
         params
     }
 }
