@@ -23,6 +23,8 @@ class RestOauthControllerSpec extends Specification {
         grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl = { String tokenValue ->
             frontendCallbackBaseUrl + tokenValue
         }
+
+        params.provider = "google"
     }
 
     private Exception injectDependencies(Exception caughtException) {
@@ -41,7 +43,6 @@ class RestOauthControllerSpec extends Specification {
     def 'UsernameNotFoundException caught within callback action with frontend URL in Config.groovy'() {
 
         def caughtException = injectDependencies(new UsernameNotFoundException('message'))
-        params.provider = "google"
 
         when:
         controller.callback()
@@ -56,7 +57,6 @@ class RestOauthControllerSpec extends Specification {
         def caughtException = injectDependencies(new UsernameNotFoundException('message'))
         def frontendCallbackBaseUrlSession = "http://session.com/welcome#token="
         request.session[controller.CALLBACK_ATTR] = frontendCallbackBaseUrlSession
-        params.provider = "google"
 
         when:
         controller.callback()
@@ -68,8 +68,7 @@ class RestOauthControllerSpec extends Specification {
 
     def 'Non-UsernameNotFoundException with cause that has code caught within callback action'() {
 
-        ExceptionWithCodedCause caughtException = injectDependencies(new ExceptionWithCodedCause('message'))
-        params.provider = "google"
+        def caughtException = injectDependencies(new ExceptionWithCodedCause('message'))
 
         when:
         controller.callback()
@@ -82,7 +81,6 @@ class RestOauthControllerSpec extends Specification {
     def 'Non-UsernameNotFoundException without cause caught within callback action'() {
 
         def caughtException = injectDependencies(new Exception('message'))
-        params.provider = "google"
 
         when:
         controller.callback()
