@@ -91,13 +91,7 @@ class RestOauthController {
 
         try {
             String tokenValue = restOauthService.storeAuthentication(provider, context)
-
-            if (session[CALLBACK_ATTR]) {
-                frontendCallbackUrl += tokenValue
-                session[CALLBACK_ATTR] = null
-            } else {
-                frontendCallbackUrl = frontendCallbackUrl.call(tokenValue)
-            }
+            frontendCallbackUrl = getCallbackUrl(frontendCallbackUrl, tokenValue)
 
         } catch (Exception e) {
             def errorParams = new StringBuilder()
@@ -107,16 +101,21 @@ class RestOauthController {
                 errorParams << "&${key}=${value.encodeAsURL()}"
             }
 
-            if (session[CALLBACK_ATTR]) {
-                frontendCallbackUrl += errorParams.toString()
-                session[CALLBACK_ATTR] = null
-            } else {
-                frontendCallbackUrl = frontendCallbackUrl.call(errorParams.toString())
-            }
+            frontendCallbackUrl = getCallbackUrl(frontendCallbackUrl, errorParams.toString())
         }
 
         log.debug "Redirecting to ${frontendCallbackUrl}"
         redirect url: frontendCallbackUrl
+    }
+
+    private String getCallbackUrl(baseUrl, String queryStringSuffix) {
+        if (session[CALLBACK_ATTR]) {
+            session[CALLBACK_ATTR] = null
+            baseUrl + queryStringSuffix
+
+        } else {
+            baseUrl.call(queryStringSuffix)
+        }
     }
 
     /**
