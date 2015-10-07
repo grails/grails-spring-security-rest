@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import spock.lang.Issue
 import spock.lang.Specification
 
+import static org.springframework.http.HttpStatus.FORBIDDEN
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 
 @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/237")
@@ -46,7 +47,7 @@ class RestOauthControllerSpec extends Specification {
         controller.callback()
 
         then:
-        String expectedUrl = getExpectedUrl(caughtException, 403)
+        String expectedUrl = getExpectedUrl(caughtException, FORBIDDEN.value())
         response.redirectedUrl == expectedUrl
     }
 
@@ -61,7 +62,7 @@ class RestOauthControllerSpec extends Specification {
         controller.callback()
 
         then:
-        String expectedUrl = getExpectedUrl(caughtException, 403, frontendCallbackBaseUrlSession)
+        String expectedUrl = getExpectedUrl(caughtException, FORBIDDEN.value(), frontendCallbackBaseUrlSession)
         response.redirectedUrl == expectedUrl
     }
 
