@@ -40,9 +40,22 @@ class RestOauthControllerSpec extends Specification {
         "${baseUrl}&error=${expectedErrorValue}&message=${message}&error_description=${message}&error_code=${exception.class.simpleName}"
     }
 
-    def 'UsernameNotFoundException caught within callback action with frontend URL in Config.groovy'() {
+    def 'UsernameNotFoundException caught within callback action with frontend closure URL in Config.groovy'() {
 
         def caughtException = injectDependencies(new UsernameNotFoundException('message'))
+
+        when:
+        controller.callback()
+
+        then:
+        String expectedUrl = getExpectedUrl(caughtException, FORBIDDEN.value())
+        response.redirectedUrl == expectedUrl
+    }
+
+    def 'UsernameNotFoundException caught within callback action with frontend string URL in Config.groovy'() {
+
+        def caughtException = injectDependencies(new UsernameNotFoundException('message'))
+        grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl = frontendCallbackBaseUrl
 
         when:
         controller.callback()
