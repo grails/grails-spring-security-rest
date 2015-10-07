@@ -1,6 +1,7 @@
 package grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.rest.error.CallbackErrorHandler
+import grails.plugin.springsecurity.rest.error.DefaultCallbackErrorHandler
 import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
@@ -19,13 +20,7 @@ class RestOauthControllerSpec extends IntegrationSpec {
 
     private RestOauthController controller
 
-    CallbackErrorHandler callbackErrorHandler
-    RestOauthService restOauthService
     GrailsApplication grailsApplication
-
-    TokenStorageService tokenStorageService
-    TokenGenerator tokenGenerator
-    AccessTokenJsonRenderer accessTokenJsonRenderer
 
     /**
      * The frontend callback URL stored in config.groovy
@@ -37,14 +32,7 @@ class RestOauthControllerSpec extends IntegrationSpec {
             frontendCallbackBaseUrl + tokenValue
         }
 
-        controller = new RestOauthController(
-                callbackErrorHandler: callbackErrorHandler,
-                restOauthService: restOauthService,
-                grailsApplication: grailsApplication,
-                tokenStorageService: tokenStorageService,
-                tokenGenerator: tokenGenerator,
-                accessTokenJsonRenderer: accessTokenJsonRenderer
-        )
+        controller = new RestOauthController(callbackErrorHandler: new DefaultCallbackErrorHandler())
     }
 
     private Exception stubService(Exception caughtException) {
