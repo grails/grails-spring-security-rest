@@ -17,6 +17,7 @@
 package grails.plugin.springsecurity.rest.token.bearer
 
 import grails.plugin.springsecurity.rest.token.AccessToken
+import grails.plugin.springsecurity.rest.token.reader.TokenReader
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
@@ -31,7 +32,7 @@ import javax.servlet.http.HttpServletResponse
 @Slf4j
 class BearerTokenAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    BearerTokenReader tokenReader
+    TokenReader tokenReader
 
     @Override
     void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
