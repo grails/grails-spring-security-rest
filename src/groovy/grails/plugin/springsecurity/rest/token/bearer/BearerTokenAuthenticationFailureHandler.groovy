@@ -17,6 +17,7 @@
 package grails.plugin.springsecurity.rest.token.bearer
 
 import grails.plugin.springsecurity.rest.token.AccessToken
+import grails.plugin.springsecurity.rest.token.reader.TokenReader
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
@@ -31,7 +32,7 @@ import javax.servlet.http.HttpServletResponse
 @Slf4j
 class BearerTokenAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-    BearerTokenReader tokenReader
+    TokenReader tokenReader
 
     /**
      * Sends the proper response code and headers, as defined by RFC6750.
