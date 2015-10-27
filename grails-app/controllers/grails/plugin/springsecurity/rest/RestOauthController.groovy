@@ -17,6 +17,7 @@
 package grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.annotation.Secured
+import grails.plugin.springsecurity.rest.error.CallbackErrorHandler
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
@@ -39,6 +40,7 @@ class RestOauthController {
 
     final String CALLBACK_ATTR = "spring-security-rest-callback"
 
+    CallbackErrorHandler callbackErrorHandler
     RestOauthService restOauthService
     GrailsApplication grailsApplication
 
@@ -89,34 +91,26 @@ class RestOauthController {
 
         try {
             String tokenValue = restOauthService.storeAuthentication(provider, context)
-
-            if (session[CALLBACK_ATTR]) {
-                frontendCallbackUrl += tokenValue
-                session[CALLBACK_ATTR] = null
-            } else {
-                frontendCallbackUrl = frontendCallbackUrl.call(tokenValue)
-            }
+            frontendCallbackUrl = getCallbackUrl(frontendCallbackUrl, tokenValue)
 
         } catch (Exception e) {
-            String errorParams
+            def errorParams = new StringBuilder()
 
-            if (e instanceof UsernameNotFoundException) {
-                errorParams = "&error=403&message=${e.message?.encodeAsURL()?:''}"
-            } else {
-                errorParams = "&error=${e.cause?.code?:500}&message=${e.message?.encodeAsURL()?:''}"
+            Map params = callbackErrorHandler.convert(e)
+            params.each { key, value ->
+                errorParams << "&${key}=${value.encodeAsURL()}"
             }
 
-            if (session[CALLBACK_ATTR]) {
-                frontendCallbackUrl += errorParams
-                session[CALLBACK_ATTR] = null
-            } else {
-                frontendCallbackUrl = frontendCallbackUrl.call(errorParams)
-            }
-
+            frontendCallbackUrl = getCallbackUrl(frontendCallbackUrl, errorParams.toString())
         }
 
         log.debug "Redirecting to ${frontendCallbackUrl}"
         redirect url: frontendCallbackUrl
+    }
+
+    private String getCallbackUrl(baseUrl, String queryStringSuffix) {
+        session[CALLBACK_ATTR] = null
+        baseUrl instanceof Closure ? baseUrl(queryStringSuffix) : baseUrl + queryStringSuffix
     }
 
     /**
