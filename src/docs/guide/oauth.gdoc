@@ -41,6 +41,9 @@ can use any OAuth 2.0 provider they support. This includes at the time of writin
 
 Note that OAuth 1.0a providers also work, like Twitter.
 
+If your provider is not supported by pac4j, you can write your own. Please refer to the
+[pac4j documentation|https://github.com/pac4j/pac4j/wiki/Clients#creating-your-own-client] for that.
+
 The plugin also supports [CAS (Central Authentication Service)|https://www.apereo.org/projects/cas] using the OAuth
 authentication flow.  See [CAS Authentication|guide:cas] for details.
 
