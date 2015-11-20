@@ -5,6 +5,7 @@ import grails.plugin.springsecurity.rest.authentication.DefaultRestAuthenticatio
 import grails.plugin.springsecurity.rest.authentication.NullRestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.credentials.DefaultJsonPayloadCredentialsExtractor
 import grails.plugin.springsecurity.rest.credentials.RequestParamsCredentialsExtractor
+import grails.plugin.springsecurity.rest.error.DefaultCallbackErrorHandler
 import grails.plugin.springsecurity.rest.oauth.DefaultOauthUserDetailsService
 import grails.plugin.springsecurity.rest.token.bearer.BearerTokenAccessDeniedHandler
 import grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationEntryPoint
@@ -33,7 +34,7 @@ import javax.servlet.http.HttpServletResponse
 
 class SpringSecurityRestGrailsPlugin {
 
-    String version = "1.5.2"
+    String version = "1.5.3"
     String grailsVersion = "2.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
@@ -176,6 +177,8 @@ class SpringSecurityRestGrailsPlugin {
 
         /* tokenGenerator */
         tokenGenerator(SecureRandomTokenGenerator)
+
+        callbackErrorHandler(DefaultCallbackErrorHandler)
 
         /* tokenStorageService */
         if (conf.rest.token.storage.useMemcached) {

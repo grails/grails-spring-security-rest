@@ -21,6 +21,7 @@ import grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockHttpServletResponse
+import spock.lang.Issue
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -136,6 +137,18 @@ class BearerTokenReaderSpec extends Specification {
 
         expect:
         !tokenReader.findToken(request)
+    }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/235")
+    def "it doesn't crash if token is missing"() {
+        given:
+        request.addHeader('Authorization', 'Bearer')
+
+        when:
+        tokenReader.findToken(request)
+
+        then:
+        notThrown(Throwable)
     }
 
 }

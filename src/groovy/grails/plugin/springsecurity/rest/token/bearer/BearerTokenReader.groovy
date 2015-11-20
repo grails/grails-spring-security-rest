@@ -40,11 +40,12 @@ class BearerTokenReader implements TokenReader {
     AccessToken findToken(HttpServletRequest request) {
         log.debug "Looking for bearer token in Authorization header, query string or Form-Encoded body parameter"
         String tokenValue = null
+        String header = request.getHeader('Authorization')
 
-        if (request.getHeader('Authorization')?.startsWith('Bearer')) {
+        if (header?.startsWith('Bearer') && header.length()>=8) {
             log.debug "Found bearer token in Authorization header"
-            tokenValue = request.getHeader('Authorization').substring(7)
-        } else if (isFormEncoded(request) && request.parts.size() <= 1 && !request.get) {
+            tokenValue = header.substring(7)
+        } else if (isFormEncoded(request) && !request.get) {
             log.debug "Found bearer token in request body"
             tokenValue = request.parameterMap['access_token']?.first()
         } else if (request.queryString?.contains('access_token')) {
