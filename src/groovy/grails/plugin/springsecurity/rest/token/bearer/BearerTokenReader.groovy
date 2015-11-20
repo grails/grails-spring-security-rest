@@ -45,7 +45,7 @@ class BearerTokenReader implements TokenReader {
         if (header?.startsWith('Bearer') && header.length()>=8) {
             log.debug "Found bearer token in Authorization header"
             tokenValue = header.substring(7)
-        } else if (isFormEncoded(request) && request.parts.size() <= 1 && !request.get) {
+        } else if (isFormEncoded(request) && !request.get) {
             log.debug "Found bearer token in request body"
             tokenValue = request.parameterMap['access_token']?.first()
         } else if (request.queryString?.contains('access_token')) {
