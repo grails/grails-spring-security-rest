@@ -46,6 +46,7 @@ Contributors
 * [Greg Pagendam-Turner](https://github.com/liftyourgame).
 * [James Kleeh](https://github.com/Schlogen).
 * [Jonas Ladenfors](https://github.com/jladenfors).
+* [Lukasz Wozniak](https://github.com/stlhrt).
 * [Marcos Carceles](https://github.com/marcos-carceles).
 * [Philipp Eschenbach](https://github.com/peh).
 * [Philippe Gibert](https://github.com/giboow).
