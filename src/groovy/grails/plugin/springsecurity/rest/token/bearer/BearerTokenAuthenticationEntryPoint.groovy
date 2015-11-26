@@ -40,11 +40,10 @@ class BearerTokenAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         if (accessToken) {
             response.addHeader('WWW-Authenticate', 'Bearer error="invalid_token"')
-            response.status = HttpServletResponse.SC_UNAUTHORIZED
         } else {
             response.addHeader('WWW-Authenticate', 'Bearer')
-            response.status = HttpServletResponse.SC_UNAUTHORIZED
         }
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED)
 
     }
 }
