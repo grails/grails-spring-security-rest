@@ -11,7 +11,9 @@ buildscript {
     }
 }
 
-apply plugin:'groovy'
+plugins {
+    id "com.github.hierynomus.license" version "0.11.0"
+}
 
 version "0.1"
 group "grails.plugin.springsecurity.rest"
@@ -20,10 +22,6 @@ apply plugin:"eclipse"
 apply plugin:"idea"
 apply plugin:"org.grails.grails-plugin"
 apply plugin:"org.grails.grails-plugin-publish"
-
-plugins {
-    id "com.github.hierynomus.license" version "0.11.0"
-}
 
 ext {
     grailsVersion = project.grailsVersion

@@ -17,10 +17,14 @@
 package grails.plugin.springsecurity.rest.token.storage
 
 import grails.plugin.cache.GrailsCacheManager
-import grails.test.spock.IntegrationSpec
+import grails.test.mixin.integration.Integration
+import grails.transaction.Rollback
 import org.springframework.security.core.userdetails.User
+import spock.lang.Specification
 
-class GrailsCacheTokenStorageServiceIntegrationSpec extends IntegrationSpec {
+@Integration
+@Rollback
+class GrailsCacheTokenStorageServiceIntegrationSpec extends Specification {
 
     def grailsCacheManager
 
