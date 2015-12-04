@@ -22,14 +22,13 @@ import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import org.apache.commons.codec.binary.Base64
-import org.codehaus.groovy.grails.commons.GrailsApplication
+import grails.core.GrailsApplication
 import org.pac4j.core.client.BaseClient
 import org.pac4j.core.client.RedirectAction
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 import java.nio.charset.StandardCharsets
 
@@ -58,7 +57,7 @@ class RestOauthController {
 
         RedirectAction redirectAction = client.getRedirectAction(context, true, false)
         if (callback) {
-            try {                
+            try {
                 if (Base64.isBase64(callback.getBytes())){
                     callback = new String(callback.decodeBase64(), StandardCharsets.UTF_8);
                 }

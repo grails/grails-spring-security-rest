@@ -1,8 +1,90 @@
+buildscript {
+    ext {
+        grailsVersion = project.grailsVersion
+    }
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core" }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+    }
+}
+
+apply plugin:'groovy'
+
+version "0.1"
+group "grails.plugin.springsecurity.rest"
+
+apply plugin:"eclipse"
+apply plugin:"idea"
+apply plugin:"org.grails.grails-plugin"
+apply plugin:"org.grails.grails-plugin-publish"
+
 plugins {
     id "com.github.hierynomus.license" version "0.11.0"
 }
 
-apply plugin:'groovy'
+ext {
+    grailsVersion = project.grailsVersion
+    gradleWrapperVersion = project.gradleWrapperVersion
+}
+
+repositories {
+    mavenLocal()
+    maven { url "https://repo.grails.org/grails/core" }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.grails:grails-bom:$grailsVersion"
+    }
+    applyMavenExclusions false
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-logging"
+    compile "org.springframework.boot:spring-boot-autoconfigure"
+    compile "org.grails:grails-core"
+    console "org.grails:grails-console"
+    provided "org.grails:grails-plugin-services"
+    testCompile "org.grails:grails-plugin-testing"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-tomcat"
+    compile "org.grails:grails-dependencies"
+    compile "org.grails:grails-web-boot"
+    compile "org.grails.plugins:cache"
+    compile "org.grails.plugins:scaffolding"
+    profile "org.grails.profiles:web-plugin:3.1.0.M3"
+
+    compile "org.grails.plugins:spring-security-core:3.0.0.M1"
+    compile 'org.springframework.security:spring-security-core:3.2.9.RELEASE'
+    compile 'org.springframework.security:spring-security-web:3.2.9.RELEASE'
+
+    compile "net.spy:spymemcached:2.12.0"
+    compile "com.google.guava:guava-io:r03"
+    compile "org.pac4j:pac4j-core:1.8.0"
+    compile "org.pac4j:pac4j-oauth:1.8.0"
+    compile "org.pac4j:pac4j-cas:1.8.0"
+    compile "com.nimbusds:nimbus-jose-jwt:4.8"
+
+    compile("com.lowagie:itext:2.0.8") {
+        exclude module: "bcprov-jdk14"
+    }
+
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = gradleWrapperVersion
+}
+
+grailsPublish {
+    // TODO: Provide values here
+    user = 'user'
+    key = 'key'
+    githubSlug = 'foo/bar'
+    license = 'Apache-2.0'
+}
 
 license {
 
@@ -11,31 +93,21 @@ license {
             groovy {
                 srcDirs = [
                     'grails-app/controllers',
-                    'grails-app/domain',
                     'grails-app/services',
-                    'grails-app/taglib',
-                    'grails-app/utils',
-                    'src/groovy',
-                    'scripts'
-                ]
-            }
-            java {
-                srcDirs = [
-                    'src/java'
+                    'src/main/groovy',
                 ]
             }
         }
         test {
             groovy {
                 def dirs = [
-                    'test/functional',
-                    'test/integration',
-                    'test/unit'
+                    'src/test',
+                    'src/integration-test',
                 ]
-                new File('test/apps').eachDir { File app ->
-                    dirs << "test/apps/${app.name}/test/functional"
-                    dirs << "test/apps/${app.name}/test/integration"
-                    dirs << "test/apps/${app.name}/test/unit"
+                new File('src/test-apps').eachDir { File app ->
+                    dirs << "src/test-apps/${app.name}/test/functional"
+                    dirs << "src/test-apps/${app.name}/test/integration"
+                    dirs << "src/test-apps/${app.name}/test/unit"
                 }
 
                 srcDirs = dirs
@@ -47,5 +119,3 @@ license {
     ext.name = 'Alvaro Sanchez-Mariscal'
     ext.email = 'alvaro.sanchezmariscal@gmail.com'
 }
-
-licenseMain.dependsOn 'licenseTest'
