@@ -65,6 +65,7 @@ dependencies {
     compile "org.pac4j:pac4j-oauth:1.8.0"
     compile "org.pac4j:pac4j-cas:1.8.0"
     compile "com.nimbusds:nimbus-jose-jwt:4.8"
+    testCompile "org.gperfutils:gbench:0.4.3-groovy-2.4"
 
     compile("com.lowagie:itext:2.0.8") {
         exclude module: "bcprov-jdk14"

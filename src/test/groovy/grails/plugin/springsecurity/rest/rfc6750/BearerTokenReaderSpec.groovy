@@ -18,7 +18,7 @@ package grails.plugin.springsecurity.rest.rfc6750
 
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
-import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
+import org.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockHttpServletResponse
 import spock.lang.Issue

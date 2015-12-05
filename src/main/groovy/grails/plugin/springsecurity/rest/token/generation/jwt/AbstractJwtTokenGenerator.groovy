@@ -48,10 +48,10 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         log.debug "Serializing the principal received"
         String serializedPrincipal = serializePrincipal(details)
 
-        JWTClaimsSet claimsSet = generateClaims(details, serializedPrincipal, expiration)
+        JWTClaimsSet.Builder builder = generateClaims(details, serializedPrincipal, expiration)
 
         log.debug "Generating access token..."
-        String accessToken = generateAccessToken(claimsSet)
+        String accessToken = generateAccessToken(builder.build())
 
         String refreshToken
         if (withRefreshToken) {
@@ -62,22 +62,22 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         return new AccessToken(details, details.authorities, accessToken, refreshToken, expiration)
     }
 
-    JWTClaimsSet generateClaims(UserDetails details, String serializedPrincipal, Integer expiration) {
-        JWTClaimsSet claimsSet = new JWTClaimsSet()
-        claimsSet.setSubject(details.username)
+    JWTClaimsSet.Builder generateClaims(UserDetails details, String serializedPrincipal, Integer expiration) {
+        JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
+        builder.subject(details.username)
 
         log.debug "Setting expiration to ${expiration}"
         Date now = new Date()
-        claimsSet.setIssueTime(now)
+        builder.issueTime(now)
         use(TimeCategory) {
-            claimsSet.setExpirationTime(now + expiration.seconds)
+            builder.expirationTime(now + expiration.seconds)
         }
 
-        claimsSet.setCustomClaim('roles', details.authorities?.collect { it.authority })
-        claimsSet.setCustomClaim('principal', serializedPrincipal)
+        builder.claim('roles', details.authorities?.collect { it.authority })
+        builder.claim('principal', serializedPrincipal)
 
-        log.debug "Generated claim set: ${claimsSet.toJSONObject().toString()}"
-        return claimsSet
+        log.debug "Generated claim set: ${builder.build().toJSONObject().toString()}"
+        return builder
     }
 
     protected String serializePrincipal(UserDetails principal) {
@@ -93,9 +93,9 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
     protected abstract String generateAccessToken(JWTClaimsSet claimsSet)
 
     protected String generateRefreshToken(UserDetails principal, String serializedPrincipal, Integer expiration) {
-        JWTClaimsSet claimsSet = generateClaims(principal, serializedPrincipal, expiration)
-        claimsSet.expirationTime = null
+        JWTClaimsSet.Builder builder = generateClaims(principal, serializedPrincipal, expiration)
+        builder.expirationTime(null)
 
-        return generateAccessToken(claimsSet)
+        return generateAccessToken(builder.build())
     }
 }

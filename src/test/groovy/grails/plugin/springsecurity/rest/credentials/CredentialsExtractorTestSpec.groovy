@@ -16,10 +16,15 @@
  */
 package grails.plugin.springsecurity.rest.credentials
 
+import grails.config.Config
+import grails.core.DefaultGrailsApplication
+import grails.core.GrailsApplication
 import grails.plugin.springsecurity.ReflectionUtils
 import grails.plugin.springsecurity.SpringSecurityUtils
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
+import org.grails.config.PropertySourcesConfig
+import org.grails.plugins.testing.GrailsMockHttpServletRequest
+import org.grails.spring.GrailsApplicationContext
+import org.grails.support.MockApplicationContext
 import spock.lang.Specification
 
 /**
@@ -28,10 +33,11 @@ import spock.lang.Specification
 class CredentialsExtractorTestSpec extends Specification {
     def config
     def setup(){
-        def application = Mock(GrailsApplication)
-        config = new ConfigObject()
+        def application = new DefaultGrailsApplication()
+        application.mainContext = new GrailsApplicationContext()
+        config = new PropertySourcesConfig()
         application.getConfig() >> config
-        ReflectionUtils.application = application
+        ReflectionUtils.application = SpringSecurityUtils.application = application
     }
 
     void "credentials can be extracted from a JSON request"() {

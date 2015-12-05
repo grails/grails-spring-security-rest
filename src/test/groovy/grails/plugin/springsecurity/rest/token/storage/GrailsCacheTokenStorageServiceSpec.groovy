@@ -14,21 +14,23 @@
  * limitations under the License.
  *
  */
-package grails.plugin.springsecurity.rest.token.storage
+package groovy.grails.plugin.springsecurity.rest.token.storage
 
 import grails.plugin.cache.GrailsCacheManager
-import grails.test.mixin.integration.Integration
-import grails.transaction.Rollback
+import grails.plugin.cache.GrailsConcurrentMapCacheManager
+import grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import org.springframework.security.core.userdetails.User
 import spock.lang.Specification
 
-@Integration
-@Rollback
-class GrailsCacheTokenStorageServiceIntegrationSpec extends Specification {
-
-    def grailsCacheManager
+class GrailsCacheTokenStorageServiceSpec extends Specification {
 
     private service
+
+    def setup() {
+        service = new GrailsCacheTokenStorageService(grailsCacheManager: new GrailsConcurrentMapCacheManager(), cacheName: 'tokenStorage')
+        service.init()
+    }
 
     void "store a principal for a given token"() {
         given:
@@ -108,10 +110,5 @@ class GrailsCacheTokenStorageServiceIntegrationSpec extends Specification {
 
         then:
         thrown(IllegalStateException)
-    }
-
-    def setup() {
-        service = new GrailsCacheTokenStorageService(grailsCacheManager: grailsCacheManager, cacheName: 'tokenStorage')
-        service.init()
     }
 }

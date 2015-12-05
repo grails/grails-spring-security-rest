@@ -17,7 +17,7 @@
 package grails.plugin.springsecurity.rest
 
 import grails.test.mixin.TestFor
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import grails.web.mapping.LinkGenerator
 import org.pac4j.oauth.client.DropBoxClient
 import org.pac4j.oauth.client.FoursquareClient
 import org.pac4j.oauth.client.LinkedIn2Client
@@ -37,9 +37,9 @@ import spock.lang.Unroll
 class RestOauthServiceTest extends Specification {
 
     def setup() {
-        def grailsLinkGenerator = mockFor(LinkGenerator)
-        grailsLinkGenerator.demand.link(1){Map params -> "callbackUrl"}
-        service.grailsLinkGenerator = grailsLinkGenerator.createMock()
+        def grailsLinkGenerator = Mock(LinkGenerator)
+        1 * grailsLinkGenerator.link(_ as Map) >> "callbackUrl"
+        service.grailsLinkGenerator = grailsLinkGenerator
     }
 
     def providerConfig(String provider) {

@@ -17,6 +17,7 @@
 package grails.plugin.springsecurity.rest.token.rendering
 
 import grails.converters.JSON
+import grails.core.DefaultGrailsApplication
 import grails.plugin.springsecurity.ReflectionUtils
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.rest.oauth.OauthUser
@@ -24,6 +25,7 @@ import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.test.mixin.TestMixin
 import grails.test.mixin.web.ControllerUnitTestMixin
 import org.codehaus.groovy.grails.commons.GrailsApplication
+import org.grails.spring.GrailsApplicationContext
 import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
@@ -39,7 +41,8 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
     DefaultAccessTokenJsonRenderer renderer
 
     def setupSpec() {
-        def application = Mock(GrailsApplication)
+        def application = new DefaultGrailsApplication()
+        application.mainContext = new GrailsApplicationContext()
         def config = new ConfigObject()
         application.getConfig() >> config
         ReflectionUtils.application = application

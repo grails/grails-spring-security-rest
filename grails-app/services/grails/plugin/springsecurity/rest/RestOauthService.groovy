@@ -22,8 +22,8 @@ import grails.plugin.springsecurity.rest.oauth.OauthUserDetailsService
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import grails.core.GrailsApplication
+import grails.web.mapping.LinkGenerator
 import org.pac4j.core.client.BaseClient
 import org.pac4j.core.context.WebContext
 import org.pac4j.core.credentials.Credentials

@@ -20,7 +20,7 @@ import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventP
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.reader.TokenReader
 import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
-import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
+import org.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.springframework.mock.web.MockFilterChain
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher
