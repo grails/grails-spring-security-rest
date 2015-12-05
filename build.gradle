@@ -55,7 +55,7 @@ dependencies {
     compile "org.grails.plugins:scaffolding"
     profile "org.grails.profiles:web-plugin:3.1.0.M3"
 
-    compile "org.grails.plugins:spring-security-core:3.0.0.M1"
+    compile "org.grails.plugins:spring-security-core:3.0.0.M2"
     compile 'org.springframework.security:spring-security-core:3.2.9.RELEASE'
     compile 'org.springframework.security:spring-security-web:3.2.9.RELEASE'
 
@@ -103,12 +103,13 @@ license {
                     'src/test',
                     'src/integration-test',
                 ]
+				/*
                 new File('src/test-apps').eachDir { File app ->
                     dirs << "src/test-apps/${app.name}/test/functional"
                     dirs << "src/test-apps/${app.name}/test/integration"
                     dirs << "src/test-apps/${app.name}/test/unit"
                 }
-
+				*/
                 srcDirs = dirs
             }
         }
