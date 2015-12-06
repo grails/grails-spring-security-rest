@@ -52,7 +52,7 @@ class JwtTokenStorageService implements TokenStorageService {
 
             log.debug "Trying to deserialize the principal object"
             try {
-                UserDetails details = JwtService.deserialize(jwt.JWTClaimsSet.getCustomClaim('principal')?.toString())
+                UserDetails details = JwtService.deserialize(jwt.JWTClaimsSet.getStringClaim('principal'))
                 log.debug "UserDetails deserialized: ${details}"
                 if (details) {
                     return details

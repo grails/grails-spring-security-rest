@@ -15,8 +15,8 @@ plugins {
     id "com.github.hierynomus.license" version "0.11.0"
 }
 
-version "0.1"
-group "grails.plugin.springsecurity.rest"
+version "2.0.0.M1"
+group "org.grails.plugins"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
@@ -52,7 +52,6 @@ dependencies {
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
     compile "org.grails.plugins:cache"
-    compile "org.grails.plugins:scaffolding"
     profile "org.grails.profiles:web-plugin:3.1.0.M3"
 
     compile "org.grails.plugins:spring-security-core:3.0.0.M2"
@@ -83,6 +82,7 @@ grailsPublish {
     key = 'key'
     githubSlug = 'foo/bar'
     license = 'Apache-2.0'
+    developers = [alvaro: "Alvaro Sanchez"]
 }
 
 license {

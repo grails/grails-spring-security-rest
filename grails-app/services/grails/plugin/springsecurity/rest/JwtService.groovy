@@ -26,7 +26,7 @@ import com.nimbusds.jwt.SignedJWT
 import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
 import grails.util.Holders
 import groovy.util.logging.Slf4j
-import org.codehaus.groovy.grails.commons.GrailsApplication
+import grails.core.GrailsApplication
 import org.springframework.security.core.userdetails.UserDetails
 
 import java.util.zip.GZIPInputStream
