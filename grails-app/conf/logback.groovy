@@ -28,3 +28,6 @@ root(ERROR, ['STDOUT'])
 
 logger('org.codehaus.groovy.grails', ERROR, ['STDOUT'])
 logger('org.springframework', ERROR, ['STDOUT'])
+
+logger("grails.plugin.springsecurity.rest", DEBUG, ['STDOUT'], false)
+logger("org.springframework.security", DEBUG, ['STDOUT'], false)

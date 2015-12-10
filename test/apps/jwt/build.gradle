@@ -68,9 +68,11 @@ task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
 }
 
-test {
-    systemProperties "geb.build.reportsDir": "$reportsDir/geb"
+integrationTest {
     testLogging {
-        showStandardStreams = true
-   }
+        exceptionFormat = 'full'
+        events 'failed', 'standardOut', 'standardError'
+    }
+
+    beforeTest { descriptor -> logger.quiet " -- $descriptor" }
 }

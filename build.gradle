@@ -108,3 +108,12 @@ license {
     ext.name = 'Alvaro Sanchez-Mariscal'
     ext.email = 'alvaro.sanchezmariscal@gmail.com'
 }
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+        events 'failed', 'standardOut', 'standardError'
+    }
+
+    beforeTest { descriptor -> logger.quiet " -- $descriptor" }
+}
