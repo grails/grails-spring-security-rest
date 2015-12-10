@@ -97,18 +97,9 @@ license {
         }
         test {
             groovy {
-                def dirs = [
-                    'src/test',
-                    'src/integration-test',
+                srcDirs = [
+                    'src/test/groovy'
                 ]
-				/*
-                new File('src/test-apps').eachDir { File app ->
-                    dirs << "src/test-apps/${app.name}/test/functional"
-                    dirs << "src/test-apps/${app.name}/test/integration"
-                    dirs << "src/test-apps/${app.name}/test/unit"
-                }
-				*/
-                srcDirs = dirs
             }
         }
     }
