@@ -23,7 +23,6 @@ import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import org.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.springframework.mock.web.MockFilterChain
 import org.springframework.mock.web.MockHttpServletResponse
-import org.springframework.security.authentication.DefaultAuthenticationEventPublisher
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.userdetails.User

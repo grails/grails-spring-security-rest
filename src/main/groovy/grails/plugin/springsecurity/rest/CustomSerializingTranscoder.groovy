@@ -16,10 +16,8 @@
  */
 package grails.plugin.springsecurity.rest
 
-import groovy.transform.CompileStatic;
-import net.spy.memcached.transcoders.SerializingTranscoder;
-
-import java.io.*;
+import groovy.transform.CompileStatic
+import net.spy.memcached.transcoders.SerializingTranscoder
 
 @CompileStatic
 public class CustomSerializingTranscoder extends SerializingTranscoder{

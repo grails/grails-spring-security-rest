@@ -14,13 +14,13 @@
  * limitations under the License.
  *
  */
-package grails.plugin.springsecurity.rest;
+package grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.SecurityEventListener
-import groovy.transform.CompileStatic;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
+import groovy.transform.CompileStatic
+import org.springframework.context.ApplicationContextAware
+import org.springframework.context.ApplicationEvent
+import org.springframework.context.ApplicationListener
 
 /**
  * Registers as an event listener and delegates handling of security-related events

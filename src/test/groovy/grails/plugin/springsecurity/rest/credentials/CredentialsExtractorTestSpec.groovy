@@ -16,15 +16,12 @@
  */
 package grails.plugin.springsecurity.rest.credentials
 
-import grails.config.Config
 import grails.core.DefaultGrailsApplication
-import grails.core.GrailsApplication
 import grails.plugin.springsecurity.ReflectionUtils
 import grails.plugin.springsecurity.SpringSecurityUtils
 import org.grails.config.PropertySourcesConfig
 import org.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.grails.spring.GrailsApplicationContext
-import org.grails.support.MockApplicationContext
 import spock.lang.Specification
 
 /**

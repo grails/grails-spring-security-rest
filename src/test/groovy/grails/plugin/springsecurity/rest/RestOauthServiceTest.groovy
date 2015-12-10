@@ -18,15 +18,7 @@ package grails.plugin.springsecurity.rest
 
 import grails.test.mixin.TestFor
 import grails.web.mapping.LinkGenerator
-import org.pac4j.oauth.client.DropBoxClient
-import org.pac4j.oauth.client.FoursquareClient
-import org.pac4j.oauth.client.LinkedIn2Client
-import org.pac4j.oauth.client.PayPalClient
-import org.pac4j.oauth.client.TwitterClient
-import org.pac4j.oauth.client.VkClient
-import org.pac4j.oauth.client.WindowsLiveClient
-import org.pac4j.oauth.client.WordPressClient
-import org.pac4j.oauth.client.YahooClient
+import org.pac4j.oauth.client.*
 import spock.lang.Specification
 import spock.lang.Unroll
 

@@ -14,13 +14,13 @@
  * limitations under the License.
  *
  */
-package grails.plugin.springsecurity.rest.authentication;
+package grails.plugin.springsecurity.rest.authentication
 
-import grails.plugin.springsecurity.rest.RestTokenCreationEvent;
-import grails.plugin.springsecurity.rest.token.AccessToken;
-import groovy.transform.CompileStatic;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
+import grails.plugin.springsecurity.rest.RestTokenCreationEvent
+import grails.plugin.springsecurity.rest.token.AccessToken
+import groovy.transform.CompileStatic
+import org.springframework.context.ApplicationEventPublisher
+import org.springframework.security.authentication.DefaultAuthenticationEventPublisher
 
 /*
  * Default implementation of the {@link RestAuthenticationEventPublisher}.

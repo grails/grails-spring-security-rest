@@ -2,11 +2,7 @@
 
 set -e
 
-./grailsw compile
-
-./grailsw maven-install
-
-./grailsw test-app --echoOut \
+./gradlew install test \
   && cd test/apps \
   && for app in `ls .`; do
      cd $app && ./test-app.sh && cd ..

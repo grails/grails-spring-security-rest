@@ -24,10 +24,10 @@ import com.nimbusds.jwt.JWTParser
 import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
-import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
-import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
+import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
+import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails

@@ -24,7 +24,6 @@ import grails.plugin.springsecurity.rest.oauth.OauthUser
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.test.mixin.TestMixin
 import grails.test.mixin.web.ControllerUnitTestMixin
-import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.grails.spring.GrailsApplicationContext
 import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.core.authority.SimpleGrantedAuthority
