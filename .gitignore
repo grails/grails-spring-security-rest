@@ -19,3 +19,4 @@ grails-app/i18n
 foo/
 /out
 build/
+/test/apps/jwt/classes
