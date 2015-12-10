@@ -30,9 +30,11 @@ class DefaultOauthUserDetailsServiceSpec extends Specification {
     void "it load users either existing or not"() {
         given:
         OauthUserDetailsService service = new DefaultOauthUserDetailsService()
+        service.preAuthenticationChecks = new DefaultPreAuthenticationChecks()
         service.userDetailsService = new InMemoryUserDetailsManager([])
         UserDetails jimi = new User('jimi', 'jimispassword', [new SimpleGrantedAuthority('ROLE_USER'), new SimpleGrantedAuthority('ROLE_ADMIN')])
         service.userDetailsService.createUser(jimi)
+
 
         when:
         OauthUser oauthUser = service.loadUserByUserProfile([id: username] as CommonProfile, [])
