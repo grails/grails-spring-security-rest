@@ -22,7 +22,7 @@ import grails.test.mixin.integration.Integration
 import spock.lang.IgnoreIf
 
 @Integration
-@IgnoreIf({ !SpringSecurityUtils.securityConfig.rest.oauth.facebook || !System.getenv('FB_PASSWORD') })
+@IgnoreIf({ !System.getProperty('useFacebook', 'false').toBoolean() || !System.getenv('FB_PASSWORD') })
 class FacebookSpec extends GebReportingSpec {
 
     void "it can sign users in with Facebook"() {

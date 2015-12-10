@@ -21,7 +21,7 @@ import grails.util.Holders
 import spock.lang.IgnoreIf
 import spock.lang.Issue
 
-@IgnoreIf({ !Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
+@IgnoreIf({ !System.getProperty('useBearerToken', 'false').toBoolean() })
 @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/73")
 class BearerTokenSpec extends AbstractRestSpec {
 

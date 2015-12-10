@@ -1,11 +1,10 @@
 #!/bin/bash
 
-rm -f grails-app/conf/Config.groovy \
-    && for config in `ls grails-app/conf/Config*.groovy`; do
-        cp $config grails-app/conf/Config.groovy \
-           && rm -rf target \
-           && ./grailsw test-app --echoOut \
-           && rm grails-app/conf/Config.groovy
+rm -f grails-app/conf/application.groovy \
+    && for config in `ls grails-app/conf/application*.groovy`; do
+        cp $config grails-app/conf/application.groovy \
+           && ./gradlew clean integrationTest \
+           && rm grails-app/conf/application.groovy
            if [ $? -ne 0 ]; then
                 echo -e "\033[0;31mTests FAILED\033[0m"
                 exit -1

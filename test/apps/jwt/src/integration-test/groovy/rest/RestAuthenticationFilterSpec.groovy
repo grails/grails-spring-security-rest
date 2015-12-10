@@ -21,7 +21,7 @@ import grails.util.Holders
 import spock.lang.IgnoreIf
 import spock.lang.Unroll
 
-@IgnoreIf({ Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
+@IgnoreIf({ System.getProperty('useBearerToken', 'false').toBoolean() })
 class RestAuthenticationFilterSpec extends AbstractRestSpec {
 
     @Unroll
@@ -83,7 +83,7 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
         RestResponse response = sendCorrectCredentials() as RestResponse
 
         then:
-        response.headers.get('Content-Type').first() == 'application/json;charset=UTF-8'
+        response.headers.get('Content-Type')?.first() == 'application/json;charset=UTF-8'
     }
 
     private sendEmptyRequest(httpMethod) {

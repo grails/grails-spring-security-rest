@@ -23,7 +23,7 @@ import spock.lang.IgnoreIf
 import spock.lang.Issue
 import spock.lang.Subject
 
-@IgnoreIf({ Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
+@IgnoreIf({ System.getProperty('useBearerToken', 'false').toBoolean() })
 @Subject(RestTokenValidationFilter)
 class RestTokenValidationFilterSpec extends AbstractRestSpec {
 

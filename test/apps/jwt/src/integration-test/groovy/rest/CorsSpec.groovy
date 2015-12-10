@@ -27,6 +27,7 @@ import spock.lang.Ignore
  *
  * @see https://github.com/alvarosanchez/grails-spring-security-rest/issues/4
  */
+//FIXME
 @Ignore
 class CorsSpec extends AbstractRestSpec {
 

@@ -1,3 +1,5 @@
+System.setProperty('useBearerToken', true.toString())
+
 grails {
     plugin {
         springsecurity {

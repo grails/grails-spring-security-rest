@@ -20,7 +20,7 @@ import grails.plugins.rest.client.RestResponse
 import grails.util.Holders
 import spock.lang.IgnoreIf
 
-@IgnoreIf({ Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
+@IgnoreIf({ System.getProperty('useBearerToken', 'false').toBoolean() })
 class ValidateEndpointSpec extends AbstractRestSpec {
 
     void "calling /api/validate with a valid token returns a JSON representation"() {

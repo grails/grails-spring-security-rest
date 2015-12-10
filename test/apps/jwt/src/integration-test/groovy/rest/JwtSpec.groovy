@@ -21,7 +21,7 @@ import grails.util.Holders
 import spock.lang.IgnoreIf
 import spock.lang.Unroll
 
-@IgnoreIf({ !Holders.config.grails.plugin.springsecurity.rest.token.validation.useBearerToken })
+@IgnoreIf({ !System.getProperty('useBearerToken', 'false').toBoolean() })
 class JwtSpec extends AbstractRestSpec {
 
     void "token expiration applies"() {
