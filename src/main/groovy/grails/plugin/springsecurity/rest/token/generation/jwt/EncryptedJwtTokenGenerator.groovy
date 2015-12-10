@@ -34,7 +34,7 @@ class EncryptedJwtTokenGenerator extends AbstractJwtTokenGenerator {
 
     @Override
     protected String generateAccessToken(JWTClaimsSet claimsSet) {
-        JWEHeader header = new JWEHeader(JWEAlgorithm.RSA_OAEP, EncryptionMethod.A256GCM)
+        JWEHeader header = new JWEHeader(JWEAlgorithm.RSA_OAEP, EncryptionMethod.A128GCM)
 
         // Create the encrypted JWT object
         EncryptedJWT jwt = new EncryptedJWT(header, claimsSet)
