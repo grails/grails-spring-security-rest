@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
 
-echo "Creating folder target/divshot/$TRAVIS_JOB_NUMBER"
-mkdir -p target/divshot/$TRAVIS_JOB_NUMBER
-mv target/test-reports target/divshot/$TRAVIS_JOB_NUMBER/core
-for app in `ls test/apps` ; do mv test/apps/$app/target/test-reports target/divshot/$TRAVIS_JOB_NUMBER/$app ; done
-cd target/divshot
+echo "Creating folder build/divshot/$TRAVIS_JOB_NUMBER"
+mkdir -p build/divshot/$TRAVIS_JOB_NUMBER
+mv build/reports/tests build/divshot/$TRAVIS_JOB_NUMBER/core
+for app in `ls test/apps`
+do
+    mv test/apps/$app/build/reports/tests build/divshot/$TRAVIS_JOB_NUMBER/$app
+    echo "Tests reports are available at http://spring-security-rest.divshot.io/$TRAVIS_JOB_NUMBER/$app"
+done
+cd build/divshot
 
 echo "Renaming files with spaces"
 ../../renameFiles.groovy .
@@ -18,3 +22,4 @@ for dir in `ls -1 -d */ | grep -v "${TRAVIS_JOB_NUMBER/.*/}"` ; do rm -rf $dir ;
 
 echo "Pusing files to divshot"
 divshot -t $DIVSHOT_TOKEN push production
+echo "Main test reports are available at http://spring-security-rest.divshot.io/$TRAVIS_JOB_NUMBER/core"
