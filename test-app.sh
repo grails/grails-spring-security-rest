@@ -2,7 +2,7 @@
 
 set -e
 
-echo "bintrayKey=$BINTRAY_KEY" >> ./gradle.properties
+echo "bintrayKey=$BINTRAY_KEY" >> ~/.gradle/gradle.properties
 
 ./gradlew clean install check license \
   && cd test/apps \
