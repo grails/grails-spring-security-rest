@@ -3,6 +3,7 @@
 set -e
 
 [[ ! -z "$BINTRAY_KEY" ]] && echo "bintrayKey=$BINTRAY_KEY" >> ~/.gradle/gradle.properties
+[[ ! -z "$PLUGIN_PORTAL_PASSWORD" ]] && echo "pluginPortalPassword=$BINTRAY_KEY" >> ~/.gradle/gradle.properties
 
 ./gradlew clean install check license \
   && cd test/apps \

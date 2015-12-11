@@ -1,7 +1,7 @@
 Spring Security REST for Grails
 ===========================
 [![Build Status](https://travis-ci.org/alvarosanchez/grails-spring-security-rest.png?branch=master)](https://travis-ci.org/alvarosanchez/grails-spring-security-rest)
-[![Latest Release](http://img.shields.io/github/release/alvarosanchez/grails-spring-security-rest.svg)](https://github.com/alvarosanchez/grails-spring-security-rest/releases)
+[![Latest version](https://api.bintray.com/packages/alvarosanchez/plugins/spring-security-rest/images/download.svg) ](https://bintray.com/alvarosanchez/plugins/spring-security-rest/_latestVersion)
 [![Slack Signup](http://slack-signup.grails.org/badge.svg)](http://slack-signup.grails.org)
 
 Grails plugin to implement a stateless, token-based, RESTful authentication using Spring Security.
