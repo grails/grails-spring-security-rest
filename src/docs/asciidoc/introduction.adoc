@@ -1,0 +1,129 @@
+The Spring Security REST Grails plugin allows you to use Spring Security for a stateless, token-based, RESTful authentication.
+
+[NOTE]
+====
+This plugin depends on http://grails-plugins.github.io/grails-spring-security-core/guide/newInV2.html[Spring Security Core 2.x].
+Make sure your application is compatible with that version first. There is a
+https://github.com/alvarosanchez/grails-spring-security-rest/issues/15[feature request], that may be addressed in the
+future if there is enough community interest / love :)
+====
+
+[NOTE]
+====
+This plugin is only for Grails 2.x, and it requires at least Java 7.
+====
+
+The default behaviour of Spring Security is to store the authenticated principal in the HTTP session. However, in a
+RESTful scenario, we need to make sure our server is stateless.
+
+<<<
+
+The typical flow could be the following:
+
+.Sequence diagram overview of the plugin behavior
+image::rest.png[]
+
+. The client application requests and endpoint that requires authentication, so the server responds with a 401 response.
+. The client redirects the user to the login form.
+
+<<<
+
+[start=3]
+. The user enter credentials, and the client sends a request to the authentication endpoint. The server validates credentials, and if valid, generates, stores and sends back a token to the client.
+. The client then stores the token internally. It will be sent on every API method request.
+. The client sends again a request to the protected resource, passing the token as an HTTP header.
+. The server validates the token, and if valid, executes the actual operation requested.
+
+As per the http://en.wikipedia.org/wiki/Representational_state_transfer[REST definition], the client is transferring its
+state on every request so the server is truly stateless.
+
+This plugin helps you to wire your existing Spring Security authentication mechanism, provides you
+with ready-to-use token generation strategies and comes prepackaged with JWT, Memcached, GORM, Redis
+and Grails Cache support for token storage.
+
+<<<
+
+=== Release History
+
+You can view all releases at https://github.com/alvarosanchez/grails-spring-security-rest/releases[].
+
+* 19 August 2015
+** 1.5.2
+* 6 May 2015
+** 1.5.1
+* 6 May 2015
+** 1.5.0
+* 21 April 2015
+** 1.5.0.RC4
+* 13 April 2015
+** 1.5.0.RC3
+* 9 April 2015
+** 1.5.0.RC2
+* 2 April 2015
+** 1.5.0.RC1
+* 1 April 2015
+** 1.5.0.M3
+* 24 February 2015
+** 1.5.0.M2
+* 3 February 2015
+** 1.5.0.M1
+* 28 January 2015
+** 1.4.1
+* 12 November 2014
+** 1.4.1.RC2
+
+<<<
+
+* 20 October 2014
+** 1.4.1.RC1
+* 12 August 2014
+** 1.4.0
+* 14 July 2014
+** 1.4.0.RC5
+* 4 July 2014
+** 1.4.0.RC4
+* 24 June 2014
+** 1.4.0.RC3
+* 24 June 2014
+** 1.4.0.RC2
+* 20 June 2014
+** 1.4.0.RC1
+* 11 June 2014
+** 1.4.0.M3
+* 1 June 2014
+** 1.4.0.M2
+* 29 May 2014
+** 1.4.0.M1
+* 23 April 2014
+** 1.3.4
+* 16 April 2014
+** 1.3.3
+* 3 April 2014
+** 1.3.2
+* 18 March 2014
+** 1.3.1
+
+<<<
+
+* 4 March 2014
+** 1.3.0
+* 17 February 2014
+** 1.2.5
+* 10 February 2014
+** 1.2.4
+* 4 February 2014
+** 1.2.3
+* 31 January 2014
+** 1.2.2
+* 15 January 2014
+** 1.2.0
+* 14 January 2014
+** 1.1.0
+* 13 January 2014
+** 1.0.1
+* 12 January 2014
+** 1.0.0
+* 10 January 2014
+** 1.0.0.RC2
+* 31 December 2013
+** Initial 1.0.0.RC1 release.
