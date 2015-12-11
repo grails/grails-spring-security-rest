@@ -29,7 +29,7 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
 		rm -rf "$version"
 		mkdir -p "$version"
-		mv ../build/asciidoc/html5 "./$version/"
+		mv ../build/asciidoc/html5 "./$version"
 		git add "$version/*"
 
 		git commit -a -m "Updating docs for Travis build: https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID"
