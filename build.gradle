@@ -130,9 +130,7 @@ grailsPublish {
     portalUser = pluginPortalUser
     portalPassword = pluginPortalPassword
     githubSlug = 'alvarosanchez/grails-spring-security-rest'
-    license {
-        name = 'Apache-2.0'
-    }
+    license = 'APACHE 2.0'
     title = "Spring Security REST plugin"
     desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
     developers = [
