@@ -8,8 +8,6 @@ OAuth, because then the access keys will be made public.
 
 So is this plugin's responsibility to provide endpoints so your Grails backend acts as a proxy for your front-end client.
 
-<<<
-
 The flow is something like the following:
 
 .OAuth delegation protocol
@@ -25,9 +23,6 @@ image::oauth.png[]
 
 . Browser navigates to Google Login. User logs in, and Google redirects the browser to the Grails callback URL.
 
-<<<
-
-[start=6]
 . Browser navigates to that Grails callback URL. Then, Grails will use OAuth to fetch user information (like email) from
   Google. Based on that, will generate a REST API token and fetch and store principal information. The response from
   Grails will be a front-end URL where the token is a parameter.
@@ -56,10 +51,11 @@ can use any OAuth 2.0 provider they support. This includes at the time of writin
 
 Note that OAuth 1.0a providers also work, like Twitter.
 
+If your provider is not supported by pac4j, you can write your own. Please refer to the
+https://github.com/pac4j/pac4j/wiki/Clients#creating-your-own-client[pac4j documentation] for that.
+
 The plugin also supports https://www.apereo.org/projects/cas[CAS (Central Authentication Service)] using the OAuth
 authentication flow. See CAS Authentication for details.
-
-<<<
 
 To start the OAuth authentication flow, from your frontend application, generate a link to
 `<YOUR_GRAILS_APP>/oauth/authenticate/<provider>`. The user clicking on that link represents step 4 in the previous
@@ -86,50 +82,11 @@ will be stored in the security context. This is done by a bean named `oauthUserD
 http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/oauth/DefaultOauthUserDetailsService.html[default implementation]
 delegates to the configured `userDetailsService` bean, passing the profile ID as the username:
 
-<<<
-
 [source,groovy]
 .Listing {counter:listing}. DefaultOauthUserDetailsService
 ----
-/**
- * Builds an {`link OauthUser}. Delegates to the default {`link UserDetailsService.loadUserByUsername(java.lang.String)}
- * where the username passed is {`link UserProfile.getId()}. If the user is not found, it will create a new one with
- * the the default roles.
- */
-@Slf4j
-class DefaultOauthUserDetailsService implements OauthUserDetailsService {
-
-    @Delegate
-    UserDetailsService userDetailsService
-
-    UserDetailsChecker preAuthenticationChecks
-
-    OauthUser loadUserByUserProfile(CommonProfile userProfile, Collection<GrantedAuthority> defaultRoles)
-            throws UsernameNotFoundException {
-        UserDetails userDetails
-        OauthUser oauthUser
-
-        try {
-            log.debug "Trying to fetch user details for user profile: ${userProfile}"
-            userDetails = userDetailsService.loadUserByUsername userProfile.id
-
-            log.debug "Checking user details with ${preAuthenticationChecks.class.name}"
-            preAuthenticationChecks?.check(userDetails)
-
-            Collection<GrantedAuthority> allRoles = userDetails.authorities + defaultRoles
-            oauthUser = new OauthUser(userDetails.username, userDetails.password, allRoles, userProfile)
-        } catch (UsernameNotFoundException unfe) {
-            log.debug "User not found. Creating a new one with default roles: ${defaultRoles}"
-            oauthUser = new OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
-        }
-
-        return oauthUser
-    }
-
-}
+include::{sourcedir}/grails/plugin/springsecurity/rest/oauth/DefaultOauthUserDetailsService.groovy[tags=class]
 ----
-
-<<<
 
 If you want to provide your own implementation, define it in `resources.groovy` with bean name `oauthUserDetailsService`.
 Make sure you implements the interface `OauthUserDetailsService`
@@ -157,8 +114,6 @@ parameter will be empty, and both `error` and `message` params will be appended:
 `http://your-frontend-app.com/auth-success.html?token=&error=403&message=User+with+email+jimmy%40gmail.com+now+allowed.+Only+%40example.com+accounts+are+allowed`
 
 Below are some examples on how to configure it for Google, Facebook and Twitter.
-
-<<<
 
 ==== Google
 
@@ -199,8 +154,6 @@ The `scope` can be from any value of the enum `org.pac4j.oauth.client.Google2Cli
 default `OauthUserDetailsService`, you need to use `EMAIL_AND_PROFILE`. That is because the default implementation
 uses the profile ID as the username, and that is only returned by Google if `EMAIL_AND_PROFILE` scope is used.
 ====
-
-<<<
 
 ==== Facebook
 
@@ -244,8 +197,6 @@ https://developers.facebook.com/docs/graph-api/reference/user/[user fields].
 Both `scope` and `fields` are optional, but it's highly recommendable to fine tune those lists so you don't ask for
 information you don't need.
 
-<<<
-
 ==== Twitter
 
 Define the following block in your `Config.groovy`:
@@ -278,8 +229,6 @@ grails {
 ----
 
 There is no additional configuration for Twitter.
-
-<<<
 
 ==== CAS (Central Authentication Service)
 

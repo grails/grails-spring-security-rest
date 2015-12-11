@@ -25,8 +25,6 @@ Generally speaking, JWT's can be useful in the following use cases:
 In the context of authentication and authorization, JWT will help you implement a stateless implementation, as the
 principal information is stored directly in the JWT.
 
-<<<
-
 ==== How does a JWT looks like?
 
 .JWT example
@@ -63,8 +61,6 @@ A base64-encoded JSON like:
 }
 ----
 
-<<<
-
 ===== Signature
 
 Depends on the algorithm specified on the header, it can be a digital signature of the base64-encoded header and claims,
@@ -93,8 +89,6 @@ the algorithm used is HMAC SHA-256 with a specified shared secret. The relevant 
 |`grails.plugin.springsecurity.rest.token.storage.jwt.expiration`
 |`3600`
 |===
-
-<<<
 
 ==== Encrypted JWT's
 
@@ -130,8 +124,6 @@ openssl genrsa -out private_key.pem 2048
 openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.der -nocrypt
 openssl rsa -in private_key.pem -pubout -outform DER -out public_key.der
 ----
-
-<<<
 
 Then, configure the keys properly, along with the rest of the configuration:
 
@@ -172,8 +164,6 @@ The performance of encryption algorithms is much slower compared with signing on
 you JWT's, think if you really need it.
 ====
 
-<<<
-
 ==== Token expiration and refresh tokens
 
 When using JWT, issued access tokens expire after a period of time, and they are paired with refresh tokens, eg:
@@ -193,8 +183,6 @@ When using JWT, issued access tokens expire after a period of time, and they are
    "access_token": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00ifQ.n-gGe65x0SlSXS3fTG8ZLdXvv6b5_1pDvkcGyCjFy-vm1VhaBEQL5p3hc6iUcCAcuyrqzGk95lV9dHCv46cNfCiUFHWfbEcd4nqScIxBbc28xO9L1mNLnZ0G1rx1Mx1L0Y_ZPoSxDXpJaHCT28cdZffHLxx2B9ioIClgdlYBAJ5Oz8VT39-D0QSomS6QhFqmcpbDsXrsKxs545Pn-TIlu-fSQ4wpIvAxusOKB6CV2EYKqBplMBrh-3btE8WksVcX2N3LsrcMhrKxSKi93c06MZh6JzSLWe5bl9hvUvBdEuwDrk-fQgD3ZlmjjoevRWYhv_kslW1PlqUHYmKOQ7csUw.3mvvsFWikEjZzExA.YixjnnzzcPRy_uUpgPv5zqOfshv3pUwfrME0AijpsB7u9CmJe94g6f2y_3vqUps-5weKKGZyk3ZtnwEbPVAk9-HZt-Y27SbZl4JNCFEOLVsMsK8.h4j9BdFXuWKKez6xxRAwJA"
 }
 ----
-
-<<<
 
 Refresh tokens never expire, and can be used to obtain a new access token by sending a POST request to the
 `/oauth/access_token` endpoint:
@@ -219,8 +207,6 @@ As you can see, is a form request with 2 parameters:
 As refresh tokens never expire, they must be securely stored in your client application. See
 https://tools.ietf.org/html/rfc6749#section-10.4[section 10.4 of the OAuth 2.0 spec] for more information.
 ====
-
-<<<
 
 === Memcached
 
@@ -252,8 +238,6 @@ For development, if you have Memcached installed locally with the default settin
 
 In Memcached tokens will expire automatically after the configured timeout (1h by default).
 They get refreshed on every access
-
-<<<
 
 === GORM
 
@@ -301,8 +285,6 @@ For the `tokenDomainClassName` configuration you must enter a fully qualified cl
 `grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName = 'org.example.product.AuthenticationToken'`
 ====
 
-<<<
-
 A few things to take into consideration when using GORM for token storage:
 
 * Instead of storing the whole `UserDetails` object, probably only the username is needed. This is because applications
@@ -328,7 +310,6 @@ attention to when their token was issued may find themselves needing a new token
 Date dateCreated
 ----
 
-
 `lastUpdated` requires a change to the token domain instance in order to be triggered. Something as simple as an access
 counter may work as a strategy to keepTokens fresh, but doing a write to a disk based database on each token access may
 be something you would prefer to avoid for the sake of performance.
@@ -342,8 +323,6 @@ def afterLoad() {
   accessCount++
 }
 ----
-
-<<<
 
 Simply using your own date or timestamp is also a valid option.
 
@@ -377,8 +356,6 @@ class RemoveStaleTokensJob {
 }
 ----
 
-<<<
-
 === Redis
 
 To use Redis as a token store simply you just have to enable it in you configuration by setting `useRedis` to `true`
@@ -400,8 +377,6 @@ Configuration options for Redis:
 |`grails.plugin.springsecurity.rest.token.storage.redis.expiration`
 |`3600`
 |===
-
-<<<
 
 === Grails Cache
 
@@ -425,7 +400,7 @@ The cache name should correspond to a name specified in the [cache DSL|http://gr
 .Token expiration / eviction / TTL
 ====
 By default, Spring Cache abstraction
-http://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/cache.html#cache-specific-config[does not support expiration].
+http://docs.spring.io/spring/docs/4.0.x/spring-framework-reference/html/cache.html#cache-specific-config[does not support expiration].
 It depends on the specific support of the actual providers. Grails has several plugins for this:
 
 * http://grails-plugins.github.io/grails-cache/guide/usage.html#dsl[Core]: unsupported.

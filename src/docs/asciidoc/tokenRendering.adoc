@@ -9,7 +9,7 @@ Cache-Control: no-store
 Pragma: no-cache
 
 {
-    "access_token":"eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0MjI5OTU5MjIsInN1YiI6ImppbWkiLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlhdCI6MTQyMjk5MjMyMn0.rA7A2Gwt14LaYMpxNRtrCdO24RGrfHtZXY9fIjV8x8o",
+    "access_token":"eyJhbGciOiJIUzI1NiJ9...",
     "token_type":"Bearer",
     "username": "john.doe",
     "roles": [
@@ -38,8 +38,6 @@ The JSON structure can be customised with the following configuration keys:
 |`roles`
 |===
 
-<<<
-
 E.g., with the following configuration:
 
 [source,groovy]
@@ -53,7 +51,7 @@ The output will look like:
 [source,javascript]
 ----
 {
-    "access_token":"eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0MjI5OTU5MjIsInN1YiI6ImppbWkiLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlhdCI6MTQyMjk5MjMyMn0.rA7A2Gwt14LaYMpxNRtrCdO24RGrfHtZXY9fIjV8x8o",
+    "access_token":"eyJhbGciOiJIUzI1NiJ9...",
     "token_type":"Bearer",
     "login": "john.doe",
     "permissions": [
@@ -62,8 +60,6 @@ The output will look like:
     ]
 }
 ----
-
-<<<
 
 === Disabling bearer tokens support for full response customisation
 

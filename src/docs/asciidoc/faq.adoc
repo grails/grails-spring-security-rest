@@ -26,8 +26,6 @@ A couple of link with further explanations on the token-based flow:
 * http://www.jamesward.com/2013/05/13/securing-single-page-apps-and-rest-services[]
 * http://blog.brunoscopelliti.com/authentication-to-a-restful-web-service-in-an-angularjs-web-app[]
 
-<<<
-
 ===== Why can't the API be secured with OAuth?
 
 http://tools.ietf.org/html/rfc6749[RFC 6749 - OAuth 2.0] specification does cover this scenario in what they call

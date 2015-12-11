@@ -17,7 +17,7 @@ plugins {
     id "com.jfrog.artifactory" version "3.1.0"
 }
 
-version "2.0.0.BUILD-SNAPSHOT"
+version "2.0.0.M1"
 group "org.grails.plugins"
 
 apply plugin:"eclipse"
@@ -117,7 +117,9 @@ asciidoctor {
                 'compat-mode'   : 'true',
                 'toc'           : 'left',
                 'imagesdir'     : "${projectDir}/src/docs/images",
-                'icons'         : 'font'
+                'icons'         : 'font',
+                'version'       : project.version,
+                'sourcedir'     : '../../../src/main/groovy'
 }
 
 grailsPublish {
@@ -128,8 +130,8 @@ grailsPublish {
     title = "Spring Security REST plugin"
     desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
     developers = [
-            alvarosanchez: "Alvaro Sanchez-Mariscal",
-            Schlogen: "James Kleeh"
+        alvarosanchez: "Alvaro Sanchez-Mariscal",
+        Schlogen: "James Kleeh"
     ]
 }
 

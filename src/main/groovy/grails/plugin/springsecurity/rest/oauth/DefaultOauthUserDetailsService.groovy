@@ -25,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetailsChecker
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 
+//tag::class[]
 /**
  * Builds an {@link OauthUser}. Delegates to the default {@link UserDetailsService#loadUserByUsername(java.lang.String)}
  * where the username passed is {@link UserProfile#getId()}.
@@ -62,3 +63,4 @@ class DefaultOauthUserDetailsService implements OauthUserDetailsService {
     }
 
 }
+//end::class[]

@@ -37,8 +37,6 @@ Content-Type: application/x-www-form-urlencoded
 access_token=eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0MjI5OTU5MjIsInN1YiI6ImppbWkiLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlhdCI6MTQyMjk5MjMyMn0.rA7A2Gwt14LaYMpxNRtrCdO24RGrfHtZXY9fIjV8x8o
 ----
 
-<<<
-
 If you need to use the `GET` HTTP method (to render images in an `img` tag, for example), you can also send the access token
 in a query string parameter named `access_token`:
 
@@ -59,8 +57,6 @@ and register it in your `resources.groovy`  as `tokenReader`.
 You must disable bearer token support to register your own `tokenReader` implementation.
 ====
 
-<<<
-
 === Anonymous access
 
 If you want to enable anonymous access to URL's where this plugin's filters are applied, you need to:
@@ -78,9 +74,9 @@ grails {
         springsecurity {
             filterChain {
                 chainMap = [
-                    '/api/guest/**': 'anonymousAuthenticationFilter,restTokenValidationFilter,restExceptionTranslationFilter,filterInvocationInterceptor',
-                    '/api/**': 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter',
-                    '/**': 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
+                    [pattern: '/api/guest/**', filters: 'anonymousAuthenticationFilter,restTokenValidationFilter,restExceptionTranslationFilter,filterInvocationInterceptor'],
+                    [pattern: '/api/**',       filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'],
+                    [pattern: '/**',           filters: 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter']
                 ]
             }
 
@@ -98,8 +94,6 @@ grails {
     }
 }
 ----
-
-<<<
 
 The following chains are configured:
 
@@ -130,7 +124,6 @@ The relevant configuration properties for the validation endpoint are:
 |`grails.plugin.springsecurity.rest.token.validation.endpointUrl`
 |`/api/validate`
 |===
-
 
 Note that `headerName` is only considered if `grails.plugin.springsecurity.rest.token.validation.useBearerToken` is set
 to `false`. Otherwise (the default approach), as per RFC 6750, the header name will be `Authorization` and the value

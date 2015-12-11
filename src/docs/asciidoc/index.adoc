@@ -8,79 +8,57 @@
 
 include::introduction.adoc[]
 
-<<<
+== What's new in 2.0?
+
+include::whatsNew20.adoc[]
 
 == What's new in 1.5?
 
 include::whatsNew15.adoc[]
 
-<<<
-
 == What's new in 1.4?
 
 include::whatsNew14.adoc[]
-
-<<<
 
 == Configuration
 
 include::configuration.adoc[]
 
-<<<
-
 == Events
 
 include::events.adoc[]
-
-<<<
 
 == Authentication Endpoint
 
 include::authentication.adoc[]
 
-<<<
-
 == Token Generation
 
 include::tokenGeneration.adoc[]
-
-<<<
 
 == Token Storage
 
 include::tokenStorage.adoc[]
 
-<<<
-
 == Token Rendering
 
 include::tokenRendering.adoc[]
-
-<<<
 
 == Token Validation Filter
 
 include::tokenValidation.adoc[]
 
-<<<
-
 == CORS support
 
 include::cors.adoc[]
-
-<<<
 
 == Delegating authentication to OAuth providers
 
 include::oauth.adoc[]
 
-<<<
-
 == Debugging
 
 include::debugging.adoc[]
-
-<<<
 
 == Frequently Asked Questions
 

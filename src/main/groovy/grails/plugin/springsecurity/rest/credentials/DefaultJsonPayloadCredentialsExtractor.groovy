@@ -21,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 
 import javax.servlet.http.HttpServletRequest
 
+//tag::class[]
 /**
  * Extracts credentials from a JSON request like: <code>{"username": "foo", "password": "bar"}</code>
  */
@@ -47,3 +48,4 @@ class DefaultJsonPayloadCredentialsExtractor extends AbstractJsonPayloadCredenti
     }
 
 }
+//end::class[]

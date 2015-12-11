@@ -5,7 +5,7 @@ If you are not using JWT, but any stateful strategy like Memcached or GORM, the 
 * http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/SecureRandomTokenGenerator.html[Using java.security.SecureRandom].
 * http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/UUIDTokenGenerator.html[Using java.util.UUID].
 
-The strategy used is configurable in `Config.groovy`:
+The strategy used is configurable:
 
 .Token generation configuration options
 [cols="80,20"]

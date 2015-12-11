@@ -1,0 +1,29 @@
+=== Grails 3 support
+
+This major release is working with Grails 3. It's based on Spring Security Core plugin version 3.x, which in turn uses
+Spring Security 4, so make sure you read carefully what the new versions have changed:
+
+https://grails-plugins.github.io/grails-spring-security-core/v3/index.html#newInV3[]
+
+[WARNING]
+====
+The plugin it's still on a milestone release stage, which means that some things might change in the final `2.0.0`.
+In particular, the main change in the roadmap is the modularisation of the different token storages support. They will
+be published as separated artifacts.
+
+Interfaces in the Groovy API might also be refactored.
+====
+
+Special thanks to https://github.com/Schlogen[James Kleeh] for his help in the initial upgrade steps.
+
+=== CORS plugin dropped
+
+Starting from 2.x, the `cors` plugin is not installed by default anymore, fundamentally because it hasn't been upgraded
+to Grails 3, and there is little value in doing so.
+
+However, the plugin author https://github.com/davidtinker/grails-cors#grails-3[has shared a simple filter code] that
+you can use to enable CORS in your application.
+
+=== Other minor updates
+
+* Documentation has been migrated to Asciidoctor.
