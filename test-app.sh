@@ -14,6 +14,5 @@ set -e
         exit -1
      fi
      done \
-  && cd ../../
-
-./gradlew artifactoryPublish
+  && cd ../../ \
+  && ./gradlew artifactoryPublish
