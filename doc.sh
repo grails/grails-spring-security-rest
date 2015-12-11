@@ -5,10 +5,9 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
 	# If there is a tag present then this becomes the latest
 	if [[ -n $TRAVIS_TAG ]]; then
-		./grailsw doc
+		./gradlew asciidoctor
 
-		version=`cat SpringSecurityRestGrailsPlugin.groovy | grep version | sed -e 's/^.*"\(.*\)"$/\1/g'`
-		find target/docs/guide -name "*.html" | xargs sed -e "s/&#123;&#123;VERSION&#125;&#125;/${version}/g" -i
+		version=`cat build/version.txt`
 		echo "Preparing release of version $version"
 
 		echo "Configuring git with name ${GIT_NAME} and email ${GIT_EMAIL}"
@@ -25,12 +24,12 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
 		rm -rf latest/
 		mkdir -p latest/docs
-		cp -r ../target/docs/. ./latest/docs
+		cp -r ../build/asciidoc/html5/. ./latest/docs
 		git add latest/*
 
 		rm -rf "$version"
 		mkdir -p "$version"
-		mv ../target/docs "./$version/"
+		mv ../build/asciidoc/html5 "./$version/"
 		git add "$version/*"
 
 		git commit -a -m "Updating docs for Travis build: https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID"

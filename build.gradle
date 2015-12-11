@@ -168,3 +168,9 @@ artifactory {
 artifactoryPublish {
     dependsOn sourcesJar, javadocJar
 }
+
+task exportVersion << {
+    new File("${buildDir}/version.txt").write(project.version)
+}
+
+check.dependsOn exportVersion

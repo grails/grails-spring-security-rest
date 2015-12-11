@@ -24,6 +24,7 @@ apply plugin:"org.grails.grails-gsp"
 ext {
     grailsVersion = project.grailsVersion
     gradleWrapperVersion = project.gradleWrapperVersion
+    pluginVersion = file("../../../build/version.txt").text
 }
 
 repositories {
@@ -58,7 +59,7 @@ dependencies {
     profile "org.grails.profiles:web:3.1.0.M3"
 
     compile "org.grails:grails-datastore-rest-client:5.0.0.RC2"
-    compile "org.grails.plugins:spring-security-rest:2.0.0.M1"
+    compile "org.grails.plugins:spring-security-rest:${pluginVersion}"
     compile "org.apache.httpcomponents:httpclient:4.5.1"
     testCompile "org.grails:grails-datastore-test-support:5.0.0.RC2"
     testCompile 'com.github.detro:phantomjsdriver:1.2.0'
