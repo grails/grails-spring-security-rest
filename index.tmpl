@@ -1,4 +1,4 @@
-def versions = new groovy.json.JsonSlurper().parseText(new URL('https://api.github.com/repos/alvarosanchez/grails-spring-security-rest/tags').text)*.name
+def versions = "git tag".execute().text.split('\n')
 assert versions
 
 yieldUnescaped '<!DOCTYPE html>'
@@ -39,20 +39,6 @@ html {
 			section {
 				h3("Spring Security REST for Grails")
 				p("This Grails plugin allows you to use Spring Security for a stateless, token-based, RESTful authentication")
-				p("To use it in your application, add this to <code>BuildConfig.groovy</code>:")
-
-				pre {code {yieldUnescaped """repositories {
-	mavenRepo 'http://repo.spring.io/milestone'
-}
-
-...
-
-plugins {
-	compile ':spring-security-core:2.0-RC6'
-	compile ':spring-security-rest:${versions[0]}', {
-    		excludes: 'spring-security-core'
-	}
-}"""}}
 
 				h3("Versions") 
 
