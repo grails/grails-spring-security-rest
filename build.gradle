@@ -14,6 +14,7 @@ buildscript {
 plugins {
     id "com.github.hierynomus.license" version "0.11.0"
     id 'org.asciidoctor.convert' version '1.5.3'
+    id "com.jfrog.artifactory" version "3.1.0"
 }
 
 version "2.0.0.BUILD-SNAPSHOT"
@@ -27,6 +28,7 @@ apply plugin:"org.grails.grails-plugin-publish"
 ext {
     grailsVersion = project.grailsVersion
     gradleWrapperVersion = project.gradleWrapperVersion
+    isSnapshot = version.endsWith('SNAPSHOT')
 }
 
 repositories {
@@ -75,15 +77,6 @@ task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
 }
 
-grailsPublish {
-    // TODO: Provide values here
-    user = 'user'
-    key = 'key'
-    githubSlug = 'foo/bar'
-    license = 'Apache-2.0'
-    developers = [alvaro: "Alvaro Sanchez"]
-}
-
 license {
 
     sourceSets {
@@ -125,4 +118,51 @@ asciidoctor {
                 'toc'           : 'left',
                 'imagesdir'     : "${projectDir}/src/docs/images",
                 'icons'         : 'font'
+}
+
+grailsPublish {
+    user = bintrayUser
+    key = bintrayKey
+    githubSlug = 'alvarosanchez/grails-spring-security-rest'
+    license = 'APACHE 2.0'
+    title = "Spring Security REST plugin"
+    desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
+    developers = [
+            alvarosanchez: "Alvaro Sanchez-Mariscal",
+            Schlogen: "James Kleeh"
+    ]
+}
+
+publishing {
+    publications {
+        groovyMaven(MavenPublication) {
+            from components.java
+
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+artifactory {
+    contextUrl = 'http://oss.jfrog.org'
+    publish {
+        repository {
+            repoKey = isSnapshot ? 'oss-snapshot-local' : 'oss-release-local'
+            username = bintrayUser
+            password = bintrayKey
+        }
+        defaults {
+            // Reference to Gradle configurations defined in the build script.
+            // This is how we tell the Artifactory Plugin which artifacts should be
+            // published to Artifactory.
+            publications('groovyMaven')
+            publishPom = false
+            publishIvy = false
+        }
+    }
+}
+
+artifactoryPublish {
+    dependsOn sourcesJar, javadocJar
 }

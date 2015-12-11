@@ -2,6 +2,8 @@
 
 set -e
 
+echo "bintrayKey=$BINTRAY_KEY" >> ./gradle.properties
+
 ./gradlew clean install check license \
   && cd test/apps \
   && for app in `ls .`; do
@@ -12,3 +14,5 @@ set -e
      fi
      done \
   && cd ../../
+
+./gradlew artifactoryPublish

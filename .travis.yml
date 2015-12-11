@@ -1,46 +1,29 @@
 language: groovy
-
 sudo: false
-
 cache:
   directories:
-  - $HOME/.m2
-  - $HOME/.gradle
-  - $HOME/.grails
-
+  - "$HOME/.m2"
+  - "$HOME/.gradle"
+  - "$HOME/.grails"
 jdk:
 - oraclejdk8
-
 services:
 - memcached
 - redis-server
-
 install:
-  - npm install divshot-cli -g
-
+- npm install divshot-cli -g
 script: "./test-app.sh"
-
 after_success: "./doc.sh"
-
 after_script: "./publish-test-results.sh"
-
-notifications:
-  webhooks:
-    urls:
-    - https://webhooks.gitter.im/e/ab2251f887cfa63260af
-    on_success: change
-    on_failure: always
-    on_start: false
-
 env:
   global:
   - secure: NDX1oObVIHhG5zUZzhmL8m/601SFB2pE29dci1EcgKrYhdZf+50+Va/b0/7lNzYXnT76CwQmdkbsJmwqBh6+YO+SXcJFE13zudyGfZhLOwY+/oueQB8Up/gk2WbkY4FdIlo0XP/jl+atz4gR9EoAnKCYbdcjYj2lQnJ8ocDpi5U=
   - secure: i+HYyyMe2qXPZkP113Vo+uXDzWeiS96dE8EiURxB75HDLuQ1UuIKkfZylNyWXcJHh8gy6ypKffxjZ0FeN44FQeiChE+WC20Xh9UOG076zHogFIE/IooFawau+jcvqJzQU+3koDO9zocu8HfULqenfapSKri/5vMxaPTj85VdFfk=
   - secure: XBD/lDc+U/9c6qKKRKuhjxrMe8nIz6T3MtAgPr77bowh0c4EpZiIOQ5+dpUBvA6jL5h8UYck8DAeqC9H7RTG0ZQS+2eJQiEVQXTKfwfe53LQP1CUfAC94o4yNnIpZ9nRikbHKUIqIqla8PXl94TteSpbO9fhb6byFyiGFgGwi34=
+  - secure: gb4ezV+KeMtpWVKoReJnK/6IEhCvnp+NLo9Q7NrxL7kdBch8zqHmY8ToG/MW8faDEG2JCp4XzIh+0Sh/kzkQY1KurI53M92TNjhXO0BTp/mUiToMhHEEkedZ99p+aCCSHoGzZiwLAOAuvcp7swQ6N75u6smrCBSy/gZVkXSVBnk=
   - GIT_NAME="Alvaro Sanchez-Mariscal"
   - GIT_EMAIL="alvaro.sanchezmariscal@gmail.com"
-
-before_deploy: ./publish-plugin.sh
+before_deploy: "./publish-plugin.sh"
 deploy:
   provider: releases
   skip_cleanup: true
