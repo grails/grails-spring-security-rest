@@ -24,6 +24,8 @@ to Grails 3, and there is little value in doing so.
 However, the plugin author https://github.com/davidtinker/grails-cors#grails-3[has shared a simple filter code] that
 you can use to enable CORS in your application.
 
+Alternatively, you can also use https://github.com/appcela/grails3-cors-interceptor[this plugin].
+
 === Other minor updates
 
 * Documentation has been migrated to Asciidoctor.
