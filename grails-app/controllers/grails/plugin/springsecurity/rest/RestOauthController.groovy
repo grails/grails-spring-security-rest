@@ -55,7 +55,7 @@ class RestOauthController {
         BaseClient client = restOauthService.getClient(provider)
         WebContext context = new J2EContext(request, response)
 
-        RedirectAction redirectAction = client.getRedirectAction(context, true, false)
+        RedirectAction redirectAction = client.getRedirectAction(context, true)
         if (callback) {
             try {
                 if (Base64.isBase64(callback.getBytes())){
