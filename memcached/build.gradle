@@ -7,6 +7,6 @@ repositories {
 }
 
 dependencies {
-    compile "org.codehaus.groovy:groovy-all:2.3.6" //TODO: variable
-    compile "org.grails.plugins:spring-security-core:3.0.0"
+    compile project(':core')
+    compile "net.spy:spymemcached:2.11.6"
 }

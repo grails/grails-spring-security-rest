@@ -34,7 +34,7 @@ interface TokenStorageService {
      * Stores a token. It receives the principal to store any additional information together with the token,
      * like the username associated.
      *
-     * @see org.springframework.security.core.Authentication#getPrincipal()
+     * @see Authentication#getPrincipal()
      */
     void storeToken(String tokenValue, UserDetails principal)
 
