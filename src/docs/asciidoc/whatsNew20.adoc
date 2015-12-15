@@ -29,3 +29,7 @@ Alternatively, you can also use https://github.com/appcela/grails3-cors-intercep
 === Other minor updates
 
 * Documentation has been migrated to Asciidoctor.
+* Snapshots are now published automatically to https://oss.jfrog.org[Artifactory OSS] on every successful build. You can
+  use them by defining this Maven repository inside the `repositories` block in your `build.gradle`:
+
+  maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local" }
