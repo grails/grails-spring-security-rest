@@ -73,18 +73,25 @@ class RestOauthService {
         return client
     }
 
-    String storeAuthentication(String provider, WebContext context) {
+    CommonProfile getProfile(String provider, WebContext context) {
         BaseClient client = getClient(provider)
         Credentials credentials = client.getCredentials context
 
         log.debug "Querying provider to fetch User ID"
-        CommonProfile profile = client.getUserProfile credentials, null
-        log.debug "User's ID: ${profile.id}"
+        client.getUserProfile credentials, null
+    }
 
+    OauthUser getOauthUser(String provider, CommonProfile profile) {
         def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
         List defaultRoles = providerConfig.defaultRoles.collect { new SimpleGrantedAuthority(it) }
-        OauthUser userDetails = oauthUserDetailsService.loadUserByUserProfile(profile, defaultRoles)
+        oauthUserDetailsService.loadUserByUserProfile(profile, defaultRoles)
+    }
 
+    String storeAuthentication(String provider, WebContext context) {
+        CommonProfile profile = getProfile(provider, context)
+        log.debug "User's ID: ${profile.id}"
+
+        OauthUser userDetails = getOauthUser(provider, profile)
         AccessToken accessToken = tokenGenerator.generateAccessToken(userDetails)
         log.debug "Generated REST authentication token: ${accessToken}"
 
