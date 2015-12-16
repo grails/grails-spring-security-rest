@@ -37,12 +37,9 @@ import grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import grails.plugin.springsecurity.rest.token.rendering.DefaultAccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
 import grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
-import grails.plugin.springsecurity.rest.token.storage.MemcachedTokenStorageService
 import grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import grails.plugins.Plugin
-import net.spy.memcached.DefaultHashAlgorithm
-import net.spy.memcached.spring.MemcachedClientFactoryBean
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
 import org.springframework.security.web.access.ExceptionTranslationFilter
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
@@ -207,22 +204,6 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             systemProperties.put("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.SLF4JLogger")
             System.setProperties(systemProperties)
 
-            memcachedClient(MemcachedClientFactoryBean) {
-                servers = conf.rest.token.storage.memcached.hosts
-                protocol = 'BINARY'
-                transcoder = new CustomSerializingTranscoder()
-                opTimeout = 1000
-                timeoutExceptionThreshold = 1998
-                hashAlg = DefaultHashAlgorithm.KETAMA_HASH
-                locatorType = 'CONSISTENT'
-                failureMode = 'Redistribute'
-                useNagleAlgorithm = false
-            }
-
-            tokenStorageService(MemcachedTokenStorageService) {
-                memcachedClient = ref('memcachedClient')
-                expiration = conf.rest.token.storage.memcached.expiration
-            }
         } else if (conf.rest.token.storage.useGrailsCache) {
             conf.rest.token.storage.useJwt = false
             tokenStorageService(GrailsCacheTokenStorageService) {

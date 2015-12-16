@@ -14,8 +14,10 @@
  * limitations under the License.
  *
  */
-package grails.plugin.springsecurity.rest.token.storage
+package grails.plugin.springsecurity.rest.token.storage.memcached
 
+import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
+import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.util.logging.Slf4j
 import net.spy.memcached.CASValue
 import net.spy.memcached.MemcachedClient

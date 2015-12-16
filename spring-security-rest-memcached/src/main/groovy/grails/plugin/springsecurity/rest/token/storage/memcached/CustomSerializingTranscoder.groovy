@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package grails.plugin.springsecurity.rest
+package grails.plugin.springsecurity.rest.token.storage.memcached
 
 import groovy.transform.CompileStatic
 import net.spy.memcached.transcoders.SerializingTranscoder
