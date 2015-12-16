@@ -14,19 +14,16 @@ buildscript {
 plugins {
     //id "com.github.hierynomus.license" version "0.11.0"
     id 'org.asciidoctor.convert' version '1.5.3'
-    id "com.jfrog.artifactory" version "3.1.0"
 }
 
-version "2.0.0.BUILD-SNAPSHOT"
-group "org.grails.plugins"
+apply plugin: "org.grails.grails-plugin"
+apply plugin: "org.grails.grails-plugin-publish"
+apply plugin: "com.jfrog.artifactory"
 
-apply plugin:"org.grails.grails-plugin"
-apply plugin:"org.grails.grails-plugin-publish"
 
 ext {
     grailsVersion = project.grailsVersion
     gradleWrapperVersion = project.gradleWrapperVersion
-    isSnapshot = version.endsWith('SNAPSHOT')
 }
 
 repositories {
@@ -66,12 +63,11 @@ dependencies {
         exclude module: "bcprov-jdk14"
     }
 
-    compile project(':core')
+    compile project(':spring-security-rest-core')
 
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = gradleWrapperVersion
+    //TODO: figure out how to avoid this
+    compile project(':spring-security-rest-memcached')
+    compile project(':spring-security-rest-redis')
 }
 
 /*
@@ -131,8 +127,8 @@ grailsPublish {
     title = "Spring Security REST plugin"
     desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
     developers = [
-        alvarosanchez: "Alvaro Sanchez-Mariscal",
-        Schlogen: "James Kleeh"
+            alvarosanchez: "Alvaro Sanchez-Mariscal",
+            Schlogen: "James Kleeh"
     ]
 }
 

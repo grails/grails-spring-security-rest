@@ -1,0 +1,13 @@
+apply plugin: "groovy"
+apply plugin: "maven"
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://repo.grails.org/grails/core" }
+}
+
+dependencies {
+    compile project(':spring-security-rest-core')
+    compile "net.spy:spymemcached:2.11.6"
+}

@@ -6,7 +6,7 @@ set -e
 [[ ! -z "$PLUGIN_PORTAL_PASSWORD" ]] && echo "pluginPortalPassword=$PLUGIN_PORTAL_PASSWORD" >> ~/.gradle/gradle.properties
 
 ./gradlew clean install check \
-  && cd test/apps \
+  && cd spring-security-rest/test/apps \
   && for app in `ls .`; do
      cd $app && ./test-app.sh && cd ..
      if [ $? -ne 0 ]; then
@@ -14,5 +14,5 @@ set -e
         exit -1
      fi
      done \
-  && cd ../../ \
+  && cd ../../../ \
   && ./gradlew artifactoryPublish

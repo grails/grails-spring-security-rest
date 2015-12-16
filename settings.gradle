@@ -1,2 +1,1 @@
-rootProject.name = 'spring-security-rest'
-include 'core', 'memcached', 'redis', 'plugin'
+include 'spring-security-rest-core', 'spring-security-rest-memcached', 'spring-security-rest-redis', 'spring-security-rest'
