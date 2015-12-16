@@ -63,6 +63,9 @@ dependencies {
 
     compile "org.grails.plugins:spring-security-rest:${pluginVersion}"
     compile "org.grails.plugins:spring-security-rest-memcached:${pluginVersion}"
+
+    testCompile "org.grails:grails-datastore-rest-client:5.0.0.RC2"
+    testCompile 'com.github.detro:phantomjsdriver:1.2.0'
 }
 
 task wrapper(type: Wrapper) {
@@ -71,4 +74,13 @@ task wrapper(type: Wrapper) {
 assets {
     minifyJs = true
     minifyCss = true
+}
+
+integrationTest {
+    testLogging {
+        exceptionFormat = 'full'
+        events 'failed', 'standardOut', 'standardError'
+    }
+
+    beforeTest { descriptor -> logger.quiet " -- $descriptor" }
 }

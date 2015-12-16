@@ -17,6 +17,7 @@
 package grails.plugin.springsecurity.rest.token.storage
 
 import grails.plugin.springsecurity.SpringSecurityUtils
+import groovy.util.logging.Slf4j
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.plugins.support.aware.GrailsApplicationAware
 import org.springframework.security.core.userdetails.UserDetails
@@ -29,6 +30,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
  * Once the username is found, it will delegate to the configured {@link UserDetailsService} for obtaining authorities
  * information.
  */
+@Slf4j
 class GormTokenStorageService implements TokenStorageService, GrailsApplicationAware {
 
     /** Dependency injection for the application. */
@@ -37,6 +39,7 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
     UserDetailsService userDetailsService
 
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
+        log.debug "Finding token ${tokenValue} in GORM"
         def conf = SpringSecurityUtils.securityConfig
         String usernamePropertyName = conf.rest.token.storage.gorm.usernamePropertyName
         def existingToken = findExistingToken(tokenValue)
@@ -51,6 +54,9 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
     }
 
     void storeToken(String tokenValue, UserDetails principal) {
+        log.debug "Storing principal for token: ${tokenValue}"
+        log.debug "Principal: ${principal}"
+
         def conf = SpringSecurityUtils.securityConfig
         String tokenClassName = conf.rest.token.storage.gorm.tokenDomainClassName
         String tokenValuePropertyName = conf.rest.token.storage.gorm.tokenValuePropertyName
@@ -69,6 +75,7 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
     }
 
     void removeToken(String tokenValue) throws TokenNotFoundException {
+        log.debug "Removing token ${tokenValue} from GORM"
         def conf = SpringSecurityUtils.securityConfig
         String tokenClassName = conf.rest.token.storage.gorm.tokenDomainClassName
         def existingToken = findExistingToken(tokenValue)
@@ -84,6 +91,7 @@ class GormTokenStorageService implements TokenStorageService, GrailsApplicationA
     }
 
     private findExistingToken(String tokenValue) {
+        log.debug "Searching in GORM for UserDetails of token ${tokenValue}"
         def conf = SpringSecurityUtils.securityConfig
         String tokenClassName = conf.rest.token.storage.gorm.tokenDomainClassName
         String tokenValuePropertyName = conf.rest.token.storage.gorm.tokenValuePropertyName

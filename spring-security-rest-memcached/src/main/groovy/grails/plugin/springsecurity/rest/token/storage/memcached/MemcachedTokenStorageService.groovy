@@ -36,6 +36,7 @@ class MemcachedTokenStorageService implements TokenStorageService {
     Integer expiration = 3600
 
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
+        log.debug "Finding token ${tokenValue} in memcached"
         def userDetails = findExistingUserDetails(tokenValue)
         if (userDetails) {
             return userDetails
@@ -52,6 +53,7 @@ class MemcachedTokenStorageService implements TokenStorageService {
     }
 
     void removeToken(String tokenValue) throws TokenNotFoundException {
+        log.debug "Removing token ${tokenValue} from memcached"
         def userDetails = findExistingUserDetails(tokenValue)
         if (userDetails) {
             memcachedClient.delete tokenValue
