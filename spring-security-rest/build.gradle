@@ -62,6 +62,7 @@ dependencies {
     compile("com.lowagie:itext:2.0.8") {
         exclude module: "bcprov-jdk14"
     }
+    compile 'commons-codec:commons-codec:1.10'
 
     compile project(':spring-security-rest-core')
 
