@@ -1,34 +1,6 @@
-buildscript {
-    ext {
-        grailsVersion = project.grailsVersion
-    }
-    repositories {
-        mavenLocal()
-        maven { url "https://repo.grails.org/grails/core" }
-    }
-    dependencies {
-        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-    }
-}
-
 plugins {
     //id "com.github.hierynomus.license" version "0.11.0"
     id 'org.asciidoctor.convert' version '1.5.3'
-}
-
-apply plugin: "org.grails.grails-plugin"
-apply plugin: "org.grails.grails-plugin-publish"
-apply plugin: "com.jfrog.artifactory"
-
-
-ext {
-    grailsVersion = project.grailsVersion
-    gradleWrapperVersion = project.gradleWrapperVersion
-}
-
-repositories {
-    mavenLocal()
-    maven { url "https://repo.grails.org/grails/core" }
 }
 
 dependencyManagement {
@@ -39,31 +11,34 @@ dependencyManagement {
 }
 
 dependencies {
+    console "org.grails:grails-console"
+
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
-    console "org.grails:grails-console"
-    provided "org.grails:grails-plugin-services"
-    testCompile "org.grails:grails-plugin-testing"
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
     compile "org.grails.plugins:cache"
-    profile "org.grails.profiles:web-plugin:${grailsVersion}"
-
     compile "com.google.guava:guava-io:r03"
     compile "org.pac4j:pac4j-core:1.8.0"
     compile "org.pac4j:pac4j-oauth:1.8.0"
     compile "org.pac4j:pac4j-cas:1.8.0"
     compile "com.nimbusds:nimbus-jose-jwt:4.8"
-    testCompile "org.gperfutils:gbench:0.4.3-groovy-2.4"
-
     compile("com.lowagie:itext:2.0.8") {
         exclude module: "bcprov-jdk14"
     }
     compile 'commons-codec:commons-codec:1.10'
     compile "org.grails.plugins:spring-security-core:3.0.0"
+
+    testCompile "org.grails:grails-plugin-testing"
+    testCompile "org.gperfutils:gbench:0.4.3-groovy-2.4"
+
+    profile "org.grails.profiles:web-plugin:${grailsVersion}"
+
+    provided "org.grails:grails-plugin-services"
+
 }
 
 /*
@@ -94,14 +69,7 @@ license {
 }
 */
 
-test {
-    testLogging {
-        exceptionFormat = 'full'
-        events 'failed', 'standardOut', 'standardError'
-    }
 
-    beforeTest { descriptor -> logger.quiet " -- $descriptor" }
-}
 
 asciidoctor {
     attributes  'experimental'  : 'true',
@@ -112,45 +80,3 @@ asciidoctor {
                 'version'       : project.version,
                 'sourcedir'     : '../../../src/main/groovy'
 }
-
-grailsPublish {
-    user = bintrayUser
-    key = bintrayKey
-    portalUser = pluginPortalUser
-    portalPassword = pluginPortalPassword
-    githubSlug = 'alvarosanchez/grails-spring-security-rest'
-    license = 'APACHE 2.0'
-    title = "Spring Security REST plugin"
-    desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
-    developers = [
-            alvarosanchez: "Alvaro Sanchez-Mariscal",
-            Schlogen: "James Kleeh"
-    ]
-}
-
-artifactory {
-    contextUrl = 'http://oss.jfrog.org'
-    publish {
-        repository {
-            repoKey = isSnapshot ? 'oss-snapshot-local' : 'oss-release-local'
-            username = bintrayUser
-            password = bintrayKey
-        }
-        defaults {
-            // Reference to Gradle configurations defined in the build script.
-            // This is how we tell the Artifactory Plugin which artifacts should be
-            // published to Artifactory.
-            publications('maven')
-        }
-    }
-}
-
-artifactoryPublish {
-    dependsOn sourcesJar, javadocJar
-}
-
-task exportVersion << {
-    new File("${buildDir}/version.txt").write(project.version)
-}
-
-check.dependsOn exportVersion

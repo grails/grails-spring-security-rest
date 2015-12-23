@@ -1,12 +1,14 @@
 buildscript {
     ext {
-        grailsVersion = project(':spring-security-rest').grailsVersion
+        grailsVersion = project.grailsVersion
     }
     repositories {
         mavenLocal()
         jcenter()
+        maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1"
     }
 }
@@ -15,10 +17,76 @@ allprojects {
     apply plugin:"idea"
 }
 
+
 subprojects {
+    ext {
+        grailsVersion = project.grailsVersion
+        gradleWrapperVersion = project.gradleWrapperVersion
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core" }
+    }
+
+    apply plugin: "org.grails.grails-plugin"
+    apply plugin: "org.grails.grails-plugin-publish"
+    apply plugin: "com.jfrog.artifactory"
+
     version "2.0.0.BUILD-SNAPSHOT"
     group "org.grails.plugins"
     ext.isSnapshot = version.endsWith('SNAPSHOT')
+
+    grailsPublish {
+        user = bintrayUser
+        key = bintrayKey
+        portalUser = pluginPortalUser
+        portalPassword = pluginPortalPassword
+        githubSlug = 'alvarosanchez/grails-spring-security-rest'
+        license = 'APACHE 2.0'
+        title = "Spring Security REST plugin"
+        desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
+        developers = [
+                alvarosanchez: "Alvaro Sanchez-Mariscal",
+                Schlogen: "James Kleeh"
+        ]
+    }
+
+    artifactory {
+        contextUrl = 'http://oss.jfrog.org'
+        publish {
+            repository {
+                repoKey = isSnapshot ? 'oss-snapshot-local' : 'oss-release-local'
+                username = bintrayUser
+                password = bintrayKey
+            }
+            defaults {
+                // Reference to Gradle configurations defined in the build script.
+                // This is how we tell the Artifactory Plugin which artifacts should be
+                // published to Artifactory.
+                publications('maven')
+            }
+        }
+    }
+
+    artifactoryPublish {
+        dependsOn sourcesJar, javadocJar
+    }
+
+    task exportVersion << {
+        new File("${buildDir}/version.txt").write(project.version as String)
+    }
+
+    check.dependsOn exportVersion
+
+    test {
+        testLogging {
+            exceptionFormat = 'full'
+            events 'failed', 'standardOut', 'standardError'
+        }
+
+        beforeTest { descriptor -> logger.quiet " -- $descriptor" }
+    }
 }
 
 task wrapper(type: Wrapper) {

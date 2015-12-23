@@ -1,31 +1,3 @@
-buildscript {
-    ext {
-        grailsVersion = project.grailsVersion
-    }
-    repositories {
-        mavenLocal()
-        maven { url "https://repo.grails.org/grails/core" }
-    }
-    dependencies {
-        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-    }
-}
-
-apply plugin:"eclipse"
-apply plugin:"idea"
-apply plugin:"org.grails.grails-plugin"
-//apply plugin:"org.grails.grails-plugin-publish"
-
-ext {
-    grailsVersion = project.grailsVersion
-    gradleWrapperVersion = project.gradleWrapperVersion
-}
-
-repositories {
-    mavenLocal()
-    maven { url "https://repo.grails.org/grails/core" }
-}
-
 dependencyManagement {
     imports {
         mavenBom "org.grails:grails-bom:$grailsVersion"
@@ -34,35 +6,18 @@ dependencyManagement {
 }
 
 dependencies {
+    console "org.grails:grails-console"
+
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
-    console "org.grails:grails-console"
+    compile project(":spring-security-rest")
+    compile "org.grails.plugins:grails-redis:2.0.2"
+
     provided "org.grails:grails-plugin-services"
     provided "org.grails:grails-plugin-domain-class"
-    testCompile "org.grails:grails-plugin-testing"
+
     profile "org.grails.profiles:plugin:${grailsVersion}"
 
-    compile project(":spring-security-rest")
+    testCompile "org.grails:grails-plugin-testing"
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = gradleWrapperVersion
-}
-
-/*
-grailsPublish {
-    // TODO: Provide values here
-    user = 'user'
-    key = 'key'
-    githubSlug = 'foo/bar'
-    license {
-        name = 'Apache-2.0'
-    }
-    title = "My Plugin"
-    desc = "Full plugin description"
-    developers = [johndoe:"John Doe"]
-    portalUser = ""
-    portalPassword = ""
-}
-*/
