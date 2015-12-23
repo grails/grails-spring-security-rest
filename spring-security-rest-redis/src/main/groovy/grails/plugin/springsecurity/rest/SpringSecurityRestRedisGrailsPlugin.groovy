@@ -3,22 +3,19 @@ package grails.plugin.springsecurity.rest
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
-import grails.plugin.springsecurity.rest.token.storage.memcached.CustomSerializingTranscoder
-import grails.plugin.springsecurity.rest.token.storage.memcached.MemcachedTokenStorageService
+import grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
 import grails.plugins.*
-import net.spy.memcached.DefaultHashAlgorithm
-import net.spy.memcached.spring.MemcachedClientFactoryBean
 
-class SpringSecurityRestMemcachedGrailsPlugin extends Plugin {
+class SpringSecurityRestRedisGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
     String grailsVersion = "3.1.0 > *"
     List loadAfter = ['springSecurityRest']
     List pluginExcludes = [
-        "grails-app/views/**"
+            "grails-app/views/**"
     ]
 
-    String title = "Spring Security REST Plugin - Memcached support"
+    String title = "Spring Security REST Plugin - Redis support"
     String author = "Alvaro Sanchez-Mariscal"
     String authorEmail = "alvaro.sanchezmariscal@gmail.com"
     String description = 'Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow'
@@ -35,6 +32,7 @@ class SpringSecurityRestMemcachedGrailsPlugin extends Plugin {
     def issueManagement = [ system: "GitHub", url: "https://github.com/alvarosanchez/grails-spring-security-rest/issues" ]
     def scm = [ url: "https://github.com/alvarosanchez/grails-spring-security-rest" ]
 
+
     Closure doWithSpring() { {->
         def conf = SpringSecurityUtils.securityConfig
         if (!conf || !conf.active || !conf.rest.active) {
@@ -44,40 +42,25 @@ class SpringSecurityRestMemcachedGrailsPlugin extends Plugin {
         boolean printStatusMessages = (conf.printStatusMessages instanceof Boolean) ? conf.printStatusMessages : true
 
         if (printStatusMessages) {
-            println '\t... with Memcached support'
+            println '\t... with Redis support'
         }
 
         SpringSecurityUtils.loadSecondaryConfig 'DefaultRestMemcachedSecurityConfig'
         conf = SpringSecurityUtils.securityConfig
 
-        Properties systemProperties = System.properties
-        systemProperties.put("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.SLF4JLogger")
-        System.setProperties(systemProperties)
-
         SpringSecurityUtils.registerFilter 'restLogoutFilter', SecurityFilterPosition.LOGOUT_FILTER.order - 1
 
-        memcachedClient(MemcachedClientFactoryBean) {
-            servers = conf.rest.token.storage.memcached.hosts
-            protocol = 'BINARY'
-            transcoder = new CustomSerializingTranscoder()
-            opTimeout = 1000
-            timeoutExceptionThreshold = 1998
-            hashAlg = DefaultHashAlgorithm.KETAMA_HASH
-            locatorType = 'CONSISTENT'
-            failureMode = 'Redistribute'
-            useNagleAlgorithm = false
-        }
-
-        tokenStorageService(MemcachedTokenStorageService) {
-            memcachedClient = ref('memcachedClient')
-            expiration = conf.rest.token.storage.memcached.expiration
+        tokenStorageService(RedisTokenStorageService) {
+            redisService = ref('redisService')
+            userDetailsService = ref('userDetailsService')
+            expiration = conf.rest.token.storage.redis.expiration
         }
 
         tokenGenerator(SecureRandomTokenGenerator)
-
     }}
 
     void doWithApplicationContext() {
         applicationContext.getBean(RestAuthenticationProvider).useJwt = false
     }
+
 }

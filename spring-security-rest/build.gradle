@@ -65,9 +65,6 @@ dependencies {
     compile 'commons-codec:commons-codec:1.10'
 
     compile project(':spring-security-rest-core')
-
-    //TODO: figure out how to avoid this
-    compile project(':spring-security-rest-redis')
 }
 
 /*
