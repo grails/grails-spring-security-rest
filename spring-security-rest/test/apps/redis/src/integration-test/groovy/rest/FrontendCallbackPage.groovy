@@ -14,21 +14,17 @@
  * limitations under the License.
  *
  */
-import javax.servlet.http.HttpServletResponse
+package rest
 
-security {
-    rest {
-        token {
-            storage {
-                useMemcached = true
-                memcached {
-                    hosts = 'localhost:11211'
-                    username = ''
-                    password = ''
+import geb.Page
 
-                    expiration = 3600
-                }
-            }
-        }
+class FrontendCallbackPage extends Page {
+
+    static at = {
+        jsUrl.startsWith "http://example.org/"
+    }
+
+    static content = {
+        jsUrl { js."window.document.location.toString()" }
     }
 }

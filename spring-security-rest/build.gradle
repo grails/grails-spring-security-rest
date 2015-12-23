@@ -50,7 +50,7 @@ dependencies {
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
     compile "org.grails.plugins:cache"
-    profile "org.grails.profiles:web-plugin:3.1.0.M3"
+    profile "org.grails.profiles:web-plugin:${grailsVersion}"
 
     compile "com.google.guava:guava-io:r03"
     compile "org.pac4j:pac4j-core:1.8.0"
@@ -63,8 +63,7 @@ dependencies {
         exclude module: "bcprov-jdk14"
     }
     compile 'commons-codec:commons-codec:1.10'
-
-    compile project(':spring-security-rest-core')
+    compile "org.grails.plugins:spring-security-core:3.0.0"
 }
 
 /*

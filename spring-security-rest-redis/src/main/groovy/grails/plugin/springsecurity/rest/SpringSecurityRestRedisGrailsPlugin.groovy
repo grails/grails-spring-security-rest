@@ -45,7 +45,7 @@ class SpringSecurityRestRedisGrailsPlugin extends Plugin {
             println '\t... with Redis support'
         }
 
-        SpringSecurityUtils.loadSecondaryConfig 'DefaultRestMemcachedSecurityConfig'
+        SpringSecurityUtils.loadSecondaryConfig 'DefaultRestRedisSecurityConfig'
         conf = SpringSecurityUtils.securityConfig
 
         SpringSecurityUtils.registerFilter 'restLogoutFilter', SecurityFilterPosition.LOGOUT_FILTER.order - 1

@@ -13,7 +13,7 @@ buildscript {
 }
 
 version "0.1"
-group "memcached"
+group "redis"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
@@ -64,7 +64,7 @@ dependencies {
     testCompile 'com.github.detro:phantomjsdriver:1.2.0'
 
     compile "org.grails.plugins:spring-security-rest:${pluginVersion}"
-    compile "org.grails.plugins:spring-security-rest-memcached:${pluginVersion}"
+    compile "org.grails.plugins:spring-security-rest-redis:${pluginVersion}"
 }
 
 task wrapper(type: Wrapper) {

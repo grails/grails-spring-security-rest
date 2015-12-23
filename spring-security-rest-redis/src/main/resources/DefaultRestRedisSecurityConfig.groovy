@@ -20,12 +20,8 @@ security {
     rest {
         token {
             storage {
-                useMemcached = true
-                memcached {
-                    hosts = 'localhost:11211'
-                    username = ''
-                    password = ''
-
+                useRedis = true
+                redis {
                     expiration = 3600
                 }
             }

@@ -14,21 +14,20 @@
  * limitations under the License.
  *
  */
-import javax.servlet.http.HttpServletResponse
+package rest
 
-security {
-    rest {
-        token {
-            storage {
-                useMemcached = true
-                memcached {
-                    hosts = 'localhost:11211'
-                    username = ''
-                    password = ''
+import geb.Page
 
-                    expiration = 3600
-                }
-            }
-        }
+class FacebookSignInPage extends Page {
+
+    static at = {
+        title == "Log into Facebook | Facebook"
     }
+
+    void login(String username, String password) {
+        $('#email').value username
+        $('#pass').value password
+        $('input', value: "Log In").click()
+    }
+
 }
