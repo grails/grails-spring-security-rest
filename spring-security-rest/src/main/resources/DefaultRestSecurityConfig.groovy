@@ -44,24 +44,16 @@ security {
             }
 
             storage {
-                useJwt = true
-                useGorm = false
-                useMemcached = false
-                useGrailsCache = false
-                useRedis = false
+                //useJwt = true
+                //useGorm = false
+                //useMemcached = false
+                //useGrailsCache = false
+                //useRedis = false
 
                 gorm {
                     tokenDomainClassName = null
                     tokenValuePropertyName = 'tokenValue'
                     usernamePropertyName = 'username'
-                }
-
-                memcached {
-                    hosts = 'localhost:11211'
-                    username = ''
-                    password = ''
-
-                    expiration = 3600
                 }
 
                 jwt {

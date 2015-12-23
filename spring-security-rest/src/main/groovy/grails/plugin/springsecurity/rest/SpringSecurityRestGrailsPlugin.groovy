@@ -35,9 +35,6 @@ import grails.plugin.springsecurity.rest.token.generation.jwt.FileRSAKeyProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import grails.plugin.springsecurity.rest.token.rendering.DefaultAccessTokenJsonRenderer
-import grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
-import grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
-import grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import grails.plugins.Plugin
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
@@ -48,8 +45,7 @@ import org.springframework.security.web.savedrequest.NullRequestCache
 class SpringSecurityRestGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
-    String grailsVersion = "3.1.0.M3 > *"
-    // resources that are excluded from plugin packaging
+    String grailsVersion = "3.1.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
         "grails-app/views/**"
@@ -67,7 +63,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
 
     // Extra (optional) plugin metadata
     String license = "APACHE"
-    def organization = [ name: "Odobo", url: "http://www.odobo.com" ]
+    def organization = [ name: "Object Computing, Inc.", url: "http://www.ociweb.com" ]
 
     def issueManagement = [ system: "GitHub", url: "https://github.com/alvarosanchez/grails-spring-security-rest/issues" ]
     def scm = [ url: "https://github.com/alvarosanchez/grails-spring-security-rest" ]
@@ -97,7 +93,6 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
         /* restAuthenticationFilter */
         if(conf.rest.login.active) {
             SpringSecurityUtils.registerFilter 'restAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order + 1
-            SpringSecurityUtils.registerFilter 'restLogoutFilter', SecurityFilterPosition.LOGOUT_FILTER.order - 1
 
             restAuthenticationFilter(RestAuthenticationFilter) {
                 authenticationManager = ref('authenticationManager')
@@ -142,7 +137,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             useBearerToken = conf.rest.token.validation.useBearerToken
         }
 
-        if( conf.rest.token.validation.useBearerToken ) {
+        if(conf.rest.token.validation.useBearerToken ) {
             tokenReader(BearerTokenReader)
             restAuthenticationFailureHandler(BearerTokenAuthenticationFailureHandler){
                 tokenReader = ref('tokenReader')
@@ -196,76 +191,47 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
 
         callbackErrorHandler(DefaultCallbackErrorHandler)
 
-        /* tokenStorageService */
-        if (conf.rest.token.storage.useMemcached) {
-            conf.rest.token.storage.useJwt = false
+        /* tokenStorageService - defaults to JWT */
+        jwtService(JwtService) {
+            jwtSecret = conf.rest.token.storage.jwt.secret
+        }
+        tokenStorageService(JwtTokenStorageService) {
+            jwtService = ref('jwtService')
+        }
 
-            Properties systemProperties = System.properties
-            systemProperties.put("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.SLF4JLogger")
-            System.setProperties(systemProperties)
-
-        } else if (conf.rest.token.storage.useGrailsCache) {
-            conf.rest.token.storage.useJwt = false
-            tokenStorageService(GrailsCacheTokenStorageService) {
-                grailsCacheManager = ref('grailsCacheManager')
-                cacheName = conf.rest.token.storage.grailsCacheName
-            }
-        } else if (conf.rest.token.storage.useGorm) {
-            conf.rest.token.storage.useJwt = false
-            tokenStorageService(GormTokenStorageService) {
-                userDetailsService = ref('userDetailsService')
-            }
-        }else if (conf.rest.token.storage.useRedis) {
-            conf.rest.token.storage.useJwt = false
-            tokenStorageService(RedisTokenStorageService) {
-                redisService = ref('redisService')
-                userDetailsService = ref('userDetailsService')
-                expiration = conf.rest.token.storage.redis.expiration
-            }
-        } else if (conf.rest.token.storage.useJwt) {
+        if (conf.rest.token.storage.jwt.useEncryptedJwt) {
             jwtService(JwtService) {
+                keyProvider = ref('keyProvider')
                 jwtSecret = conf.rest.token.storage.jwt.secret
             }
-            tokenStorageService(JwtTokenStorageService) {
-                jwtService = ref('jwtService')
+            tokenGenerator(EncryptedJwtTokenGenerator) {
+                jwtTokenStorageService = ref('tokenStorageService')
+                keyProvider = ref('keyProvider')
+                defaultExpiration = conf.rest.token.storage.jwt.expiration
             }
 
-            if (conf.rest.token.storage.jwt.useEncryptedJwt) {
-                jwtService(JwtService) {
-                    keyProvider = ref('keyProvider')
-                    jwtSecret = conf.rest.token.storage.jwt.secret
+            if (conf.rest.token.storage.jwt.privateKeyPath instanceof CharSequence &&
+                    conf.rest.token.storage.jwt.publicKeyPath instanceof CharSequence) {
+                keyProvider(FileRSAKeyProvider) {
+                    privateKeyPath = conf.rest.token.storage.jwt.privateKeyPath
+                    publicKeyPath = conf.rest.token.storage.jwt.publicKeyPath
                 }
-                tokenGenerator(EncryptedJwtTokenGenerator) {
-                    jwtTokenStorageService = ref('tokenStorageService')
-                    keyProvider = ref('keyProvider')
-                    defaultExpiration = conf.rest.token.storage.jwt.expiration
-                }
-
-                if (conf.rest.token.storage.jwt.privateKeyPath instanceof CharSequence &&
-                        conf.rest.token.storage.jwt.publicKeyPath instanceof CharSequence) {
-                    keyProvider(FileRSAKeyProvider) {
-                        privateKeyPath = conf.rest.token.storage.jwt.privateKeyPath
-                        publicKeyPath = conf.rest.token.storage.jwt.publicKeyPath
-                    }
-                } else {
-                    keyProvider(DefaultRSAKeyProvider)
-                }
-
             } else {
-                tokenGenerator(SignedJwtTokenGenerator) {
-                    jwtTokenStorageService = ref('tokenStorageService')
-                    jwtSecret = conf.rest.token.storage.jwt.secret
-                    defaultExpiration = conf.rest.token.storage.jwt.expiration
-                }
+                keyProvider(DefaultRSAKeyProvider)
             }
 
-            SpringSecurityUtils.orderedFilters.remove(SecurityFilterPosition.LOGOUT_FILTER.order - 1)
+        } else {
+            tokenGenerator(SignedJwtTokenGenerator) {
+                jwtTokenStorageService = ref('tokenStorageService')
+                jwtSecret = conf.rest.token.storage.jwt.secret
+                defaultExpiration = conf.rest.token.storage.jwt.expiration
+            }
         }
 
         /* restAuthenticationProvider */
         restAuthenticationProvider(RestAuthenticationProvider) {
             tokenStorageService = ref('tokenStorageService')
-            useJwt = conf.rest.token.storage.useJwt
+            useJwt = true
             jwtService = ref('jwtService')
         }
 
