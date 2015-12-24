@@ -1,17 +1,20 @@
 language: groovy
 sudo: false
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
   directories:
   - "$HOME/.m2"
-  - "$HOME/.gradle"
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
   - "$HOME/.grails"
-  - "$HOME/.sdkman"
 jdk:
 - oraclejdk8
 services:
 - memcached
 - redis-server
 before_install: "./install-sdkman.sh"
+install: true
 script: "./test-app.sh"
 after_success: "./doc.sh"
 env:

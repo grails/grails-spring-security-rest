@@ -8,3 +8,4 @@ dependencies:
         - "org.grails:grails-datastore-rest-client:5.0.0.RC3"
     testCompile:
         - "com.github.detro:phantomjsdriver:1.2.0"
+        - "org.seleniumhq.selenium:selenium-api:2.48.2"
