@@ -2,9 +2,6 @@ import org.pac4j.oauth.client.FacebookClient
 import org.pac4j.oauth.client.Google2Client
 import org.pac4j.oauth.client.TwitterClient
 
-System.setProperty('useBearerToken', false.toString())
-System.setProperty('useFacebook', true.toString())
-
 grails {
     plugin {
         springsecurity {

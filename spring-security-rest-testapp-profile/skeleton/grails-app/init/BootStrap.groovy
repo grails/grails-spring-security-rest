@@ -8,6 +8,10 @@ class BootStrap {
     InMemoryUserDetailsManager userDetailsService
 
     def init = { servletContext ->
+
+        println "useBearerToken = ${System.getProperty('useBearerToken')}"
+        println "useFacebook = ${System.getProperty('useFacebook')}"
+
         UserDetails jimi = new User('jimi', 'jimispassword', [new SimpleGrantedAuthority('ROLE_USER'), new SimpleGrantedAuthority('ROLE_ADMIN')])
         userDetailsService.createUser(jimi)
 

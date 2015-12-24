@@ -1,0 +1,5 @@
+
+integrationTest {
+    systemProperty 'useBearerToken', 'false'
+    systemProperty 'useFacebook', 'true'
+}
