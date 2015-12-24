@@ -24,8 +24,8 @@ grails {
                         jwt {
                             useEncryptedJwt = true
 
-                            privateKeyPath = "./grails-app/conf/private_key.der"
-                            publicKeyPath = "./grails-app/conf/public_key.der"
+                            privateKeyPath = "grails-app/conf/private_key.der"
+                            publicKeyPath = "grails-app/conf/public_key.der"
 
                             expiration = 5
                         }

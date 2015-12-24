@@ -6,18 +6,9 @@ dependencyManagement {
 }
 
 dependencies {
-    console "org.grails:grails-console"
-
-    compile "org.springframework.boot:spring-boot-starter-logging"
-    compile "org.springframework.boot:spring-boot-autoconfigure"
-    compile "org.grails:grails-core"
     compile project(":spring-security-rest")
     compile "net.spy:spymemcached:2.11.6"
 
-    provided "org.grails:grails-plugin-services"
-    provided "org.grails:grails-plugin-domain-class"
-
-    testCompile "org.grails:grails-plugin-testing"
 
     profile "org.grails.profiles:plugin:${grailsVersion}"
 }

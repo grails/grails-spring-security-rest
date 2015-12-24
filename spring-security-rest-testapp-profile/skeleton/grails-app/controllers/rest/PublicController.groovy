@@ -1,4 +1,4 @@
-package jwt
+package rest
 
 class PublicController {
 

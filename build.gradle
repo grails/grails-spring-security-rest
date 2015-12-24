@@ -18,7 +18,7 @@ allprojects {
 }
 
 
-subprojects {
+subprojects { Project project ->
     ext {
         grailsVersion = project.grailsVersion
         gradleWrapperVersion = project.gradleWrapperVersion
@@ -29,9 +29,44 @@ subprojects {
         maven { url "https://repo.grails.org/grails/core" }
     }
 
-    apply plugin: "org.grails.grails-plugin"
-    apply plugin: "org.grails.grails-plugin-publish"
     apply plugin: "com.jfrog.artifactory"
+
+    if (project.name in ['spring-security-rest', 'spring-security-rest-memcached', 'spring-security-rest-redis']) {
+        apply plugin: "org.grails.grails-plugin"
+        apply plugin: "org.grails.grails-plugin-publish"
+
+        dependencies {
+            console "org.grails:grails-console"
+
+            compile "org.springframework.boot:spring-boot-starter-logging"
+            compile "org.springframework.boot:spring-boot-autoconfigure"
+            compile "org.grails:grails-core"
+
+            provided "org.grails:grails-plugin-services"
+
+            testCompile "org.grails:grails-plugin-testing"
+        }
+
+        test {
+            testLogging {
+                exceptionFormat = 'full'
+                events 'failed', 'standardOut', 'standardError'
+            }
+
+            beforeTest { descriptor -> logger.quiet " -- $descriptor" }
+        }
+
+        artifactoryPublish {
+            dependsOn sourcesJar, javadocJar
+        }
+    } else {
+        apply plugin: "org.grails.grails-profile"
+        apply plugin: "org.grails.grails-profile-publish"
+
+        artifactoryPublish {
+            dependsOn sourcesJar
+        }
+    }
 
     version "2.0.0.BUILD-SNAPSHOT"
     group "org.grails.plugins"
@@ -69,24 +104,12 @@ subprojects {
         }
     }
 
-    artifactoryPublish {
-        dependsOn sourcesJar, javadocJar
-    }
-
     task exportVersion << {
         new File("${buildDir}/version.txt").write(project.version as String)
     }
 
     check.dependsOn exportVersion
 
-    test {
-        testLogging {
-            exceptionFormat = 'full'
-            events 'failed', 'standardOut', 'standardError'
-        }
-
-        beforeTest { descriptor -> logger.quiet " -- $descriptor" }
-    }
 }
 
 task wrapper(type: Wrapper) {

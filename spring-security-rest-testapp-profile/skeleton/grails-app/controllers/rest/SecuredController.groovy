@@ -1,4 +1,4 @@
-package jwt
+package rest
 
 import grails.plugin.springsecurity.annotation.Secured
 

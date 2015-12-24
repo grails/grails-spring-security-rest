@@ -45,11 +45,15 @@ class FileRSAKeyProvider implements RSAKeyProvider, InitializingBean {
         log.debug "Loading public/private key from DER files"
         KeyFactory kf = KeyFactory.getInstance("RSA")
 
-        def keyBytes = new File(publicKeyPath).bytes
+        def key = new File(publicKeyPath)
+        log.debug "Public key path: ${key.absolutePath}"
+        def keyBytes = key.bytes
         def spec = new X509EncodedKeySpec(keyBytes)
         publicKey = kf.generatePublic(spec) as RSAPublicKey
 
-        keyBytes = new File(privateKeyPath).bytes
+        key = new File(privateKeyPath)
+        log.debug "Private key path: ${key.absolutePath}"
+        keyBytes = key.bytes
         spec = new PKCS8EncodedKeySpec(keyBytes)
         privateKey = kf.generatePrivate(spec) as RSAPrivateKey
     }
