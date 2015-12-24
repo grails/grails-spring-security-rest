@@ -19,6 +19,8 @@ package grails.plugin.springsecurity.rest.token.bearer
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.reader.TokenReader
 import groovy.util.logging.Slf4j
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 
 import javax.servlet.http.HttpServletRequest
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpServletRequest
 @Slf4j
 class BearerTokenReader implements TokenReader {
 
+    String parameterName
     /**
      * Finds the bearer token within the specified request.  It will attempt to look in all places allowed by the
      * specification: Authorization header, form encoded body, and query string.
@@ -47,10 +50,10 @@ class BearerTokenReader implements TokenReader {
             tokenValue = header.substring(7)
         } else if (isFormEncoded(request) && !request.get) {
             log.debug "Found bearer token in request body"
-            tokenValue = request.parameterMap['access_token']?.first()
-        } else if (request.queryString?.contains('access_token')) {
+            tokenValue = request.parameterMap[parameterName]?.first()
+        } else if (request.queryString?.contains(parameterName)) {
             log.debug "Found bearer token in query string"
-            tokenValue = request.getParameter('access_token')
+            tokenValue = request.getParameter(parameterName)
         } else {
             log.debug "No token found"
         }

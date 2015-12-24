@@ -146,7 +146,9 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
         }
 
         if( conf.rest.token.validation.useBearerToken ) {
-            tokenReader(BearerTokenReader)
+            tokenReader(BearerTokenReader) {
+                parameterName = conf.rest.token.validation.parameterName
+            }
             restAuthenticationFailureHandler(BearerTokenAuthenticationFailureHandler){
                 tokenReader = ref('tokenReader')
             }

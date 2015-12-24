@@ -47,15 +47,15 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
-    console "org.grails:grails-console"
-    provided "org.grails:grails-plugin-services"
-    testCompile "org.grails:grails-plugin-testing"
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
     compile "org.grails.plugins:cache"
-    profile "org.grails.profiles:web-plugin:3.1.0.M3"
+    console "org.grails:grails-console"
+    profile "org.grails.profiles:web-plugin:3.1.0.RC1"
+    provided "org.grails:grails-plugin-services"
+    testCompile "org.grails:grails-plugin-testing"
 
     compile "org.grails.plugins:spring-security-core:3.0.0"
 
@@ -65,6 +65,7 @@ dependencies {
     compile "org.pac4j:pac4j-oauth:1.8.0"
     compile "org.pac4j:pac4j-cas:1.8.0"
     compile "com.nimbusds:nimbus-jose-jwt:4.8"
+    compile "commons-codec:commons-codec:1.9"
     testCompile "org.gperfutils:gbench:0.4.3-groovy-2.4"
 
     compile("com.lowagie:itext:2.0.8") {
