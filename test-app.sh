@@ -12,7 +12,7 @@ export pluginVersion=`cat spring-security-rest/build/version.txt`
 export grailsVersion=`cat spring-security-rest-testapp-profile/gradle.properties | grep grailsVersion | sed -n 's/^grailsVersion=//p'`
 
 echo "Plugin version: $pluginVersion. Grails version for test apps: $grailsVersion"
-source ~/.sdkman/bin/sdkman-init.sh
+source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk use grails $grailsVersion
 
 ./gradlew check install \
