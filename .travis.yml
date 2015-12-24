@@ -1,5 +1,11 @@
 language: groovy
 sudo: false
+cache:
+  directories:
+  - "$HOME/.m2"
+  - "$HOME/.gradle"
+  - "$HOME/.grails"
+  - "$HOME/.sdkman"
 jdk:
 - oraclejdk8
 services:
