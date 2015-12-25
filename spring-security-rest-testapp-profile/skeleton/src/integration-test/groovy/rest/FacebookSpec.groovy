@@ -28,7 +28,7 @@ class FacebookSpec extends GebSpec {
 
     void "it can sign users in with Facebook"() {
         when: "a user clicks on a 'Sign In with Facebook' button"
-        go "/jwt/oauth/authenticate/facebook"
+        go "/oauth/authenticate/facebook"
 
         then: "its redirected to Facebook Sign In page"
         FacebookSignInPage facebookSignInPage = at FacebookSignInPage

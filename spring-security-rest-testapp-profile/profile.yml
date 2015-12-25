@@ -7,5 +7,5 @@ dependencies:
         - "org.grails.plugins:spring-security-rest:2.0.0.BUILD-SNAPSHOT"
         - "org.grails:grails-datastore-rest-client:5.0.0.RC3"
     testCompile:
-        - "com.github.detro:phantomjsdriver:1.2.0"
+        - "com.codeborne:phantomjsdriver:1.2.1"
         - "org.seleniumhq.selenium:selenium-api:2.47.1"
