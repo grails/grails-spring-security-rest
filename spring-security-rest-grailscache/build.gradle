@@ -1,0 +1,14 @@
+dependencyManagement {
+    imports {
+        mavenBom "org.grails:grails-bom:$grailsVersion"
+    }
+    applyMavenExclusions false
+}
+
+dependencies {
+    compile project(":spring-security-rest")
+
+    compile "org.grails.plugins:cache"
+
+    profile "org.grails.profiles:plugin:${grailsVersion}"
+}

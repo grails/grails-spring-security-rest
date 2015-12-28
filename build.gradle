@@ -31,7 +31,7 @@ subprojects { Project project ->
 
     apply plugin: "com.jfrog.artifactory"
 
-    if (project.name in ['spring-security-rest', 'spring-security-rest-memcached', 'spring-security-rest-redis']) {
+    if (project.name in ['spring-security-rest', 'spring-security-rest-memcached', 'spring-security-rest-redis', 'spring-security-rest-grailscache']) {
         apply plugin: "org.grails.grails-plugin"
         apply plugin: "org.grails.grails-plugin-publish"
 

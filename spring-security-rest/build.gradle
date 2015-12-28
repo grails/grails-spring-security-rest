@@ -16,9 +16,6 @@ dependencies {
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
 
-    //TODO extract
-    compile "org.grails.plugins:cache"
-
     compile "com.google.guava:guava-io:r03"
 
     compile "org.pac4j:pac4j-core:1.8.0"

@@ -391,7 +391,7 @@ To use http://grails.org/plugin/cache[Grails Cache], simply define a cache name:
 |`false`
 
 |`grails.plugin.springsecurity.rest.token.storage.grailsCacheName`
-| `null`
+| `defaultTokenCache`
 |===
 
 The cache name should correspond to a name specified in the [cache DSL|http://grails-plugins.github.io/grails-cache/docs/manual/guide/usage.html#dsl].

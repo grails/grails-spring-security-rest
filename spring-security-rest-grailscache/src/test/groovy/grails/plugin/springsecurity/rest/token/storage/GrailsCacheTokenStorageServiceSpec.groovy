@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package groovy.grails.plugin.springsecurity.rest.token.storage
+package grails.plugin.springsecurity.rest.token.storage
 
 import grails.plugin.cache.GrailsCacheManager
 import grails.plugin.cache.GrailsConcurrentMapCacheManager
