@@ -126,7 +126,8 @@ class RestOauthController {
         log.debug "Trying to generate an access token for the refresh token: ${refreshToken}"
         if (refreshToken) {
             try {
-                User principal = tokenStorageService.loadUserByToken(refreshToken) as User
+                def user = tokenStorageService.loadUserByToken(refreshToken)
+                User principal = user ? user as User : null
                 log.debug "Principal found for refresh token: ${principal}"
 
                 AccessToken accessToken = tokenGenerator.generateAccessToken(principal, false)

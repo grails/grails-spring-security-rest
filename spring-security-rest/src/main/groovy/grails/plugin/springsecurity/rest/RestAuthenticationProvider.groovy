@@ -45,7 +45,7 @@ class RestAuthenticationProvider implements AuthenticationProvider {
      * @throws AuthenticationException
      */
     Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
+        log.debug "Use JWT: ${useJwt}"
         Assert.isInstanceOf(AccessToken, authentication, "Only AccessToken is supported")
         AccessToken authenticationRequest = authentication as AccessToken
         AccessToken authenticationResult = new AccessToken(authenticationRequest.accessToken)

@@ -17,6 +17,7 @@
 package grails.plugin.springsecurity.rest.token.generation
 
 import grails.plugin.springsecurity.rest.token.AccessToken
+import groovy.util.logging.Slf4j
 import org.apache.commons.lang.RandomStringUtils
 import org.springframework.security.core.userdetails.UserDetails
 
@@ -25,6 +26,7 @@ import java.security.SecureRandom
 /**
  * A {@link TokenGenerator} implementation using {@link java.security.SecureRandom}
  */
+@Slf4j
 class SecureRandomTokenGenerator implements TokenGenerator {
 
     SecureRandom random = new SecureRandom()
@@ -34,7 +36,9 @@ class SecureRandomTokenGenerator implements TokenGenerator {
      *
      * @return a String token of 32 alphanumeric characters.
      */
+    @Override
     AccessToken generateAccessToken(UserDetails principal) {
+        log.debug("Generating access token for principal: ${principal}")
         String token = new BigInteger(160, this.random).toString(32)
         def tokenSize = token.size()
         if (tokenSize < 32) token += RandomStringUtils.randomAlphanumeric(32 - tokenSize)
@@ -43,6 +47,7 @@ class SecureRandomTokenGenerator implements TokenGenerator {
 
     @Override
     AccessToken generateAccessToken(UserDetails principal, Integer expiration) {
+        log.debug("Generating access token for expiration: ${expiration}, and principal: ${principal}")
         AccessToken accessToken = generateAccessToken(principal)
         accessToken.expiration = expiration
         return accessToken
