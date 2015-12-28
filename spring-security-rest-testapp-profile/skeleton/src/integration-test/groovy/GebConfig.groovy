@@ -17,6 +17,29 @@
 import org.openqa.selenium.Dimension
 import org.openqa.selenium.phantomjs.PhantomJSDriver
 import org.openqa.selenium.remote.DesiredCapabilities
+import org.openqa.selenium.firefox.FirefoxDriver
+import org.openqa.selenium.firefox.FirefoxProfile
+
+environments {
+    phantomJs {
+
+    }
+
+    firefox {
+        driver = {
+            //set the firefox locale to 'en-us' since the tests expect english
+            //see http://stackoverflow.com/questions/9822717 for more details
+            FirefoxProfile profile = new FirefoxProfile()
+            profile.setPreference("intl.accept_languages", "en-uk")
+            def driverInstance = new FirefoxDriver(profile)
+            driverInstance.manage().window().maximize()
+            driverInstance
+        }
+
+        baseNavigatorWaiting = true
+        atCheckWaiting = true
+    }
+}
 
 driver = {
     def capabilities = new DesiredCapabilities()

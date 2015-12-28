@@ -13,6 +13,7 @@ task restoreKeys << {
 integrationTest {
     systemProperty 'useBearerToken', 'true'
     systemProperty 'useFacebook', 'false'
+    systemProperty 'geb.env', System.getProperty('geb.env', 'phantomJs')
 }
 
 test.dependsOn restoreKeys
