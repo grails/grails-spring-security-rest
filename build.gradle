@@ -29,11 +29,19 @@ subprojects { Project project ->
         maven { url "https://repo.grails.org/grails/core" }
     }
 
-    apply plugin: "com.jfrog.artifactory"
+    version "2.0.0.BUILD-SNAPSHOT"
+    group "org.grails.plugins"
+    ext.isSnapshot = version.endsWith('SNAPSHOT')
 
-    if (project.name in ['spring-security-rest', 'spring-security-rest-memcached', 'spring-security-rest-redis', 'spring-security-rest-grailscache']) {
+
+    def pluginProjects = ['spring-security-rest', 'spring-security-rest-memcached', 'spring-security-rest-redis', 'spring-security-rest-grailscache']
+    def profileProjects = ['spring-security-rest-testapp-profile']
+    def publishedProjects = pluginProjects + profileProjects
+
+    if (project.name in pluginProjects) {
         apply plugin: "org.grails.grails-plugin"
         apply plugin: "org.grails.grails-plugin-publish"
+        apply plugin: "com.jfrog.artifactory"
 
         dependencies {
             console "org.grails:grails-console"
@@ -59,57 +67,57 @@ subprojects { Project project ->
         artifactoryPublish {
             dependsOn sourcesJar, javadocJar
         }
-    } else {
+    }
+
+    if (project.name in profileProjects) {
         apply plugin: "org.grails.grails-profile"
         apply plugin: "org.grails.grails-profile-publish"
+        apply plugin: "com.jfrog.artifactory"
 
         artifactoryPublish {
             dependsOn sourcesJar
         }
     }
 
-    version "2.0.0.BUILD-SNAPSHOT"
-    group "org.grails.plugins"
-    ext.isSnapshot = version.endsWith('SNAPSHOT')
+    if (project.name in publishedProjects) {
+        grailsPublish {
+            user = bintrayUser
+            key = bintrayKey
+            portalUser = pluginPortalUser
+            portalPassword = pluginPortalPassword
+            githubSlug = 'alvarosanchez/grails-spring-security-rest'
+            license = 'APACHE 2.0'
+            title = "Spring Security REST plugin"
+            desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
+            developers = [
+                    alvarosanchez: "Alvaro Sanchez-Mariscal",
+                    Schlogen: "James Kleeh"
+            ]
+        }
 
-    grailsPublish {
-        user = bintrayUser
-        key = bintrayKey
-        portalUser = pluginPortalUser
-        portalPassword = pluginPortalPassword
-        githubSlug = 'alvarosanchez/grails-spring-security-rest'
-        license = 'APACHE 2.0'
-        title = "Spring Security REST plugin"
-        desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
-        developers = [
-                alvarosanchez: "Alvaro Sanchez-Mariscal",
-                Schlogen: "James Kleeh"
-        ]
-    }
-
-    artifactory {
-        contextUrl = 'http://oss.jfrog.org'
-        publish {
-            repository {
-                repoKey = isSnapshot ? 'oss-snapshot-local' : 'oss-release-local'
-                username = bintrayUser
-                password = bintrayKey
-            }
-            defaults {
-                // Reference to Gradle configurations defined in the build script.
-                // This is how we tell the Artifactory Plugin which artifacts should be
-                // published to Artifactory.
-                publications('maven')
+        artifactory {
+            contextUrl = 'http://oss.jfrog.org'
+            publish {
+                repository {
+                    repoKey = isSnapshot ? 'oss-snapshot-local' : 'oss-release-local'
+                    username = bintrayUser
+                    password = bintrayKey
+                }
+                defaults {
+                    // Reference to Gradle configurations defined in the build script.
+                    // This is how we tell the Artifactory Plugin which artifacts should be
+                    // published to Artifactory.
+                    publications('maven')
+                }
             }
         }
+
+        task exportVersion << {
+            new File("${buildDir}/version.txt").write(project.version as String)
+        }
+
+        check.dependsOn exportVersion
     }
-
-    task exportVersion << {
-        new File("${buildDir}/version.txt").write(project.version as String)
-    }
-
-    check.dependsOn exportVersion
-
 }
 
 task wrapper(type: Wrapper) {

@@ -1,6 +1,5 @@
 plugins {
     //id "com.github.hierynomus.license" version "0.11.0"
-    id 'org.asciidoctor.convert' version '1.5.3'
 }
 
 dependencyManagement {
@@ -61,15 +60,3 @@ license {
     ext.email = 'alvaro.sanchezmariscal@gmail.com'
 }
 */
-
-
-
-asciidoctor {
-    attributes  'experimental'  : 'true',
-                'compat-mode'   : 'true',
-                'toc'           : 'left',
-                'imagesdir'     : "${projectDir}/src/docs/images",
-                'icons'         : 'font',
-                'version'       : project.version,
-                'sourcedir'     : '../../../src/main/groovy'
-}
