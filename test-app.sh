@@ -17,7 +17,7 @@ sdk use grails $grailsVersion
 
 ./gradlew check install \
   && cd build && rm -rf * \
-  && for feature in jwt1 jwt2 memcached1 memcached2; do
+  && for feature in jwt1 jwt2 memcached1 memcached2 redis1 redis2; do
      grails create-app -profile org.grails.plugins:spring-security-rest-testapp-profile:$pluginVersion -features $feature $feature && cd $feature && ./gradlew check && cd ..
      if [ $? -ne 0 ]; then
        echo -e "\033[0;31mTests FAILED\033[0m"

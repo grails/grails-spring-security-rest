@@ -54,6 +54,8 @@ class BearerTokenReader implements TokenReader {
         } else {
             log.debug "No token found"
         }
+
+        log.debug "Token: ${tokenValue}"
         return tokenValue ? new AccessToken(tokenValue) : null
     }
 
