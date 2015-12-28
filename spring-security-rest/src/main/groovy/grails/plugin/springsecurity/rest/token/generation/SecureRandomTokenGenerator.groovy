@@ -38,7 +38,6 @@ class SecureRandomTokenGenerator implements TokenGenerator {
      */
     @Override
     AccessToken generateAccessToken(UserDetails principal) {
-        log.debug("Generating access token for principal: ${principal}")
         String token = new BigInteger(160, this.random).toString(32)
         def tokenSize = token.size()
         if (tokenSize < 32) token += RandomStringUtils.randomAlphanumeric(32 - tokenSize)
@@ -47,7 +46,6 @@ class SecureRandomTokenGenerator implements TokenGenerator {
 
     @Override
     AccessToken generateAccessToken(UserDetails principal, Integer expiration) {
-        log.debug("Generating access token for expiration: ${expiration}, and principal: ${principal}")
         AccessToken accessToken = generateAccessToken(principal)
         accessToken.expiration = expiration
         return accessToken
