@@ -5,7 +5,7 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
 	# If there is a tag present then this becomes the latest
 	if [[ -n $TRAVIS_TAG ]]; then
-		./gradlew asciidoctor
+		./gradlew asciidoctor aggregateGroovyDoc
 
 		version=`cat build/version.txt`
 		echo "Preparing release of version $version"
@@ -24,12 +24,16 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
 		rm -rf latest/
 		mkdir -p latest/docs
-		cp -r ../build/asciidoc/html5/. ./latest/docs
+		mkdir -p latest/gapi
+		cp -r ../spring-security-rest-docs/build/asciidoc/html5/. ./latest/docs
+		cp -r ./build/docs/groovydoc/. latest/gapi
 		git add latest/*
 
 		rm -rf "$version"
-		mkdir -p "$version"
-		cp -r ../build/asciidoc/html5/. "$version"
+		mkdir -p "$version/docs"
+		mkdir -p "$version/gapi"
+		cp -r ../spring-security-rest-docs/build/asciidoc/html5/. "$version/docs"
+		cp -r ./build/docs/groovydoc/. "$version/gapi"
 		git add "$version/*"
 
 		git commit -a -m "Updating docs for Travis build: https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID"

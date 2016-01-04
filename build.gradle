@@ -17,6 +17,9 @@ allprojects {
     apply plugin:"idea"
 }
 
+def pluginProjects = ['spring-security-rest', 'spring-security-rest-memcached', 'spring-security-rest-redis', 'spring-security-rest-grailscache']
+def profileProjects = ['spring-security-rest-testapp-profile']
+def publishedProjects = pluginProjects + profileProjects
 
 subprojects { Project project ->
     ext {
@@ -32,11 +35,6 @@ subprojects { Project project ->
     version "2.0.0.BUILD-SNAPSHOT"
     group "org.grails.plugins"
     ext.isSnapshot = version.endsWith('SNAPSHOT')
-
-
-    def pluginProjects = ['spring-security-rest', 'spring-security-rest-memcached', 'spring-security-rest-redis', 'spring-security-rest-grailscache']
-    def profileProjects = ['spring-security-rest-testapp-profile']
-    def publishedProjects = pluginProjects + profileProjects
 
     if (project.name in pluginProjects) {
         apply plugin: "org.grails.grails-plugin"
@@ -122,4 +120,15 @@ subprojects { Project project ->
 
 task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
+}
+
+task aggregateGroovyDoc(type: Groovydoc) {
+    def groovyDocProjects = subprojects.findAll { it.name in pluginProjects }
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+
+    dependsOn groovyDocProjects.groovydoc
+    source groovyDocProjects.groovydoc.source
+    destinationDir file("${buildDir}/docs/groovydoc")
+    classpath = files(groovyDocProjects.groovydoc.classpath)
+    groovyClasspath = files(groovyDocProjects.groovydoc.groovyClasspath)
 }
