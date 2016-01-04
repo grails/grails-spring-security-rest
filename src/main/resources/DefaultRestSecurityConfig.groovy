@@ -82,6 +82,7 @@ security {
                 active = true
                 headerName = 'X-Auth-Token'
                 endpointUrl = '/api/validate'
+                parameterName = 'access_token'
                 tokenHeaderMissingStatusCode = HttpServletResponse.SC_UNAUTHORIZED    //401
                 enableAnonymousAccess = false
                 useBearerToken = true

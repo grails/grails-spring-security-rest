@@ -30,7 +30,7 @@ import spock.lang.Unroll
  */
 class BearerTokenReaderSpec extends Specification {
 
-    def tokenReader = new BearerTokenReader()
+    def tokenReader = new BearerTokenReader(parameterName: "access_token")
     def request = new GrailsMockHttpServletRequest()
     def response = new MockHttpServletResponse()
 
