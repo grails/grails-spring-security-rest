@@ -32,7 +32,7 @@ class AccessToken extends AbstractAuthenticationToken {
 
     String accessToken
 
-    Integer expiration
+    Long expiration
     String refreshToken
 
     /** The username */
@@ -43,7 +43,7 @@ class AccessToken extends AbstractAuthenticationToken {
         super.setAuthenticated(true)
     }
 
-    AccessToken(UserDetails principal, Collection<? extends GrantedAuthority> authorities, String accessToken, String refreshToken = null, Integer expiration = null) {
+    AccessToken(UserDetails principal, Collection<? extends GrantedAuthority> authorities, String accessToken, String refreshToken = null, Long expiration = null) {
         this(authorities)
         this.principal = principal
         this.accessToken = accessToken
@@ -51,7 +51,7 @@ class AccessToken extends AbstractAuthenticationToken {
         this.expiration = expiration
     }
 
-    AccessToken(String accessToken, String refreshToken = null, Integer expiration = null) {
+    AccessToken(String accessToken, String refreshToken = null, Long expiration = null) {
         super(null)
         this.accessToken = accessToken
         this.refreshToken = refreshToken
