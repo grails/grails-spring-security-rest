@@ -1,4 +1,0 @@
-description: First configuration of Memcached
-dependencies:
-    compile:
-        - "org.grails.plugins:spring-security-rest-memcached:2.0.0.BUILD-SNAPSHOT"
