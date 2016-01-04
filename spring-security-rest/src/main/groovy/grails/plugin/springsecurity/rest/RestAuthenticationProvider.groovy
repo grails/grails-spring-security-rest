@@ -54,7 +54,7 @@ class RestAuthenticationProvider implements AuthenticationProvider {
             log.debug "Trying to validate token ${authenticationRequest.accessToken}"
             UserDetails userDetails = tokenStorageService.loadUserByToken(authenticationRequest.accessToken) as UserDetails
 
-            Long expiration = null
+            Integer expiration = null
             if (useJwt) {
                 Date now = new Date()
                 JWT jwt = jwtService.parse(authenticationRequest.accessToken)

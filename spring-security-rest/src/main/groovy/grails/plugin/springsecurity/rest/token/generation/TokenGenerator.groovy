@@ -34,6 +34,6 @@ public interface TokenGenerator {
      *
      * @param expiration the expiration time in seconds
      */
-    AccessToken generateAccessToken(UserDetails principal, Long expiration)
+    AccessToken generateAccessToken(UserDetails principal, Integer expiration)
 
 }

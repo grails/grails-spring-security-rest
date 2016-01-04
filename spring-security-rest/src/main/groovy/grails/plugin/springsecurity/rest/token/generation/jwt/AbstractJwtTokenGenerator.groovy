@@ -28,7 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails
 @Slf4j
 abstract class AbstractJwtTokenGenerator implements TokenGenerator {
 
-    Long defaultExpiration
+    Integer defaultExpiration
 
     JwtTokenStorageService jwtTokenStorageService
 
@@ -40,11 +40,11 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
     }
 
     @Override
-    AccessToken generateAccessToken(UserDetails details, Long expiration) {
+    AccessToken generateAccessToken(UserDetails details, Integer expiration) {
         generateAccessToken(details, true, expiration)
     }
 
-    AccessToken generateAccessToken(UserDetails details, boolean withRefreshToken, Long expiration = this.defaultExpiration) {
+    AccessToken generateAccessToken(UserDetails details, boolean withRefreshToken, Integer expiration = this.defaultExpiration) {
         log.debug "Serializing the principal received"
         String serializedPrincipal = serializePrincipal(details)
 
@@ -62,7 +62,7 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         return new AccessToken(details, details.authorities, accessToken, refreshToken, expiration)
     }
 
-    JWTClaimsSet.Builder generateClaims(UserDetails details, String serializedPrincipal, Long expiration) {
+    JWTClaimsSet.Builder generateClaims(UserDetails details, String serializedPrincipal, Integer expiration) {
         JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
         builder.subject(details.username)
 
@@ -92,7 +92,7 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
 
     protected abstract String generateAccessToken(JWTClaimsSet claimsSet)
 
-    protected String generateRefreshToken(UserDetails principal, String serializedPrincipal, Long expiration) {
+    protected String generateRefreshToken(UserDetails principal, String serializedPrincipal, Integer expiration) {
         JWTClaimsSet.Builder builder = generateClaims(principal, serializedPrincipal, expiration)
         builder.expirationTime(null)
 

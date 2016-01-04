@@ -45,7 +45,7 @@ class SecureRandomTokenGenerator implements TokenGenerator {
     }
 
     @Override
-    AccessToken generateAccessToken(UserDetails principal, Long expiration) {
+    AccessToken generateAccessToken(UserDetails principal, Integer expiration) {
         AccessToken accessToken = generateAccessToken(principal)
         accessToken.expiration = expiration
         return accessToken
