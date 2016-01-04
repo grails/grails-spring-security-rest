@@ -1,4 +1,4 @@
-def versions = "git tag".execute().text.split('\n')
+def versions = "git tag".execute().text.split('\n').reverse()
 assert versions
 
 yieldUnescaped '<!DOCTYPE html>'
