@@ -3,11 +3,15 @@ plugins {
 }
 
 asciidoctor {
+    resources {
+        from('src/docs/images')
+        into "./images"
+    }
+
     attributes 'experimental'  : 'true',
                'compat-mode'   : 'true',
                'toc'           : 'left',
-               'imagesdir'     : "${projectDir}/src/docs/images",
                'icons'         : 'font',
                'version'       : project.version,
-               'sourcedir'     : '../../../src/main/groovy'
+               'sourcedir'     : "${rootProject.allprojects.find { it.name == 'spring-security-rest'}.projectDir}/src/main/groovy"
 }

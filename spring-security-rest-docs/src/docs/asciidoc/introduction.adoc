@@ -10,7 +10,7 @@ RESTful scenario, we need to make sure our server is stateless.
 The typical flow could be the following:
 
 .Sequence diagram overview of the plugin behavior
-image::rest.png[]
+image::images/rest.png[]
 
 . The client application requests and endpoint that requires authentication, so the server responds with a 401 response.
 . The client redirects the user to the login form.
