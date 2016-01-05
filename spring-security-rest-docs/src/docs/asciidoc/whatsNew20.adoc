@@ -16,6 +16,20 @@ Interfaces in the Groovy API might also be refactored.
 
 Special thanks to https://github.com/Schlogen[James Kleeh] for his help in the initial upgrade steps.
 
+=== Plugin broken down into multiple modules
+
+Starting from this version, `org.grails.plugins:spring-security-rest` just contains support for JWT. Artifact size has
+been reduced from 429 KB in version 1.5.3 to 194K in 2.0.x!
+
+For those using a different token storage system, the following artifacts are also published:
+
+* `org.grails.plugins:spring-security-rest-gorm`.
+* `org.grails.plugins:spring-security-rest-grailscache`.
+* `org.grails.plugins:spring-security-rest-memcached`.
+* `org.grails.plugins:spring-security-rest-redis`.
+
+The version is the same in all modules. For more details, check the <<configuration>> section.
+
 === CORS plugin dropped
 
 Starting from 2.x, the `cors` plugin is not installed by default anymore, fundamentally because it hasn't been upgraded

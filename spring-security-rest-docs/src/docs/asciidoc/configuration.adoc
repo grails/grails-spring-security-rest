@@ -1,3 +1,4 @@
+[[configuration]]
 === Installing the plugin
 
 Just proceed as with any other Grails 3 plugin:
@@ -14,14 +15,33 @@ dependencies {
 }
 ----
 
-Once the plugin is installed, you are ready to go. The default configuration is to use signed
-JWT's for tokens. However, you can select any other token storage strategy:
+Note that the default token storage system is JWT. If you want a different one, you need to install an additional
+artifact. For instance, for Memcached:
 
-. Grails Cache.
-. Memcached.
-. GORM.
-. Redis.
-. Provide your own: implement
+[source,groovy,subs="attributes+"]
+.`build.gradle`
+----
+
+ext.springSecurityRestVersion = '{version}'
+
+dependencies {
+
+    //Other dependencies
+
+    compile "org.grails.plugins:spring-security-rest:${springSecurityRestVersion}"
+    compile "org.grails.plugins:spring-security-rest-memcached:${springSecurityRestVersion}"
+
+}
+----
+
+The Maven coordinates are the following:
+
+. Grails Cache: `org.grails.plugins:spring-security-rest-grailscache`.
+. Memcached: `org.grails.plugins:spring-security-rest-memcached`.
+. GORM: `org.grails.plugins:spring-security-rest-gorm`.
+. Redis: `org.grails.plugins:spring-security-rest-redis`.
+
+If you want your own token storage system, you need to implement
 http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/storage/TokenStorageService.html[TokenStorageService]
 and register it in `resources.groovy` as `tokenStorageService`.
 
