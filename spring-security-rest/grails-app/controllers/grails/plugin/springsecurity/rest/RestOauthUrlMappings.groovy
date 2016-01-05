@@ -1,3 +1,4 @@
+package grails.plugin.springsecurity.rest
 /*
  * Copyright 2013-2015 Alvaro Sanchez-Mariscal <alvaro.sanchezmariscal@gmail.com>
  *
@@ -14,4 +15,13 @@
  * limitations under the License.
  *
  */
-grails.doc.images = new File("src/docs/images")
+class RestOauthUrlMappings {
+
+    static mappings = {
+
+        name oauth: "/oauth/${action}/${provider}"(controller: 'restOauth')
+
+        "/oauth/access_token"(controller: 'restOauth', action: 'accessToken')
+
+    }
+}
