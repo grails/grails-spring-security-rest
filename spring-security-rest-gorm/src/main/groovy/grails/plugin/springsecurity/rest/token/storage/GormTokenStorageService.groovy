@@ -16,10 +16,10 @@
  */
 package grails.plugin.springsecurity.rest.token.storage
 
+import grails.core.GrailsApplication
 import grails.plugin.springsecurity.SpringSecurityUtils
+import grails.util.Holders
 import groovy.util.logging.Slf4j
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.codehaus.groovy.grails.plugins.support.aware.GrailsApplicationAware
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 
@@ -31,12 +31,15 @@ import org.springframework.security.core.userdetails.UserDetailsService
  * information.
  */
 @Slf4j
-class GormTokenStorageService implements TokenStorageService, GrailsApplicationAware {
+class GormTokenStorageService implements TokenStorageService {
 
-    /** Dependency injection for the application. */
     GrailsApplication grailsApplication
 
     UserDetailsService userDetailsService
+
+    public GormTokenStorageService() {
+        this.grailsApplication = Holders.grailsApplication
+    }
 
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
         log.debug "Finding token ${tokenValue} in GORM"

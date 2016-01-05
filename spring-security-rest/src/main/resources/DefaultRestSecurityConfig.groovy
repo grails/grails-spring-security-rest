@@ -44,16 +44,6 @@ security {
             }
 
             storage {
-                //useJwt = true
-                //useGorm = false
-                //useGrailsCache = false
-
-                gorm {
-                    tokenDomainClassName = null
-                    tokenValuePropertyName = 'tokenValue'
-                    usernamePropertyName = 'username'
-                }
-
                 jwt {
                     useSignedJwt = true
                     useEncryptedJwt = false
@@ -61,7 +51,6 @@ security {
                     secret = 'qrD6h8K6S9503Q06Y6Rfk21TErImPYqa'
                     expiration = 3600
                 }
-
             }
 
             validation {
