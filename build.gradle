@@ -41,6 +41,8 @@ subprojects { Project project ->
         apply plugin: "org.grails.grails-plugin-publish"
         apply plugin: "com.jfrog.artifactory"
 
+        sourceCompatibility = targetCompatibility = 1.7
+
         dependencies {
             console "org.grails:grails-console"
 
@@ -51,6 +53,9 @@ subprojects { Project project ->
             provided "org.grails:grails-plugin-services"
 
             testCompile "org.grails:grails-plugin-testing"
+            testCompile('com.athaydes:spock-reports:1.2.7') {
+                transitive = false
+            }
         }
 
         test {
