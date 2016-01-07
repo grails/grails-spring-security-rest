@@ -77,9 +77,6 @@ the algorithm used is HMAC SHA-256 with a specified shared secret. The relevant 
 |===
 |*Config key*   |*Default value*
 
-|`grails.plugin.springsecurity.rest.token.storage.useJwt`
-|`true`
-
 |`grails.plugin.springsecurity.rest.token.storage.jwt.useSignedJwt`
 |`true`
 
@@ -131,9 +128,6 @@ Then, configure the keys properly, along with the rest of the configuration:
 [cols="80,20"]
 |===
 |*Config key*   |*Default value*
-
-|`grails.plugin.springsecurity.rest.token.storage.useJwt`
-|`true`
 
 |`grails.plugin.springsecurity.rest.token.storage.jwt.useEncryptedJwt`
 |`false`
@@ -217,9 +211,6 @@ To use Memcached, simply define the following configuration properties to match 
 |===
 |*Config key*   |*Default value*
 
-|`grails.plugin.springsecurity.rest.token.storage.useMemcached`
-|`false`
-
 |`grails.plugin.springsecurity.rest.token.storage.memcached.hosts`
 |`localhost:11211`
 
@@ -233,8 +224,7 @@ To use Memcached, simply define the following configuration properties to match 
 |`3600`
 |===
 
-For development, if you have Memcached installed locally with the default settings, just define
-`grails.plugin.springsecurity.rest.token.storage.useMemcached = true`. It should work.
+For development, if you have Memcached installed locally with the default settings, it should  just work with the defaults.
 
 In Memcached tokens will expire automatically after the configured timeout (1h by default).
 They get refreshed on every access
@@ -247,9 +237,6 @@ To use GORM, these are the relevant configuration properties:
 [cols="80,20"]
 |===
 |*Config key*   |*Default value*
-
-|`grails.plugin.springsecurity.rest.token.storage.useGorm`
-|`false`
 
 |`grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName`
 |`null`
@@ -371,9 +358,6 @@ Configuration options for Redis:
 |===
 |*Config key*   |*Default value*
 
-|`grails.plugin.springsecurity.rest.token.storage.useRedis`
-|`false`
-
 |`grails.plugin.springsecurity.rest.token.storage.redis.expiration`
 |`3600`
 |===
@@ -386,9 +370,6 @@ To use http://grails.org/plugin/cache[Grails Cache], simply define a cache name:
 [cols="80,20"]
 |===
 |*Config key*   |*Default value*
-
-|`grails.plugin.springsecurity.rest.token.storage.useGrailsCache`
-|`false`
 
 |`grails.plugin.springsecurity.rest.token.storage.grailsCacheName`
 | `defaultTokenCache`
