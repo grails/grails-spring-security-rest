@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -x
 
 if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
@@ -7,7 +8,7 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 	if [[ -n $TRAVIS_TAG ]]; then
 		./gradlew asciidoctor aggregateGroovyDoc
 
-		version=`cat build/version.txt`
+		version=`cat spring-security-rest/build/version.txt`
 		echo "Preparing release of version $version"
 
 		echo "Configuring git with name ${GIT_NAME} and email ${GIT_EMAIL}"
@@ -23,17 +24,15 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 		./gradlew generateIndex
 
 		rm -rf latest/
-		mkdir -p latest/docs
-		mkdir -p latest/gapi
+		mkdir -p latest/docs/gapi
 		cp -r ../spring-security-rest-docs/build/asciidoc/html5/. ./latest/docs
-		cp -r ./build/docs/groovydoc/. latest/gapi
+		cp -r ../build/docs/groovydoc/. latest/gapi
 		git add latest/*
 
 		rm -rf "$version"
-		mkdir -p "$version/docs"
-		mkdir -p "$version/gapi"
+		mkdir -p "$version/docs/gapi"
 		cp -r ../spring-security-rest-docs/build/asciidoc/html5/. "$version/docs"
-		cp -r ./build/docs/groovydoc/. "$version/gapi"
+		cp -r ../build/docs/groovydoc/. "$version/gapi"
 		git add "$version/*"
 
 		git commit -a -m "Updating docs for Travis build: https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID"
