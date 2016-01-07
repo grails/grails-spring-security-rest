@@ -88,13 +88,15 @@ subprojects { Project project ->
             key = bintrayKey
             portalUser = pluginPortalUser
             portalPassword = pluginPortalPassword
+            userOrg = 'grails'
+            repo = 'plugins'
             githubSlug = 'alvarosanchez/grails-spring-security-rest'
             license = 'APACHE 2.0'
             title = "Spring Security REST plugin"
             desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
             developers = [
-                    alvarosanchez: "Alvaro Sanchez-Mariscal",
-                    Schlogen: "James Kleeh"
+                alvarosanchez: "Alvaro Sanchez-Mariscal",
+                Schlogen: "James Kleeh"
             ]
         }
 

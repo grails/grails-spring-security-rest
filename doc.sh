@@ -26,13 +26,13 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 		rm -rf latest/
 		mkdir -p latest/docs/gapi
 		cp -r ../spring-security-rest-docs/build/asciidoc/html5/. ./latest/docs
-		cp -r ../build/docs/groovydoc/. latest/gapi
+		cp -r ../build/docs/groovydoc/. latest/docs/gapi
 		git add latest/*
 
 		rm -rf "$version"
 		mkdir -p "$version/docs/gapi"
 		cp -r ../spring-security-rest-docs/build/asciidoc/html5/. "$version/docs"
-		cp -r ../build/docs/groovydoc/. "$version/gapi"
+		cp -r ../build/docs/groovydoc/. "$version/docs/gapi"
 		git add "$version/*"
 
 		git commit -a -m "Updating docs for Travis build: https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID"
