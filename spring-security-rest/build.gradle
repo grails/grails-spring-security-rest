@@ -9,6 +9,10 @@ dependencyManagement {
     applyMavenExclusions false
 }
 
+ext {
+    pac4jVersion = '1.8.3'
+}
+
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "org.springframework.boot:spring-boot-starter-tomcat"
@@ -17,9 +21,9 @@ dependencies {
 
     compile "com.google.guava:guava-io:r03"
 
-    compile "org.pac4j:pac4j-core:1.8.3"
-    compile "org.pac4j:pac4j-oauth:1.8.3"
-    compile "org.pac4j:pac4j-cas:1.8.3"
+    compile "org.pac4j:pac4j-core:${pac4jVersion}"
+    compile "org.pac4j:pac4j-oauth:${pac4jVersion}"
+    compile "org.pac4j:pac4j-cas:${pac4jVersion}"
 
     compile "com.nimbusds:nimbus-jose-jwt:4.8"
     compile("com.lowagie:itext:2.0.8") {
