@@ -17,14 +17,12 @@
 package rest
 
 import geb.spock.GebReportingSpec
-import geb.spock.GebSpec
-import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.test.mixin.integration.Integration
 import spock.lang.IgnoreIf
 
 @Integration
 @IgnoreIf({ !System.getProperty('useFacebook', 'false').toBoolean() || !System.getenv('FB_PASSWORD') })
-class FacebookSpec extends GebSpec {
+class FacebookSpec extends GebReportingSpec {
 
     void "it can sign users in with Facebook"() {
         when: "a user clicks on a 'Sign In with Facebook' button"

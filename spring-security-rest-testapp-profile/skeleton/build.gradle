@@ -5,4 +5,7 @@ integrationTest {
     }
 
     beforeTest { descriptor -> logger.quiet " -- $descriptor" }
+
+    systemProperty 'geb.build.reportsDir', "${buildDir}/geb-reports"
+
 }
