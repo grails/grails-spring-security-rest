@@ -32,7 +32,7 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: QpD/nt7wNuLHntXz2+C0LeD/W1m1F8x84t7KbFjNg+lswa3tfq7CZE4w979JUt0BQKJWR4mKb61ENtJtsVey/gth8tpO65xMLdDZ0+eYJ+oN9lCMfnzNfMOi7NWAixHeKe6bfClvW7xU8LsfY3eMZKiRPJ1SBNJ26b9YtkptTTU=
-  file: build/libs/spring-security-rest-${TRAVIS_TAG}.jar
+  file: spring-security-rest/build/libs/spring-security-rest-${TRAVIS_TAG}.jar
   on:
     repo: alvarosanchez/grails-spring-security-rest
     tags: true
