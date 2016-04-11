@@ -11,7 +11,7 @@ So is this plugin's responsibility to provide endpoints so your Grails backend a
 The flow is something like the following:
 
 .OAuth delegation protocol
-image::oauth.png[]
+image::images/oauth.png[]
 
 . The client application requests and endpoint that requires authentication, so the server responds with a 401 response (*).
 
