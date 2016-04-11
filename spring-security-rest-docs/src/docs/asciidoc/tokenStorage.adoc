@@ -28,7 +28,7 @@ principal information is stored directly in the JWT.
 ==== How does a JWT looks like?
 
 .JWT example
-image::jwt.png[]
+image::images/jwt.png[]
 
 ===== Header
 
