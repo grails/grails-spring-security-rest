@@ -61,7 +61,7 @@ To start the OAuth authentication flow, from your frontend application, generate
 `<YOUR_GRAILS_APP>/oauth/authenticate/<provider>`. The user clicking on that link represents step 4 in the previous
 diagram.
 
-Note that you can define the frontend callback URL in `Config.groovy` under
+Note that you can define the frontend callback URL in `application.groovy` under
 `grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl`. You need to define a closure that will be called with
 the token value as parameter:
 
@@ -117,7 +117,7 @@ Below are some examples on how to configure it for Google, Facebook and Twitter.
 
 ==== Google
 
-Define the following block in your `Config.groovy`:
+Define the following block in your `application.groovy`:
 
 [source,groovy]
 .Listing {counter:listing}. Google OAuth sample configuration
@@ -157,7 +157,7 @@ uses the profile ID as the username, and that is only returned by Google if `EMA
 
 ==== Facebook
 
-Define the following block in your `Config.groovy`:
+Define the following block in your `application.groovy`:
 
 [source,groovy]
 .Listing {counter:listing}. Facebook OAuth sample configuration
@@ -199,7 +199,7 @@ information you don't need.
 
 ==== Twitter
 
-Define the following block in your `Config.groovy`:
+Define the following block in your `application.groovy`:
 
 [source,groovy]
 .Listing {counter:listing}. Twitter OAuth sample configuration
@@ -232,7 +232,7 @@ There is no additional configuration for Twitter.
 
 ==== CAS (Central Authentication Service)
 
-Define the following block in your `Config.groovy`:
+Define the following block in your `application.groovy`:
 
 [source,groovy]
 .Listing {counter:listing}. CAS sample configuration
