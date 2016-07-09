@@ -193,7 +193,7 @@ grant_type=refresh_token&refresh_token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ
 
 As you can see, is a form request with 2 parameters:
 
-* `grant_type`: must be `refres_token` always.
+* `grant_type`: must be `refresh_token` always.
 * `refresh_token`: the refresh token provided earlier.
 
 [NOTE]
