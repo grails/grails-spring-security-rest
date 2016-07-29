@@ -27,7 +27,7 @@ class FacebookSignInPage extends Page {
     void login(String username, String password) {
         $('#email').value username
         $('#pass').value password
-        $('input', value: "Log In").click()
+        $('#loginbutton').click()
     }
 
 }
