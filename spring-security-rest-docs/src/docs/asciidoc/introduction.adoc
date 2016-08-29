@@ -29,7 +29,8 @@ and Grails Cache support for token storage.
 === Release History
 
 You can view all releases at https://github.com/alvarosanchez/grails-spring-security-rest/releases[].
-
+* 29 August 2016
+** 1.5.4
 * 7 January 2016
 ** 2.0.0.M2
 * 11 December 2015
