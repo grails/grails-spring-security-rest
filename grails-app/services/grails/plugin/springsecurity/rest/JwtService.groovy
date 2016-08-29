@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2015 Alvaro Sanchez-Mariscal <alvaro.sanchezmariscal@gmail.com>
+ * Copyright 2013-2016 Alvaro Sanchez-Mariscal <alvaro.sanchezmariscal@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import com.nimbusds.jose.crypto.RSADecrypter
 import com.nimbusds.jwt.EncryptedJWT
 import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTParser
+import com.nimbusds.jwt.PlainJWT
 import com.nimbusds.jwt.SignedJWT
 import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
 import grails.util.Holders
@@ -66,6 +67,11 @@ class JwtService {
 
             // Decrypt
             encryptedJWT.decrypt(decrypter)
+        } else if (jwt instanceof PlainJWT) {
+            log.debug "Parsed a plain JWT"
+            if (jwtSecret || keyProvider) {
+                throw new JOSEException('Unsigned/unencrypted JWT not expected')
+            }
         }
 
         return jwt
