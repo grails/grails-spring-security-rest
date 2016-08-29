@@ -28,6 +28,7 @@ import groovyx.gbench.BenchmarkBuilder
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
+import spock.lang.Ignore
 import spock.lang.Specification
 
 class JwtServiceSpec extends Specification {
@@ -44,6 +45,7 @@ class JwtServiceSpec extends Specification {
         userDetails == deserialized
     }
 
+    @Ignore
     void "performance test of JWT parsing"() {
         given:
         UserDetails userDetails = new User('username', 'password', [new SimpleGrantedAuthority('ROLE_USER')])

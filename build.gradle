@@ -9,9 +9,14 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.3"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
+        classpath "io.spring.gradle:dependency-management-plugin:0.6.0.RELEASE"
     }
+}
+
+plugins {
+    id 'com.github.ben-manes.versions' version '0.13.0'
 }
 
 allprojects {
@@ -33,7 +38,7 @@ subprojects { Project project ->
         maven { url "https://repo.grails.org/grails/core" }
     }
 
-    version "2.0.0.M2"
+    version "2.0.0.BUILD-SNAPSHOT"
     group "org.grails.plugins"
     ext.isSnapshot = version.endsWith('SNAPSHOT')
 
@@ -54,7 +59,7 @@ subprojects { Project project ->
             provided "org.grails:grails-plugin-services"
 
             testCompile "org.grails:grails-plugin-testing"
-            testCompile('com.athaydes:spock-reports:1.2.7') {
+            testCompile('com.athaydes:spock-reports:1.2.12') {
                 transitive = false
             }
         }
