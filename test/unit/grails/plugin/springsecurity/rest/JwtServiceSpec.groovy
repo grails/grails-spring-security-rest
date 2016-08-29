@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2015 Alvaro Sanchez-Mariscal <alvaro.sanchezmariscal@gmail.com>
+ * Copyright 2013-2016 Alvaro Sanchez-Mariscal <alvaro.sanchezmariscal@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,26 @@
  */
 package grails.plugin.springsecurity.rest
 
+import com.nimbusds.jose.JOSEException
 import com.nimbusds.jwt.JWT
+import com.nimbusds.jwt.JWTClaimsSet
+import com.nimbusds.jwt.PlainJWT
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.jwt.AbstractJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
+import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import grails.spring.BeanBuilder
+import grails.test.mixin.TestFor
 import groovyx.gbench.BenchmarkBuilder
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import spock.lang.Specification
 
+@TestFor(JwtService)
 class JwtServiceSpec extends Specification {
 
     void "it can serialize and deserialize compressed objects"() {
@@ -70,6 +76,32 @@ class JwtServiceSpec extends Specification {
         then:
         jwt
 
+    }
+
+    void "denying unsigned JWT when not expected" (){
+        given:
+        PlainJWT jwt = new PlainJWT(new JWTClaimsSet())
+        service.jwtSecret = "mysecret"
+
+        when:
+        service.parse(jwt.serialize())
+
+        then:
+        JOSEException exception = thrown()
+        exception.message == 'Unsigned/unencrypted JWT not expected'
+    }
+
+    void "denying unencrypted JWT when not expected" (){
+        given:
+        PlainJWT jwt = new PlainJWT(new JWTClaimsSet())
+        service.keyProvider = Mock(RSAKeyProvider)
+
+        when:
+        service.parse(jwt.serialize())
+
+        then:
+        JOSEException exception = thrown()
+        exception.message == 'Unsigned/unencrypted JWT not expected'
     }
 
     private AbstractJwtTokenGenerator getTokenGenerator(boolean useEncryptedJwt) {
