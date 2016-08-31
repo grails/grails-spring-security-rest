@@ -22,6 +22,7 @@ import groovy.util.logging.Slf4j
 import org.springframework.core.convert.converter.Converter
 import org.springframework.core.serializer.support.SerializingConverter
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
 import redis.clients.jedis.Jedis
 
 @Slf4j
@@ -29,6 +30,7 @@ import redis.clients.jedis.Jedis
 class RedisTokenStorageService implements TokenStorageService {
 
     RedisService redisService
+    UserDetailsService userDetailsService
 
     /** Expiration in seconds */
     Integer expiration = 3600
