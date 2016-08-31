@@ -19,8 +19,6 @@ package grails.plugin.springsecurity.rest
 import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.reader.TokenReader
-import groovy.transform.CompileDynamic
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
@@ -46,7 +44,6 @@ import javax.servlet.http.HttpServletResponse
  * {@link AuthenticationSuccessHandler}. Otherwise, an {@link AuthenticationFailureHandler} is called.
  */
 @Slf4j
-@CompileStatic
 class RestTokenValidationFilter extends GenericFilterBean {
 
     String headerName
@@ -100,7 +97,6 @@ class RestTokenValidationFilter extends GenericFilterBean {
 
     }
 
-    @CompileDynamic
     private processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, AccessToken authenticationResult) {
         HttpServletRequest httpRequest = request as HttpServletRequest
         HttpServletResponse httpResponse = response as HttpServletResponse

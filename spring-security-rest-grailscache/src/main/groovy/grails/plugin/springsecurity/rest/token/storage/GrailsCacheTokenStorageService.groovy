@@ -16,8 +16,6 @@
  */
 package grails.plugin.springsecurity.rest.token.storage
 
-import grails.plugin.cache.GrailsCacheManager
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.cache.Cache
 import org.springframework.security.core.userdetails.UserDetails
@@ -28,10 +26,9 @@ import javax.annotation.PostConstruct
  * Uses <a href="http://grails.org/plugin/cache">Grails Cache plugin</a> to store and retrieve tokens.
  */
 @Slf4j
-@CompileStatic
 class GrailsCacheTokenStorageService implements TokenStorageService {
 
-    GrailsCacheManager grailsCacheManager
+    def grailsCacheManager
     String cacheName
 
     Cache cache

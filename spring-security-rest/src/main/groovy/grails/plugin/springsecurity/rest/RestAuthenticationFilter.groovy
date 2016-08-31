@@ -21,7 +21,6 @@ import grails.plugin.springsecurity.rest.credentials.CredentialsExtractor
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.AuthenticationDetailsSource
 import org.springframework.security.authentication.AuthenticationManager
@@ -52,7 +51,6 @@ import javax.servlet.http.HttpServletResponse
  * If there is an authentication failure, the configured {@link AuthenticationFailureHandler} will render the response.
  */
 @Slf4j
-@CompileStatic
 class RestAuthenticationFilter extends GenericFilterBean {
 
     CredentialsExtractor credentialsExtractor

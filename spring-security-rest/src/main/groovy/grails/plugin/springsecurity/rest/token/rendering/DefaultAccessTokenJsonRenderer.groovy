@@ -19,7 +19,6 @@ package grails.plugin.springsecurity.rest.token.rendering
 import grails.converters.JSON
 import grails.plugin.springsecurity.rest.oauth.OauthUser
 import grails.plugin.springsecurity.rest.token.AccessToken
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.core.GrantedAuthority
@@ -32,7 +31,6 @@ import org.springframework.util.Assert
  * "displayName" ({@link CommonProfile#getDisplayName()}) will be rendered
  */
 @Slf4j
-@CompileStatic
 class DefaultAccessTokenJsonRenderer implements AccessTokenJsonRenderer {
 
     String usernamePropertyName
@@ -61,13 +59,15 @@ class DefaultAccessTokenJsonRenderer implements AccessTokenJsonRenderer {
             if (accessToken.refreshToken) result.refresh_token = accessToken.refreshToken
 
         } else {
-                result["$tokenPropertyName".toString()] = accessToken.accessToken
+            result["$tokenPropertyName"] = accessToken.accessToken
         }
 
         if (userDetails instanceof OauthUser) {
             CommonProfile profile = (userDetails as OauthUser).userProfile
-            result.email = profile.email
-            result.displayName = profile.displayName
+            result.with {
+                email = profile.email
+                displayName = profile.displayName
+            }
         }
 
         def jsonResult = result as JSON

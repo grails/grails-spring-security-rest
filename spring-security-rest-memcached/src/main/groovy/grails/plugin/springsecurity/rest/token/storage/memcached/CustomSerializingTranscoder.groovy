@@ -24,36 +24,35 @@ public class CustomSerializingTranscoder extends SerializingTranscoder{
 
     @Override
     protected Object deserialize(byte[] bytes) {
-        final ClassLoader currentClassLoader = Thread.currentThread().contextClassLoader
+        final ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
         ObjectInputStream inputStream
-
         try {
-            ByteArrayInputStream bs = new ByteArrayInputStream(bytes)
+            ByteArrayInputStream bs = new ByteArrayInputStream(bytes);
             inputStream = new ObjectInputStream(bs) {
                 @Override
                 protected Class<?> resolveClass(ObjectStreamClass objectStreamClass) throws IOException, ClassNotFoundException {
                     try {
-                        return currentClassLoader.loadClass(objectStreamClass.name)
-                    } catch (Exception ignored) {
-                        return super.resolveClass(objectStreamClass)
+                        return currentClassLoader.loadClass(objectStreamClass.getName());
+                    } catch (Exception e) {
+                        return super.resolveClass(objectStreamClass);
                     }
                 }
             };
-            return inputStream.readObject()
+            return inputStream.readObject();
         } catch (Exception e) {
-            e.printStackTrace()
-            throw new RuntimeException(e)
+            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
-            closeStream(inputStream)
+            closeStream(inputStream);
         }
     }
 
     private static void closeStream(Closeable c) {
         if (c != null) {
             try {
-                c.close()
+                c.close();
             } catch (IOException e) {
-                e.printStackTrace()
+                e.printStackTrace();
             }
         }
     }

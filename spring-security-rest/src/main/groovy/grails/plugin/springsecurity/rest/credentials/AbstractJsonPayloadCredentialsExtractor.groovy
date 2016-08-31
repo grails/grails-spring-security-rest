@@ -18,14 +18,12 @@ package grails.plugin.springsecurity.rest.credentials
 
 import com.google.common.io.CharStreams
 import groovy.json.JsonSlurper
-import groovy.transform.CompileStatic
 
 import javax.servlet.http.HttpServletRequest
 
 /**
  * Base class for JSON-based credentials extractors. It helps building a JSON object from the request body
  */
-@CompileStatic
 abstract class AbstractJsonPayloadCredentialsExtractor implements CredentialsExtractor {
 
     Object getJsonBody(HttpServletRequest httpServletRequest) {
@@ -33,7 +31,7 @@ abstract class AbstractJsonPayloadCredentialsExtractor implements CredentialsExt
             String body = CharStreams.toString(httpServletRequest.reader)
             JsonSlurper slurper = new JsonSlurper()
             slurper.parseText(body)
-        } catch (ignored) {
+        } catch (exception) {
             [:]
         }
     }

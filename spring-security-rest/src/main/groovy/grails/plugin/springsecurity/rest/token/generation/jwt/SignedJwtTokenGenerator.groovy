@@ -22,7 +22,6 @@ import com.nimbusds.jose.JWSSigner
 import com.nimbusds.jose.crypto.MACSigner
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.SignedJWT
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.InitializingBean
 
@@ -30,7 +29,6 @@ import org.springframework.beans.factory.InitializingBean
  * Generates JWT's protected using HMAC with SHA-256
  */
 @Slf4j
-@CompileStatic
 class SignedJwtTokenGenerator extends AbstractJwtTokenGenerator implements InitializingBean {
 
     String jwtSecret

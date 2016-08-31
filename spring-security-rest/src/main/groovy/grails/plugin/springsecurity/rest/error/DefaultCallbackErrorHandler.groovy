@@ -27,7 +27,6 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
  *
  * @author Dónal Murtagh
  */
-
 class DefaultCallbackErrorHandler implements CallbackErrorHandler {
 
     @Override
