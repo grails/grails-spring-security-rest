@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest.token.generation.jwt
 
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
 import java.security.KeyFactory
@@ -31,6 +32,7 @@ import java.security.spec.RSAPublicKeySpec
  * {@link FileRSAKeyProvider} should be used.
  */
 @Slf4j
+@CompileStatic
 class DefaultRSAKeyProvider implements RSAKeyProvider {
 
     RSAPublicKey publicKey

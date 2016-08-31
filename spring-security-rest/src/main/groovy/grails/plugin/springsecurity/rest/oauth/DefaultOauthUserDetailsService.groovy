@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest.oauth
 
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.pac4j.core.profile.CommonProfile
 import org.pac4j.core.profile.UserProfile
@@ -33,6 +34,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
  * If the user is not found, it will create a new one with the the default roles.
  */
 @Slf4j
+@CompileStatic
 class DefaultOauthUserDetailsService implements OauthUserDetailsService {
 
     @Delegate
@@ -54,7 +56,7 @@ class DefaultOauthUserDetailsService implements OauthUserDetailsService {
 
             Collection<GrantedAuthority> allRoles = userDetails.authorities + defaultRoles
             oauthUser = new OauthUser(userDetails.username, userDetails.password, allRoles, userProfile)
-        } catch (UsernameNotFoundException unfe) {
+        } catch (UsernameNotFoundException ignored) {
             log.debug "User not found. Creating a new one with default roles: ${defaultRoles}"
             oauthUser = new OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
         }

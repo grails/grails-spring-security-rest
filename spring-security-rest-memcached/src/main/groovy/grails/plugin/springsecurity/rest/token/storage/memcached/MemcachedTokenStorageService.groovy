@@ -18,6 +18,7 @@ package grails.plugin.springsecurity.rest.token.storage.memcached
 
 import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import net.spy.memcached.CASValue
 import net.spy.memcached.MemcachedClient
@@ -28,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetails
  * in memcached, leveraging it is serializable.
  */
 @Slf4j
+@CompileStatic
 class MemcachedTokenStorageService implements TokenStorageService {
 
     MemcachedClient memcachedClient

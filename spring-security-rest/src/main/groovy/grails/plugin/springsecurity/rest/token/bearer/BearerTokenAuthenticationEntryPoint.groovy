@@ -17,6 +17,7 @@
 package grails.plugin.springsecurity.rest.token.bearer
 
 import grails.plugin.springsecurity.rest.token.AccessToken
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletResponse
  * Handles prompting the client for authentication when using bearer tokens.
  */
 @Slf4j
+@CompileStatic
 class BearerTokenAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     BearerTokenReader tokenReader

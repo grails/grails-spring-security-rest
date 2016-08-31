@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest.token
 
+import groovy.transform.CompileStatic
 import groovy.transform.ToString
 import org.springframework.security.authentication.AbstractAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
@@ -26,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails
  * Encapsulates an OAuth 2.0 access token.
  */
 @ToString(includeNames = true, includeSuper = true, includes = ['principal', 'accessToken', 'refreshToken', 'expiration'])
+@CompileStatic
 class AccessToken extends AbstractAuthenticationToken {
 
     static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID

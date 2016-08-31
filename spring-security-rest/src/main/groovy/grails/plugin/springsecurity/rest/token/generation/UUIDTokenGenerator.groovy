@@ -17,11 +17,14 @@
 package grails.plugin.springsecurity.rest.token.generation
 
 import grails.plugin.springsecurity.rest.token.AccessToken
+import groovy.transform.CompileStatic
 import org.springframework.security.core.userdetails.UserDetails
 
 /**
  * Uses {@link UUID} to generate tokens.
  */
+
+@CompileStatic
 class UUIDTokenGenerator implements TokenGenerator {
 
     /**
