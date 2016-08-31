@@ -22,8 +22,6 @@ sdk use grails $grailsVersion
      grails create-app -profile org.grails.plugins:spring-security-rest-testapp-profile:$pluginVersion -features $feature $feature && cd $feature && ./gradlew check && cd ..
      if [ $? -ne 0 ]; then
        echo -e "\033[0;31mTests FAILED\033[0m"
-       cd ../..
-       ./upload-test-reports.sh
        exit -1
      fi
      done \
