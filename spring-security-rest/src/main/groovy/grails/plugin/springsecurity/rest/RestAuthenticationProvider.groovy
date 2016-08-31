@@ -60,11 +60,13 @@ class RestAuthenticationProvider implements AuthenticationProvider {
                 JWT jwt = jwtService.parse(authenticationRequest.accessToken)
                 Date expiry = jwt.JWTClaimsSet.expirationTime
 
-                log.debug "Now is ${now} and token expires at ${expiry}"
+                if (expiry) {
+                    log.debug "Now is ${now} and token expires at ${expiry}"
 
-                TimeDuration timeDuration = TimeCategory.minus(expiry, now)
-                expiration = Math.round(timeDuration.toMilliseconds() / 1000)
-                log.debug "Expiration: ${expiration}"
+                    TimeDuration timeDuration = TimeCategory.minus(expiry, now)
+                    expiration = Math.round(timeDuration.toMilliseconds() / 1000)
+                    log.debug "Expiration: ${expiration}"
+                }
             }
 
             authenticationResult = new AccessToken(userDetails, userDetails.authorities, authenticationRequest.accessToken, null, expiration?:null)

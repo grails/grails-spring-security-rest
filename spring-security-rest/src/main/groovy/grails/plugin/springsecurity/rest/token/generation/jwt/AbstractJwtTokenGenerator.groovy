@@ -66,11 +66,14 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
         builder.subject(details.username)
 
-        log.debug "Setting expiration to ${expiration}"
         Date now = new Date()
         builder.issueTime(now)
-        use(TimeCategory) {
-            builder.expirationTime(now + expiration.seconds)
+
+        if (expiration) {
+            log.debug "Setting expiration to ${expiration}"
+            use(TimeCategory) {
+                builder.expirationTime(now + expiration.seconds)
+            }
         }
 
         builder.claim('roles', details.authorities?.collect { it.authority })

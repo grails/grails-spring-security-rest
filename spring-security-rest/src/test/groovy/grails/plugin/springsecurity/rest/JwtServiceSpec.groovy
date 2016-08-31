@@ -37,7 +37,7 @@ import spock.lang.Ignore
 import spock.lang.Specification
 
 @TestFor(JwtService)
-class JwtServiceSpec extends Specification {
+class JwtServiceSpec extends Specification implements TokenGeneratorSupport  {
 
     void "it can serialize and deserialize compressed objects"() {
         given:
@@ -56,10 +56,10 @@ class JwtServiceSpec extends Specification {
         given:
         UserDetails userDetails = new User('username', 'password', [new SimpleGrantedAuthority('ROLE_USER')])
 
-        SignedJwtTokenGenerator signedJwtTokenGenerator = getTokenGenerator(false)
+        SignedJwtTokenGenerator signedJwtTokenGenerator = getTokenGenerator(false) as SignedJwtTokenGenerator
         AccessToken signedAccessToken = signedJwtTokenGenerator.generateAccessToken(userDetails)
 
-        EncryptedJwtTokenGenerator encryptedJwtTokenGenerator = getTokenGenerator(true)
+        EncryptedJwtTokenGenerator encryptedJwtTokenGenerator = getTokenGenerator(true) as EncryptedJwtTokenGenerator
         AccessToken encryptedAccessToken = encryptedJwtTokenGenerator.generateAccessToken(userDetails)
 
         when:
@@ -104,37 +104,6 @@ class JwtServiceSpec extends Specification {
         then:
         JOSEException exception = thrown()
         exception.message == 'Unsigned/unencrypted JWT not expected'
-    }
-
-    private AbstractJwtTokenGenerator getTokenGenerator(boolean useEncryptedJwt) {
-        BeanBuilder beanBuilder = new BeanBuilder()
-        beanBuilder.beans {
-            keyProvider(DefaultRSAKeyProvider)
-
-            jwtService(JwtService) {
-                keyProvider = ref('keyProvider')
-                jwtSecret = 'foo123'*8
-            }
-            tokenStorageService(JwtTokenStorageService) {
-                jwtService = ref('jwtService')
-            }
-
-            if (useEncryptedJwt) {
-                tokenGenerator(EncryptedJwtTokenGenerator) {
-                    jwtTokenStorageService = ref('tokenStorageService')
-                    keyProvider = ref('keyProvider')
-                    defaultExpiration = 3600
-                }
-            } else {
-                tokenGenerator(SignedJwtTokenGenerator) {
-                    jwtTokenStorageService = ref('tokenStorageService')
-                    jwtSecret = 'foo123'*8
-                    defaultExpiration = 3600
-                }
-            }
-        }
-
-        return beanBuilder.createApplicationContext().getBean('tokenGenerator')
     }
 
 }

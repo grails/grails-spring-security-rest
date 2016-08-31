@@ -22,6 +22,7 @@ import com.nimbusds.jwt.EncryptedJWT
 import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTParser
 import grails.plugin.springsecurity.rest.JwtService
+import grails.plugin.springsecurity.rest.TokenGeneratorSupport
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
@@ -34,7 +35,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class JwtTokenGeneratorSpec extends Specification {
+class JwtTokenGeneratorSpec extends Specification implements TokenGeneratorSupport  {
 
     @Unroll
     void "#jwtTokenGenerator.class.simpleName generates access tokens with refresh tokens that can be rehydrated back"() {
@@ -82,18 +83,6 @@ class JwtTokenGeneratorSpec extends Specification {
 
         where:
         jwtTokenGenerator << [setupSignedJwtTokenGenerator(), setupEncryptedJwtTokenGenerator()]
-    }
-
-    private setupSignedJwtTokenGenerator() {
-        String secret = 'foobar'*10
-        def jwtTokenStorageService = new JwtTokenStorageService(jwtService: new JwtService(jwtSecret: secret))
-        return new SignedJwtTokenGenerator(defaultExpiration: 3600, jwtSecret: secret, signer: new MACSigner(secret), jwtTokenStorageService: jwtTokenStorageService)
-    }
-
-    private setupEncryptedJwtTokenGenerator() {
-        RSAKeyProvider keyProvider = new DefaultRSAKeyProvider()
-        def jwtTokenStorageService = new JwtTokenStorageService(jwtService: new JwtService(keyProvider: keyProvider))
-        return new EncryptedJwtTokenGenerator(defaultExpiration: 3600, jwtTokenStorageService: jwtTokenStorageService, keyProvider: keyProvider)
     }
 
 }
