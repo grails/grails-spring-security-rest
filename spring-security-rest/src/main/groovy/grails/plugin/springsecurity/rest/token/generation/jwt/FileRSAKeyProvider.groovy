@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest.token.generation.jwt
 
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.InitializingBean
 
@@ -29,6 +30,7 @@ import java.security.spec.X509EncodedKeySpec
  * Loads RSA public/private key's from files
  */
 @Slf4j
+@CompileStatic
 class FileRSAKeyProvider implements RSAKeyProvider, InitializingBean {
 
     /** Full path to the public key so that {@code new File(publicKeyPath).exists() == true} */

@@ -22,10 +22,13 @@ import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import groovy.time.TimeCategory
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.userdetails.UserDetails
 
 @Slf4j
+@CompileStatic
 abstract class AbstractJwtTokenGenerator implements TokenGenerator {
 
     Integer defaultExpiration
@@ -62,6 +65,7 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         return new AccessToken(details, details.authorities, accessToken, refreshToken, expiration)
     }
 
+    @CompileDynamic
     JWTClaimsSet.Builder generateClaims(UserDetails details, String serializedPrincipal, Integer expiration) {
         JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
         builder.subject(details.username)

@@ -21,6 +21,7 @@ import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.time.TimeCategory
 import groovy.time.TimeDuration
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
@@ -32,6 +33,7 @@ import org.springframework.util.Assert
  * Authenticates a request based on the token passed. This is called by {@link RestTokenValidationFilter}.
  */
 @Slf4j
+@CompileStatic
 class RestAuthenticationProvider implements AuthenticationProvider {
 
     TokenStorageService tokenStorageService
@@ -64,7 +66,7 @@ class RestAuthenticationProvider implements AuthenticationProvider {
                     log.debug "Now is ${now} and token expires at ${expiry}"
 
                     TimeDuration timeDuration = TimeCategory.minus(expiry, now)
-                    expiration = Math.round(timeDuration.toMilliseconds() / 1000)
+                    expiration = Math.round((timeDuration.toMilliseconds() / 1000) as float)
                     log.debug "Expiration: ${expiration}"
                 }
             }

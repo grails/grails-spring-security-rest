@@ -17,6 +17,7 @@
 package grails.plugin.springsecurity.rest.token.bearer
 
 import grails.plugin.springsecurity.rest.token.AccessToken
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletResponse
  * Handles authentication failure when BearerToken authentication is enabled.
  */
 @Slf4j
+@CompileStatic
 class BearerTokenAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     BearerTokenReader tokenReader

@@ -17,6 +17,7 @@
 package grails.plugin.springsecurity.rest.token.generation
 
 import grails.plugin.springsecurity.rest.token.AccessToken
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.commons.lang.RandomStringUtils
 import org.springframework.security.core.userdetails.UserDetails
@@ -27,6 +28,7 @@ import java.security.SecureRandom
  * A {@link TokenGenerator} implementation using {@link java.security.SecureRandom}
  */
 @Slf4j
+@CompileStatic
 class SecureRandomTokenGenerator implements TokenGenerator {
 
     SecureRandom random = new SecureRandom()

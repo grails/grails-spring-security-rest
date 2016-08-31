@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest
 
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletResponse
  * Sets the configured status code.
  */
 @Slf4j
+@CompileStatic
 class RestAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     /**

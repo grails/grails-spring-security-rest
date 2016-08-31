@@ -21,6 +21,7 @@ import com.nimbusds.jwt.JWT
 import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
@@ -32,6 +33,7 @@ import java.text.ParseException
  * Re-hydrates JWT's with HMAC protection or JWE encryption
  */
 @Slf4j
+@CompileStatic
 class JwtTokenStorageService implements TokenStorageService {
 
     JwtService jwtService
@@ -46,7 +48,7 @@ class JwtTokenStorageService implements TokenStorageService {
                 throw new TokenNotFoundException("Token ${tokenValue} has expired")
             }
 
-            def roles = jwt.JWTClaimsSet.getStringArrayClaim('roles')?.collect { new SimpleGrantedAuthority(it) }
+            def roles = jwt.JWTClaimsSet.getStringArrayClaim('roles')?.collect { String role -> new SimpleGrantedAuthority(role) }
 
             log.debug "Successfully verified JWT"
 

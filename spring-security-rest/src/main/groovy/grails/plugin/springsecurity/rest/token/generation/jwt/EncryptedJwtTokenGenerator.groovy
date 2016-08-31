@@ -22,12 +22,14 @@ import com.nimbusds.jose.JWEHeader
 import com.nimbusds.jose.crypto.RSAEncrypter
 import com.nimbusds.jwt.EncryptedJWT
 import com.nimbusds.jwt.JWTClaimsSet
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
 /**
  * Generates RSA-encrypted JWT's
  */
 @Slf4j
+@CompileStatic
 class EncryptedJwtTokenGenerator extends AbstractJwtTokenGenerator {
 
     RSAKeyProvider keyProvider

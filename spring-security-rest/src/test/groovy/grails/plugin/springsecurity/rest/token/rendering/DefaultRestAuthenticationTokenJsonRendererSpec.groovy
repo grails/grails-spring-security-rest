@@ -111,10 +111,8 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         def roles = [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]
 
         def profile = new CommonProfile()
-        profile.metaClass.with {
-            getDisplayName = { "John Doe" }
-            getEmail = { "john@doe.com" }
-        }
+        profile.addAttribute('display_name', "John Doe")
+        profile.addAttribute('email', "john@doe.com")
 
         def userDetails = new OauthUser(username, password, roles, profile)
 
