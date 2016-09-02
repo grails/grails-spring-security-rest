@@ -50,7 +50,7 @@ class RestLogoutFilter extends GenericFilterBean {
         HttpServletRequest servletRequest = request as HttpServletRequest
         HttpServletResponse servletResponse = response as HttpServletResponse
 
-        def actualUri =  servletRequest.requestURI - servletRequest.contextPath
+        String actualUri =  servletRequest.requestURI - servletRequest.contextPath
 
         //Only apply filter to the configured URL
         if (actualUri == endpointUrl) {
@@ -74,7 +74,7 @@ class RestLogoutFilter extends GenericFilterBean {
                     servletResponse.sendError HttpServletResponse.SC_NOT_FOUND, "Token not found"
                 }
             } else {
-                log.debug "Token is missing. Sending a 400 Bad Request response"
+                log.debug "Token is missing. Sending a ${HttpServletResponse.SC_BAD_REQUEST} Bad Request response"
                 servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, "Token header is missing"
             }
 

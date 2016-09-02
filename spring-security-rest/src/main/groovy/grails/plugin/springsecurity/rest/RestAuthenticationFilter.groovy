@@ -72,11 +72,10 @@ class RestAuthenticationFilter extends GenericFilterBean {
 
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
         HttpServletRequest httpServletRequest = request as HttpServletRequest
         HttpServletResponse httpServletResponse = response as HttpServletResponse
 
-        def actualUri =  httpServletRequest.requestURI - httpServletRequest.contextPath
+        String actualUri =  httpServletRequest.requestURI - httpServletRequest.contextPath
 
         logger.debug "Actual URI is ${actualUri}; endpoint URL is ${endpointUrl}"
 

@@ -85,7 +85,6 @@ class RestTokenValidationFilter extends GenericFilterBean {
                     authenticationEventPublisher.publishAuthenticationSuccess(accessToken)
 
                     processFilterChain(request, response, chain, accessToken)
-
                 }
 
             } else {
@@ -101,11 +100,11 @@ class RestTokenValidationFilter extends GenericFilterBean {
     }
 
     @CompileDynamic
-    private processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, AccessToken authenticationResult) {
+    private void processFilterChain(ServletRequest request, ServletResponse response, FilterChain chain, AccessToken authenticationResult) {
         HttpServletRequest httpRequest = request as HttpServletRequest
         HttpServletResponse httpResponse = response as HttpServletResponse
 
-        def actualUri = httpRequest.requestURI - httpRequest.contextPath
+        String actualUri = httpRequest.requestURI - httpRequest.contextPath
 
         if (!active) {
             log.debug "Token validation is disabled. Continuing the filter chain"
