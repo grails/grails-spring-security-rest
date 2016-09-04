@@ -20,10 +20,12 @@ import com.nimbusds.jose.crypto.MACSigner
 import com.nimbusds.jose.crypto.RSADecrypter
 import com.nimbusds.jwt.EncryptedJWT
 import com.nimbusds.jwt.JWT
+import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.JWTParser
 import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.TokenGeneratorSupport
 import grails.plugin.springsecurity.rest.token.AccessToken
+import grails.plugin.springsecurity.rest.token.generation.jwt.CustomClaimProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
@@ -83,6 +85,26 @@ class JwtTokenGeneratorSpec extends Specification implements TokenGeneratorSuppo
 
         where:
         jwtTokenGenerator << [setupSignedJwtTokenGenerator(), setupEncryptedJwtTokenGenerator()]
+    }
+
+    void "custom claims can be added"() {
+        given:
+        SignedJwtTokenGenerator tokenGenerator = setupSignedJwtTokenGenerator()
+        tokenGenerator.customClaimProvider = [
+            provideCustomClaims: { JWTClaimsSet.Builder builder, UserDetails details, String principal, Integer expiration ->
+                builder.claim("favouriteTeam", "Real Madrid")
+            }
+        ] as CustomClaimProvider
+        UserDetails userDetails = new User('username', 'password', [new SimpleGrantedAuthority('ROLE_USER')])
+
+        when:
+        AccessToken accessToken = tokenGenerator.generateAccessToken(userDetails)
+        JWT jwt = tokenGenerator.jwtTokenStorageService.jwtService.parse(accessToken.accessToken)
+
+        then:
+        jwt.JWTClaimsSet.getClaim('favouriteTeam') == 'Real Madrid'
+
+
     }
 
 }

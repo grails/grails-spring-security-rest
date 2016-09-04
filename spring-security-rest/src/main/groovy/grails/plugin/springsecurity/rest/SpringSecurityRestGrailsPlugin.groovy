@@ -32,6 +32,7 @@ import grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGener
 import grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.generation.jwt.FileRSAKeyProvider
+import grails.plugin.springsecurity.rest.token.generation.jwt.NoOpCustomClaimProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import grails.plugin.springsecurity.rest.token.rendering.DefaultAccessTokenJsonRenderer
@@ -199,6 +200,8 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             jwtService = ref('jwtService')
         }
 
+        customClaimProvider(NoOpCustomClaimProvider)
+
         if (conf.rest.token.storage.jwt.useEncryptedJwt) {
             jwtService(JwtService) {
                 keyProvider = ref('keyProvider')
@@ -208,6 +211,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
                 jwtTokenStorageService = ref('tokenStorageService')
                 keyProvider = ref('keyProvider')
                 defaultExpiration = conf.rest.token.storage.jwt.expiration
+                customClaimProvider = ref('customClaimProvider')
             }
 
             if (conf.rest.token.storage.jwt.privateKeyPath instanceof CharSequence &&
@@ -225,6 +229,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
                 jwtTokenStorageService = ref('tokenStorageService')
                 jwtSecret = conf.rest.token.storage.jwt.secret
                 defaultExpiration = conf.rest.token.storage.jwt.expiration
+                customClaimProvider = ref('customClaimProvider')
             }
         }
 

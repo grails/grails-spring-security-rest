@@ -35,6 +35,7 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
 
     JwtTokenStorageService jwtTokenStorageService
 
+    CustomClaimProvider customClaimProvider
 
     @Override
     AccessToken generateAccessToken(UserDetails details) {
@@ -82,6 +83,8 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
 
         builder.claim('roles', details.authorities?.collect { it.authority })
         builder.claim('principal', serializedPrincipal)
+
+        customClaimProvider.provideCustomClaims(builder, details, serializedPrincipal, expiration)
 
         log.debug "Generated claim set: ${builder.build().toJSONObject().toString()}"
         return builder
