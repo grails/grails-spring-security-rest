@@ -20,6 +20,7 @@ import com.nimbusds.jose.JWSAlgorithm
 import com.nimbusds.jose.JWSHeader
 import com.nimbusds.jose.JWSSigner
 import com.nimbusds.jose.crypto.MACSigner
+import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.SignedJWT
 import groovy.transform.CompileStatic
@@ -43,11 +44,11 @@ class SignedJwtTokenGenerator extends AbstractJwtTokenGenerator implements Initi
     }
 
     @Override
-    protected String generateAccessToken(JWTClaimsSet claimsSet) {
+    protected JWT generateAccessToken(JWTClaimsSet claimsSet) {
         SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet)
         signedJWT.sign(signer)
 
-        return signedJWT.serialize()
+        return signedJWT
     }
 
 }

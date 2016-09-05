@@ -21,6 +21,7 @@ import com.nimbusds.jose.JWEAlgorithm
 import com.nimbusds.jose.JWEHeader
 import com.nimbusds.jose.crypto.RSAEncrypter
 import com.nimbusds.jwt.EncryptedJWT
+import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTClaimsSet
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -35,7 +36,7 @@ class EncryptedJwtTokenGenerator extends AbstractJwtTokenGenerator {
     RSAKeyProvider keyProvider
 
     @Override
-    protected String generateAccessToken(JWTClaimsSet claimsSet) {
+    protected JWT generateAccessToken(JWTClaimsSet claimsSet) {
         JWEHeader header = new JWEHeader(JWEAlgorithm.RSA_OAEP, EncryptionMethod.A128GCM)
 
         // Create the encrypted JWT object
@@ -47,8 +48,7 @@ class EncryptedJwtTokenGenerator extends AbstractJwtTokenGenerator {
         // Do the actual encryption
         jwt.encrypt(encrypter)
 
-        // Serialise to JWT compact form
-        return jwt.serialize()
+        return jwt
     }
 
 }

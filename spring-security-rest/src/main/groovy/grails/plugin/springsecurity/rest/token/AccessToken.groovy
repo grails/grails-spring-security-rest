@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest.token
 
+import com.nimbusds.jwt.JWT
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 import org.springframework.security.authentication.AbstractAuthenticationToken
@@ -26,16 +27,19 @@ import org.springframework.security.core.userdetails.UserDetails
 /**
  * Encapsulates an OAuth 2.0 access token.
  */
-@ToString(includeNames = true, includeSuper = true, includes = ['principal', 'accessToken', 'refreshToken', 'expiration'])
+@ToString(includeNames = true, includeSuper = true, includes = ['principal', 'accessToken', 'accessTokenJwt', 'refreshToken', 'refreshTokenJwt', 'expiration'])
 @CompileStatic
 class AccessToken extends AbstractAuthenticationToken {
 
     static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID
 
     String accessToken
+    JWT accessTokenJwt
 
     Integer expiration
+
     String refreshToken
+    JWT refreshTokenJwt
 
     /** The username */
     UserDetails principal
@@ -45,12 +49,14 @@ class AccessToken extends AbstractAuthenticationToken {
         super.setAuthenticated(true)
     }
 
-    AccessToken(UserDetails principal, Collection<? extends GrantedAuthority> authorities, String accessToken, String refreshToken = null, Integer expiration = null) {
+    AccessToken(UserDetails principal, Collection<? extends GrantedAuthority> authorities, String accessToken, String refreshToken = null, Integer expiration = null, JWT accessTokenJwt = null, JWT refreshTokenJwt = null) {
         this(authorities)
         this.principal = principal
         this.accessToken = accessToken
         this.refreshToken = refreshToken
         this.expiration = expiration
+        this.accessTokenJwt = accessTokenJwt
+        this.refreshTokenJwt = refreshTokenJwt
     }
 
     AccessToken(String accessToken, String refreshToken = null, Integer expiration = null) {

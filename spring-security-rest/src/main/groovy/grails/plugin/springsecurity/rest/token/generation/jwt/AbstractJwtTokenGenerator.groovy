@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest.token.generation.jwt
 
+import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTClaimsSet
 import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.token.AccessToken
@@ -55,15 +56,18 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         JWTClaimsSet.Builder builder = generateClaims(details, serializedPrincipal, expiration)
 
         log.debug "Generating access token..."
-        String accessToken = generateAccessToken(builder.build())
+        JWT accessTokenJwt = generateAccessToken(builder.build())
+        String accessToken = accessTokenJwt.serialize()
 
+        JWT refreshTokenJwt
         String refreshToken
         if (withRefreshToken) {
             log.debug "Generating refresh token..."
-            refreshToken = generateRefreshToken(details, serializedPrincipal, expiration)
+            refreshTokenJwt = generateRefreshToken(details, serializedPrincipal, expiration)
+            refreshToken = refreshTokenJwt.serialize()
         }
 
-        return new AccessToken(details, details.authorities, accessToken, refreshToken, expiration)
+        return new AccessToken(details, details.authorities, accessToken, refreshToken, expiration, accessTokenJwt, refreshTokenJwt)
     }
 
     @CompileDynamic
@@ -100,9 +104,9 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         }
     }
 
-    protected abstract String generateAccessToken(JWTClaimsSet claimsSet)
+    protected abstract JWT generateAccessToken(JWTClaimsSet claimsSet)
 
-    protected String generateRefreshToken(UserDetails principal, String serializedPrincipal, Integer expiration) {
+    protected JWT generateRefreshToken(UserDetails principal, String serializedPrincipal, Integer expiration) {
         JWTClaimsSet.Builder builder = generateClaims(principal, serializedPrincipal, expiration)
         builder.expirationTime(null)
 

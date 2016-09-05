@@ -34,6 +34,7 @@ import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageServic
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
+import spock.lang.Issue
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -87,6 +88,7 @@ class JwtTokenGeneratorSpec extends Specification implements TokenGeneratorSuppo
         jwtTokenGenerator << [setupSignedJwtTokenGenerator(), setupEncryptedJwtTokenGenerator()]
     }
 
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/295")
     void "custom claims can be added"() {
         given:
         SignedJwtTokenGenerator tokenGenerator = setupSignedJwtTokenGenerator()
@@ -103,8 +105,23 @@ class JwtTokenGeneratorSpec extends Specification implements TokenGeneratorSuppo
 
         then:
         jwt.JWTClaimsSet.getClaim('favouriteTeam') == 'Real Madrid'
+    }
 
+    void "generated access tokens contain the JWT object"() {
+        given:
+        UserDetails userDetails = new User('username', 'password', [new SimpleGrantedAuthority('ROLE_USER')])
 
+        when:
+        AccessToken accessToken = jwtTokenGenerator.generateAccessToken(userDetails)
+
+        then:
+        accessToken.accessTokenJwt
+        accessToken.accessTokenJwt.serialize() == accessToken.accessToken
+        accessToken.refreshTokenJwt
+        accessToken.refreshTokenJwt.serialize() == accessToken.refreshToken
+
+        where:
+        jwtTokenGenerator << [setupSignedJwtTokenGenerator(), setupEncryptedJwtTokenGenerator()]
     }
 
 }
