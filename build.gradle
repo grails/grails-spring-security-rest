@@ -25,7 +25,7 @@ allprojects {
 
 def pluginProjects = ['spring-security-rest', 'spring-security-rest-memcached', 'spring-security-rest-redis', 'spring-security-rest-grailscache', 'spring-security-rest-gorm']
 def profileProjects = ['spring-security-rest-testapp-profile']
-def publishedProjects = pluginProjects + profileProjects
+def publishedProjects = pluginProjects
 
 subprojects { Project project ->
     ext {
@@ -80,12 +80,6 @@ subprojects { Project project ->
 
     if (project.name in profileProjects) {
         apply plugin: "org.grails.grails-profile"
-        apply plugin: "org.grails.grails-profile-publish"
-        apply plugin: "com.jfrog.artifactory"
-
-        artifactoryPublish {
-            dependsOn sourcesJar
-        }
     }
 
     if (project.name in publishedProjects) {
