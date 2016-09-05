@@ -57,9 +57,10 @@ class RestAuthenticationProvider implements AuthenticationProvider {
             UserDetails userDetails = tokenStorageService.loadUserByToken(authenticationRequest.accessToken) as UserDetails
 
             Integer expiration = null
+            JWT jwt = null
             if (useJwt) {
                 Date now = new Date()
-                JWT jwt = jwtService.parse(authenticationRequest.accessToken)
+                jwt = jwtService.parse(authenticationRequest.accessToken)
                 Date expiry = jwt.JWTClaimsSet.expirationTime
 
                 if (expiry) {
@@ -71,7 +72,7 @@ class RestAuthenticationProvider implements AuthenticationProvider {
                 }
             }
 
-            authenticationResult = new AccessToken(userDetails, userDetails.authorities, authenticationRequest.accessToken, null, expiration?:null)
+            authenticationResult = new AccessToken(userDetails, userDetails.authorities, authenticationRequest.accessToken, null, expiration, jwt, null)
             log.debug "Authentication result: ${authenticationResult}"
         }
 

@@ -107,8 +107,16 @@ class RestAuthenticationFilter extends GenericFilterBean {
                     if (authenticationResult.authenticated) {
                         log.debug "Request authenticated. Storing the authentication result in the security context"
                         log.debug "Authentication result: ${authenticationResult}"
-    
-                        SecurityContextHolder.context.setAuthentication(authenticationResult)
+
+                        AccessToken accessToken = tokenGenerator.generateAccessToken(authenticationResult.principal as UserDetails)
+                        log.debug "Generated token: ${accessToken}"
+
+                        tokenStorageService.storeToken(accessToken.accessToken, authenticationResult.principal as UserDetails)
+                        authenticationEventPublisher.publishTokenCreation(accessToken)
+                        authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, accessToken)
+                        SecurityContextHolder.context.setAuthentication(accessToken)
+                    } else {
+                        log.debug "Not authenticated. Rest authentication token not generated."
                     }
                 } catch (AuthenticationException ae) {
                     log.debug "Authentication failed: ${ae.message}"
@@ -125,19 +133,6 @@ class RestAuthenticationFilter extends GenericFilterBean {
                     log.debug "Using authentication already in security context."
                     authenticationResult = authentication
                 }
-            }
-
-            if (authenticationResult?.authenticated) {
-                AccessToken accessToken = tokenGenerator.generateAccessToken(authenticationResult.principal as UserDetails)
-                log.debug "Generated token: ${accessToken}"
-
-                tokenStorageService.storeToken(accessToken.accessToken, authenticationResult.principal as UserDetails)
-
-                authenticationEventPublisher.publishTokenCreation(accessToken)
-
-                authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, accessToken)
-            }else{
-                log.debug "Not authenticated. Rest authentication token not generated."
             }
 
         } else {

@@ -23,7 +23,7 @@ if (Environment.isDevelopmentMode() && targetDir) {
 }
 
 logger("org.openqa", OFF, ['STDOUT'])
-logger("grails.plugin.springsecurity", INFO, ['STDOUT'], false)
+logger("grails.plugin.springsecurity", DEBUG, ['STDOUT'], false)
 logger("org.pac4j", DEBUG, ['STDOUT'], false)
 logger("grails.app", DEBUG, ['STDOUT'], false)
-logger("org.springframework.security", INFO, ['STDOUT'], false)
+logger("org.springframework.security", DEBUG, ['STDOUT'], false)
