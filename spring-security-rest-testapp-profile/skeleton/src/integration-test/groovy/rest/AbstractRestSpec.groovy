@@ -30,8 +30,9 @@ abstract class AbstractRestSpec extends Specification {
     @Shared
     RestBuilder restBuilder = new RestBuilder()
 
-    @Shared
-    String baseUrl = "http://localhost:8080"
+    String getBaseUrl() {
+        "http://localhost:${serverPort}"
+    }
 
     def sendWrongCredentials() {
         if (config.grails.plugin.springsecurity.rest.login.useRequestParamsCredentials == true) {
