@@ -21,7 +21,7 @@ import geb.Page
 class FacebookSignInPage extends Page {
 
     static at = {
-        title == "Log in to Facebook | Facebook"
+        title == "Log into Facebook | Facebook"
     }
 
     void login(String username, String password) {
