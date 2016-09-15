@@ -18,10 +18,12 @@ package rest
 
 import grails.plugins.rest.client.RestBuilder
 import grails.test.mixin.integration.Integration
+import org.springframework.boot.test.WebIntegrationTest
 import spock.lang.Shared
 import spock.lang.Specification
 
 @Integration
+@WebIntegrationTest(randomPort=false)
 abstract class AbstractRestSpec extends Specification {
 
     @Shared
@@ -31,7 +33,7 @@ abstract class AbstractRestSpec extends Specification {
     RestBuilder restBuilder = new RestBuilder()
 
     String getBaseUrl() {
-        "http://localhost:${serverPort}"
+        "http://localhost:8080"
     }
 
     def sendWrongCredentials() {

@@ -18,9 +18,11 @@ package rest
 
 import geb.spock.GebReportingSpec
 import grails.test.mixin.integration.Integration
+import org.springframework.boot.test.WebIntegrationTest
 import spock.lang.IgnoreIf
 
 @Integration
+@WebIntegrationTest(randomPort=false)
 @IgnoreIf({ !System.getProperty('useFacebook', 'false').toBoolean() || !System.getenv('FB_PASSWORD') })
 class FacebookSpec extends GebReportingSpec {
 
