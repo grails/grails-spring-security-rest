@@ -19,7 +19,7 @@ dependencies {
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
 
-    compile "com.google.guava:guava-io:r03"
+    compile "com.google.guava:guava:19.0"
 
     compile "org.pac4j:pac4j-core:${pac4jVersion}"
     compile "org.pac4j:pac4j-oauth:${pac4jVersion}"
