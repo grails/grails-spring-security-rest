@@ -1,1 +1,5 @@
 include 'spring-security-rest', 'spring-security-rest-memcached', 'spring-security-rest-redis', 'spring-security-rest-grailscache', 'spring-security-rest-gorm', 'spring-security-rest-testapp-profile', 'spring-security-rest-docs'
+
+new File('build').eachDir {
+    include it.path
+}

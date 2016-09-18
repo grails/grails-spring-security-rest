@@ -121,12 +121,6 @@ subprojects { Project project ->
                 }
             }
         }
-
-        task exportVersion << {
-            new File("${buildDir}/version.txt").write(project.version as String)
-        }
-
-        check.dependsOn exportVersion
     }
 }
 
