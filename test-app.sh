@@ -25,5 +25,6 @@ sdk use grails $grailsVersion
        exit -1
      fi
      done \
-  && cd .. \
-  && ./gradlew artifactoryPublish
+  && cd ..
+
+if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew artifactoryPublish; fi

@@ -28,19 +28,23 @@ def profileProjects = ['spring-security-rest-testapp-profile']
 def publishedProjects = pluginProjects + profileProjects
 
 subprojects { Project project ->
+    group "org.grails.plugins"
+    version "2.0.0.BUILD-SNAPSHOT"
+
     ext {
         grailsVersion = project.grailsVersion
         gradleWrapperVersion = project.gradleWrapperVersion
+        isSnapshot = version.endsWith('SNAPSHOT')
+        bintrayUser = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : ''
+        bintrayKey = project.hasProperty('bintrayKey') ? project.property('bintrayKey') : ''
+        pluginPortalUser = project.hasProperty('pluginPortalUser') ? project.property('pluginPortalUser') : ''
+        pluginPortalPassword = project.hasProperty('pluginPortalPassword') ? project.property('pluginPortalPassword') : ''
     }
 
     repositories {
         mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
     }
-
-    version "2.0.0.BUILD-SNAPSHOT"
-    group "org.grails.plugins"
-    ext.isSnapshot = version.endsWith('SNAPSHOT')
 
     if (project.name in pluginProjects) {
         apply plugin: "org.grails.grails-plugin"
