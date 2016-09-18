@@ -17,8 +17,8 @@
 package rest
 
 import grails.plugins.rest.client.RestResponse
-import grails.util.Holders
 import spock.lang.IgnoreIf
+import spock.lang.Issue
 import spock.lang.Unroll
 
 @IgnoreIf({ System.getProperty('useBearerToken', 'false').toBoolean() })
@@ -85,6 +85,16 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
         then:
         response.headers.get('Content-Type')?.first() == 'application/json;charset=UTF-8'
     }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/275")
+    void "WWW-Authenticate response header is sent on failed logins"() {
+        when:
+        def response = sendWrongCredentials()
+
+        then:
+        response.headers.getFirst('WWW-Authenticate') == 'Bearer'
+    }
+
 
     private sendEmptyRequest(httpMethod) {
         if (config.grails.plugin.springsecurity.rest.login.useRequestParamsCredentials == true) {

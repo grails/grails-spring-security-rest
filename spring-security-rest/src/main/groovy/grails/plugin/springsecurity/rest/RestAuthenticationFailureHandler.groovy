@@ -46,5 +46,6 @@ class RestAuthenticationFailureHandler implements AuthenticationFailureHandler {
     void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.debug "Setting status code to ${statusCode}"
         response.setStatus(statusCode)
+        response.addHeader('WWW-Authenticate', 'Bearer')
     }
 }
