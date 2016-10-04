@@ -1,5 +1,6 @@
 package grails.plugin.springsecurity.rest
 
+import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.GormTokenStorageService
@@ -45,6 +46,8 @@ class SpringSecurityRestGormGrailsPlugin extends Plugin {
 
         SpringSecurityUtils.loadSecondaryConfig 'DefaultRestGormSecurityConfig'
         conf = SpringSecurityUtils.securityConfig
+
+        SpringSecurityUtils.registerFilter 'restLogoutFilter', SecurityFilterPosition.LOGOUT_FILTER.order - 1
 
         tokenStorageService(GormTokenStorageService) {
             userDetailsService = ref('userDetailsService')

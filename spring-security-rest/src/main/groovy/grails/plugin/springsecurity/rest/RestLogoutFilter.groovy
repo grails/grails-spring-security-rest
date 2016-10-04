@@ -71,11 +71,11 @@ class RestLogoutFilter extends GenericFilterBean {
                     log.debug "Trying to remove the token"
                     tokenStorageService.removeToken accessToken.accessToken
                 } catch (TokenNotFoundException ignored) {
-                    servletResponse.sendError HttpServletResponse.SC_NOT_FOUND, "Token not found"
+                    servletResponse.setStatus HttpServletResponse.SC_NOT_FOUND, "Token not found"
                 }
             } else {
                 log.debug "Token is missing. Sending a ${HttpServletResponse.SC_BAD_REQUEST} Bad Request response"
-                servletResponse.sendError HttpServletResponse.SC_BAD_REQUEST, "Token header is missing"
+                servletResponse.setStatus HttpServletResponse.SC_BAD_REQUEST, "Token header is missing"
             }
 
         } else {
