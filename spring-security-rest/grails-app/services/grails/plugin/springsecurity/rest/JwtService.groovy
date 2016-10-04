@@ -103,7 +103,7 @@ class JwtService {
 @Slf4j
 class ContextClassLoaderAwareObjectInputStream extends ObjectInputStream {
 
-    public ContextClassLoaderAwareObjectInputStream(InputStream is) throws IOException {
+    ContextClassLoaderAwareObjectInputStream(InputStream is) throws IOException {
         super(is)
     }
 

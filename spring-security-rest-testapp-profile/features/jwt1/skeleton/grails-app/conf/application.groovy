@@ -23,6 +23,11 @@ grails {
                         enableAnonymousAccess = true
                         useBearerToken = false
                     }
+                    storage {
+                        jwt {
+                            secret = 'foobar123'*4
+                        }
+                    }
                 }
 
                 oauth {

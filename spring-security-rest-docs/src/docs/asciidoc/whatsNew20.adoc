@@ -33,15 +33,16 @@ The version is the same in all modules. For more details, check the <<configurat
 As a consequence, configuration properties like `grails.plugin.springsecurity.rest.token.storage.useMemcached` are no
 longer used.
 
-=== CORS plugin dropped
+=== CORS is now supported in Grails core
 
-Starting from 2.x, the `cors` plugin is not installed by default anymore, fundamentally because it hasn't been upgraded
-to Grails 3, and there is little value in doing so.
+As of Grails 3.2.1, Grails natively supports CORS. Refer to the http://docs.grails.org/3.2.0/[Grails documentation] for
+more information about how to configure it.
 
-However, the plugin author https://github.com/davidtinker/grails-cors#grails-3[has shared a simple filter code] that
-you can use to enable CORS in your application.
+=== JWT secret no longer has a default value
 
-Alternatively, you can also use https://github.com/appcela/grails3-cors-interceptor[this plugin].
+As of this version, there is no longer a default value for the configuration property
+`grails.plugin.springsecurity.conf.rest.token.storage.jwt.secret`. Furthermore, if you are using JWT and no value has
+been provided for that configuration property, an exception will be thrown during application startup.
 
 === Other minor updates
 

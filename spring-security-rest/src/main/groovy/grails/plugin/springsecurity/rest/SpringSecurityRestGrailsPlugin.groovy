@@ -191,10 +191,12 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
         tokenGenerator(SecureRandomTokenGenerator)
 
         callbackErrorHandler(DefaultCallbackErrorHandler)
+        
+        String jwtSecretValue = conf.rest.token.storage.jwt.secret
 
         /* tokenStorageService - defaults to JWT */
         jwtService(JwtService) {
-            jwtSecret = conf.rest.token.storage.jwt.secret
+            jwtSecret = jwtSecretValue
         }
         tokenStorageService(JwtTokenStorageService) {
             jwtService = ref('jwtService')
@@ -205,7 +207,6 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
         if (conf.rest.token.storage.jwt.useEncryptedJwt) {
             jwtService(JwtService) {
                 keyProvider = ref('keyProvider')
-                jwtSecret = conf.rest.token.storage.jwt.secret
             }
             tokenGenerator(EncryptedJwtTokenGenerator) {
                 jwtTokenStorageService = ref('tokenStorageService')
@@ -224,10 +225,12 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
                 keyProvider(DefaultRSAKeyProvider)
             }
 
-        } else {
+        } else if (conf.rest.token.storage.jwt.useSignedJwt) {
+            checkJwtSecret(jwtSecretValue)
+
             tokenGenerator(SignedJwtTokenGenerator) {
                 jwtTokenStorageService = ref('tokenStorageService')
-                jwtSecret = conf.rest.token.storage.jwt.secret
+                jwtSecret = jwtSecretValue
                 defaultExpiration = conf.rest.token.storage.jwt.expiration
                 customClaimProvider = ref('customClaimProvider')
             }
@@ -259,5 +262,15 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             println '... finished configuring Spring Security REST\n'
         }
     }}
+
+    private void checkJwtSecret(String jwtSecretValue) {
+        if (!jwtSecretValue &&
+                !pluginManager.hasGrailsPlugin('springSecurityRestGorm') &&
+                !pluginManager.hasGrailsPlugin('springSecurityRestGrailsCache') &&
+                !pluginManager.hasGrailsPlugin('springSecurityRestRedis') &&
+                !pluginManager.hasGrailsPlugin('springSecurityRestMemcached')) {
+            throw new Exception("A JWT secret must be defined. Please provide a value for the config property: grails.plugin.springsecurity.conf.rest.token.storage.jwt.secret")
+        }
+    }
 
 }
