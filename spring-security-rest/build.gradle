@@ -25,7 +25,7 @@ dependencies {
     compile "org.pac4j:pac4j-oauth:${pac4jVersion}"
     compile "org.pac4j:pac4j-cas:${pac4jVersion}"
 
-    compile "com.nimbusds:nimbus-jose-jwt:4.8"
+    compile "com.nimbusds:nimbus-jose-jwt:4.26.1"
     compile("com.lowagie:itext:2.0.8") {
         exclude module: "bcprov-jdk14"
     }
