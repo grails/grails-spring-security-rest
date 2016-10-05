@@ -11,7 +11,7 @@ buildscript {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
-        classpath "io.spring.gradle:dependency-management-plugin:0.6.0.RELEASE"
+        classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
     }
 }
 
@@ -63,7 +63,7 @@ subprojects { Project project ->
             provided "org.grails:grails-plugin-services"
 
             testCompile "org.grails:grails-plugin-testing"
-            testCompile('com.athaydes:spock-reports:1.2.12') {
+            testCompile('com.athaydes:spock-reports:1.2.13') {
                 transitive = false
             }
         }

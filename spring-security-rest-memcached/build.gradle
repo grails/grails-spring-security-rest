@@ -7,7 +7,7 @@ dependencyManagement {
 
 dependencies {
     compile project(":spring-security-rest")
-    compile "net.spy:spymemcached:2.11.6"
+    compile "net.spy:spymemcached:2.12.1"
 
 
     profile "org.grails.profiles:plugin:${grailsVersion}"
