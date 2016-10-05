@@ -531,7 +531,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_grails_3_support">2.1. Grails 3 support</a></li>
 <li><a href="#_plugin_broken_down_into_multiple_modules">2.2. Plugin broken down into multiple modules</a></li>
 <li><a href="#_cors_is_now_supported_in_grails_core">2.3. CORS is now supported in Grails core</a></li>
-<li><a href="#_better_jwt_support">2.4. Better JWT support</a></li>
+<li><a href="#_jwt_improvements">2.4. JWT improvements</a></li>
 <li><a href="#_other_minor_updates">2.5. Other minor updates</a></li>
 </ul>
 </li>
@@ -571,7 +571,12 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_logout">7.2. Logout</a></li>
 </ul>
 </li>
-<li><a href="#tokenGeneration">8. Token Generation</a></li>
+<li><a href="#tokenGeneration">8. Token Generation</a>
+<ul class="sectlevel2">
+<li><a href="#_jwt">8.1. JWT</a></li>
+<li><a href="#_memcached_gorm_redis_grails_cache">8.2. Memcached, GORM, Redis, Grails Cache</a></li>
+</ul>
+</li>
 <li><a href="#tokenStorage">9. Token Storage</a>
 <ul class="sectlevel2">
 <li><a href="#_json_web_token">9.1. JSON Web Token</a></li>
@@ -1169,21 +1174,15 @@ more information about how to configure it.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_better_jwt_support">2.4. Better JWT support</h3>
-<div class="sect3">
-<h4 id="_jwt_secret_no_longer_has_a_default_value">2.4.1. JWT secret no longer has a default value</h4>
+<h3 id="_jwt_improvements">2.4. JWT improvements</h3>
 <div class="paragraph">
 <p>As of this version, there is no longer a default value for the configuration property
 <code>grails.plugin.springsecurity.conf.rest.token.storage.jwt.secret</code>. Furthermore, if you are using JWT and no value has
 been provided for that configuration property, an exception will be thrown during application startup.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_custom_claims_can_be_defined">2.4.2. Custom claims can be defined</h4>
 <div class="paragraph">
-<p>Now it is possible to influence the JWT generation by providing additional claims. Check the <a href="#tokenGeneration">Token Generation</a> section
-for more information.</p>
-</div>
+<p>It is also possible to influence the JWT generation by providing additional claims. Finally, the signing / encryption
+algorithms used are configurable. Check the <a href="#tokenGeneration">Token Generation</a> section for more information.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1873,8 +1872,12 @@ storage, sending a 200 response. Otherwise, it will send a 404 response.</p>
 <p>By default, the plugin generates JWT tokens. Note that when using JWT, you can&#8217;t plug any other token generator. For
 more information about how this plugin uses JWT&#8217;s, check the <a href="#tokenStorage">Token Storage</a> section.</p>
 </div>
+<div class="sect2">
+<h3 id="_jwt">8.1. JWT</h3>
+<div class="sect3">
+<h4 id="_claims">8.1.1. Claims</h4>
 <div class="paragraph">
-<p>It is possible, however, to include additional claims in the JWT generated. To do so, you can plug one or more implementations of the interface
+<p>It is possible, to include additional claims in the JWT generated. To do so, you can plug one or more implementations of the interface
 <a href="http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/jwt/CustomClaimProvider.html"><code>CustomClaimProvider</code></a>,
 and register them in Spring.</p>
 </div>
@@ -1911,6 +1914,77 @@ CustomClaimProvider bookListClaimProvider() {
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_algorithms">8.1.2. Algorithms</h4>
+<div class="paragraph">
+<p>This plugin uses <a href="http://connect2id.com/products/nimbus-jose-jwt">Nimbus JOSE+JWT</a> library to generate and parse JWT&#8217;s,
+and the signing / encryption algorithms are configurable, as long as they are supported in Nimbus.</p>
+</div>
+<div class="paragraph">
+<p>If using signed JWT&#8217;s, the relevant configuration is the following:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 6. Signed JWT configuration options</caption>
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Config key</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Possible values</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Default value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails.plugin.springsecurity.rest.token.generation.jwt.algorithm</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Any <a href="http://static.javadoc.io/com.nimbusds/nimbus-jose-jwt/4.26.1/com/nimbusds/jose/JWSAlgorithm.html"><code>JWSAlgorithm</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HS256</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails.plugin.springsecurity.rest.token.storage.jwt.secret</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A long enough key.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>null</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>When using encrypted JWT&#8217;s, those are the possible configuration options:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 7. Encrypted JWT configuration options</caption>
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Config key</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Possible values</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Default value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails.plugin.springsecurity.rest.token.generation.jwt.jweAlgorithm</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Any <a href="http://static.javadoc.io/com.nimbusds/nimbus-jose-jwt/4.26.1/com/nimbusds/jose/JWEAlgorithm.html"><code>JWEAlgorithm</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RSA-OAEP</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails.plugin.springsecurity.rest.token.generation.jwt.encryptionMethod</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Any <a href="http://static.javadoc.io/com.nimbusds/nimbus-jose-jwt/4.26.1/com/nimbusds/jose/EncryptionMethod.html"><code>EncryptionMethod</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>A128GCM</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_memcached_gorm_redis_grails_cache">8.2. Memcached, GORM, Redis, Grails Cache</h3>
 <div class="paragraph">
 <p>If you are not using JWT, but any stateful strategy like Memcached or GORM, the following strategies are available:</p>
 </div>
@@ -1928,7 +2002,7 @@ CustomClaimProvider bookListClaimProvider() {
 <p>The strategy used is configurable:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 6. Token generation configuration options</caption>
+<caption class="title">Table 8. Token generation configuration options</caption>
 <colgroup>
 <col style="width: 80%;">
 <col style="width: 20%;">
@@ -1958,6 +2032,7 @@ CustomClaimProvider bookListClaimProvider() {
 simply write a class implementing
 <a href="http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/TokenGenerator.html">TokenGenerator</a>
 and wire it up in <code>resources.groovy</code> as <code>tokenGenerator</code>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -2034,7 +2109,7 @@ principal information is stored directly in the JWT.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_claims">Claims</h5>
+<h5 id="_claims_2">Claims</h5>
 <div class="paragraph">
 <p>A base64-encoded JSON like:</p>
 </div>
@@ -2069,7 +2144,7 @@ or an encryption of them using RSA.</p>
 the algorithm used is HMAC SHA-256 with a specified shared secret. The relevant configuration properties are:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 7. JWT configuration options for signing</caption>
+<caption class="title">Table 9. JWT configuration options for signing</caption>
 <colgroup>
 <col style="width: 80%;">
 <col style="width: 20%;">
@@ -2147,7 +2222,7 @@ openssl rsa -in private_key.pem -pubout -outform DER -out public_key.der</code><
 <p>Then, configure the keys properly, along with the rest of the configuration:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 8. JWT configuration options for signing</caption>
+<caption class="title">Table 10. JWT configuration options for signing</caption>
 <colgroup>
 <col style="width: 80%;">
 <col style="width: 20%;">
@@ -2271,7 +2346,7 @@ grant_type=refresh_token&amp;refresh_token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyN
 <p>To use Memcached, simply define the following configuration properties to match your environments accordingly:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 9. Memcached configuration options</caption>
+<caption class="title">Table 11. Memcached configuration options</caption>
 <colgroup>
 <col style="width: 80%;">
 <col style="width: 20%;">
@@ -2315,7 +2390,7 @@ They get refreshed on every access</p>
 <p>To use GORM, these are the relevant configuration properties:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 10. GORM configuration options</caption>
+<caption class="title">Table 12. GORM configuration options</caption>
 <colgroup>
 <col style="width: 80%;">
 <col style="width: 20%;">
@@ -2475,7 +2550,7 @@ be something you would prefer to avoid for the sake of performance.</p>
 <p>Configuration options for Redis:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 11. Redis configuration options</caption>
+<caption class="title">Table 13. Redis configuration options</caption>
 <colgroup>
 <col style="width: 80%;">
 <col style="width: 20%;">
@@ -2500,7 +2575,7 @@ be something you would prefer to avoid for the sake of performance.</p>
 <p>To use <a href="http://grails.org/plugin/cache">Grails Cache</a>, simply define a cache name:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 12. Redis configuration options</caption>
+<caption class="title">Table 14. Redis configuration options</caption>
 <colgroup>
 <col style="width: 80%;">
 <col style="width: 20%;">
@@ -2615,7 +2690,7 @@ Pragma: no-cache
 <p>The JSON structure can be customised with the following configuration keys:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 13. Token rendering configuration options</caption>
+<caption class="title">Table 15. Token rendering configuration options</caption>
 <colgroup>
 <col style="width: 80%;">
 <col style="width: 20%;">
@@ -2670,7 +2745,7 @@ grails.plugin.springsecurity.rest.token.rendering.authoritiesPropertyName = <spa
 property:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 14. Token rendering configuration options</caption>
+<caption class="title">Table 16. Token rendering configuration options</caption>
 <colgroup>
 <col style="width: 80%;">
 <col style="width: 20%;">
@@ -2904,7 +2979,7 @@ If the token does not exist, it will render a <code>grails.plugin.springsecurity
 <p>The relevant configuration properties for the validation endpoint are:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 15. Validation endpoint configuration options</caption>
+<caption class="title">Table 17. Validation endpoint configuration options</caption>
 <colgroup>
 <col style="width: 80%;">
 <col style="width: 20%;">
@@ -3452,7 +3527,7 @@ your gratitude via <a href="https://twitter.com/alvaro_sanchez">Twitter</a>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-05 09:29:37 UTC
+Last updated 2016-10-05 21:27:00 UTC
 </div>
 </div>
 </body>

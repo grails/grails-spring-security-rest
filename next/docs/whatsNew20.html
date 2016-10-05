@@ -426,7 +426,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_grails_3_support">Grails 3 support</a></li>
 <li><a href="#_plugin_broken_down_into_multiple_modules">Plugin broken down into multiple modules</a></li>
 <li><a href="#_cors_is_now_supported_in_grails_core">CORS is now supported in Grails core</a></li>
-<li><a href="#_better_jwt_support">Better JWT support</a></li>
+<li><a href="#_jwt_improvements">JWT improvements</a></li>
 <li><a href="#_other_minor_updates">Other minor updates</a></li>
 </ul>
 </div>
@@ -505,21 +505,15 @@ more information about how to configure it.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_better_jwt_support">Better JWT support</h3>
-<div class="sect3">
-<h4 id="_jwt_secret_no_longer_has_a_default_value">JWT secret no longer has a default value</h4>
+<h3 id="_jwt_improvements">JWT improvements</h3>
 <div class="paragraph">
 <p>As of this version, there is no longer a default value for the configuration property
 <code>grails.plugin.springsecurity.conf.rest.token.storage.jwt.secret</code>. Furthermore, if you are using JWT and no value has
 been provided for that configuration property, an exception will be thrown during application startup.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_custom_claims_can_be_defined">Custom claims can be defined</h4>
 <div class="paragraph">
-<p>Now it is possible to influence the JWT generation by providing additional claims. Check the <a href="#tokenGeneration">[tokenGeneration]</a> section
-for more information.</p>
-</div>
+<p>It is also possible to influence the JWT generation by providing additional claims. Finally, the signing / encryption
+algorithms used are configurable. Check the <a href="#tokenGeneration">[tokenGeneration]</a> section for more information.</p>
 </div>
 </div>
 <div class="sect2">
@@ -550,7 +544,7 @@ use them by defining this Maven repository inside the <code>repositories</code> 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-05 09:29:37 UTC
+Last updated 2016-10-05 21:27:00 UTC
 </div>
 </div>
 </body>

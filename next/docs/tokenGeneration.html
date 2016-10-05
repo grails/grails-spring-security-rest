@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>Untitled</title>
+<title>JWT</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -422,7 +422,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
-
+<ul class="sectlevel2">
+<li><a href="#_jwt">JWT</a></li>
+<li><a href="#_memcached_gorm_redis_grails_cache">Memcached, GORM, Redis, Grails Cache</a></li>
+</ul>
 </div>
 </div>
 <div id="content">
@@ -430,8 +433,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>By default, the plugin generates JWT tokens. Note that when using JWT, you can&#8217;t plug any other token generator. For
 more information about how this plugin uses JWT&#8217;s, check the <a href="#tokenStorage">[tokenStorage]</a> section.</p>
 </div>
+<div class="sect2">
+<h3 id="_jwt">JWT</h3>
+<div class="sect3">
+<h4 id="_claims">Claims</h4>
 <div class="paragraph">
-<p>It is possible, however, to include additional claims in the JWT generated. To do so, you can plug one or more implementations of the interface
+<p>It is possible, to include additional claims in the JWT generated. To do so, you can plug one or more implementations of the interface
 <a href="http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/jwt/CustomClaimProvider.html"><code>CustomClaimProvider</code></a>,
 and register them in Spring.</p>
 </div>
@@ -468,6 +475,77 @@ CustomClaimProvider bookListClaimProvider() {
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_algorithms">Algorithms</h4>
+<div class="paragraph">
+<p>This plugin uses <a href="http://connect2id.com/products/nimbus-jose-jwt">Nimbus JOSE+JWT</a> library to generate and parse JWT&#8217;s,
+and the signing / encryption algorithms are configurable, as long as they are supported in Nimbus.</p>
+</div>
+<div class="paragraph">
+<p>If using signed JWT&#8217;s, the relevant configuration is the following:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Signed JWT configuration options</caption>
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Config key</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Possible values</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Default value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails.plugin.springsecurity.rest.token.generation.jwt.algorithm</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Any <a href="http://static.javadoc.io/com.nimbusds/nimbus-jose-jwt/4.26.1/com/nimbusds/jose/JWSAlgorithm.html"><code>JWSAlgorithm</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HS256</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails.plugin.springsecurity.rest.token.storage.jwt.secret</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A long enough key.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>null</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>When using encrypted JWT&#8217;s, those are the possible configuration options:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 2. Encrypted JWT configuration options</caption>
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Config key</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Possible values</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Default value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails.plugin.springsecurity.rest.token.generation.jwt.jweAlgorithm</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Any <a href="http://static.javadoc.io/com.nimbusds/nimbus-jose-jwt/4.26.1/com/nimbusds/jose/JWEAlgorithm.html"><code>JWEAlgorithm</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RSA-OAEP</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails.plugin.springsecurity.rest.token.generation.jwt.encryptionMethod</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Any <a href="http://static.javadoc.io/com.nimbusds/nimbus-jose-jwt/4.26.1/com/nimbusds/jose/EncryptionMethod.html"><code>EncryptionMethod</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>A128GCM</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_memcached_gorm_redis_grails_cache">Memcached, GORM, Redis, Grails Cache</h3>
 <div class="paragraph">
 <p>If you are not using JWT, but any stateful strategy like Memcached or GORM, the following strategies are available:</p>
 </div>
@@ -485,7 +563,7 @@ CustomClaimProvider bookListClaimProvider() {
 <p>The strategy used is configurable:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 1. Token generation configuration options</caption>
+<caption class="title">Table 3. Token generation configuration options</caption>
 <colgroup>
 <col style="width: 80%;">
 <col style="width: 20%;">
@@ -517,9 +595,10 @@ simply write a class implementing
 and wire it up in <code>resources.groovy</code> as <code>tokenGenerator</code>.</p>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-05 09:29:37 UTC
+Last updated 2016-10-05 21:27:00 UTC
 </div>
 </div>
 </body>
