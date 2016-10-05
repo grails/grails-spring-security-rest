@@ -6,7 +6,7 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
     ./gradlew asciidoctor aggregateGroovyDoc
 
-    version=`cat spring-security-rest/build/version.txt`
+    version=`cat build.gradle | grep "version \"" | sed -n 's/^[ \t]*version\ "//pg' | sed -n 's/"//pg'`
     echo "Preparing release of version $version"
 
     echo "Configuring git with name ${GIT_NAME} and email ${GIT_EMAIL}"
