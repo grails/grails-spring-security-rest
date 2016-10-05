@@ -1,9 +1,40 @@
 By default, the plugin generates JWT tokens. Note that when using JWT, you can't plug any other token generator. For
-more information about how this plugin uses JWT's, check the link:#_token_storage[Token Storage] section.
+more information about how this plugin uses JWT's, check the <<tokenStorage>> section.
 
-It is possible, however, to include additional claims in the JWT generated. To do so, you need to implement the interface
+It is possible, however, to include additional claims in the JWT generated. To do so, you can plug one or more implementations of the interface
 http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/jwt/CustomClaimProvider.html[`CustomClaimProvider`],
-and register the bean in Spring with the name `customClaimProvider`.
+and register them in Spring.
+
+The plugin comes prepackaged with a
+http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/jwt/IssuerClaimProvider.html[`IssuerClaimProvider`],
+that sets the `iss` field of the JWT claim set, and which value is configurable using the following configuration property:
+`grails.plugin.springsecurity.rest.token.generation.jwt.issuer`.
+
+Customising the JWT to include additional claims is a piece of cake. First, create the claim provider:
+
+[source,groovy]
+----
+class BookListClaimProvider implements CustomClaimProvider {
+
+    @Override
+    void provideCustomClaims(JWTClaimsSet.Builder builder, UserDetails details, String principal, Integer expiration) {
+        builder.claim('books', Book.findAllByAuthor(details.username).collect { it.name })
+    }
+
+}
+----
+
+Then, register it in Spring via `resources.groovy`, or using the `@Bean` annotation in a method of the `Application` class
+(or any `@Configuration` class):
+
+[source,groovy]
+----
+@Bean
+CustomClaimProvider bookListClaimProvider() {
+    new BookListClaimProvider()
+}
+----
+
 
 If you are not using JWT, but any stateful strategy like Memcached or GORM, the following strategies are available:
 

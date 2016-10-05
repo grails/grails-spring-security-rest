@@ -1,4 +1,3 @@
-[[configuration]]
 === Installing the plugin
 
 Just proceed as with any other Grails 3 plugin:

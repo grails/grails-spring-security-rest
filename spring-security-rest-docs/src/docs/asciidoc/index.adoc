@@ -20,46 +20,57 @@ include::whatsNew15.adoc[]
 
 include::whatsNew14.adoc[]
 
+[[configuration]]
 == Configuration
 
 include::configuration.adoc[]
 
+[[events]]
 == Events
 
 include::events.adoc[]
 
+[[authentication]]
 == Authentication Endpoint
 
 include::authentication.adoc[]
 
+[[tokenGeneration]]
 == Token Generation
 
 include::tokenGeneration.adoc[]
 
+[[tokenStorage]]
 == Token Storage
 
 include::tokenStorage.adoc[]
 
+[[tokenRendering]]
 == Token Rendering
 
 include::tokenRendering.adoc[]
 
+[[tokenValidation]]
 == Token Validation Filter
 
 include::tokenValidation.adoc[]
 
+[[cors]]
 == CORS support
 
 include::cors.adoc[]
 
+[[oauth]]
 == Delegating authentication to OAuth providers
 
 include::oauth.adoc[]
 
+[[debugging]]
 == Debugging
 
 include::debugging.adoc[]
 
+[[faq]]
 == Frequently Asked Questions
 
 include::faq.adoc[]
