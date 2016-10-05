@@ -8,6 +8,6 @@ set -x
 
 ./generate-test-apps.sh
 
-./gradlew check
+./gradlew :spring-security-rest:check check
 
 if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew artifactoryPublish; fi
