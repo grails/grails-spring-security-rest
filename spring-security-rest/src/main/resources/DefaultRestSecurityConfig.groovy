@@ -41,6 +41,11 @@ security {
             generation {
                 useSecureRandom = true
                 useUUID = false
+
+                jwt {
+                    issuer = "Spring Security REST Grails Plugin"
+                }
+
             }
 
             storage {

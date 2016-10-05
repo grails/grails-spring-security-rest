@@ -16,13 +16,18 @@
  */
 package rest
 
+import com.nimbusds.jwt.JWT
+import grails.plugin.springsecurity.rest.JwtService
 import grails.plugins.rest.client.RestResponse
-import grails.util.Holders
+import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.IgnoreIf
 import spock.lang.Unroll
 
 @IgnoreIf({ !System.getProperty('useBearerToken', 'false').toBoolean() })
 class JwtSpec extends AbstractRestSpec {
+
+    @Autowired
+    JwtService jwtService
 
     void "token expiration applies"() {
         given:
@@ -148,6 +153,18 @@ class JwtSpec extends AbstractRestSpec {
 
         then:
         response.status == 403
+    }
+
+    void "issuer is set via a custom claim provider"() {
+        given:
+        RestResponse authResponse = sendCorrectCredentials() as RestResponse
+        String accessToken = authResponse.json.access_token
+
+        when:
+        JWT jwt = jwtService.parse(accessToken)
+
+        then:
+        jwt.JWTClaimsSet.issuer == 'Spring Security REST Grails Plugin'
     }
 
 }

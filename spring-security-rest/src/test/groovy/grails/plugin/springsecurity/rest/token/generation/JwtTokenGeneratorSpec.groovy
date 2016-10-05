@@ -16,7 +16,6 @@
  */
 package grails.plugin.springsecurity.rest.token.generation
 
-import com.nimbusds.jose.crypto.MACSigner
 import com.nimbusds.jose.crypto.RSADecrypter
 import com.nimbusds.jwt.EncryptedJWT
 import com.nimbusds.jwt.JWT
@@ -25,12 +24,14 @@ import com.nimbusds.jwt.JWTParser
 import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.TokenGeneratorSupport
 import grails.plugin.springsecurity.rest.token.AccessToken
+import grails.plugin.springsecurity.rest.token.generation.jwt.AbstractJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.generation.jwt.CustomClaimProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
-import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
+import grails.plugin.springsecurity.rest.token.generation.jwt.IssuerClaimProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
+import grails.spring.BeanBuilder
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
@@ -92,11 +93,12 @@ class JwtTokenGeneratorSpec extends Specification implements TokenGeneratorSuppo
     void "custom claims can be added"() {
         given:
         SignedJwtTokenGenerator tokenGenerator = setupSignedJwtTokenGenerator()
-        tokenGenerator.customClaimProvider = [
+        CustomClaimProvider claimProvider = [
             provideCustomClaims: { JWTClaimsSet.Builder builder, UserDetails details, String principal, Integer expiration ->
                 builder.claim("favouriteTeam", "Real Madrid")
             }
         ] as CustomClaimProvider
+        tokenGenerator.customClaimProviders << claimProvider
         UserDetails userDetails = new User('username', 'password', [new SimpleGrantedAuthority('ROLE_USER')])
 
         when:
@@ -123,5 +125,58 @@ class JwtTokenGeneratorSpec extends Specification implements TokenGeneratorSuppo
         where:
         jwtTokenGenerator << [setupSignedJwtTokenGenerator(), setupEncryptedJwtTokenGenerator()]
     }
+
+    void "generated tokens contains the issuer claim"() {
+        given:
+        SignedJwtTokenGenerator tokenGenerator = getTokenGenerator(false) as SignedJwtTokenGenerator
+        UserDetails userDetails = new User('username', 'password', [new SimpleGrantedAuthority('ROLE_USER')])
+
+        when:
+        AccessToken accessToken = tokenGenerator.generateAccessToken(userDetails)
+        JWT jwt = tokenGenerator.jwtTokenStorageService.jwtService.parse(accessToken.accessToken)
+
+        then:
+        jwt.JWTClaimsSet.issuer == 'Spring Security REST test'
+    }
+
+    private AbstractJwtTokenGenerator getTokenGenerator(boolean useEncryptedJwt) {
+        BeanBuilder beanBuilder = new BeanBuilder()
+        beanBuilder.beans {
+            keyProvider(DefaultRSAKeyProvider)
+
+            issuerClaimProvider(IssuerClaimProvider) {
+                issuerName = 'Spring Security REST test'
+            }
+
+            def customClaimProviderList = [ref('issuerClaimProvider')]
+
+            jwtService(JwtService) {
+                keyProvider = ref('keyProvider')
+                jwtSecret = 'foo123'*8
+            }
+            tokenStorageService(JwtTokenStorageService) {
+                jwtService = ref('jwtService')
+            }
+
+            if (useEncryptedJwt) {
+                tokenGenerator(EncryptedJwtTokenGenerator) {
+                    jwtTokenStorageService = ref('tokenStorageService')
+                    keyProvider = ref('keyProvider')
+                    defaultExpiration = 3600
+                    customClaimProviders = customClaimProviderList
+                }
+            } else {
+                tokenGenerator(SignedJwtTokenGenerator) {
+                    jwtTokenStorageService = ref('tokenStorageService')
+                    jwtSecret = 'foo123'*8
+                    defaultExpiration = 3600
+                    customClaimProviders = customClaimProviderList
+                }
+            }
+        }
+
+        return beanBuilder.createApplicationContext().getBean(AbstractJwtTokenGenerator, 'tokenGenerator')
+    }
+
 
 }

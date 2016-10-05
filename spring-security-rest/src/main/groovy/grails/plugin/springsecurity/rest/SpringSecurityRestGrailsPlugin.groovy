@@ -29,20 +29,25 @@ import grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationE
 import grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationFailureHandler
 import grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
 import grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
+import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
+import grails.plugin.springsecurity.rest.token.generation.jwt.AbstractJwtTokenGenerator
+import grails.plugin.springsecurity.rest.token.generation.jwt.CustomClaimProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.generation.jwt.FileRSAKeyProvider
-import grails.plugin.springsecurity.rest.token.generation.jwt.NoOpCustomClaimProvider
+import grails.plugin.springsecurity.rest.token.generation.jwt.IssuerClaimProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import grails.plugin.springsecurity.rest.token.rendering.DefaultAccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import grails.plugins.Plugin
+import groovy.util.logging.Slf4j
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
 import org.springframework.security.web.access.ExceptionTranslationFilter
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
 import org.springframework.security.web.savedrequest.NullRequestCache
 
+@Slf4j
 class SpringSecurityRestGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
@@ -127,10 +132,10 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             }
         }
 
-
         restAuthenticationSuccessHandler(RestAuthenticationSuccessHandler) {
             renderer = ref('accessTokenJsonRenderer')
         }
+
         accessTokenJsonRenderer(DefaultAccessTokenJsonRenderer) {
             usernamePropertyName = conf.rest.token.rendering.usernamePropertyName
             tokenPropertyName = conf.rest.token.rendering.tokenPropertyName
@@ -202,7 +207,9 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             jwtService = ref('jwtService')
         }
 
-        customClaimProvider(NoOpCustomClaimProvider)
+        issuerClaimProvider(IssuerClaimProvider) {
+            issuerName = conf.rest.token.generation.jwt.issuer
+        }
 
         if (conf.rest.token.storage.jwt.useEncryptedJwt) {
             jwtService(JwtService) {
@@ -212,7 +219,6 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
                 jwtTokenStorageService = ref('tokenStorageService')
                 keyProvider = ref('keyProvider')
                 defaultExpiration = conf.rest.token.storage.jwt.expiration
-                customClaimProvider = ref('customClaimProvider')
             }
 
             if (conf.rest.token.storage.jwt.privateKeyPath instanceof CharSequence &&
@@ -232,7 +238,6 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
                 jwtTokenStorageService = ref('tokenStorageService')
                 jwtSecret = jwtSecretValue
                 defaultExpiration = conf.rest.token.storage.jwt.expiration
-                customClaimProvider = ref('customClaimProvider')
             }
         }
 
@@ -262,6 +267,21 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             println '... finished configuring Spring Security REST\n'
         }
     }}
+
+    @Override
+    void doWithApplicationContext() {
+        def customClaimProvidersList = applicationContext.getBeanNamesForType(CustomClaimProvider).collect {
+            applicationContext.getBean(it, CustomClaimProvider)
+        }
+        log.debug "customClaimProvidersList = {}", customClaimProvidersList
+
+        TokenGenerator tokenGenerator = applicationContext.getBean('tokenGenerator') as TokenGenerator
+
+        if (tokenGenerator instanceof AbstractJwtTokenGenerator) {
+            tokenGenerator.customClaimProviders = customClaimProvidersList
+        }
+
+    }
 
     private void checkJwtSecret(String jwtSecretValue) {
         if (!jwtSecretValue &&
