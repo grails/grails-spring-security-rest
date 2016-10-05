@@ -38,6 +38,8 @@ class SignedJwtTokenGenerator extends AbstractJwtTokenGenerator implements Initi
 
     JWSSigner signer
 
+    JWSAlgorithm jwsAlgorithm
+
     @Override
     void afterPropertiesSet() throws Exception {
         signer = new MACSigner(jwtSecret)
@@ -45,7 +47,7 @@ class SignedJwtTokenGenerator extends AbstractJwtTokenGenerator implements Initi
 
     @Override
     protected JWT generateAccessToken(JWTClaimsSet claimsSet) {
-        SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet)
+        SignedJWT signedJWT = new SignedJWT(new JWSHeader(jwsAlgorithm), claimsSet)
         signedJWT.sign(signer)
 
         return signedJWT

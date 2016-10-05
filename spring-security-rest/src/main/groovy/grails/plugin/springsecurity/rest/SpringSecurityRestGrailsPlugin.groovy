@@ -16,6 +16,9 @@
  */
 package grails.plugin.springsecurity.rest
 
+import com.nimbusds.jose.EncryptionMethod
+import com.nimbusds.jose.JWEAlgorithm
+import com.nimbusds.jose.JWSAlgorithm
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.rest.authentication.DefaultRestAuthenticationEventPublisher
@@ -219,6 +222,8 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
                 jwtTokenStorageService = ref('tokenStorageService')
                 keyProvider = ref('keyProvider')
                 defaultExpiration = conf.rest.token.storage.jwt.expiration
+                jweAlgorithm = JWEAlgorithm.parse(conf.rest.token.generation.jwt.jweAlgorithm)
+                encryptionMethod = EncryptionMethod.parse(conf.rest.token.generation.jwt.encryptionMethod)
             }
 
             if (conf.rest.token.storage.jwt.privateKeyPath instanceof CharSequence &&
@@ -238,6 +243,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
                 jwtTokenStorageService = ref('tokenStorageService')
                 jwtSecret = jwtSecretValue
                 defaultExpiration = conf.rest.token.storage.jwt.expiration
+                jwsAlgorithm = JWSAlgorithm.parse(conf.rest.token.generation.jwt.algorithm)
             }
         }
 

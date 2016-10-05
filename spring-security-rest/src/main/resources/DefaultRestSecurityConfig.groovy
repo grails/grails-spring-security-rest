@@ -44,6 +44,11 @@ security {
 
                 jwt {
                     issuer = "Spring Security REST Grails Plugin"
+
+                    algorithm = 'HS256'
+
+                    jweAlgorithm = 'RSA-OAEP'
+                    encryptionMethod = 'A128GCM'
                 }
 
             }
