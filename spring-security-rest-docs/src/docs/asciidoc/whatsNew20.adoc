@@ -38,18 +38,14 @@ longer used.
 As of Grails 3.2.1, Grails natively supports CORS. Refer to the http://docs.grails.org/3.2.0/[Grails documentation] for
 more information about how to configure it.
 
-=== Better JWT support
-
-==== JWT secret no longer has a default value
+=== JWT improvements
 
 As of this version, there is no longer a default value for the configuration property
 `grails.plugin.springsecurity.conf.rest.token.storage.jwt.secret`. Furthermore, if you are using JWT and no value has
 been provided for that configuration property, an exception will be thrown during application startup.
 
-==== Custom claims can be defined
-
-Now it is possible to influence the JWT generation by providing additional claims. Check the <<tokenGeneration>> section
-for more information.
+It is also possible to influence the JWT generation by providing additional claims. Finally, the signing / encryption
+algorithms used are configurable. Check the <<tokenGeneration>> section for more information.
 
 === Other minor updates
 
