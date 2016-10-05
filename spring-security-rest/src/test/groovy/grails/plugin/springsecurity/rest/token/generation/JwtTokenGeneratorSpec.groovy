@@ -16,6 +16,9 @@
  */
 package grails.plugin.springsecurity.rest.token.generation
 
+import com.nimbusds.jose.EncryptionMethod
+import com.nimbusds.jose.JWEAlgorithm
+import com.nimbusds.jose.JWSAlgorithm
 import com.nimbusds.jose.crypto.RSADecrypter
 import com.nimbusds.jwt.EncryptedJWT
 import com.nimbusds.jwt.JWT
@@ -164,6 +167,8 @@ class JwtTokenGeneratorSpec extends Specification implements TokenGeneratorSuppo
                     keyProvider = ref('keyProvider')
                     defaultExpiration = 3600
                     customClaimProviders = customClaimProviderList
+                    jweAlgorithm = JWEAlgorithm.RSA_OAEP
+                    encryptionMethod = EncryptionMethod.A128GCM
                 }
             } else {
                 tokenGenerator(SignedJwtTokenGenerator) {
@@ -171,6 +176,7 @@ class JwtTokenGeneratorSpec extends Specification implements TokenGeneratorSuppo
                     jwtSecret = 'foo123'*8
                     defaultExpiration = 3600
                     customClaimProviders = customClaimProviderList
+                    jwsAlgorithm = JWSAlgorithm.HS256
                 }
             }
         }

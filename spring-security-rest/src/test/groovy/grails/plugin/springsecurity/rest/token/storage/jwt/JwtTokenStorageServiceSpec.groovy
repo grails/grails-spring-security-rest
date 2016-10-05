@@ -16,6 +16,7 @@
  */
 package grails.plugin.springsecurity.rest.token.storage.jwt
 
+import com.nimbusds.jose.JWSAlgorithm
 import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
@@ -36,7 +37,7 @@ class JwtTokenStorageServiceSpec extends Specification {
 
     void setup() {
         service = new JwtTokenStorageService(jwtService: new JwtService(jwtSecret: 'fooo'*8))
-        tokenGenerator = new SignedJwtTokenGenerator(jwtSecret: service.jwtService.jwtSecret, defaultExpiration: 60, jwtTokenStorageService: service, customClaimProviders: [])
+        tokenGenerator = new SignedJwtTokenGenerator(jwtSecret: service.jwtService.jwtSecret, defaultExpiration: 60, jwtTokenStorageService: service, customClaimProviders: [], jwsAlgorithm: JWSAlgorithm.HS256)
         tokenGenerator.afterPropertiesSet()
     }
 
