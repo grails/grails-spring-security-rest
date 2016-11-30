@@ -27,6 +27,7 @@ import org.pac4j.core.client.BaseClient
 import org.pac4j.core.client.RedirectAction
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext
+import org.pac4j.oauth.client.BaseOAuthClient
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.userdetails.User
 
@@ -52,14 +53,14 @@ class RestOauthController {
      * allows the frontend application to define the frontend callback URL on demand.
      */
     def authenticate(String provider, String callback) {
-        BaseClient client = restOauthService.getClient(provider)
+        BaseOAuthClient client = restOauthService.getClient(provider)
         WebContext context = new J2EContext(request, response)
 
-        RedirectAction redirectAction = client.getRedirectAction(context, true)
+        RedirectAction redirectAction = client.getRedirectAction(context)
         if (callback) {
             try {
                 if (Base64.isBase64(callback.getBytes())){
-                    callback = new String(callback.decodeBase64(), StandardCharsets.UTF_8);
+                    callback = new String(callback.decodeBase64(), StandardCharsets.UTF_8)
                 }
                 log.debug "Trying to store in the HTTP session a user specified callback URL: ${callback}"
                 session[CALLBACK_ATTR] = new URL(callback).toString()

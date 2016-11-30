@@ -42,18 +42,17 @@ class RestOauthService {
 
     TokenGenerator tokenGenerator
     TokenStorageService tokenStorageService
-    UserDetailsService userDetailsService
     GrailsApplication grailsApplication
     LinkGenerator grailsLinkGenerator
     OauthUserDetailsService oauthUserDetailsService
     RestAuthenticationEventPublisher authenticationEventPublisher
 
-    BaseClient getClient(String provider) {
+    BaseOAuthClient getClient(String provider) {
         log.debug "Creating OAuth client for provider: ${provider}"
         def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
         def ClientClass = providerConfig.client
 
-        BaseClient client
+        BaseOAuthClient client
         if (ClientClass?.toString()?.endsWith("CasOAuthWrapperClient")) {
             client = ClientClass.newInstance(providerConfig.key, providerConfig.secret, providerConfig.casOAuthUrl)
         } else if (BaseOAuthClient.class.isAssignableFrom(ClientClass)) {
