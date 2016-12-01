@@ -27,7 +27,7 @@ task installKeys << {
     }
 }
 
-build.dependsOn 'installKeys'
+install.dependsOn 'installKeys'
 
 task generateProfileConfig << {
     copy {
