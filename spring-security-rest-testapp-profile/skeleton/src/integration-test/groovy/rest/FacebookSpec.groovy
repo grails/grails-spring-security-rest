@@ -39,6 +39,7 @@ class FacebookSpec extends GebReportingSpec {
         then: "is redirected to the frontend callback URL, with a token"
         FrontendCallbackPage frontendCallbackPage = at FrontendCallbackPage
         frontendCallbackPage.jsUrl.contains("token")
+        !frontendCallbackPage.jsUrl.contains("error")
     }
 
 }

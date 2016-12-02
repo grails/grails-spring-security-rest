@@ -24,14 +24,12 @@ import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import grails.core.GrailsApplication
 import grails.web.mapping.LinkGenerator
-import org.pac4j.core.client.BaseClient
 import org.pac4j.core.context.WebContext
 import org.pac4j.core.credentials.Credentials
 import org.pac4j.core.profile.CommonProfile
 import org.pac4j.oauth.client.BaseOAuthClient
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetailsService
 
 /**
  * Deals with pac4j library to fetch a user profile from the selected OAuth provider, and stores it on the security context
@@ -73,7 +71,7 @@ class RestOauthService {
     }
 
     CommonProfile getProfile(String provider, WebContext context) {
-        BaseClient client = getClient(provider)
+        BaseOAuthClient client = getClient(provider)
         Credentials credentials = client.getCredentials context
 
         log.debug "Querying provider to fetch User ID"

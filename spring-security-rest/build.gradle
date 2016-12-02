@@ -10,7 +10,7 @@ dependencyManagement {
 }
 
 ext {
-    pac4jVersion = '1.9.4'
+    pac4jVersion = '1.8.8'
 }
 
 dependencies {
