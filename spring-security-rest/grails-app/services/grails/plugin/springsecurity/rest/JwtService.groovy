@@ -17,8 +17,11 @@
 package grails.plugin.springsecurity.rest
 
 import com.nimbusds.jose.JOSEException
+import com.nimbusds.jose.JWSAlgorithm
+import com.nimbusds.jose.JWSVerifier
 import com.nimbusds.jose.crypto.MACVerifier
 import com.nimbusds.jose.crypto.RSADecrypter
+import com.nimbusds.jose.crypto.RSASSAVerifier
 import com.nimbusds.jwt.EncryptedJWT
 import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTParser
@@ -56,7 +59,10 @@ class JwtService {
             log.debug "Parsed an HMAC signed JWT"
 
             SignedJWT signedJwt = jwt as SignedJWT
-            if(!signedJwt.verify(new MACVerifier(jwtSecret))) {
+            JWSVerifier verifier = jwt.header.algorithm.equals(JWSAlgorithm.RS256) ?
+                    new RSASSAVerifier(keyProvider.publicKey) : new MACVerifier(jwtSecret)
+
+            if(!signedJwt.verify(new MACVerifier(verifier))) {
                 throw new JOSEException('Invalid signature')
             }
         } else if (jwt instanceof EncryptedJWT) {
