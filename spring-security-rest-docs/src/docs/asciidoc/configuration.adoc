@@ -61,17 +61,17 @@ To configure the chains properly, you can use the `grails.plugin.springsecurity.
 .Listing {counter:listing}. `grails.plugin.springsecurity.filterChain.chainMap`
 ----
 grails.plugin.springsecurity.filterChain.chainMap = [
-    //Stateless chain
-    [
-        pattern: '/api/**',
-        filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'
-    ],
+        //Stateless chain
+        [
+                pattern: '/**',
+                filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'
+        ],
 
-    //Traditional chain
-    [
-        pattern: '/**',
-        filters: 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
-    ]
+        //Traditional, stateful chain
+        [
+                pattern: '/stateful/**',
+                filters: 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
+        ]
 ]
 ----
 
