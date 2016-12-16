@@ -1477,17 +1477,17 @@ core, so the trick is to identify what URL patterns have to be stateless, and wh
 <div class="title">Listing 1. <code>grails.plugin.springsecurity.filterChain.chainMap</code></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">grails.plugin.springsecurity.filterChain.chainMap = [
-    <span class="comment">//Stateless chain</span>
-    [
-        <span class="key">pattern</span>: <span class="string"><span class="delimiter">'</span><span class="content">/api/**</span><span class="delimiter">'</span></span>,
-        <span class="key">filters</span>: <span class="string"><span class="delimiter">'</span><span class="content">JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter</span><span class="delimiter">'</span></span>
-    ],
+        <span class="comment">//Stateless chain</span>
+        [
+                <span class="key">pattern</span>: <span class="string"><span class="delimiter">'</span><span class="content">/**</span><span class="delimiter">'</span></span>,
+                <span class="key">filters</span>: <span class="string"><span class="delimiter">'</span><span class="content">JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter</span><span class="delimiter">'</span></span>
+        ],
 
-    <span class="comment">//Traditional chain</span>
-    [
-        <span class="key">pattern</span>: <span class="string"><span class="delimiter">'</span><span class="content">/**</span><span class="delimiter">'</span></span>,
-        <span class="key">filters</span>: <span class="string"><span class="delimiter">'</span><span class="content">JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter</span><span class="delimiter">'</span></span>
-    ]
+        <span class="comment">//Traditional, stateful chain</span>
+        [
+                <span class="key">pattern</span>: <span class="string"><span class="delimiter">'</span><span class="content">/stateful/**</span><span class="delimiter">'</span></span>,
+                <span class="key">filters</span>: <span class="string"><span class="delimiter">'</span><span class="content">JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter</span><span class="delimiter">'</span></span>
+        ]
 ]</code></pre>
 </div>
 </div>
@@ -3584,7 +3584,7 @@ your gratitude via <a href="https://twitter.com/alvaro_sanchez">Twitter</a>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-12-02 22:39:37 UTC
+Last updated 2016-12-16 10:58:04 UTC
 </div>
 </div>
 </body>

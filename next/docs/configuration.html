@@ -511,17 +511,17 @@ core, so the trick is to identify what URL patterns have to be stateless, and wh
 <div class="title">Listing 1. <code>grails.plugin.springsecurity.filterChain.chainMap</code></div>
 <div class="content">
 <pre class="highlight"><code class="language-groovy" data-lang="groovy">grails.plugin.springsecurity.filterChain.chainMap = [
-    //Stateless chain
-    [
-        pattern: '/api/**',
-        filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'
-    ],
+        //Stateless chain
+        [
+                pattern: '/**',
+                filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'
+        ],
 
-    //Traditional chain
-    [
-        pattern: '/**',
-        filters: 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
-    ]
+        //Traditional, stateful chain
+        [
+                pattern: '/stateful/**',
+                filters: 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
+        ]
 ]</code></pre>
 </div>
 </div>
@@ -558,7 +558,7 @@ to the login controller. That doesn&#8217;t work for an API, so in the stateless
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-12-02 22:39:37 UTC
+Last updated 2016-12-16 10:58:04 UTC
 </div>
 </div>
 </body>
