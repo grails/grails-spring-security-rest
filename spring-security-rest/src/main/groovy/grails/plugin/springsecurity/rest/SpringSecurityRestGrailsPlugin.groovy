@@ -215,6 +215,24 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             issuerName = conf.rest.token.generation.jwt.issuer
         }
 
+        if (conf.rest.token.storage.jwt.privateKeyPath instanceof CharSequence &&
+                conf.rest.token.storage.jwt.publicKeyPath instanceof CharSequence) {
+            keyProvider(FileRSAKeyProvider) {
+                privateKeyPath = conf.rest.token.storage.jwt.privateKeyPath
+                publicKeyPath = conf.rest.token.storage.jwt.publicKeyPath
+            }
+        } else if (conf.rest.token.storage.jwt.privateKey instanceof CharSequence ||
+                conf.rest.token.storage.jwt.publicKey instanceof CharSequence) {
+            def privateKey = conf.rest.token.storage.jwt.privateKey instanceof CharSequence ? conf.rest.token.storage.jwt.privateKey : ''
+            def publicKey = conf.rest.token.storage.jwt.publicKey instanceof CharSequence ? conf.rest.token.storage.jwt.publicKey : ''
+            keyProvider(StringRSAKeyProvider) {
+                privateKeyStr = privateKey
+                publicKeyStr = publicKey
+            }
+        } else {
+            keyProvider(DefaultRSAKeyProvider)
+        }
+
         if (conf.rest.token.storage.jwt.useEncryptedJwt) {
             jwtService(JwtService) {
                 keyProvider = ref('keyProvider')
@@ -229,31 +247,16 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
 
         } else if (conf.rest.token.storage.jwt.useSignedJwt) {
             checkJwtSecret(jwtSecretValue)
-
+            jwtService(JwtService) {
+                keyProvider = ref('keyProvider')
+                jwtSecret = jwtSecretValue
+            }
             tokenGenerator(SignedJwtTokenGenerator) {
                 jwtTokenStorageService = ref('tokenStorageService')
-                keyProvider = ref('keyProvider')
                 jwtSecret = jwtSecretValue
                 defaultExpiration = conf.rest.token.storage.jwt.expiration
                 jwsAlgorithm = JWSAlgorithm.parse(conf.rest.token.generation.jwt.algorithm)
             }
-        }
-
-
-        if (conf.rest.token.storage.jwt.privateKeyPath instanceof CharSequence &&
-                conf.rest.token.storage.jwt.publicKeyPath instanceof CharSequence) {
-            keyProvider(FileRSAKeyProvider) {
-                privateKeyPath = conf.rest.token.storage.jwt.privateKeyPath
-                publicKeyPath = conf.rest.token.storage.jwt.publicKeyPath
-            }
-        } else if (conf.rest.token.storage.jwt.privateKey instanceof CharSequence ||
-                conf.rest.token.storage.jwt.publicKey instanceof CharSequence) {
-            keyProvider(StringRSAKeyProvider) {
-                privateKeyStr = conf.rest.token.storage.jwt.privateKey
-                publicKeyStr = conf.rest.token.storage.jwt.publicKey
-            }
-        } else {
-            keyProvider(DefaultRSAKeyProvider)
         }
 
         /* restAuthenticationProvider */

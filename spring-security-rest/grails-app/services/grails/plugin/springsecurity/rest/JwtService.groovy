@@ -56,14 +56,22 @@ class JwtService {
         JWT jwt = JWTParser.parse(tokenValue)
 
         if (jwt instanceof  SignedJWT) {
-            log.debug "Parsed an HMAC signed JWT"
+            log.debug "Parsed a signed JWT"
 
             SignedJWT signedJwt = jwt as SignedJWT
-            JWSVerifier verifier = jwt.header.algorithm.equals(JWSAlgorithm.RS256) ?
-                    new RSASSAVerifier(keyProvider.publicKey) : new MACVerifier(jwtSecret)
-
-            if(!signedJwt.verify(new MACVerifier(verifier))) {
+            JWSVerifier verifier = null
+            if (jwt.header.algorithm.equals(JWSAlgorithm.RS256)) {
+                log.debug "RSA key"
+                verifier = new RSASSAVerifier(keyProvider.publicKey)
+            } else {
+                log.debug "HMAC key"
+                verifier = new MACVerifier(jwtSecret)
+            }
+            log.debug "verifier created"
+            if(!signedJwt.verify(verifier)) {
                 throw new JOSEException('Invalid signature')
+            } else {
+                log.debug "valid token"
             }
         } else if (jwt instanceof EncryptedJWT) {
             log.debug "Parsed an RSA encrypted JWT"
