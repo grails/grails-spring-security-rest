@@ -43,7 +43,7 @@ class BearerTokenReader implements TokenReader {
         String header = request.getHeader('Authorization')
 
         //temporary fix, spring-security-oauth2 proxy forward request with lowercase bearer code
-        if (header?.toLowerCase().startsWith('bearer') && header.length()>=8) {
+        if (header?.toLowerCase()?.startsWith('bearer') && header.length()>=8) {
             log.debug "Found bearer token in Authorization header"
             tokenValue = header.substring(7)
         } else if (isFormEncoded(request) && !request.get) {
