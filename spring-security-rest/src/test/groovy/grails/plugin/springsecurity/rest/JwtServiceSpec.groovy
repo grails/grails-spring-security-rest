@@ -21,13 +21,9 @@ import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.PlainJWT
 import grails.plugin.springsecurity.rest.token.AccessToken
-import grails.plugin.springsecurity.rest.token.generation.jwt.AbstractJwtTokenGenerator
-import grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
-import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
-import grails.spring.BeanBuilder
 import grails.test.mixin.TestFor
 import groovyx.gbench.BenchmarkBuilder
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -39,17 +35,6 @@ import spock.lang.Specification
 @TestFor(JwtService)
 class JwtServiceSpec extends Specification implements TokenGeneratorSupport  {
 
-    void "it can serialize and deserialize compressed objects"() {
-        given:
-        UserDetails userDetails = new User('username', 'password', [new SimpleGrantedAuthority('ROLE_USER')])
-
-        when:
-        String serialized = JwtService.serialize(userDetails)
-        UserDetails deserialized = JwtService.deserialize(serialized)
-
-        then:
-        userDetails == deserialized
-    }
 
     @Ignore
     void "performance test of JWT parsing"() {

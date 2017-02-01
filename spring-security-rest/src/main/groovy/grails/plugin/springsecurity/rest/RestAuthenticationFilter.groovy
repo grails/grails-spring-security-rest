@@ -77,15 +77,15 @@ class RestAuthenticationFilter extends GenericFilterBean {
 
         String actualUri =  httpServletRequest.requestURI - httpServletRequest.contextPath
 
-        logger.debug "Actual URI is ${actualUri}; endpoint URL is ${endpointUrl}"
+        if(log.debugEnabled) log.debug "Actual URI is ${actualUri}; endpoint URL is ${endpointUrl}"
 
         //Only apply filter to the configured URL
         if (actualUri == endpointUrl) {
-            log.debug "Applying authentication filter to this request"
+            if(log.debugEnabled) log.debug "Applying authentication filter to this request"
 
             //Only POST is supported
             if (httpServletRequest.method != 'POST') {
-                log.debug "${httpServletRequest.method} HTTP method is not supported. Setting status to ${HttpServletResponse.SC_METHOD_NOT_ALLOWED}"
+                if(log.debugEnabled) log.debug "${httpServletRequest.method} HTTP method is not supported. Setting status to ${HttpServletResponse.SC_METHOD_NOT_ALLOWED}"
                 httpServletResponse.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED)
                 return
             }
@@ -101,36 +101,36 @@ class RestAuthenticationFilter extends GenericFilterBean {
                 authenticationRequest.details = authenticationDetailsSource.buildDetails(httpServletRequest)
                 
                 try {
-                    log.debug "Trying to authenticate the request"
+                    if(log.debugEnabled) log.debug "Trying to authenticate the request"
                     authenticationResult = authenticationManager.authenticate(authenticationRequest)
               
                     if (authenticationResult.authenticated) {
-                        log.debug "Request authenticated. Storing the authentication result in the security context"
-                        log.debug "Authentication result: ${authenticationResult}"
+                        if(log.debugEnabled) log.debug "Request authenticated. Storing the authentication result in the security context"
+                        if(log.debugEnabled) log.debug "Authentication result: ${authenticationResult}"
 
                         AccessToken accessToken = tokenGenerator.generateAccessToken(authenticationResult.principal as UserDetails)
-                        log.debug "Generated token: ${accessToken}"
+                        if(log.debugEnabled) log.debug "Generated token: ${accessToken}"
 
                         tokenStorageService.storeToken(accessToken.accessToken, authenticationResult.principal as UserDetails)
                         authenticationEventPublisher.publishTokenCreation(accessToken)
                         authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, accessToken)
                         SecurityContextHolder.context.setAuthentication(accessToken)
                     } else {
-                        log.debug "Not authenticated. Rest authentication token not generated."
+                        if(log.debugEnabled) log.debug "Not authenticated. Rest authentication token not generated."
                     }
                 } catch (AuthenticationException ae) {
-                    log.debug "Authentication failed: ${ae.message}"
+                    if(log.debugEnabled) log.debug "Authentication failed: ${ae.message}"
                     authenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, ae)
                 }
             
             }else{
-                log.debug "Username and/or password parameters are missing."
+                if(log.debugEnabled) log.debug "Username and/or password parameters are missing."
                 if(!authentication){
-                    log.debug "Setting status to ${HttpServletResponse.SC_BAD_REQUEST}"
+                    if(log.debugEnabled) log.debug "Setting status to ${HttpServletResponse.SC_BAD_REQUEST}"
                     httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST)
                     return
                 }else{
-                    log.debug "Using authentication already in security context."
+                    if(log.debugEnabled) log.debug "Using authentication already in security context."
                     authenticationResult = authentication
                 }
             }

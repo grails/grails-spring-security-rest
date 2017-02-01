@@ -33,13 +33,7 @@ import grails.plugin.springsecurity.rest.token.bearer.BearerTokenAuthenticationF
 import grails.plugin.springsecurity.rest.token.bearer.BearerTokenReader
 import grails.plugin.springsecurity.rest.token.generation.SecureRandomTokenGenerator
 import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
-import grails.plugin.springsecurity.rest.token.generation.jwt.AbstractJwtTokenGenerator
-import grails.plugin.springsecurity.rest.token.generation.jwt.CustomClaimProvider
-import grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvider
-import grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
-import grails.plugin.springsecurity.rest.token.generation.jwt.FileRSAKeyProvider
-import grails.plugin.springsecurity.rest.token.generation.jwt.IssuerClaimProvider
-import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
+import grails.plugin.springsecurity.rest.token.generation.jwt.*
 import grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
 import grails.plugin.springsecurity.rest.token.rendering.DefaultAccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
@@ -208,6 +202,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
         }
         tokenStorageService(JwtTokenStorageService) {
             jwtService = ref('jwtService')
+            userDetailsService = ref('userDetailsService')
         }
 
         issuerClaimProvider(IssuerClaimProvider) {

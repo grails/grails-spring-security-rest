@@ -23,9 +23,8 @@ import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
 
 import java.text.ParseException
 
@@ -37,6 +36,7 @@ import java.text.ParseException
 class JwtTokenStorageService implements TokenStorageService {
 
     JwtService jwtService
+    UserDetailsService userDetailsService
 
     @Override
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
@@ -47,24 +47,7 @@ class JwtTokenStorageService implements TokenStorageService {
             if (jwt.JWTClaimsSet.expirationTime?.before(now)) {
                 throw new TokenNotFoundException("Token ${tokenValue} has expired")
             }
-
-            def roles = jwt.JWTClaimsSet.getStringArrayClaim('roles')?.collect { String role -> new SimpleGrantedAuthority(role) }
-
-            log.debug "Successfully verified JWT"
-
-            log.debug "Trying to deserialize the principal object"
-            try {
-                UserDetails details = JwtService.deserialize(jwt.JWTClaimsSet.getStringClaim('principal'))
-                log.debug "UserDetails deserialized: ${details}"
-                if (details) {
-                    return details
-                }
-            } catch (exception) {
-                log.debug(exception.message)
-            }
-
-            log.debug "Returning a org.springframework.security.core.userdetails.User instance"
-            return new User(jwt.JWTClaimsSet.subject, 'N/A', roles)
+            return userDetailsService.loadUserByUsername(jwt.JWTClaimsSet.subject)            
         } catch (ParseException pe) {
             throw new TokenNotFoundException("Token ${tokenValue} is not valid")
         } catch (JOSEException je) {
@@ -74,12 +57,12 @@ class JwtTokenStorageService implements TokenStorageService {
 
     @Override
     void storeToken(String tokenValue, UserDetails principal) {
-        log.debug "Nothing to store as this is a stateless implementation"
+        if(log.debugEnabled) log.debug "Nothing to store as this is a stateless implementation"
     }
 
     @Override
     void removeToken(String tokenValue) throws TokenNotFoundException {
-        log.debug "Nothing to remove as this is a stateless implementation"
+        if(log.debugEnabled) log.debug "Nothing to remove as this is a stateless implementation"
         throw new TokenNotFoundException("Token ${tokenValue} cannot be removed as this is a stateless implementation")
     }
 

@@ -11,7 +11,7 @@ class IssuerClaimProvider implements CustomClaimProvider {
     String issuerName
 
     @Override
-    void provideCustomClaims(JWTClaimsSet.Builder builder, UserDetails details, String principal, Integer expiration) {
+    void provideCustomClaims(JWTClaimsSet.Builder builder, UserDetails details, Integer expiration) {
         builder.issuer(issuerName)
     }
 

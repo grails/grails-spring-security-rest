@@ -42,7 +42,7 @@ class GormTokenStorageService implements TokenStorageService {
     }
 
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
-        log.debug "Finding token ${tokenValue} in GORM"
+        if(log.debugEnabled) log.debug "Finding token ${tokenValue} in GORM"
         def conf = SpringSecurityUtils.securityConfig
         String usernamePropertyName = conf.rest.token.storage.gorm.usernamePropertyName
         def existingToken = findExistingToken(tokenValue)
@@ -57,8 +57,8 @@ class GormTokenStorageService implements TokenStorageService {
     }
 
     void storeToken(String tokenValue, UserDetails principal) {
-        log.debug "Storing principal for token: ${tokenValue}"
-        log.debug "Principal: ${principal}"
+        if(log.debugEnabled) log.debug "Storing principal for token: ${tokenValue}"
+        if(log.debugEnabled) log.debug "Principal: ${principal}"
 
         def conf = SpringSecurityUtils.securityConfig
         String tokenClassName = conf.rest.token.storage.gorm.tokenDomainClassName
@@ -78,7 +78,7 @@ class GormTokenStorageService implements TokenStorageService {
     }
 
     void removeToken(String tokenValue) throws TokenNotFoundException {
-        log.debug "Removing token ${tokenValue} from GORM"
+        if(log.debugEnabled) log.debug "Removing token ${tokenValue} from GORM"
         def conf = SpringSecurityUtils.securityConfig
         String tokenClassName = conf.rest.token.storage.gorm.tokenDomainClassName
         def existingToken = findExistingToken(tokenValue)
@@ -94,7 +94,7 @@ class GormTokenStorageService implements TokenStorageService {
     }
 
     private findExistingToken(String tokenValue) {
-        log.debug "Searching in GORM for UserDetails of token ${tokenValue}"
+        if(log.debugEnabled) log.debug "Searching in GORM for UserDetails of token ${tokenValue}"
         def conf = SpringSecurityUtils.securityConfig
         String tokenClassName = conf.rest.token.storage.gorm.tokenDomainClassName
         String tokenValuePropertyName = conf.rest.token.storage.gorm.tokenValuePropertyName
