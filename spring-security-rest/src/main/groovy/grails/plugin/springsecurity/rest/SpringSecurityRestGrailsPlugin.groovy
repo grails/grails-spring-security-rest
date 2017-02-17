@@ -39,6 +39,7 @@ import grails.plugin.springsecurity.rest.token.generation.jwt.DefaultRSAKeyProvi
 import grails.plugin.springsecurity.rest.token.generation.jwt.EncryptedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.generation.jwt.FileRSAKeyProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.IssuerClaimProvider
+import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
 import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.generation.jwt.StringRSAKeyProvider
 import grails.plugin.springsecurity.rest.token.reader.HttpHeaderTokenReader
@@ -246,16 +247,44 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             }
 
         } else if (conf.rest.token.storage.jwt.useSignedJwt) {
-            checkJwtSecret(jwtSecretValue)
-            jwtService(JwtService) {
-                keyProvider = ref('keyProvider')
-                jwtSecret = jwtSecretValue
+            Map<String, RSAKeyProvider> providersMap
+            List issuerKeys = conf.rest.token.storage.jwt.keys
+            if (issuerKeys) {
+                log.debug "parsing issuers keys"
+                providersMap = issuerKeys.inject([:]) { memo, item ->
+                    log.debug "item: ${item}"
+                    StringRSAKeyProvider provider = new StringRSAKeyProvider(publicKeyStr: item.publicKey, privateKeyStr: item.privateKey)
+                    provider.afterPropertiesSet()
+                    memo[item.issuer] = provider
+                    return memo
+                }
             }
-            tokenGenerator(SignedJwtTokenGenerator) {
-                jwtTokenStorageService = ref('tokenStorageService')
-                jwtSecret = jwtSecretValue
-                defaultExpiration = conf.rest.token.storage.jwt.expiration
-                jwsAlgorithm = JWSAlgorithm.parse(conf.rest.token.generation.jwt.algorithm)
+            JWSAlgorithm alg = JWSAlgorithm.parse(conf.rest.token.generation.jwt.algorithm)
+
+            if (JWSAlgorithm.Family.RSA.contains(alg)) {
+                jwtService(JwtService) {
+                    keyProvider = ref('keyProvider')
+                    issuerKeyProviders = providersMap
+                }
+                tokenGenerator(SignedJwtTokenGenerator) {
+                    jwtTokenStorageService = ref('tokenStorageService')
+                    keyProvider = ref('keyProvider')
+                    defaultExpiration = conf.rest.token.storage.jwt.expiration
+                    jwsAlgorithm = alg
+                }
+            } else {
+                checkJwtSecret(jwtSecretValue)
+                jwtService(JwtService) {
+                    keyProvider = ref('keyProvider')
+                    jwtSecret = jwtSecretValue
+                    issuerKeyProviders = providersMap
+                }
+                tokenGenerator(SignedJwtTokenGenerator) {
+                    jwtTokenStorageService = ref('tokenStorageService')
+                    jwtSecret = jwtSecretValue
+                    defaultExpiration = conf.rest.token.storage.jwt.expiration
+                    jwsAlgorithm = alg
+                }
             }
         }
 

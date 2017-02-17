@@ -4,18 +4,13 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.InitializingBean
 
-import java.nio.charset.Charset
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.nio.charset.StandardCharsets
 import java.security.KeyFactory
-import java.security.KeyPair
-import java.security.KeyPairGenerator
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 import java.security.spec.PKCS8EncodedKeySpec
-import java.security.spec.RSAPrivateKeySpec
-import java.security.spec.RSAPublicKeySpec
 import java.security.spec.X509EncodedKeySpec
+import org.bouncycastle.util.io.pem.PemReader
 
 /**
  * Loads RSA public/private key's from configuration strings
@@ -24,17 +19,23 @@ import java.security.spec.X509EncodedKeySpec
 @CompileStatic
 class StringRSAKeyProvider implements RSAKeyProvider, InitializingBean {
 
-    /** Full path to the public key so that {@code new File(publicKeyPath).exists() == true} */
     String publicKeyStr
-
-    /** Full path to the private key so that {@code new File(publicKeyPath).exists() == true} */
     String privateKeyStr
 
     RSAPublicKey publicKey
     RSAPrivateKey privateKey
 
     private byte[] decodeKey(String key) {
-        return Base64.decoder.decode(key.getBytes('UTF-8'))
+        InputStream input = new ByteArrayInputStream(key.getBytes(StandardCharsets.UTF_8))
+        InputStreamReader inputStreamReader = new InputStreamReader(input)
+        PemReader pemReader = new PemReader(inputStreamReader)
+        try {
+            return pemReader.readPemObject().getContent()
+        } finally {
+            pemReader.close()
+            inputStreamReader.close()
+            input.close()
+        }
     }
 
     @Override

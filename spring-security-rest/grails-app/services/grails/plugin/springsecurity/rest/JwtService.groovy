@@ -43,7 +43,7 @@ class JwtService {
 
     String jwtSecret
     RSAKeyProvider keyProvider
-    GrailsApplication grailsApplication
+    Map<String, RSAKeyProvider> issuerKeyProviders
 
     /**
      * Parses and verifies (for signed tokens) or decrypts (for encrypted tokens) the given token
@@ -60,9 +60,16 @@ class JwtService {
 
             SignedJWT signedJwt = jwt as SignedJWT
             JWSVerifier verifier = null
-            if (jwt.header.algorithm.equals(JWSAlgorithm.RS256)) {
+            if (JWSAlgorithm.Family.RSA.contains(jwt.header.algorithm)) {
                 log.debug "RSA key"
-                verifier = new RSASSAVerifier(keyProvider.publicKey)
+                RSAKeyProvider rsaKeyProvider = issuerKeyProviders?.get(signedJwt.JWTClaimsSet.issuer)
+                if (!rsaKeyProvider) {
+                    log.debug("issuer key provider not found, use default one")
+                    rsaKeyProvider = keyProvider
+                } else {
+                    log.debug("found key provider for issuer ${signedJwt.JWTClaimsSet.issuer}")
+                }
+                verifier = new RSASSAVerifier(rsaKeyProvider.publicKey)
             } else {
                 log.debug "HMAC key"
                 verifier = new MACVerifier(jwtSecret)
