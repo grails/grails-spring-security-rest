@@ -248,7 +248,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
 
         } else if (conf.rest.token.storage.jwt.useSignedJwt) {
             Map<String, RSAKeyProvider> providersMap
-            List issuerKeys = conf.rest.token.storage.jwt.keys
+            def issuerKeys = conf.rest.token.storage.jwt.keys
             if (issuerKeys) {
                 log.debug "parsing issuers keys"
                 providersMap = issuerKeys.inject([:]) { memo, item ->
