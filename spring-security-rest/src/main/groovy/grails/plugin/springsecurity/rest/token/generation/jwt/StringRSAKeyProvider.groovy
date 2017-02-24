@@ -19,6 +19,12 @@ import org.bouncycastle.util.io.pem.PemReader
 @CompileStatic
 class StringRSAKeyProvider implements RSAKeyProvider, InitializingBean {
 
+    private static final String BEGIN_PRIVATE = '-----BEGIN PRIVATE KEY-----'
+    private static final String END_PRIVATE = '-----END PRIVATE KEY-----'
+
+    private static final String BEGIN_PUBLIC = '-----BEGIN PUBLIC KEY-----'
+    private static final String END_PUBLIC = '-----END PUBLIC KEY-----'
+
     String publicKeyStr
     String privateKeyStr
 
@@ -45,12 +51,24 @@ class StringRSAKeyProvider implements RSAKeyProvider, InitializingBean {
         log.debug "Public key: ${publicKeyStr}"
 
         if (publicKeyStr) {
+            if (!publicKeyStr.startsWith(BEGIN_PUBLIC)) {
+                publicKeyStr = "${BEGIN_PUBLIC}\n${publicKeyStr}"
+            }
+            if (!publicKeyStr.endsWith(END_PUBLIC)) {
+                publicKeyStr = "${publicKeyStr}\n${END_PUBLIC}"
+            }
             def spec = new X509EncodedKeySpec(decodeKey(publicKeyStr))
             publicKey = kf.generatePublic(spec) as RSAPublicKey
         }
 
         log.debug "Private key: ${privateKeyStr}"
         if (privateKeyStr) {
+            if (!privateKeyStr.startsWith(BEGIN_PRIVATE)) {
+                privateKeyStr = "${BEGIN_PRIVATE}\n${privateKeyStr}"
+            }
+            if (!privateKeyStr.endsWith(END_PRIVATE)) {
+                privateKeyStr = "${privateKeyStr}\n${END_PRIVATE}"
+            }
             def spec = new PKCS8EncodedKeySpec(decodeKey(privateKeyStr))
             privateKey = kf.generatePrivate(spec) as RSAPrivateKey
         }
