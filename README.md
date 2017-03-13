@@ -31,7 +31,7 @@ Support
 * If you've got issues, report them [here in GitHub](https://github.com/alvarosanchez/grails-spring-security-rest/issues).
 * If you need commercial support, you can ask [OCI](http://www.ociweb.com) at [info AT ociweb DOT com](mailto:infoATociwebDOTcom).
 
-**NOTE**: if you have questions or issues, [enable debug logging](http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/guide/debugging.html),
+**NOTE**: if you have questions or issues, [enable debug logging](http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/index.html#_debugging),
 and include the output in your request.
 
 
