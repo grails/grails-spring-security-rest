@@ -55,6 +55,7 @@ class RestOauthServiceTest extends Specification {
         assert client instanceof org.pac4j.oauth.client.CasOAuthWrapperClient
         assert client.key == providerConfig(provider).key
         assert client.secret == providerConfig(provider).secret
+        assert client.casOAuthUrl == providerConfig(provider).casOAuthUrl
 
     }
 
