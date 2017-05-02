@@ -18,7 +18,6 @@ package grails.plugin.springsecurity.rest.token.generation.jwt
 
 import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTClaimsSet
-import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
@@ -40,7 +39,7 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
 
     @Override
     AccessToken generateAccessToken(UserDetails details) {
-        log.debug "Generating an access token with default expiration: ${this.defaultExpiration}"
+        if(log.debugEnabled) log.debug "Generating an access token with default expiration: ${this.defaultExpiration}"
         generateAccessToken(details, this.defaultExpiration)
     }
 
@@ -50,20 +49,19 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
     }
 
     AccessToken generateAccessToken(UserDetails details, boolean withRefreshToken, Integer expiration = this.defaultExpiration) {
-        log.debug "Serializing the principal received"
-        String serializedPrincipal = serializePrincipal(details)
+        if(log.debugEnabled) log.debug "Serializing the principal received"
 
-        JWTClaimsSet.Builder builder = generateClaims(details, serializedPrincipal, expiration)
+        JWTClaimsSet.Builder builder = generateClaims(details,  expiration)
 
-        log.debug "Generating access token..."
+        if(log.debugEnabled) log.debug "Generating access token..."
         JWT accessTokenJwt = generateAccessToken(builder.build())
         String accessToken = accessTokenJwt.serialize()
 
         JWT refreshTokenJwt
         String refreshToken
         if (withRefreshToken) {
-            log.debug "Generating refresh token..."
-            refreshTokenJwt = generateRefreshToken(details, serializedPrincipal, expiration)
+            if(log.debugEnabled) log.debug "Generating refresh token..."
+            refreshTokenJwt = generateRefreshToken(details,  expiration)
             refreshToken = refreshTokenJwt.serialize()
         }
 
@@ -71,7 +69,7 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
     }
 
     @CompileDynamic
-    JWTClaimsSet.Builder generateClaims(UserDetails details, String serializedPrincipal, Integer expiration) {
+    JWTClaimsSet.Builder generateClaims(UserDetails details, Integer expiration) {
         JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
         builder.subject(details.username)
 
@@ -79,37 +77,24 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         builder.issueTime(now)
 
         if (expiration) {
-            log.debug "Setting expiration to ${expiration}"
+            if(log.debugEnabled) log.debug "Setting expiration to ${expiration}"
             use(TimeCategory) {
                 builder.expirationTime(now + expiration.seconds)
             }
         }
 
-        builder.claim('roles', details.authorities?.collect { it.authority })
-        builder.claim('principal', serializedPrincipal)
-
         customClaimProviders.each { CustomClaimProvider customClaimProvider ->
-            customClaimProvider.provideCustomClaims(builder, details, serializedPrincipal, expiration)
+            customClaimProvider.provideCustomClaims(builder, details, expiration)
         }
 
-        log.debug "Generated claim set: ${builder.build().toJSONObject().toString()}"
+        if(log.debugEnabled) log.debug "Generated claim set: ${builder.build().toJSONObject().toString()}"
         return builder
-    }
-
-    protected String serializePrincipal(UserDetails principal) {
-        try {
-            return JwtService.serialize(principal)
-        } catch (exception) {
-            log.debug(exception.message)
-            log.debug "The principal class (${principal.class}) is not serializable. Object: ${principal}"
-            return null
-        }
     }
 
     protected abstract JWT generateAccessToken(JWTClaimsSet claimsSet)
 
-    protected JWT generateRefreshToken(UserDetails principal, String serializedPrincipal, Integer expiration) {
-        JWTClaimsSet.Builder builder = generateClaims(principal, serializedPrincipal, expiration)
+    protected JWT generateRefreshToken(UserDetails principal, Integer expiration) {
+        JWTClaimsSet.Builder builder = generateClaims(principal, expiration)
         builder.expirationTime(null)
 
         return generateAccessToken(builder.build())

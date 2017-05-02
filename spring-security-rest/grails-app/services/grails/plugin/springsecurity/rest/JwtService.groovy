@@ -19,19 +19,11 @@ package grails.plugin.springsecurity.rest
 import com.nimbusds.jose.JOSEException
 import com.nimbusds.jose.crypto.MACVerifier
 import com.nimbusds.jose.crypto.RSADecrypter
-import com.nimbusds.jwt.EncryptedJWT
-import com.nimbusds.jwt.JWT
-import com.nimbusds.jwt.JWTParser
-import com.nimbusds.jwt.PlainJWT
-import com.nimbusds.jwt.SignedJWT
+import com.nimbusds.jwt.*
+import grails.core.GrailsApplication
 import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
 import grails.util.Holders
 import groovy.util.logging.Slf4j
-import grails.core.GrailsApplication
-import org.springframework.security.core.userdetails.UserDetails
-
-import java.util.zip.GZIPInputStream
-import java.util.zip.GZIPOutputStream
 
 /**
  * Helper to perform actions with JWT tokens
@@ -76,27 +68,6 @@ class JwtService {
 
         return jwt
     }
-
-    static String serialize(UserDetails userDetails) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream()
-        GZIPOutputStream gzipOut = new GZIPOutputStream(baos)
-        ObjectOutputStream objectOut = new ObjectOutputStream(gzipOut)
-        objectOut.writeObject(userDetails)
-        objectOut.close()
-        byte[] outputBytes = baos.toByteArray()
-        return outputBytes.encodeBase64()
-    }
-
-    static UserDetails deserialize(String userDetails) {
-        byte[] inputBytes = userDetails.decodeBase64()
-        ByteArrayInputStream bais = new ByteArrayInputStream(inputBytes)
-        GZIPInputStream gzipIn = new GZIPInputStream(bais)
-        ContextClassLoaderAwareObjectInputStream objectIn = new ContextClassLoaderAwareObjectInputStream(gzipIn)
-        UserDetails userDetailsObject = objectIn.readObject() as UserDetails
-        objectIn.close()
-        return userDetailsObject
-    }
-
 }
 
 

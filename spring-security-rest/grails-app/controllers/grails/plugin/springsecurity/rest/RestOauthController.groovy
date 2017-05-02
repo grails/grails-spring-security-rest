@@ -16,14 +16,13 @@
  */
 package grails.plugin.springsecurity.rest
 
+import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured
 import grails.plugin.springsecurity.rest.error.CallbackErrorHandler
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import org.apache.commons.codec.binary.Base64
-import grails.core.GrailsApplication
-import org.pac4j.core.client.BaseClient
 import org.pac4j.core.client.RedirectAction
 import org.pac4j.core.context.J2EContext
 import org.pac4j.core.context.WebContext

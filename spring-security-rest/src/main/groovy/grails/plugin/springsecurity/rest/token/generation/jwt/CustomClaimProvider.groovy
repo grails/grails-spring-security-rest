@@ -16,6 +16,6 @@ interface CustomClaimProvider {
      * @param principal the principal, usually the username
      * @param expiration the expiration time in seconds for which the JWT is configured to
      */
-    void provideCustomClaims(JWTClaimsSet.Builder builder, UserDetails details, String principal, Integer expiration)
+    void provideCustomClaims(JWTClaimsSet.Builder builder, UserDetails details, Integer expiration)
 
 }
