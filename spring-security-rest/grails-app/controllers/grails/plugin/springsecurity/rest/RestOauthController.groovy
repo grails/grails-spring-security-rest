@@ -118,12 +118,22 @@ class RestOauthController {
      */
     def accessToken() {
         String grantType = params['grant_type']
+        String refreshToken = params['refresh_token']
+        
+        request.withFormat {
+            json{
+                def data = request.JSON
+                grantType = data['grant_type']?:data['grantType']
+                refreshToken = data['refresh_token']?:data['refreshToken']
+            }
+        }
+        
         if (!grantType || grantType != 'refresh_token') {
             render status: HttpStatus.BAD_REQUEST, text: "Invalid grant_type"
             return
         }
 
-        String refreshToken = params['refresh_token']
+        
         log.debug "Trying to generate an access token for the refresh token: ${refreshToken}"
         if (refreshToken) {
             try {
