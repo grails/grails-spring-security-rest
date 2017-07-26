@@ -208,6 +208,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
         }
         tokenStorageService(JwtTokenStorageService) {
             jwtService = ref('jwtService')
+            userDetailsService = ref('userDetailsService')
         }
 
         issuerClaimProvider(IssuerClaimProvider) {
