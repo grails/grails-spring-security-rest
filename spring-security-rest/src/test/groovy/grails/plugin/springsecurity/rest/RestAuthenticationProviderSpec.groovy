@@ -5,6 +5,9 @@ import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGene
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import spock.lang.Issue
 import spock.lang.Specification
 
@@ -13,24 +16,28 @@ class RestAuthenticationProviderSpec extends Specification implements TokenGener
     RestAuthenticationProvider restAuthenticationProvider
     SignedJwtTokenGenerator tokenGenerator
 
+
     void setup() {
         this.tokenGenerator = setupSignedJwtTokenGenerator()
         this.restAuthenticationProvider = new RestAuthenticationProvider(useJwt: true)
+        UserDetailsService userDetailsService = new InMemoryUserDetailsManager([])
+        UserDetails testUser = new User('testUser', 'testPassword', [])
+        userDetailsService.createUser(testUser)
+
         JwtService jwtService = new JwtService(jwtSecret: this.tokenGenerator.jwtTokenStorageService.jwtService.jwtSecret)
         this.restAuthenticationProvider.jwtService = jwtService
-        this.restAuthenticationProvider.tokenStorageService = new JwtTokenStorageService(jwtService: jwtService)
+        this.restAuthenticationProvider.tokenStorageService = new JwtTokenStorageService(jwtService: jwtService, userDetailsService: userDetailsService)
     }
 
     @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/276")
     void "if the JWT's expiration time is null, it's validated successfully"() {
         given:
-        AccessToken accessToken = tokenGenerator.generateAccessToken(new User('testUser', 'testPassword', []), 0)
+            AccessToken accessToken = tokenGenerator.generateAccessToken(new User('testUser', 'testPassword', []), 0)
 
         when:
-        Authentication result = this.restAuthenticationProvider.authenticate(accessToken)
+            Authentication result = this.restAuthenticationProvider.authenticate(accessToken)
 
         then:
-        result.authenticated
+            result.authenticated
     }
-
 }
