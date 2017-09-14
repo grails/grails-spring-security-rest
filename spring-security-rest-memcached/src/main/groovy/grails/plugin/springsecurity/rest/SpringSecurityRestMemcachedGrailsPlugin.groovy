@@ -78,6 +78,11 @@ class SpringSecurityRestMemcachedGrailsPlugin extends Plugin {
     }}
 
     void doWithApplicationContext() {
+        def conf = SpringSecurityUtils.securityConfig
+        if (!conf || !conf.active || !conf.rest.active) {
+            return
+        }
+
         applicationContext.getBean(RestAuthenticationProvider).useJwt = false
     }
 }
