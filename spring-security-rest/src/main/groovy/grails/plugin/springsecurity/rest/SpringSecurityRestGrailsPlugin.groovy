@@ -199,7 +199,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
         tokenGenerator(SecureRandomTokenGenerator)
 
         callbackErrorHandler(DefaultCallbackErrorHandler)
-        
+
         String jwtSecretValue = conf.rest.token.storage.jwt.secret
 
         /* tokenStorageService - defaults to JWT */
@@ -276,6 +276,11 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
 
     @Override
     void doWithApplicationContext() {
+        def conf = SpringSecurityUtils.securityConfig
+        if (!conf || !conf.active) {
+            return
+        }
+
         def customClaimProvidersList = applicationContext.getBeanNamesForType(CustomClaimProvider).collect {
             applicationContext.getBean(it, CustomClaimProvider)
         }
