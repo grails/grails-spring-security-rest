@@ -79,7 +79,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
 
     Closure doWithSpring() { {->
         def conf = SpringSecurityUtils.securityConfig
-        if (!conf || !conf.active) {
+        if (!conf || !conf.active || !conf.rest.active) {
             return
         }
 
@@ -199,7 +199,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
         tokenGenerator(SecureRandomTokenGenerator)
 
         callbackErrorHandler(DefaultCallbackErrorHandler)
-        
+
         String jwtSecretValue = conf.rest.token.storage.jwt.secret
 
         /* tokenStorageService - defaults to JWT */
@@ -276,6 +276,11 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
 
     @Override
     void doWithApplicationContext() {
+        def conf = SpringSecurityUtils.securityConfig
+        if (!conf || !conf.active || !conf.rest.active) {
+            return
+        }
+
         def customClaimProvidersList = applicationContext.getBeanNamesForType(CustomClaimProvider).collect {
             applicationContext.getBean(it, CustomClaimProvider)
         }
