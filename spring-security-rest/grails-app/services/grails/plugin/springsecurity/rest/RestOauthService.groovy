@@ -16,6 +16,8 @@
  */
 package grails.plugin.springsecurity.rest
 
+import com.google.common.cache.CacheBuilder
+import com.google.common.cache.LoadingCache
 import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.oauth.OauthUser
 import grails.plugin.springsecurity.rest.oauth.OauthUserDetailsService
@@ -23,11 +25,14 @@ import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import grails.core.GrailsApplication
+import grails.util.Holders
 import grails.web.mapping.LinkGenerator
+import org.codehaus.groovy.runtime.InvokerHelper
+import org.pac4j.core.client.BaseClient
+import org.pac4j.core.client.IndirectClient
 import org.pac4j.core.context.WebContext
 import org.pac4j.core.credentials.Credentials
 import org.pac4j.core.profile.CommonProfile
-import org.pac4j.oauth.client.BaseOAuthClient
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 
@@ -45,37 +50,36 @@ class RestOauthService {
     OauthUserDetailsService oauthUserDetailsService
     RestAuthenticationEventPublisher authenticationEventPublisher
 
-    BaseOAuthClient getClient(String provider) {
+    private transient LoadingCache<String, IndirectClient> clientCache = CacheBuilder.newBuilder().<String, IndirectClient>build { String provider ->
         log.debug "Creating OAuth client for provider: ${provider}"
-        def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
-        def ClientClass = providerConfig.client
+        Map<String, ?> providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
+        def clientClass = providerConfig.client
+        if (clientClass instanceof CharSequence) clientClass = Class.forName(clientClass as String, true, Holders.grailsApplication.classLoader)
+        IndirectClient client = (clientClass as Class<? extends IndirectClient>).newInstance()
 
-        BaseOAuthClient client
-        if (ClientClass?.toString()?.endsWith("CasOAuthWrapperClient")) {
-            client = ClientClass.newInstance(providerConfig.key, providerConfig.secret, providerConfig.casOAuthUrl)
-        } else if (BaseOAuthClient.class.isAssignableFrom(ClientClass)) {
-            client = ClientClass.newInstance(providerConfig.key, providerConfig.secret)
-        } else {
-			client = ClientClass.newInstance()
-        }
+        Map<String, ?> clientConfig = [:]
+        clientConfig.putAll providerConfig
+        clientConfig.remove 'client'
 
         String callbackUrl = grailsLinkGenerator.link controller: 'restOauth', action: 'callback', params: [provider: provider], mapping: 'oauth', absolute: true
         log.debug "Callback URL is: ${callbackUrl}"
-        client.callbackUrl = callbackUrl
+        clientConfig.callbackUrl = callbackUrl
 
-        if (providerConfig.scope) client.scope = providerConfig.scope
-        if (providerConfig.fields) client.fields = providerConfig.fields
-        if (providerConfig.casLoginUrl) client.casLoginUrl = providerConfig.casLoginUrl
+        InvokerHelper.setProperties client, clientConfig
 
-        return client
+        client
+    }
+
+    IndirectClient getClient(String provider) {
+        clientCache.get provider
     }
 
     CommonProfile getProfile(String provider, WebContext context) {
-        BaseOAuthClient client = getClient(provider)
+        IndirectClient client = getClient(provider)
         Credentials credentials = client.getCredentials context
 
         log.debug "Querying provider to fetch User ID"
-        client.getUserProfile credentials, null
+        client.getUserProfile credentials, context
     }
 
     OauthUser getOauthUser(String provider, CommonProfile profile) {

@@ -10,7 +10,7 @@ dependencyManagement {
 }
 
 ext {
-    pac4jVersion = '1.8.8'
+    pac4jVersion = '2.0.0'
 }
 
 dependencies {
@@ -29,9 +29,9 @@ dependencies {
     compile("com.lowagie:itext:2.0.8") {
         exclude module: "bcprov-jdk14"
     }
-    compile 'commons-codec:commons-codec:1.10'
-    compile "org.grails.plugins:spring-security-core:3.1.1"
     compile "org.bouncycastle:bcprov-jdk15on:1.51"
+    compile 'commons-codec:commons-codec:1.10'
+    compile "org.grails.plugins:spring-security-core:3.1.2"
 
     testCompile "org.gperfutils:gbench:0.4.3-groovy-2.4"
 
