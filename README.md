@@ -64,6 +64,7 @@ Contributors
 * [Polawat Phetra](https://github.com/pphetra).
 * [Rafael Vargas](https://github.com/rvargas).
 * [Sean Brady](https://github.com/sbrady).
+* [Sergey Shatunov](https://github.com/Prototik).
 * [Tony Erskine](https://github.com/tonyerskine).
 * [Svante Rohlin](https://github.com/srohlin).
 * [Victor Saar](https://github.com/vsaar).
