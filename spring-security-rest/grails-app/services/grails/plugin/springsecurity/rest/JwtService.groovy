@@ -17,8 +17,11 @@
 package grails.plugin.springsecurity.rest
 
 import com.nimbusds.jose.JOSEException
+import com.nimbusds.jose.JWSAlgorithm
+import com.nimbusds.jose.JWSVerifier
 import com.nimbusds.jose.crypto.MACVerifier
 import com.nimbusds.jose.crypto.RSADecrypter
+import com.nimbusds.jose.crypto.RSASSAVerifier
 import com.nimbusds.jwt.EncryptedJWT
 import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTParser
@@ -40,7 +43,7 @@ class JwtService {
 
     String jwtSecret
     RSAKeyProvider keyProvider
-    GrailsApplication grailsApplication
+    Map<String, RSAKeyProvider> issuerKeyProviders
 
     /**
      * Parses and verifies (for signed tokens) or decrypts (for encrypted tokens) the given token
@@ -53,11 +56,29 @@ class JwtService {
         JWT jwt = JWTParser.parse(tokenValue)
 
         if (jwt instanceof  SignedJWT) {
-            log.debug "Parsed an HMAC signed JWT"
+            log.debug "Parsed a signed JWT"
 
             SignedJWT signedJwt = jwt as SignedJWT
-            if(!signedJwt.verify(new MACVerifier(jwtSecret))) {
+            JWSVerifier verifier = null
+            if (JWSAlgorithm.Family.RSA.contains(jwt.header.algorithm)) {
+                log.debug "RSA key"
+                RSAKeyProvider rsaKeyProvider = issuerKeyProviders?.get(signedJwt.JWTClaimsSet.issuer)
+                if (!rsaKeyProvider) {
+                    log.debug("issuer key provider not found, use default one")
+                    rsaKeyProvider = keyProvider
+                } else {
+                    log.debug("found key provider for issuer ${signedJwt.JWTClaimsSet.issuer}")
+                }
+                verifier = new RSASSAVerifier(rsaKeyProvider.publicKey)
+            } else {
+                log.debug "HMAC key"
+                verifier = new MACVerifier(jwtSecret)
+            }
+            log.debug "verifier created"
+            if(!signedJwt.verify(verifier)) {
                 throw new JOSEException('Invalid signature')
+            } else {
+                log.debug "valid token"
             }
         } else if (jwt instanceof EncryptedJWT) {
             log.debug "Parsed an RSA encrypted JWT"

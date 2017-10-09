@@ -16,10 +16,12 @@
  */
 package grails.plugin.springsecurity.rest.token.generation.jwt
 
+import com.nimbusds.jose.JOSEObjectType
 import com.nimbusds.jose.JWSAlgorithm
 import com.nimbusds.jose.JWSHeader
 import com.nimbusds.jose.JWSSigner
 import com.nimbusds.jose.crypto.MACSigner
+import com.nimbusds.jose.crypto.RSASSASigner
 import com.nimbusds.jwt.JWT
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.SignedJWT
@@ -38,16 +40,25 @@ class SignedJwtTokenGenerator extends AbstractJwtTokenGenerator implements Initi
 
     JWSSigner signer
 
+    RSAKeyProvider keyProvider
+
     JWSAlgorithm jwsAlgorithm
 
     @Override
     void afterPropertiesSet() throws Exception {
-        signer = new MACSigner(jwtSecret)
+        if (JWSAlgorithm.Family.RSA.contains(jwsAlgorithm)) {
+            signer = new RSASSASigner(keyProvider.privateKey)
+        } else {
+            signer = new MACSigner(jwtSecret)
+        }
     }
 
     @Override
     protected JWT generateAccessToken(JWTClaimsSet claimsSet) {
-        SignedJWT signedJWT = new SignedJWT(new JWSHeader(jwsAlgorithm), claimsSet)
+        JWSHeader header = new JWSHeader.Builder(jwsAlgorithm)
+                .type(JOSEObjectType.JWT)
+                .build()
+        SignedJWT signedJWT = new SignedJWT(header, claimsSet)
         signedJWT.sign(signer)
 
         return signedJWT
