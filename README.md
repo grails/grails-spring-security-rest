@@ -57,6 +57,7 @@ Contributors
 * [Ludovic Ronsin](https://github.com/zeludo).
 * [Lukasz Wozniak](https://github.com/stlhrt).
 * [Marcos Carceles](https://github.com/marcos-carceles).
+* [Michał Lula](https://github.com/michallula).
 * [Michal Szulc](https://github.com/majkelo).
 * [Nick Larson](https://github.com/nllarson).
 * [Philipp Eschenbach](https://github.com/peh).
