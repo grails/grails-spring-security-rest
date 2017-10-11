@@ -5,6 +5,9 @@ import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGene
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import spock.lang.Issue
 import spock.lang.Specification
 
@@ -13,12 +16,17 @@ class RestAuthenticationProviderSpec extends Specification implements TokenGener
     RestAuthenticationProvider restAuthenticationProvider
     SignedJwtTokenGenerator tokenGenerator
 
+
     void setup() {
         this.tokenGenerator = setupSignedJwtTokenGenerator()
         this.restAuthenticationProvider = new RestAuthenticationProvider(useJwt: true)
+        UserDetailsService userDetailsService = new InMemoryUserDetailsManager([])
+        UserDetails testUser = new User('testUser', 'testPassword', [])
+        userDetailsService.createUser(testUser)
+
         JwtService jwtService = new JwtService(jwtSecret: this.tokenGenerator.jwtTokenStorageService.jwtService.jwtSecret)
         this.restAuthenticationProvider.jwtService = jwtService
-        this.restAuthenticationProvider.tokenStorageService = new JwtTokenStorageService(jwtService: jwtService)
+        this.restAuthenticationProvider.tokenStorageService = new JwtTokenStorageService(jwtService: jwtService, userDetailsService: userDetailsService)
     }
 
     @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/276")
@@ -32,5 +40,4 @@ class RestAuthenticationProviderSpec extends Specification implements TokenGener
         then:
         result.authenticated
     }
-
 }
