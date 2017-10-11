@@ -48,6 +48,7 @@ Contributors
 * [Bobby Warner](https://github.com/bobbywarner).
 * [Burt Beckwith](https://github.com/burtbeckwith).
 * [Conall Laverty](https://github.com/conalllaverty).
+* [Dennie de Lange](https://github.com/tkvw).
 * [Dhiraj Mahapatro](https://github.com/dmahapatro).
 * [Donal Murtagh](https://github.com/domurtag).
 * [Greg Pagendam-Turner](https://github.com/liftyourgame).

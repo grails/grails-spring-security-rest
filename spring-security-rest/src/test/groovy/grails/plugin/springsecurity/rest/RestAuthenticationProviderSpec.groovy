@@ -32,12 +32,12 @@ class RestAuthenticationProviderSpec extends Specification implements TokenGener
     @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/276")
     void "if the JWT's expiration time is null, it's validated successfully"() {
         given:
-            AccessToken accessToken = tokenGenerator.generateAccessToken(new User('testUser', 'testPassword', []), 0)
+        AccessToken accessToken = tokenGenerator.generateAccessToken(new User('testUser', 'testPassword', []), 0)
 
         when:
-            Authentication result = this.restAuthenticationProvider.authenticate(accessToken)
+        Authentication result = this.restAuthenticationProvider.authenticate(accessToken)
 
         then:
-            result.authenticated
+        result.authenticated
     }
 }

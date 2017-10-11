@@ -20,7 +20,10 @@ import com.nimbusds.jwt.JWT
 import grails.plugin.springsecurity.rest.JwtService
 import grails.plugins.rest.client.RestResponse
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.userdetails.User
+import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import spock.lang.IgnoreIf
+import spock.lang.Issue
 import spock.lang.Unroll
 
 @IgnoreIf({ !System.getProperty('useBearerToken', 'false').toBoolean() })
@@ -28,6 +31,9 @@ class JwtSpec extends AbstractRestSpec {
 
     @Autowired
     JwtService jwtService
+
+    @Autowired
+    InMemoryUserDetailsManager userDetailsManager
 
     void "token expiration applies"() {
         given:
@@ -165,6 +171,56 @@ class JwtSpec extends AbstractRestSpec {
 
         then:
         jwt.JWTClaimsSet.issuer == 'Spring Security REST Grails Plugin'
+    }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/pull/344")
+    void "if the user no longer exists, token can't be refreshed"() {
+        given:
+        userDetailsManager.createUser(new User('foo', 'password', []))
+        RestResponse authResponse = sendCorrectCredentials('foo', 'password') as RestResponse
+        String refreshToken = authResponse.json.refresh_token
+        userDetailsManager.deleteUser('foo')
+
+        when:
+        def response = restBuilder.post("${baseUrl}/oauth/access_token") {
+            contentType "application/x-www-form-urlencoded"
+            body "grant_type=refresh_token&refresh_token=${refreshToken}".toString()
+        }
+
+        then:
+        response.status == 403
+
+        cleanup:
+        userDetailsManager.deleteUser('foo')
+    }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/pull/344")
+    @Unroll
+    void "if the user is #status, token can't be refreshed"(User updatedUser, String status) {
+        given:
+        userDetailsManager.createUser(new User('foo', 'password', []))
+        RestResponse authResponse = sendCorrectCredentials('foo', 'password') as RestResponse
+        String refreshToken = authResponse.json.refresh_token
+        userDetailsManager.updateUser(updatedUser)
+
+        when:
+        def response = restBuilder.post("${baseUrl}/oauth/access_token") {
+            contentType "application/x-www-form-urlencoded"
+            body "grant_type=refresh_token&refresh_token=${refreshToken}".toString()
+        }
+
+        then:
+        response.status == 403
+
+        cleanup:
+        userDetailsManager.deleteUser('foo')
+
+        where:
+        updatedUser                                                 | status
+        new User('foo', 'password', false, true, true, true, [])    | "disabled"
+        new User('foo', 'password', true, false, true, true, [])    | "expired"
+        new User('foo', 'password', true, true, false, true, [])    | "credentials expired"
+        new User('foo', 'password', true, true, true, false, [])    | "locked"
     }
 
 }

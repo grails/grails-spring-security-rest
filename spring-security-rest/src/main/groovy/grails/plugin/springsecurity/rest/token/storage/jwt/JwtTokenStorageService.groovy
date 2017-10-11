@@ -52,9 +52,13 @@ class JwtTokenStorageService implements TokenStorageService {
             boolean isRefreshToken = jwt.JWTClaimsSet.expirationTime == null
 
             if(isRefreshToken){
-                def principal = userDetailsService.loadUserByUsername(jwt.JWTClaimsSet.subject)
+                UserDetails principal = userDetailsService.loadUserByUsername(jwt.JWTClaimsSet.subject)
+
                 if(!principal){
                     throw new TokenNotFoundException("Token no longer valid, principal not found")
+                }
+                if(!principal.enabled){
+                    throw new TokenNotFoundException("Token no longer valid, account disabled")
                 }
                 if(!principal.accountNonExpired){
                     throw new TokenNotFoundException("Token no longer valid, account expired")
@@ -62,6 +66,10 @@ class JwtTokenStorageService implements TokenStorageService {
                 if(!principal.accountNonLocked){
                     throw new TokenNotFoundException("Token no longer valid, account locked")
                 }
+                if(!principal.credentialsNonExpired){
+                    throw new TokenNotFoundException("Token no longer valid, credentials expired")
+                }
+
                 return principal
             }
 
