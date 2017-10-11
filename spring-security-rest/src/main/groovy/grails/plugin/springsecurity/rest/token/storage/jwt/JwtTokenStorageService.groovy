@@ -26,6 +26,7 @@ import groovy.util.logging.Slf4j
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
 
 import java.text.ParseException
 
@@ -37,7 +38,8 @@ import java.text.ParseException
 class JwtTokenStorageService implements TokenStorageService {
 
     JwtService jwtService
-
+    UserDetailsService userDetailsService
+    
     @Override
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
         Date now = new Date()
@@ -46,6 +48,21 @@ class JwtTokenStorageService implements TokenStorageService {
 
             if (jwt.JWTClaimsSet.expirationTime?.before(now)) {
                 throw new TokenNotFoundException("Token ${tokenValue} has expired")
+            }
+            boolean isRefreshToken = jwt.JWTClaimsSet.expirationTime == null
+
+            if(isRefreshToken){
+                def principal = userDetailsService.loadUserByUsername(jwt.JWTClaimsSet.subject)
+                if(!principal){
+                    throw new TokenNotFoundException("Token no longer valid, principal not found")
+                }
+                if(!principal.accountNonExpired){
+                    throw new TokenNotFoundException("Token no longer valid, account expired")
+                }
+                if(!principal.accountNonLocked){
+                    throw new TokenNotFoundException("Token no longer valid, account locked")
+                }
+                return principal
             }
 
             def roles = jwt.JWTClaimsSet.getStringArrayClaim('roles')?.collect { String role -> new SimpleGrantedAuthority(role) }
