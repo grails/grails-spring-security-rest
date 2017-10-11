@@ -29,7 +29,6 @@ dependencies {
     compile("com.lowagie:itext:2.0.8") {
         exclude module: "bcprov-jdk14"
     }
-    compile "org.bouncycastle:bcprov-jdk15on:1.51"
     compile 'commons-codec:commons-codec:1.10'
     compile "org.grails.plugins:spring-security-core:3.1.2"
 
