@@ -20,6 +20,7 @@ Companies using this plugin
 * [Murallo](http://murallo.com)
 * [Odobo](http://www.odobo.com)
 * [Sharptop Software](http://www.sharptop.co)
+* [Zaccak Solutions](http://www.zaccak.com)
 
 _Are you using this plugin and want to be listed here? [Include your company yourself](https://github.com/alvarosanchez/grails-spring-security-rest/edit/develop/README.md)_.
 
