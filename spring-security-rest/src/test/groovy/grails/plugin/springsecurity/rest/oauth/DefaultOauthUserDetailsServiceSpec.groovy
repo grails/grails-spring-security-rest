@@ -16,19 +16,40 @@
  */
 package grails.plugin.springsecurity.rest.oauth
 
+import grails.core.DefaultGrailsApplication
+import grails.plugin.springsecurity.ReflectionUtils
+import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.userdetails.DefaultPreAuthenticationChecks
+import org.grails.spring.GrailsApplicationContext
 import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.authentication.AccountStatusException
+import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
+import spock.lang.IgnoreRest
+import spock.lang.Shared
 import spock.lang.Specification
 
 class DefaultOauthUserDetailsServiceSpec extends Specification {
 
+    @Shared
+    def application
+    def setupSpec() {
+        application = new DefaultGrailsApplication()
+        application.mainContext = new GrailsApplicationContext()
+        ReflectionUtils.application = SpringSecurityUtils.application = application
+    }
+
+    def setup() {
+        SpringSecurityUtils.resetSecurityConfig()
+    }
+
     void "it load users either existing or not"() {
         given:
+        application.config.grails.plugin.springsecurity.userLookup.userDomainClassName = 'demo.User'
+        
         OauthUserDetailsService service = new DefaultOauthUserDetailsService()
         service.preAuthenticationChecks = new DefaultPreAuthenticationChecks()
         service.userDetailsService = new InMemoryUserDetailsManager([])
@@ -50,6 +71,8 @@ class DefaultOauthUserDetailsServiceSpec extends Specification {
 
     void "when a user exists but it's disabled, it throws an exception"() {
         given:
+        application.config.grails.plugin.springsecurity.userLookup.userDomainClassName = 'demo.User'
+
         OauthUserDetailsService service = new DefaultOauthUserDetailsService()
         service.preAuthenticationChecks = new DefaultPreAuthenticationChecks()
         service.userDetailsService = new InMemoryUserDetailsManager([])
@@ -61,7 +84,28 @@ class DefaultOauthUserDetailsServiceSpec extends Specification {
 
         then:
         thrown(AccountStatusException)
-
     }
 
+    void "if userLookUp.userDomainClassName not set, don't look for the user with userDetailService; return basic OauthUser instead"() {
+        given:
+        application.config.grails.plugin.springsecurity.userLookup.userDomainClassName = null
+
+        OauthUserDetailsService service = new DefaultOauthUserDetailsService()
+        Collection<GrantedAuthority> expectedRoles = [new MockGrantedAuthority(authority: 'ROLE_USER')]
+
+        when:
+        OauthUser oauthUser = service.loadUserByUserProfile([id: 'jimi'] as CommonProfile, expectedRoles)
+
+        then:
+        oauthUser
+        oauthUser.username == 'jimi'
+        oauthUser.authorities
+        oauthUser.authorities.size() == expectedRoles.size()
+        oauthUser.authorities.first() == expectedRoles.first()
+    }
+
+}
+
+class MockGrantedAuthority implements GrantedAuthority {
+    String authority
 }
