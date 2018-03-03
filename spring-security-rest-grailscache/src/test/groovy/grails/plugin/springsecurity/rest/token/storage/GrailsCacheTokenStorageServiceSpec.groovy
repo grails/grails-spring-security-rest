@@ -16,10 +16,8 @@
  */
 package grails.plugin.springsecurity.rest.token.storage
 
-import grails.plugin.cache.GrailsCacheManager
 import grails.plugin.cache.GrailsConcurrentMapCacheManager
-import grails.plugin.springsecurity.rest.token.storage.GrailsCacheTokenStorageService
-import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
+import org.grails.plugin.cache.GrailsCacheManager
 import org.springframework.security.core.userdetails.User
 import spock.lang.Specification
 

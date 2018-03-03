@@ -1,14 +1,6 @@
-dependencyManagement {
-    imports {
-        mavenBom "org.grails:grails-bom:$grailsVersion"
-    }
-    applyMavenExclusions false
-}
-
 dependencies {
     compile project(":spring-security-rest")
     compile "net.spy:spymemcached:2.12.3"
-
 
     profile "org.grails.profiles:plugin:${grailsVersion}"
 }

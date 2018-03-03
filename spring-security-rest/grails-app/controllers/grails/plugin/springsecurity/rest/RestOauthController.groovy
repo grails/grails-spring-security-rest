@@ -21,6 +21,7 @@ import grails.plugin.springsecurity.rest.error.CallbackErrorHandler
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
+import groovy.util.logging.Slf4j
 import org.apache.commons.codec.binary.Base64
 import grails.core.GrailsApplication
 import org.pac4j.core.client.IndirectClient
@@ -32,6 +33,7 @@ import org.springframework.security.core.userdetails.User
 
 import java.nio.charset.StandardCharsets
 
+@Slf4j
 @Secured(['permitAll'])
 class RestOauthController {
 

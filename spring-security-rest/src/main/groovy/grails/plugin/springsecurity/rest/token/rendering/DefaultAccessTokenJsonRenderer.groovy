@@ -45,7 +45,7 @@ class DefaultAccessTokenJsonRenderer implements AccessTokenJsonRenderer {
         Assert.isInstanceOf(UserDetails, accessToken.principal, "A UserDetails implementation is required")
         UserDetails userDetails = accessToken.principal as UserDetails
 
-        def result = [
+        Map result = [
             (usernamePropertyName) : userDetails.username,
             (authoritiesPropertyName) : accessToken.authorities.collect { GrantedAuthority role -> role.authority }
         ]
@@ -70,7 +70,7 @@ class DefaultAccessTokenJsonRenderer implements AccessTokenJsonRenderer {
             result.displayName = profile.displayName
         }
 
-        def jsonResult = result as JSON
+        JSON jsonResult = result as JSON
 
         log.debug "Generated JSON:\n${jsonResult.toString(true)}"
 

@@ -1,12 +1,14 @@
 description: Second configuration of GORM
 dependencies:
     build:
-        - "org.grails.plugins:hibernate5:6.0.4"
+        - "org.grails.plugins:hibernate5:6.1.8"
     compile:
         - "org.grails.plugins:hibernate5"
-        - "org.hibernate:hibernate-core:5.1.1.Final"
-        - "org.hibernate:hibernate-ehcache:5.1.1.Final"
+        - "org.hibernate:hibernate-core:5.1.5.Final"
+        - "org.hibernate:hibernate-ehcache:5.1.5.Final"
         - "org.hibernate:hibernate-ehcache"
         - "org.grails.plugins:spring-security-rest-gorm:${pluginVersion}"
     runtime:
         - "com.h2database:h2"
+        - "org.apache.tomcat:tomcat-jdbc"
+        - "org.glassfish.web:el-impl:2.1.2-b03"

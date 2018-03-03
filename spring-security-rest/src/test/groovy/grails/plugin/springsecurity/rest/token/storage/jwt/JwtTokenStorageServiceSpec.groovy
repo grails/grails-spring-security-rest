@@ -21,7 +21,7 @@ import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
-import grails.test.mixin.TestFor
+import grails.testing.services.ServiceUnitTest
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import spock.lang.Specification
@@ -29,8 +29,7 @@ import spock.lang.Specification
 /**
  * Created by @marcos-carceles on 03/03/15.
  */
-@TestFor(JwtTokenStorageService)
-class JwtTokenStorageServiceSpec extends Specification {
+class JwtTokenStorageServiceSpec extends Specification implements ServiceUnitTest<JwtTokenStorageService> {
 
     JwtTokenStorageService service
     SignedJwtTokenGenerator tokenGenerator

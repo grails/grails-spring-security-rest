@@ -16,7 +16,7 @@
  */
 package grails.plugin.springsecurity.rest
 
-import grails.test.mixin.TestFor
+import grails.testing.services.ServiceUnitTest
 import grails.web.mapping.LinkGenerator
 import org.pac4j.oauth.client.*
 import spock.lang.Specification
@@ -25,8 +25,7 @@ import spock.lang.Unroll
 /**
  * Created by Svante on 2014-10-15.
  */
-@TestFor(RestOauthService)
-class RestOauthServiceTest extends Specification {
+class RestOauthServiceSpec extends Specification implements ServiceUnitTest<RestOauthService> {
 
     def setup() {
         def grailsLinkGenerator = Mock(LinkGenerator)
@@ -43,7 +42,7 @@ class RestOauthServiceTest extends Specification {
         given:
         def provider = "cas"
         providerConfig(provider)
-        providerConfig(provider).client = org.pac4j.oauth.client.CasOAuthWrapperClient
+        providerConfig(provider).client = CasOAuthWrapperClient
         providerConfig(provider).key = 'my_key'
         providerConfig(provider).secret = 'my_secret'
         providerConfig(provider).casOAuthUrl = 'cas_oauth_url'
@@ -52,7 +51,7 @@ class RestOauthServiceTest extends Specification {
         def client = service.getClient(provider);
 
         then:
-        assert client instanceof org.pac4j.oauth.client.CasOAuthWrapperClient
+        assert client instanceof CasOAuthWrapperClient
         assert client.key == providerConfig(provider).key
         assert client.secret == providerConfig(provider).secret
         assert client.casOAuthUrl == providerConfig(provider).casOAuthUrl
@@ -61,7 +60,6 @@ class RestOauthServiceTest extends Specification {
 
     @Unroll
     def "it can create a client for #provider"() {
-
         given:
         providerConfig(provider)
         providerConfig(provider).client = clientClass
@@ -72,9 +70,9 @@ class RestOauthServiceTest extends Specification {
         def client = service.getClient(provider);
 
         then:
-        assert client.class == clientClass
-        assert client.key == providerConfig(provider).key
-        assert client.secret == providerConfig(provider).secret
+        client.class == clientClass
+        client.key == providerConfig(provider).key
+        client.secret == providerConfig(provider).secret
 
         where:
         provider        | clientClass
@@ -87,7 +85,6 @@ class RestOauthServiceTest extends Specification {
         'windowslive'   | WindowsLiveClient
         'wordpress'     | WordPressClient
         'yahoo'         | YahooClient
-
     }
 
 

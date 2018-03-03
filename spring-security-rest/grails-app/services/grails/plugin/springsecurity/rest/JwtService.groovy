@@ -27,7 +27,6 @@ import com.nimbusds.jwt.SignedJWT
 import grails.plugin.springsecurity.rest.token.generation.jwt.RSAKeyProvider
 import grails.util.Holders
 import groovy.util.logging.Slf4j
-import grails.core.GrailsApplication
 import org.springframework.security.core.userdetails.UserDetails
 
 import java.util.zip.GZIPInputStream
@@ -36,11 +35,11 @@ import java.util.zip.GZIPOutputStream
 /**
  * Helper to perform actions with JWT tokens
  */
+@Slf4j
 class JwtService {
 
     String jwtSecret
     RSAKeyProvider keyProvider
-    GrailsApplication grailsApplication
 
     /**
      * Parses and verifies (for signed tokens) or decrypts (for encrypted tokens) the given token

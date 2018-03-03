@@ -9,4 +9,6 @@ integrationTest {
 
     systemProperty 'geb.build.reportsDir', "${buildDir}/geb-reports"
 
+    systemProperty "geb.env", System.getProperty('geb.env')
+
 }

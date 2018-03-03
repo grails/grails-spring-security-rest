@@ -17,13 +17,15 @@
 package rest
 
 import grails.plugins.rest.client.RestBuilder
-import grails.test.mixin.integration.Integration
-import org.springframework.boot.test.WebIntegrationTest
+import grails.testing.mixin.integration.Integration
+import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Shared
 import spock.lang.Specification
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT
+
 @Integration
-@WebIntegrationTest(randomPort=false)
+@SpringBootTest(webEnvironment = DEFINED_PORT)
 abstract class AbstractRestSpec extends Specification {
 
     @Shared

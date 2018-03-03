@@ -61,8 +61,11 @@ subprojects { Project project ->
             compile "org.grails:grails-core"
 
             provided "org.grails:grails-plugin-services"
+            provided "org.grails:grails-plugin-domain-class"
 
+            testCompile "org.grails:grails-gorm-testing-support"
             testCompile "org.grails:grails-plugin-testing"
+            testCompile "org.grails:grails-web-testing-support"
             testCompile('com.athaydes:spock-reports:1.2.13') {
                 transitive = false
             }
@@ -96,7 +99,9 @@ subprojects { Project project ->
             userOrg = 'grails'
             repo = 'plugins'
             githubSlug = 'alvarosanchez/grails-spring-security-rest'
-            license = 'APACHE 2.0'
+            license {
+                name = 'Apache-2.0'
+            }
             title = "Spring Security REST plugin"
             desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
             developers = [

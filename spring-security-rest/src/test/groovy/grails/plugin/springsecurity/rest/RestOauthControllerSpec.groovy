@@ -17,7 +17,7 @@
 package grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.rest.error.DefaultCallbackErrorHandler
-import grails.test.mixin.TestFor
+import grails.testing.web.controllers.ControllerUnitTest
 import groovy.transform.InheritConstructors
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import spock.lang.Issue
@@ -27,8 +27,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 
 @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/237")
-@TestFor(RestOauthController)
-class RestOauthControllerSpec extends Specification {
+class RestOauthControllerSpec extends Specification implements ControllerUnitTest<RestOauthController> {
 
     /**
      * The frontend callback URL stored in config.groovy

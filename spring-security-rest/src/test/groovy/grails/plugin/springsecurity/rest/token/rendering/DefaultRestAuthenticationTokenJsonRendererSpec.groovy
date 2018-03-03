@@ -20,10 +20,11 @@ import grails.converters.JSON
 import grails.core.DefaultGrailsApplication
 import grails.plugin.springsecurity.ReflectionUtils
 import grails.plugin.springsecurity.SpringSecurityUtils
+import grails.plugin.springsecurity.rest.RestOauthController
 import grails.plugin.springsecurity.rest.oauth.OauthUser
 import grails.plugin.springsecurity.rest.token.AccessToken
-import grails.test.mixin.TestMixin
-import grails.test.mixin.web.ControllerUnitTestMixin
+import grails.testing.gorm.DataTest
+import grails.testing.web.controllers.ControllerUnitTest
 import org.grails.spring.GrailsApplicationContext
 import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -33,8 +34,7 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
-@TestMixin(ControllerUnitTestMixin)
-class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
+class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification implements ControllerUnitTest<RestOauthController> {
 
     @Shared
     DefaultAccessTokenJsonRenderer renderer
@@ -69,9 +69,9 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         jsonResult == generatedJson
 
         where:
-        roles                                                                       | generatedJson
-        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"username":"john.doe","roles":["USER","ADMIN"],"access_token":"1a2b3c4d"}'
-        []                                                                          | '{"username":"john.doe","roles":[],"access_token":"1a2b3c4d"}'
+        roles                                                                                   | generatedJson
+        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]     | '{"username":"john.doe","roles":["USER","ADMIN"],"access_token":"1a2b3c4d"}'
+        []                                                                                      | '{"username":"john.doe","roles":[],"access_token":"1a2b3c4d"}'
     }
 
     void "Render JSON with custom properties"() {
@@ -95,9 +95,9 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification {
         jsonResult == generatedJson
 
         where:
-        roles                                                                       | generatedJson
-        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]   | '{"login":"john.doe","authorities":["USER","ADMIN"],"token":"1a2b3c4d"}'
-        []                                                                          | '{"login":"john.doe","authorities":[],"token":"1a2b3c4d"}'
+        roles                                                                                   | generatedJson
+        [new SimpleGrantedAuthority('USER'), new SimpleGrantedAuthority('ADMIN')]     | '{"login":"john.doe","authorities":["USER","ADMIN"],"token":"1a2b3c4d"}'
+        []                                                                                      | '{"login":"john.doe","authorities":[],"token":"1a2b3c4d"}'
 
 
     }

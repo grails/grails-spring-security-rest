@@ -19,13 +19,17 @@ package redis
 import grails.plugin.springsecurity.rest.token.storage.RedisTokenStorageService
 import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.plugins.redis.RedisService
-import grails.test.mixin.integration.Integration
+import grails.testing.mixin.integration.Integration
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import spock.lang.Specification
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT
+
 @Integration
+@SpringBootTest(webEnvironment = DEFINED_PORT)
 class RedisSpec extends Specification {
 
     @Autowired

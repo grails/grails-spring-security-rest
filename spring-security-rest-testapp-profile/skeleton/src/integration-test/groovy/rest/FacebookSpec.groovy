@@ -16,16 +16,16 @@
  */
 package rest
 
+import grails.testing.mixin.integration.Integration
+import org.springframework.boot.test.context.SpringBootTest
 import geb.spock.GebReportingSpec
-import grails.test.mixin.integration.Integration
-import org.springframework.boot.test.WebIntegrationTest
 import spock.lang.IgnoreIf
-import spock.lang.Ignore
+
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT
 
 @Integration
-@WebIntegrationTest(randomPort=false)
-//@IgnoreIf({ !System.getProperty('useFacebook', 'false').toBoolean() || !System.getenv('FB_PASSWORD') })
-@Ignore // TODO: Need to update the Facebook credentials used on Travis CI as this test currently fails with an OAuthException
+@SpringBootTest(webEnvironment = DEFINED_PORT)
+@IgnoreIf({ !System.getProperty('useFacebook', 'false').toBoolean() || !System.getenv('FB_PASSWORD') })
 class FacebookSpec extends GebReportingSpec {
 
     void "it can sign users in with Facebook"() {
