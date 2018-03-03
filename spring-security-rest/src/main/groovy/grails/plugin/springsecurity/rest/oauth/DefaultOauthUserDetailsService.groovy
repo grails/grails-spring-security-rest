@@ -16,8 +16,14 @@
  */
 package grails.plugin.springsecurity.rest.oauth
 
+import grails.core.DefaultGrailsApplication
+import grails.plugin.springsecurity.ReflectionUtils
+import grails.plugin.springsecurity.SpringSecurityUtils
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import org.grails.config.PropertySourcesConfig
+import org.grails.spring.GrailsApplicationContext
 import org.pac4j.core.profile.CommonProfile
 import org.pac4j.core.profile.UserProfile
 import org.springframework.security.core.GrantedAuthority
@@ -44,24 +50,40 @@ class DefaultOauthUserDetailsService implements OauthUserDetailsService {
 
     OauthUser loadUserByUserProfile(CommonProfile userProfile, Collection<GrantedAuthority> defaultRoles)
             throws UsernameNotFoundException {
-        UserDetails userDetails
-        OauthUser oauthUser
 
+        String userDomainClass = userDomainClassName()
+        if ( !userDomainClass ) {
+            return instantiateOauthUser(userProfile, defaultRoles)
+        }
+        loadUserByUserProfileWhenUserDomainClassIsSet(userProfile, defaultRoles)
+    }
+
+    OauthUser loadUserByUserProfileWhenUserDomainClassIsSet(CommonProfile userProfile, Collection<GrantedAuthority> defaultRoles) {
+        OauthUser oauthUser
         try {
             log.debug "Trying to fetch user details for user profile: ${userProfile}"
-            userDetails = userDetailsService.loadUserByUsername userProfile.id
+            UserDetails userDetails = userDetailsService.loadUserByUsername userProfile.id
 
             log.debug "Checking user details with ${preAuthenticationChecks.class.name}"
             preAuthenticationChecks?.check(userDetails)
 
-            Collection<GrantedAuthority> allRoles = userDetails.authorities + defaultRoles
+            Collection<GrantedAuthority> allRoles = (userDetails.authorities + defaultRoles) as Collection<GrantedAuthority>
             oauthUser = new OauthUser(userDetails.username, userDetails.password, allRoles, userProfile)
-        } catch (UsernameNotFoundException ignored) {
+        } catch (UsernameNotFoundException unfe) {
             log.debug "User not found. Creating a new one with default roles: ${defaultRoles}"
-            oauthUser = new OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
+            oauthUser = instantiateOauthUser(userProfile, defaultRoles)
         }
+        oauthUser
+    }
 
-        return oauthUser
+    OauthUser instantiateOauthUser(CommonProfile userProfile, Collection<GrantedAuthority> defaultRoles) {
+        new OauthUser(userProfile.id, 'N/A', defaultRoles, userProfile)
+    }
+
+    @CompileDynamic
+    String userDomainClassName() {
+
+        SpringSecurityUtils.getSecurityConfig()?.get('userLookup')?.get('userDomainClassName')
     }
 
 }
