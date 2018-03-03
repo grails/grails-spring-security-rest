@@ -8,6 +8,8 @@ set -x
 
 ./generate-test-apps.sh
 
+[[ -z "$CI" ]] && docker-compose up -d
 ./gradlew :spring-security-rest:check check
+[[ -z "$CI" ]] && docker-compose down
 
 if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew artifactoryPublish; fi
