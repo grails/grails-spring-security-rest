@@ -81,7 +81,7 @@ the algorithm used is HMAC SHA-256 with a specified shared secret. The relevant 
 |`true`
 
 |`grails.plugin.springsecurity.rest.token.storage.jwt.secret`
-|`'qrD6h8K6S9503Q06Y6Rfk21TErImPYqa'`
+|`null` //Needs to be set or the app won't boot
 
 |`grails.plugin.springsecurity.rest.token.storage.jwt.expiration`
 |`3600`
