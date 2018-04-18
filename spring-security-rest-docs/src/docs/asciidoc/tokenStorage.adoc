@@ -110,7 +110,7 @@ https://tools.ietf.org/html/draft-ietf-jose-json-web-encryption[JSON Web Encrypt
 Particularly, this plugin uses RSAES OAEP for key encryption and AES GCM (Galois/Counter Mode) algorithm with a 256 bit key
 for content encryption.
 
-By default, RSA public/private keys ar generated every time the application runs. This means that  generated tokens
+By default, RSA public/private keys are generated every time the application runs. This means that  generated tokens
 won't be decrypted across executions of the application. So better create your own key pair using OpenSSL:
 
 [source,bash]
