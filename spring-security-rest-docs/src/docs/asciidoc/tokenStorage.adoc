@@ -11,8 +11,7 @@ chance to the other implementations to store the principal if they need to.
 
 === JSON Web Token
 
-JSON Web Token (JWT) is an http://tools.ietf.org/html/draft-ietf-oauth-json-web-token[IETF standard] (in progress)
-which defines a secure way to encapsulate arbitrary data that can be sent over unsecure URL's.
+JSON Web Token (JWT) is an https://tools.ietf.org/html/rfc7519[IETF standard] which defines a secure way to encapsulate arbitrary data that can be sent over unsecure URL's.
 
 Generally speaking, JWT's can be useful in the following use cases:
 
