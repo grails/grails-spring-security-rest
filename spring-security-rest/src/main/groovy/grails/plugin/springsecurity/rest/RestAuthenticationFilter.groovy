@@ -108,10 +108,8 @@ class RestAuthenticationFilter extends GenericFilterBean {
                         log.debug "Request authenticated. Storing the authentication result in the security context"
                         log.debug "Authentication result: ${authenticationResult}"
 
-                        AccessToken accessToken = tokenGenerator.generateAccessToken(authenticationResult.principal as UserDetails)
-                        log.debug "Generated token: ${accessToken}"
+                        AccessToken accessToken = generateAndStoreAccessToken(authenticationResult)
 
-                        tokenStorageService.storeToken(accessToken.accessToken, authenticationResult.principal as UserDetails)
                         authenticationEventPublisher.publishTokenCreation(accessToken)
                         authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, accessToken)
                         SecurityContextHolder.context.setAuthentication(accessToken)
@@ -122,7 +120,7 @@ class RestAuthenticationFilter extends GenericFilterBean {
                     log.debug "Authentication failed: ${ae.message}"
                     authenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, ae)
                 }
-            
+
             }else{
                 log.debug "Username and/or password parameters are missing."
                 if(!authentication){
@@ -139,6 +137,13 @@ class RestAuthenticationFilter extends GenericFilterBean {
             chain.doFilter(request, response)
         }
 
+    }
 
+    protected AccessToken generateAndStoreAccessToken(Authentication authenticationResult){
+        AccessToken accessToken = tokenGenerator.generateAccessToken(authenticationResult.principal as UserDetails)
+        log.debug "Generated token: ${accessToken}"
+
+        tokenStorageService.storeToken(accessToken.accessToken, authenticationResult.principal as UserDetails)
+        return accessToken
     }
 }
