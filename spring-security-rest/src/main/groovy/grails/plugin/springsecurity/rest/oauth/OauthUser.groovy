@@ -19,7 +19,6 @@ package grails.plugin.springsecurity.rest.oauth
 import groovy.transform.CompileStatic
 import org.pac4j.core.profile.CommonProfile
 import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.SpringSecurityCoreVersion
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 
@@ -30,7 +29,7 @@ import org.springframework.security.core.userdetails.UserDetails
 @CompileStatic
 class OauthUser extends User implements Serializable {
 
-    private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID
+    private static final long serialVersionUID = 1055519971558835240L
 
     CommonProfile userProfile
 
