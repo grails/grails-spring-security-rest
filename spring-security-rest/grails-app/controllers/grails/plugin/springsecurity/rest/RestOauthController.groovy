@@ -17,6 +17,7 @@
 package grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.annotation.Secured
+import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.error.CallbackErrorHandler
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
@@ -48,7 +49,7 @@ class RestOauthController {
     TokenStorageService tokenStorageService
     def tokenGenerator
     AccessTokenJsonRenderer accessTokenJsonRenderer
-
+    RestAuthenticationEventPublisher authenticationEventPublisher
     /**
      * Starts the OAuth authentication flow, redirecting to the provider's Login URL. An optional callback parameter
      * allows the frontend application to define the frontend callback URL on demand.
@@ -134,6 +135,8 @@ class RestOauthController {
 
                 AccessToken accessToken = tokenGenerator.generateAccessToken(principal, false)
                 accessToken.refreshToken = refreshToken
+
+                authenticationEventPublisher.publishTokenCreation(accessToken)
 
                 response.addHeader 'Cache-Control', 'no-store'
                 response.addHeader 'Pragma', 'no-cache'

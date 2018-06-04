@@ -16,9 +16,15 @@
  */
 package grails.plugin.springsecurity.rest
 
+import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.error.DefaultCallbackErrorHandler
+import grails.plugin.springsecurity.rest.token.AccessToken
+import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
+import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import grails.testing.web.controllers.ControllerUnitTest
 import groovy.transform.InheritConstructors
+import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import spock.lang.Issue
 import spock.lang.Specification
@@ -116,6 +122,27 @@ class RestOauthControllerSpec extends Specification implements ControllerUnitTes
         then:
         String expectedUrl = getExpectedUrl(caughtException, INTERNAL_SERVER_ERROR.value())
         response.redirectedUrl == expectedUrl
+    }
+
+    void "it publishes RestTokenCreationEvent's"() {
+        given:
+        TokenStorageService stubbedTokenStorageService = Stub(TokenStorageService)
+        stubbedTokenStorageService.loadUserByToken(_) >> new User('foo', '', [])
+        controller.tokenStorageService = stubbedTokenStorageService
+
+        def stubbedTokenGenerator = [ generateAccessToken: { u,b -> new AccessToken('accessToken') }]
+        controller.tokenGenerator = stubbedTokenGenerator
+
+        controller.authenticationEventPublisher = Mock(RestAuthenticationEventPublisher)
+
+        when:
+        params.grant_type = 'refresh_token'
+        params.refresh_token = 'refresh_token'
+        request.method = 'POST'
+        controller.accessToken()
+
+        then:
+        1 * controller.authenticationEventPublisher.publishTokenCreation(_)
     }
 }
 
