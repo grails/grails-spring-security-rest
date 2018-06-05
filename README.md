@@ -22,6 +22,7 @@ Companies using this plugin
 * [Sharptop Software](http://www.sharptop.co)
 * [Zaccak Solutions](http://www.zaccak.com)
 * [Lyshnia Limited](https://lyshnia.com)
+* [Wiz Panda](https://www.wizpanda.com)
 
 _Are you using this plugin and want to be listed here? [Include your company yourself](https://github.com/alvarosanchez/grails-spring-security-rest/edit/develop/README.md)_.
 
@@ -70,8 +71,9 @@ Contributors
 * [Sean Brady](https://github.com/sbrady).
 * [Sergey Shatunov](https://github.com/Prototik).
 * [Sergio del Amo](https://github.com/sdelamo).
-* [Tony Erskine](https://github.com/tonyerskine).
+* [Shashank Agrawal](https://github.com/sagrawal31).
 * [Svante Rohlin](https://github.com/srohlin).
+* [Tony Erskine](https://github.com/tonyerskine).
 * [Victor Saar](https://github.com/vsaar).
 
 License
