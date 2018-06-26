@@ -259,4 +259,4 @@ grails {
 }
 ----
 
-Set `casLoginUrl` to the login URL of your CAS server.
+Set `configuration` to an instance of `org.pac4j.cas.config.CasConfiguration` passing the login URL of your CAS server as the argument of the constructor.
