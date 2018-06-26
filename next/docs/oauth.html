@@ -821,7 +821,7 @@ information you don&#8217;t need.</p>
                     cas {
 
                         client = org.pac4j.cas.client.CasClient
-                        casLoginUrl = "https://my.cas-server.com/cas/login"
+                        configuration = new org.pac4j.cas.config.CasConfiguration("https://my.cas-server.com/cas/login")
                     }
                 }
             }
@@ -831,13 +831,13 @@ information you don&#8217;t need.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Set <code>casLoginUrl</code> to the login URL of your CAS server.</p>
+<p>Set <code>configuration</code> to an instance of <code>org.pac4j.cas.config.CasConfiguration</code> passing the login URL of your CAS server as the argument of the constructor.</p>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-25 14:08:22 UTC
+Last updated 2018-06-26 08:41:25 UTC
 </div>
 </div>
 </body>

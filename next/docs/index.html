@@ -3480,7 +3480,7 @@ information you don&#8217;t need.</p>
                     cas {
 
                         client = org.pac4j.cas.client.CasClient
-                        casLoginUrl = <span class="string"><span class="delimiter">&quot;</span><span class="content">https://my.cas-server.com/cas/login</span><span class="delimiter">&quot;</span></span>
+                        configuration = <span class="keyword">new</span> org.pac4j.cas.config.CasConfiguration(<span class="string"><span class="delimiter">&quot;</span><span class="content">https://my.cas-server.com/cas/login</span><span class="delimiter">&quot;</span></span>)
                     }
                 }
             }
@@ -3490,7 +3490,7 @@ information you don&#8217;t need.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Set <code>casLoginUrl</code> to the login URL of your CAS server.</p>
+<p>Set <code>configuration</code> to an instance of <code>org.pac4j.cas.config.CasConfiguration</code> passing the login URL of your CAS server as the argument of the constructor.</p>
 </div>
 </div>
 </div>
@@ -3614,7 +3614,7 @@ your gratitude via <a href="https://twitter.com/alvaro_sanchez">Twitter</a>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-25 14:08:22 UTC
+Last updated 2018-06-26 08:41:25 UTC
 </div>
 </div>
 </body>
