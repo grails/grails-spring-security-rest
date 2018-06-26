@@ -73,6 +73,7 @@ Contributors
 * [Sergio del Amo](https://github.com/sdelamo).
 * [Shashank Agrawal](https://github.com/sagrawal31).
 * [Svante Rohlin](https://github.com/srohlin).
+* [Tomás Crespo](https://github.com/tcrespog).
 * [Tony Erskine](https://github.com/tonyerskine).
 * [Victor Saar](https://github.com/vsaar).
 
