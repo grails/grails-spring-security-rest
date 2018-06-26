@@ -250,7 +250,7 @@ grails {
                     cas {
 
                         client = org.pac4j.cas.client.CasClient
-                        casLoginUrl = "https://my.cas-server.com/cas/login"
+                        configuration = new org.pac4j.cas.config.CasConfiguration("https://my.cas-server.com/cas/login")
                     }
                 }
             }
