@@ -19,6 +19,8 @@ package grails.plugin.springsecurity.rest
 import com.nimbusds.jose.EncryptionMethod
 import com.nimbusds.jose.JWEAlgorithm
 import com.nimbusds.jose.JWSAlgorithm
+import grails.core.GrailsApplication
+import grails.plugin.springsecurity.BeanTypeResolver
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.rest.authentication.DefaultRestAuthenticationEventPublisher
@@ -45,6 +47,16 @@ import grails.plugin.springsecurity.rest.token.rendering.DefaultAccessTokenJsonR
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import grails.plugins.Plugin
 import groovy.util.logging.Slf4j
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder
+import org.springframework.security.crypto.password.LdapShaPasswordEncoder
+import org.springframework.security.crypto.password.Md4PasswordEncoder
+import org.springframework.security.crypto.password.MessageDigestPasswordEncoder
+import org.springframework.security.crypto.password.NoOpPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder
+import org.springframework.security.crypto.password.StandardPasswordEncoder
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
 import org.springframework.security.web.access.ExceptionTranslationFilter
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
@@ -54,7 +66,7 @@ import org.springframework.security.web.savedrequest.NullRequestCache
 class SpringSecurityRestGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
-    String grailsVersion = "3.1.0 > *"
+    String grailsVersion = "4.0.0 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
         "grails-app/views/**"
@@ -76,6 +88,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
 
     def issueManagement = [ system: "GitHub", url: "https://github.com/alvarosanchez/grails-spring-security-rest/issues" ]
     def scm = [ url: "https://github.com/alvarosanchez/grails-spring-security-rest" ]
+    GrailsApplication grailsApplication
 
     Closure doWithSpring() { {->
         def conf = SpringSecurityUtils.securityConfig
@@ -270,9 +283,16 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             authenticationEventPublisher(NullRestAuthenticationEventPublisher)
         }
 
+        String algorithm = conf.password.algorithm
+        Class beanTypeResolverClass = conf.beanTypeResolverClass ?: BeanTypeResolver
+        def beanTypeResolver = beanTypeResolverClass.newInstance(conf, grailsApplication)
+
+        passwordEncoder(beanTypeResolver.resolveType('passwordEncoder', DelegatingPasswordEncoder), algorithm, idToPasswordEncoder(conf))
+
         if (printStatusMessages) {
             println '... finished configuring Spring Security REST\n'
         }
+
     }}
 
     @Override
@@ -299,5 +319,44 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             throw new Exception("A JWT secret must be defined. Please provide a value for the config property: grails.plugin.springsecurity.conf.rest.token.storage.jwt.secret")
         }
     }
+
+
+    Map<String, PasswordEncoder> idToPasswordEncoder(ConfigObject conf) {
+
+        final String ENCODING_ID_BCRYPT = "bcrypt"
+        final String ENCODING_ID_LDAP = "ldap"
+        final String ENCODING_ID_MD4 = "MD4"
+        final String ENCODING_ID_MD5 = "MD5"
+        final String ENCODING_ID_NOOP = "noop"
+        final String ENCODING_ID_PBKDF2 = "pbkdf2"
+        final String ENCODING_ID_SCRYPT = "scrypt"
+        final String ENCODING_ID_SHA1 = "SHA-1"
+        final String ENCODING_IDSHA256 = "SHA-256"
+
+        MessageDigestPasswordEncoder messageDigestPasswordEncoderMD5 = new MessageDigestPasswordEncoder(ENCODING_ID_MD5)
+        messageDigestPasswordEncoderMD5.encodeHashAsBase64 = conf.password.encodeHashAsBase64 // false
+        messageDigestPasswordEncoderMD5.iterations = conf.password.hash.iterations // 10000
+
+        MessageDigestPasswordEncoder messsageDigestPasswordEncoderSHA1 = new MessageDigestPasswordEncoder(ENCODING_ID_SHA1)
+        messsageDigestPasswordEncoderSHA1.encodeHashAsBase64 = conf.password.encodeHashAsBase64 // false
+        messsageDigestPasswordEncoderSHA1.iterations = conf.password.hash.iterations // 10000
+
+        MessageDigestPasswordEncoder messsageDigestPasswordEncoderSHA256 = new MessageDigestPasswordEncoder(ENCODING_IDSHA256)
+        messsageDigestPasswordEncoderSHA256.encodeHashAsBase64 = conf.password.encodeHashAsBase64 // false
+        messsageDigestPasswordEncoderSHA256.iterations = conf.password.hash.iterations // 10000
+
+        int strength = conf.password.bcrypt.logrounds
+        [(ENCODING_ID_BCRYPT): new BCryptPasswordEncoder(strength),
+         (ENCODING_ID_LDAP): new LdapShaPasswordEncoder(),
+         (ENCODING_ID_MD4): new Md4PasswordEncoder(),
+         (ENCODING_ID_MD5): messageDigestPasswordEncoderMD5,
+         (ENCODING_ID_NOOP): NoOpPasswordEncoder.getInstance(),
+         (ENCODING_ID_PBKDF2): new Pbkdf2PasswordEncoder(),
+         (ENCODING_ID_SCRYPT): new SCryptPasswordEncoder(),
+         (ENCODING_ID_SHA1): messsageDigestPasswordEncoderSHA1,
+         (ENCODING_IDSHA256): messsageDigestPasswordEncoderSHA256,
+         "sha256": new StandardPasswordEncoder()]
+    }
+
 
 }
