@@ -51,7 +51,7 @@ subprojects { Project project ->
         apply plugin: "org.grails.grails-plugin-publish"
         apply plugin: "com.jfrog.artifactory"
 
-        sourceCompatibility = targetCompatibility = 1.7
+        sourceCompatibility = targetCompatibility = 1.8
 
         dependencies {
             console "org.grails:grails-console"

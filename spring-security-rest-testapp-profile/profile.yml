@@ -5,8 +5,10 @@ build:
 dependencies:
     compile:
         - "org.grails.plugins:spring-security-rest:2.0.0.BUILD-SNAPSHOT"
-        - "org.grails:grails-datastore-rest-client"
+        - "org.springframework.security:spring-security-core:5.1.2.RELEASE"
+
     testCompile:
+        - "org.grails:grails-datastore-rest-client:6.1.12.BUILD-SNAPSHOT"
         - "org.grails.plugins:geb"
         - "com.codeborne:phantomjsdriver:1.2.1"
         - "org.seleniumhq.selenium:selenium-api:2.47.1"
