@@ -15,7 +15,7 @@ repositories {
 }  
 
 dependencies {
-    runtime "org.grails.profiles:web:4.0.0.RC1"
+    runtime "org.grails.profiles:web:${project.grailsVersion}"
 }
 
 task installKeys << {
@@ -49,3 +49,22 @@ task generateProfileConfig << {
 }
 
 compileProfile.dependsOn generateProfileConfig
+
+grailsPublish {
+    user = bintrayUser
+    key = bintrayKey
+    portalUser = pluginPortalUser
+    portalPassword = pluginPortalPassword
+    userOrg = 'grails'
+    repo = 'plugins'
+    githubSlug = 'alvarosanchez/grails-spring-security-rest'
+    license {
+        name = 'Apache-2.0'
+    }
+    title = "Spring Security REST plugin"
+    desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
+    developers = [
+            alvarosanchez: "Alvaro Sanchez-Mariscal",
+            Schlogen: "James Kleeh"
+    ]
+}
