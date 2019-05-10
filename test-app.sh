@@ -1,20 +1,15 @@
 #!/bin/bash
 
 set -e
+set -x
 
-./grailsw compile
+[[ ! -z "$BINTRAY_KEY" ]] && echo "bintrayKey=$BINTRAY_KEY" >> ~/.gradle/gradle.properties
+[[ ! -z "$PLUGIN_PORTAL_PASSWORD" ]] && echo "pluginPortalPassword=$PLUGIN_PORTAL_PASSWORD" >> ~/.gradle/gradle.properties
 
-./grailsw maven-install
+./generate-test-apps.sh
 
-./grailsw test-app --echoOut \
-  && cd test/apps \
-  && for app in `ls .`; do
-     cd $app && ./test-app.sh && cd ..
-     if [ $? -ne 0 ]; then
-        echo -e "\033[0;31mTests FAILED\033[0m"
-        exit -1
-     fi
-     done \
-  && cd ../../
+[[ -z "$CI" ]] && docker-compose up -d
+./gradlew :spring-security-rest:check check
+[[ -z "$CI" ]] && docker-compose down
 
-./gradlew license
+if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew artifactoryPublish; fi

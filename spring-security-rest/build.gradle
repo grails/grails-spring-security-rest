@@ -1,0 +1,62 @@
+ext {
+    pac4jVersion = '2.2.1'
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-tomcat"
+    compile "org.grails:grails-dependencies"
+    compile "org.grails:grails-web-boot"
+
+    compile "com.google.guava:guava:20.0"
+
+    compile "org.pac4j:pac4j-core:${pac4jVersion}"
+    compile "org.pac4j:pac4j-oauth:${pac4jVersion}"
+    compile "org.pac4j:pac4j-cas:${pac4jVersion}"
+
+    //https://snyk.io/vuln/SNYK-JAVA-ORGJASIGCASCLIENT-31192
+    compile 'org.jasig.cas.client:cas-client-core:3.5.0'
+
+    compile "com.nimbusds:nimbus-jose-jwt:4.36"
+    compile 'commons-codec:commons-codec:1.11'
+    compile "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
+
+    //https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-1000031
+    compile "commons-fileupload:commons-fileupload:1.3.3"
+
+    //https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7489
+    compile "com.fasterxml.jackson.core:jackson-databind:2.8.11.1"
+
+    testCompile "org.gperfutils:gbench:0.4.3-groovy-2.4"
+    testCompile 'net.bytebuddy:byte-buddy:1.7.11'
+
+    profile "org.grails.profiles:web-plugin:${grailsVersion}"
+}
+
+/*
+license {
+
+    sourceSets {
+        main {
+            groovy {
+                srcDirs = [
+                    'grails-app/controllers',
+                    'grails-app/services',
+                    'src/main/groovy',
+                ]
+            }
+        }
+        test {
+            groovy {
+                srcDirs = [
+                    'src/test/groovy'
+                ]
+            }
+        }
+    }
+
+    ext.year = Calendar.instance.get(Calendar.YEAR)
+    ext.name = 'Alvaro Sanchez-Mariscal'
+    ext.email = 'alvaro.sanchezmariscal@gmail.com'
+}
+*/

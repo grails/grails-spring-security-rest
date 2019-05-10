@@ -1,51 +1,150 @@
-plugins {
-    id "com.github.hierynomus.license" version "0.11.0"
+buildscript {
+    ext {
+        grailsVersion = project.grailsVersion
+    }
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven { url "https://repo.grails.org/grails/core" }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:latest.release"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        //classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
+    }
 }
 
-apply plugin:'groovy'
+plugins {
+    id 'com.github.ben-manes.versions' version '0.17.0'
+}
 
-license {
+allprojects {
+    apply plugin:"idea"
+}
 
-    sourceSets {
-        main {
-            groovy {
-                srcDirs = [
-                    'grails-app/controllers',
-                    'grails-app/domain',
-                    'grails-app/services',
-                    'grails-app/taglib',
-                    'grails-app/utils',
-                    'src/groovy',
-                    'scripts'
-                ]
-            }
-            java {
-                srcDirs = [
-                    'src/java'
-                ]
+def pluginProjects = ['spring-security-rest', 'spring-security-rest-memcached', 'spring-security-rest-redis', 'spring-security-rest-grailscache', 'spring-security-rest-gorm']
+def profileProjects = ['spring-security-rest-testapp-profile']
+def publishedProjects = pluginProjects + profileProjects
+
+subprojects { Project project ->
+    group "org.grails.plugins"
+    version "3.0.0.RC1"
+
+    ext {
+        grailsVersion = project.grailsVersion
+        gradleWrapperVersion = project.gradleWrapperVersion
+        isSnapshot = version.endsWith('SNAPSHOT')
+        bintrayUser = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : ''
+        bintrayKey = project.hasProperty('bintrayKey') ? project.property('bintrayKey') : ''
+        pluginPortalUser = project.hasProperty('pluginPortalUser') ? project.property('pluginPortalUser') : ''
+        pluginPortalPassword = project.hasProperty('pluginPortalPassword') ? project.property('pluginPortalPassword') : ''
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core" }
+    }
+    if (project.name != "spring-security-rest-docs" &&
+        project.name != "spring-security-rest-testapp-profile" &&
+            !project.name.startsWith("build") ) {
+        apply plugin: "org.grails.grails-plugin"
+        apply plugin: "org.grails.grails-plugin-publish"
+        apply plugin: "com.jfrog.artifactory"
+    }
+
+    if (project.name in pluginProjects) {
+
+        sourceCompatibility = targetCompatibility = 1.8
+
+        dependencies {
+            console "org.grails:grails-console"
+
+            compile "org.springframework.boot:spring-boot-starter-logging"
+            compile "org.springframework.boot:spring-boot-autoconfigure"
+            compile "org.grails:grails-core"
+
+            provided "org.grails:grails-plugin-services"
+            provided "org.grails:grails-plugin-domain-class"
+
+            testCompile "org.grails:grails-gorm-testing-support"
+            //testCompile "org.grails:grails-plugin-testing"
+            testCompile "org.grails:grails-web-testing-support"
+            testCompile('com.athaydes:spock-reports:1.2.13') {
+                transitive = false
             }
         }
-        test {
-            groovy {
-                def dirs = [
-                    'test/functional',
-                    'test/integration',
-                    'test/unit'
-                ]
-                new File('test/apps').eachDir { File app ->
-                    dirs << "test/apps/${app.name}/test/functional"
-                    dirs << "test/apps/${app.name}/test/integration"
-                    dirs << "test/apps/${app.name}/test/unit"
-                }
 
-                srcDirs = dirs
+        test {
+            testLogging {
+                exceptionFormat = 'full'
+                events 'failed', 'standardOut', 'standardError'
             }
+
+            beforeTest { descriptor -> logger.quiet " -- $descriptor" }
+        }
+
+        artifactoryPublish {
+            dependsOn sourcesJar, javadocJar
         }
     }
 
-    ext.year = Calendar.instance.get(Calendar.YEAR)
-    ext.name = 'Alvaro Sanchez-Mariscal'
-    ext.email = 'alvaro.sanchezmariscal@gmail.com'
+    if (project.name in profileProjects) {
+        apply plugin: "org.grails.grails-profile"
+        apply plugin: "org.grails.grails-profile-publish"
+    }
+
+    if (project.name in publishedProjects && project.name != "spring-security-rest-docs" &&
+            project.name != "spring-security-rest-testapp-profile") {
+        grailsPublish {
+            user = bintrayUser
+            key = bintrayKey
+            portalUser = pluginPortalUser
+            portalPassword = pluginPortalPassword
+            userOrg = 'grails'
+            repo = 'plugins'
+            githubSlug = 'alvarosanchez/grails-spring-security-rest'
+            license {
+                name = 'Apache-2.0'
+            }
+            title = "Spring Security REST plugin"
+            desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
+            developers = [
+                alvarosanchez: "Alvaro Sanchez-Mariscal",
+                Schlogen: "James Kleeh"
+            ]
+        }
+
+        artifactory {
+            contextUrl = 'http://oss.jfrog.org'
+            publish {
+                repository {
+                    repoKey = isSnapshot ? 'oss-snapshot-local' : 'oss-release-local'
+                    username = bintrayUser
+                    password = bintrayKey
+                }
+                defaults {
+                    // Reference to Gradle configurations defined in the build script.
+                    // This is how we tell the Artifactory Plugin which artifacts should be
+                    // published to Artifactory.
+                    publications('maven')
+                }
+            }
+        }
+    }
 }
 
-licenseMain.dependsOn 'licenseTest'
+task wrapper(type: Wrapper) {
+    gradleVersion = gradleWrapperVersion
+}
+
+task aggregateGroovyDoc(type: Groovydoc) {
+    def groovyDocProjects = subprojects.findAll { it.name in pluginProjects }
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+
+    dependsOn groovyDocProjects.groovydoc
+    source groovyDocProjects.groovydoc.source
+    destinationDir file("${buildDir}/docs/groovydoc")
+    classpath = files(groovyDocProjects.groovydoc.classpath)
+    groovyClasspath = files(groovyDocProjects.groovydoc.groovyClasspath)
+}

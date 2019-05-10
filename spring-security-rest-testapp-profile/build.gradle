@@ -1,0 +1,70 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core" }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:${project.grailsVersion}"
+    }
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    maven { url "https://repo.grails.org/grails/core" }
+}  
+
+dependencies {
+    runtime "org.grails.profiles:web:${project.grailsVersion}"
+}
+
+task installKeys << {
+    def dir = file("${System.getProperty("user.home")}/.grails/spring-security-rest")
+    dir.mkdir()
+
+    copy {
+        from "keys"
+        into dir
+    }
+}
+
+install.dependsOn 'installKeys'
+
+task generateProfileConfig << {
+    copy {
+        from 'profile.yml.tmpl'
+        into '.'
+        rename { String fileName -> fileName.replaceAll '\\.tmpl', '' }
+        expand pluginVersion: project.version
+    }
+
+    file('features').eachDir { feature ->
+        copy {
+            from "features/${feature.name}/feature.yml.tmpl"
+            into "features/${feature.name}/"
+            rename { String fileName -> fileName.replaceAll '\\.tmpl', '' }
+            expand pluginVersion: project.version
+        }
+    }
+}
+
+compileProfile.dependsOn generateProfileConfig
+
+grailsPublish {
+    user = bintrayUser
+    key = bintrayKey
+    portalUser = pluginPortalUser
+    portalPassword = pluginPortalPassword
+    userOrg = 'grails'
+    repo = 'plugins'
+    githubSlug = 'alvarosanchez/grails-spring-security-rest'
+    license {
+        name = 'Apache-2.0'
+    }
+    title = "Spring Security REST plugin"
+    desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
+    developers = [
+            alvarosanchez: "Alvaro Sanchez-Mariscal",
+            Schlogen: "James Kleeh"
+    ]
+}
