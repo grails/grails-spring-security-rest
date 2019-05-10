@@ -10,11 +10,12 @@ buildscript {
 
 repositories {
     mavenLocal()
+    jcenter()
     maven { url "https://repo.grails.org/grails/core" }
 }  
 
 dependencies {
-    runtime "org.grails.profiles:web:${grailsVersion}"
+    runtime "org.grails.profiles:web:4.0.0.RC1"
 }
 
 task installKeys << {

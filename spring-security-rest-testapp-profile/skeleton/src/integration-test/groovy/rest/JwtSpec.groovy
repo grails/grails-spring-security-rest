@@ -176,7 +176,7 @@ class JwtSpec extends AbstractRestSpec {
     @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/pull/344")
     void "if the user no longer exists, token can't be refreshed"() {
         given:
-        userDetailsManager.createUser(new User('foo', 'password', []))
+        userDetailsManager.createUser(new User('foo', '{noop}password', []))
         RestResponse authResponse = sendCorrectCredentials('foo', 'password') as RestResponse
         String refreshToken = authResponse.json.refresh_token
         userDetailsManager.deleteUser('foo')
@@ -198,7 +198,7 @@ class JwtSpec extends AbstractRestSpec {
     @Unroll
     void "if the user is #status, token can't be refreshed"(User updatedUser, String status) {
         given:
-        userDetailsManager.createUser(new User('foo', 'password', []))
+        userDetailsManager.createUser(new User('foo', '{noop}password', []))
         RestResponse authResponse = sendCorrectCredentials('foo', 'password') as RestResponse
         String refreshToken = authResponse.json.refresh_token
         userDetailsManager.updateUser(updatedUser)
@@ -217,10 +217,10 @@ class JwtSpec extends AbstractRestSpec {
 
         where:
         updatedUser                                                 | status
-        new User('foo', 'password', false, true, true, true, [])    | "disabled"
-        new User('foo', 'password', true, false, true, true, [])    | "expired"
-        new User('foo', 'password', true, true, false, true, [])    | "credentials expired"
-        new User('foo', 'password', true, true, true, false, [])    | "locked"
+        new User('foo', '{noop}password', false, true, true, true, [])    | "disabled"
+        new User('foo', '{noop}password', true, false, true, true, [])    | "expired"
+        new User('foo', '{noop}password', true, true, false, true, [])    | "credentials expired"
+        new User('foo', '{noop}password', true, true, true, false, [])    | "locked"
     }
 
 }
