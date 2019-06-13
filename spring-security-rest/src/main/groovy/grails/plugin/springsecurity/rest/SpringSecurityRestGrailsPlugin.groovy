@@ -316,7 +316,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
                 !pluginManager.hasGrailsPlugin('springSecurityRestGrailsCache') &&
                 !pluginManager.hasGrailsPlugin('springSecurityRestRedis') &&
                 !pluginManager.hasGrailsPlugin('springSecurityRestMemcached')) {
-            throw new Exception("A JWT secret must be defined. Please provide a value for the config property: plugin.springsecurity.rest.token.storage.jwt.secret")
+            throw new Exception("A JWT secret must be defined. Please provide a value for the config property: grails.plugin.springsecurity.rest.token.storage.jwt.secret")
         }
     }
 
