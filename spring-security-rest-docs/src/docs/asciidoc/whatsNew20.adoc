@@ -41,7 +41,7 @@ more information about how to configure it.
 === JWT improvements
 
 As of this version, there is no longer a default value for the configuration property
-`grails.plugin.springsecurity.conf.rest.token.storage.jwt.secret`. Furthermore, if you are using JWT and no value has
+`plugin.springsecurity.rest.token.storage.jwt.secret`. Furthermore, if you are using JWT and no value has
 been provided for that configuration property, an exception will be thrown during application startup.
 
 It is also possible to influence the JWT generation by providing additional claims. Finally, the signing / encryption
