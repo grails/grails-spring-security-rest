@@ -40,7 +40,7 @@ class JwtTokenStorageService implements TokenStorageService {
 
     JwtService jwtService
     UserDetailsService userDetailsService
-    
+
     @Override
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
         Date now = new Date()
@@ -51,53 +51,66 @@ class JwtTokenStorageService implements TokenStorageService {
                 throw new TokenNotFoundException("Token ${tokenValue} has expired")
             }
 
-            boolean isRefreshToken = jwt.JWTClaimsSet.getBooleanClaim(AbstractJwtTokenGenerator.REFRESH_ONLY_CLAIM)
-
-            if(isRefreshToken){
-                UserDetails principal = userDetailsService.loadUserByUsername(jwt.JWTClaimsSet.subject)
-                log.debug "Refresh token presented for {}", principal.username
-
-                if(!principal){
-                    throw new TokenNotFoundException("Token no longer valid, principal not found")
-                }
-                if(!principal.enabled){
-                    throw new TokenNotFoundException("Token no longer valid, account disabled")
-                }
-                if(!principal.accountNonExpired){
-                    throw new TokenNotFoundException("Token no longer valid, account expired")
-                }
-                if(!principal.accountNonLocked){
-                    throw new TokenNotFoundException("Token no longer valid, account locked")
-                }
-                if(!principal.credentialsNonExpired){
-                    throw new TokenNotFoundException("Token no longer valid, credentials expired")
-                }
-
-                return principal
+            if(jwt.JWTClaimsSet.getBooleanClaim(AbstractJwtTokenGenerator.REFRESH_ONLY_CLAIM)) {
+                return loadUserFromRefreshToken(jwt)
             }
 
-            def roles = jwt.JWTClaimsSet.getStringArrayClaim('roles')?.collect { String role -> new SimpleGrantedAuthority(role) }
+            return loadUserFromAccessToken(jwt)
 
-            log.debug "Successfully verified JWT"
-
-            log.debug "Trying to deserialize the principal object"
-            try {
-                UserDetails details = JwtService.deserialize(jwt.JWTClaimsSet.getStringClaim('principal'))
-                log.debug "UserDetails deserialized: ${details}"
-                if (details) {
-                    return details
-                }
-            } catch (exception) {
-                log.debug(exception.message)
-            }
-
-            log.debug "Returning a org.springframework.security.core.userdetails.User instance"
-            return new User(jwt.JWTClaimsSet.subject, 'N/A', roles)
-        } catch (ParseException pe) {
+        } catch (ParseException ignored) {
             throw new TokenNotFoundException("Token ${tokenValue} is not valid")
-        } catch (JOSEException je) {
+        } catch (JOSEException ignored) {
             throw new TokenNotFoundException("Token ${tokenValue} has an invalid signature")
         }
+    }
+
+    /**
+     * Load user details for an access token
+     */
+    protected UserDetails loadUserFromAccessToken(JWT jwt) {
+        log.debug "Verified JWT, trying to deserialize the principal object"
+        try {
+            UserDetails details = JwtService.deserialize(jwt.JWTClaimsSet.getStringClaim('principal'))
+            log.debug "UserDetails deserialized: {}", details
+            if (details) {
+                return details
+            }
+        } catch (exception) {
+            log.debug(exception.message)
+        }
+
+        log.debug "Returning a org.springframework.security.core.userdetails.User instance"
+
+        List<SimpleGrantedAuthority> roles = jwt.JWTClaimsSet.getStringArrayClaim('roles')?.collect { String role -> new SimpleGrantedAuthority(role) }
+        return new User(jwt.JWTClaimsSet.subject, 'N/A', roles)
+    }
+
+    /**
+     * Load user details for a refresh token
+     *
+     * @param jwt the refresh token
+     * @return
+     */
+    protected UserDetails loadUserFromRefreshToken(JWT jwt) {
+        UserDetails principal = userDetailsService.loadUserByUsername(jwt.JWTClaimsSet.subject)
+
+        if(!principal){
+            throw new TokenNotFoundException("Token no longer valid, principal not found")
+        }
+        if(!principal.enabled){
+            throw new TokenNotFoundException("Token no longer valid, account disabled")
+        }
+        if(!principal.accountNonExpired){
+            throw new TokenNotFoundException("Token no longer valid, account expired")
+        }
+        if(!principal.accountNonLocked){
+            throw new TokenNotFoundException("Token no longer valid, account locked")
+        }
+        if(!principal.credentialsNonExpired){
+            throw new TokenNotFoundException("Token no longer valid, credentials expired")
+        }
+
+        return principal
     }
 
     @Override
