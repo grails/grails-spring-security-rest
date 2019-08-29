@@ -9,7 +9,7 @@ cache:
   - "$HOME/.gradle/wrapper/"
   - "$HOME/.grails"
 jdk:
-- oraclejdk8
+- openjdk8
 services:
 - memcached
 - redis-server
