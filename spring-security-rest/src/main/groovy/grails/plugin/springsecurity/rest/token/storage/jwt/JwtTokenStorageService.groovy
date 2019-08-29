@@ -19,6 +19,7 @@ package grails.plugin.springsecurity.rest.token.storage.jwt
 import com.nimbusds.jose.JOSEException
 import com.nimbusds.jwt.JWT
 import grails.plugin.springsecurity.rest.JwtService
+import grails.plugin.springsecurity.rest.token.generation.jwt.AbstractJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.transform.CompileStatic
@@ -49,10 +50,12 @@ class JwtTokenStorageService implements TokenStorageService {
             if (jwt.JWTClaimsSet.expirationTime?.before(now)) {
                 throw new TokenNotFoundException("Token ${tokenValue} has expired")
             }
-            boolean isRefreshToken = jwt.JWTClaimsSet.expirationTime == null
+
+            boolean isRefreshToken = jwt.JWTClaimsSet.getBooleanClaim(AbstractJwtTokenGenerator.REFRESH_ONLY_CLAIM)
 
             if(isRefreshToken){
                 UserDetails principal = userDetailsService.loadUserByUsername(jwt.JWTClaimsSet.subject)
+                log.debug "Refresh token presented for {}", principal.username
 
                 if(!principal){
                     throw new TokenNotFoundException("Token no longer valid, principal not found")

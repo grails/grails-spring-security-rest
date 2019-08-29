@@ -2,6 +2,7 @@ package grails.plugin.springsecurity.rest
 
 import grails.plugin.springsecurity.rest.token.AccessToken
 import grails.plugin.springsecurity.rest.token.generation.jwt.SignedJwtTokenGenerator
+import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.plugin.springsecurity.rest.token.storage.jwt.JwtTokenStorageService
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.User
@@ -39,5 +40,19 @@ class RestAuthenticationProviderSpec extends Specification implements TokenGener
 
         then:
         result.authenticated
+    }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/391")
+    void "refresh tokens should not be usable for authentication"() {
+        given:
+        AccessToken accessToken = tokenGenerator.generateAccessToken(new User('testUser', 'testPassword', []), 0)
+        accessToken.accessToken = accessToken.refreshToken
+
+        when:
+        this.restAuthenticationProvider.authenticate(accessToken)
+
+        then:
+        def e = thrown(TokenNotFoundException)
+        e.message =~ /Token .* is not valid/
     }
 }

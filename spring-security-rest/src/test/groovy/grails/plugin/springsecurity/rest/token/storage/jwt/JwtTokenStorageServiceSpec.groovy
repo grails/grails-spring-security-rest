@@ -24,6 +24,8 @@ import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.testing.services.ServiceUnitTest
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
+import spock.lang.Issue
 import spock.lang.Specification
 
 /**
@@ -55,5 +57,35 @@ class JwtTokenStorageServiceSpec extends Specification implements ServiceUnitTes
 
         then:
         thrown(TokenNotFoundException)
+    }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/391")
+    def "refresh token with optional expiration can be successfully loaded"() {
+        given: "an access token that expires"
+        AccessToken accessToken = tokenGenerator.generateAccessToken(new User('testUser', 'testPassword', []), true, 3600, 3600)
+        service.userDetailsService = Mock(UserDetailsService)
+
+        when:
+        UserDetails user = service.loadUserByToken(accessToken.refreshToken)
+
+        then:
+        user.username == 'testUser'
+
+        and:
+        1 * service.userDetailsService.loadUserByUsername('testUser') >> { new User('testUser', 'testPassword', []) }
+    }
+
+    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/391")
+    def "refresh token with optional expiration fails when expired"() {
+        given:
+        AccessToken accessToken = tokenGenerator.generateAccessToken(new User('testUser', 'testPassword', []), true, 3600, 1)
+        sleep(1000) // Crude, but effective
+
+        when:
+        service.loadUserByToken(accessToken.refreshToken)
+
+        then:
+        def e = thrown(TokenNotFoundException)
+        e.message =~ /Token .* has expired/
     }
 }
