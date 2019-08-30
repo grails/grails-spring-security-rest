@@ -51,7 +51,8 @@ class JwtTokenStorageService implements TokenStorageService {
                 throw new TokenNotFoundException("Token ${tokenValue} has expired")
             }
 
-            if(jwt.JWTClaimsSet.getBooleanClaim(AbstractJwtTokenGenerator.REFRESH_ONLY_CLAIM)) {
+            boolean isRefresh = jwt.JWTClaimsSet.getBooleanClaim(AbstractJwtTokenGenerator.REFRESH_ONLY_CLAIM) || jwt.JWTClaimsSet.expirationTime == null
+            if(isRefresh) {
                 return loadUserFromRefreshToken(jwt)
             }
 
