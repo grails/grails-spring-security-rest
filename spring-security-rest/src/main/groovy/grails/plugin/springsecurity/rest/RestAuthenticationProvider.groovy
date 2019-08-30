@@ -18,6 +18,8 @@ package grails.plugin.springsecurity.rest
 
 import com.nimbusds.jwt.JWT
 import grails.plugin.springsecurity.rest.token.AccessToken
+import grails.plugin.springsecurity.rest.token.generation.jwt.AbstractJwtTokenGenerator
+import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.time.TimeCategory
 import groovy.time.TimeDuration
@@ -61,8 +63,13 @@ class RestAuthenticationProvider implements AuthenticationProvider {
             if (useJwt) {
                 Date now = new Date()
                 jwt = jwtService.parse(authenticationRequest.accessToken)
-                Date expiry = jwt.JWTClaimsSet.expirationTime
 
+                // Prevent refresh tokens from being used for authentication
+                if (jwt.JWTClaimsSet.getBooleanClaim(AbstractJwtTokenGenerator.REFRESH_ONLY_CLAIM)) {
+                    throw new TokenNotFoundException("Token ${authenticationRequest.accessToken} is not valid")
+                }
+
+                Date expiry = jwt.JWTClaimsSet.expirationTime
                 if (expiry) {
                     log.debug "Now is ${now} and token expires at ${expiry}"
 
@@ -73,7 +80,7 @@ class RestAuthenticationProvider implements AuthenticationProvider {
             }
 
             authenticationResult = new AccessToken(userDetails, userDetails.authorities, authenticationRequest.accessToken, null, expiration, jwt, null)
-            log.debug "Authentication result: ${authenticationResult}"
+            log.debug "Authentication result: {}", authenticationResult
         }
 
         return authenticationResult

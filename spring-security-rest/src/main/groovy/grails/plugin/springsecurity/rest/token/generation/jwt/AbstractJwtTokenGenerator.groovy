@@ -31,8 +31,10 @@ import org.springframework.security.core.userdetails.UserDetails
 @Slf4j
 @CompileStatic
 abstract class AbstractJwtTokenGenerator implements TokenGenerator {
+    static String REFRESH_ONLY_CLAIM = "refresh_only"
 
     Integer defaultExpiration
+    Integer defaultRefreshExpiration
 
     JwtTokenStorageService jwtTokenStorageService
 
@@ -49,7 +51,7 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         generateAccessToken(details, true, expiration)
     }
 
-    AccessToken generateAccessToken(UserDetails details, boolean withRefreshToken, Integer expiration = this.defaultExpiration) {
+    AccessToken generateAccessToken(UserDetails details, boolean withRefreshToken, Integer expiration = this.defaultExpiration, Integer refreshExpiration = this.defaultRefreshExpiration) {
         log.debug "Serializing the principal received"
         String serializedPrincipal = serializePrincipal(details)
 
@@ -59,11 +61,11 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
         JWT accessTokenJwt = generateAccessToken(builder.build())
         String accessToken = accessTokenJwt.serialize()
 
-        JWT refreshTokenJwt
-        String refreshToken
+        JWT refreshTokenJwt = null
+        String refreshToken = null
         if (withRefreshToken) {
             log.debug "Generating refresh token..."
-            refreshTokenJwt = generateRefreshToken(details, serializedPrincipal, expiration)
+            refreshTokenJwt = generateRefreshToken(details, serializedPrincipal, refreshExpiration)
             refreshToken = refreshTokenJwt.serialize()
         }
 
@@ -92,7 +94,7 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
             customClaimProvider.provideCustomClaims(builder, details, serializedPrincipal, expiration)
         }
 
-        log.debug "Generated claim set: ${builder.build().toJSONObject().toString()}"
+        log.debug "Generated claim set: {}", builder.build().toJSONObject().toString()
         return builder
     }
 
@@ -110,7 +112,9 @@ abstract class AbstractJwtTokenGenerator implements TokenGenerator {
 
     protected JWT generateRefreshToken(UserDetails principal, String serializedPrincipal, Integer expiration) {
         JWTClaimsSet.Builder builder = generateClaims(principal, serializedPrincipal, expiration)
-        builder.expirationTime(null)
+
+        // Flag this token as a refresh token
+        builder.claim(REFRESH_ONLY_CLAIM, true)
 
         return generateAccessToken(builder.build())
     }

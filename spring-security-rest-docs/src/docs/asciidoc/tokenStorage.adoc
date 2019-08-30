@@ -85,6 +85,9 @@ the algorithm used is HMAC SHA-256 with a specified shared secret. The relevant 
 
 |`grails.plugin.springsecurity.rest.token.storage.jwt.expiration`
 |`3600`
+
+|`grails.plugin.springsecurity.rest.token.storage.jwt.refreshExpiration`
+|`(No Expiration)`
 |===
 
 ==== Encrypted JWT's
@@ -178,8 +181,12 @@ When using JWT, issued access tokens expire after a period of time, and they are
 }
 ----
 
-Refresh tokens never expire, and can be used to obtain a new access token by sending a POST request to the
-`/oauth/access_token` endpoint:
+Refresh tokens never expire, by default, and can be used to obtain a new access token by sending a POST request to the
+`/oauth/access_token` endpoint.
+
+If you prefer to configure your refresh tokens to expire automatically, you can set
+`grails.plugin.springsecurity.rest.token.storage.jwt.refreshExpiration` to the number of seconds before the token
+is invalid. After this period, a client would be forced to present login credentials in order to obtain a new access token.
 
 [source,javascript]
 .Listing {counter:listing}. Sample HTTP request to obtain an access token
@@ -198,7 +205,7 @@ As you can see, is a form request with 2 parameters:
 
 [NOTE]
 ====
-As refresh tokens never expire, they must be securely stored in your client application. See
+By default, refresh tokens never expire and must be securely stored in your client application. See
 https://tools.ietf.org/html/rfc6749#section-10.4[section 10.4 of the OAuth 2.0 spec] for more information.
 ====
 
