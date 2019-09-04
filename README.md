@@ -23,6 +23,7 @@ Companies using this plugin
 * [Zaccak Solutions](http://www.zaccak.com)
 * [Lyshnia Limited](https://lyshnia.com)
 * [Wiz Panda](https://www.wizpanda.com)
+* [Zana Technologies GmbH](https://zana.com)
 
 _Are you using this plugin and want to be listed here? [Include your company yourself](https://github.com/alvarosanchez/grails-spring-security-rest/edit/develop/README.md)_.
 
