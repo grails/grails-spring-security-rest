@@ -15,11 +15,11 @@ Documentation:
 Companies using this plugin
 ---------------------------
 
-* [CloudCard](http://www.cloudcardtools.com)
+* [CloudCard Online Photo Submission](http://www.onlinephotosubmission.com)
 * [HealthReveal](http://www.healthreveal.com)
 * [Murallo](http://murallo.com)
 * [Odobo](http://www.odobo.com)
-* [Sharptop Software](http://www.sharptop.co)
+* [Sharptop Software](http://www.sharptop.io)
 * [Zaccak Solutions](http://www.zaccak.com)
 * [Lyshnia Limited](https://lyshnia.com)
 * [Wiz Panda](https://www.wizpanda.com)
