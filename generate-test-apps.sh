@@ -9,7 +9,8 @@ export grailsVersion=`cat spring-security-rest-testapp-profile/gradle.properties
 
 echo "Plugin version: $pluginVersion. Grails version for test apps: $grailsVersion"
 source "$HOME/.sdkman/bin/sdkman-init.sh"
-sdk install grails $grailsVersion
+
+[[ -d  ~/.sdkman/candidates/grails/$grailsVersion ]] || sdk install grails $grailsVersion
 sdk use grails $grailsVersion
 cd build
 
