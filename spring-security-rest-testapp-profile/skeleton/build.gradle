@@ -1,14 +1,9 @@
+apply plugin: 'com.adarshr.test-logger'
 
-integrationTest {
-    testLogging {
-        exceptionFormat = 'full'
-        events 'failed', 'standardOut', 'standardError'
-    }
-
-    beforeTest { descriptor -> logger.quiet " -- $descriptor" }
-
-    systemProperty 'geb.build.reportsDir', "${buildDir}/geb-reports"
-
-    systemProperty "geb.env", System.getProperty('geb.env')
-
+testlogger {
+    showFullStackTraces true
+    showStandardStreams true
+    showPassedStandardStreams false
+    showSkippedStandardStreams false
+    showFailedStandardStreams true
 }

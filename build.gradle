@@ -12,11 +12,8 @@ buildscript {
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:latest.release"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         //classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
+        classpath 'com.adarshr:gradle-test-logger-plugin:2.0.0'
     }
-}
-
-plugins {
-    id 'com.github.ben-manes.versions' version '0.17.0'
 }
 
 allprojects {
@@ -29,7 +26,7 @@ def publishedProjects = pluginProjects + profileProjects
 
 subprojects { Project project ->
     group "org.grails.plugins"
-    version "3.0.0.RC1"
+    version "3.0.0.BUILD-SNAPSHOT"
 
     ext {
         grailsVersion = project.grailsVersion
@@ -75,13 +72,14 @@ subprojects { Project project ->
             }
         }
 
-        test {
-            testLogging {
-                exceptionFormat = 'full'
-                events 'failed', 'standardOut', 'standardError'
-            }
+        apply plugin: 'com.adarshr.test-logger'
 
-            beforeTest { descriptor -> logger.quiet " -- $descriptor" }
+        testlogger {
+            showFullStackTraces true
+            showStandardStreams true
+            showPassedStandardStreams false
+            showSkippedStandardStreams false
+            showFailedStandardStreams true
         }
 
         artifactoryPublish {
@@ -132,10 +130,6 @@ subprojects { Project project ->
             }
         }
     }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = gradleWrapperVersion
 }
 
 task aggregateGroovyDoc(type: Groovydoc) {

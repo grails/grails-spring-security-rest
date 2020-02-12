@@ -1,5 +1,5 @@
 
-task restoreKeys << {
+task restoreKeys() {
     def dir = file("${System.getProperty("user.home")}/.grails/spring-security-rest")
 
     copy {
