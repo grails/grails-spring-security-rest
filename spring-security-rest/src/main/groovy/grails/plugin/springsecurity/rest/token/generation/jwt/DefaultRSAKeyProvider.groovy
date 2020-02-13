@@ -51,7 +51,7 @@ class DefaultRSAKeyProvider implements RSAKeyProvider {
         // create an instance of KeyPairGenerator suitable for generating RSA keys
         // and initialise it with the bit length of the modulus required
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA")
-        keyPairGenerator.initialize(1024)
+        keyPairGenerator.initialize(2048)
 
         // generate the key pair
         KeyPair keyPair = keyPairGenerator.genKeyPair()
