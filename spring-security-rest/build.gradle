@@ -15,7 +15,7 @@ dependencies {
     compile "org.pac4j:pac4j-cas:${pac4jVersion}"
 
     //https://snyk.io/vuln/SNYK-JAVA-ORGJASIGCASCLIENT-31192
-    compile 'org.jasig.cas.client:cas-client-core:3.5.0'
+    compile 'org.jasig.cas.client:cas-client-core:3.6.1'
 
     compile "com.nimbusds:nimbus-jose-jwt:8.6"
     compile 'commons-codec:commons-codec:1.14'
