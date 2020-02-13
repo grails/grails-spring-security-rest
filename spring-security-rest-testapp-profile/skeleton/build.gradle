@@ -1,9 +1,14 @@
-apply plugin: 'com.adarshr.test-logger'
-
 testlogger {
     showFullStackTraces true
     showStandardStreams true
     showPassedStandardStreams false
     showSkippedStandardStreams false
     showFailedStandardStreams true
+}
+
+tasks.withType(Test) {
+    retry {
+        maxRetries = 3
+        maxFailures = 20
+    }
 }
