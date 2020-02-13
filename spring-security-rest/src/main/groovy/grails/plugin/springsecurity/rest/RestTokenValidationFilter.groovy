@@ -57,6 +57,8 @@ class RestTokenValidationFilter extends GenericFilterBean {
     AuthenticationFailureHandler authenticationFailureHandler
     RestAuthenticationEventPublisher authenticationEventPublisher
 
+    SpringSecurityRestFilterRequestMatcher requestMatcher
+
     TokenReader tokenReader
     String validationEndpointUrl
     Boolean active
@@ -104,8 +106,6 @@ class RestTokenValidationFilter extends GenericFilterBean {
         HttpServletRequest httpRequest = request as HttpServletRequest
         HttpServletResponse httpResponse = response as HttpServletResponse
 
-        String actualUri = httpRequest.requestURI - httpRequest.contextPath
-
         if (!active) {
             log.debug "Token validation is disabled. Continuing the filter chain"
             chain.doFilter(request, response)
@@ -113,7 +113,7 @@ class RestTokenValidationFilter extends GenericFilterBean {
         }
 
         if (authenticationResult?.accessToken) {
-            if (actualUri == validationEndpointUrl) {
+            if (requestMatcher.matches(httpRequest)) {
                 log.debug "Validation endpoint called. Generating response."
                 authenticationSuccessHandler.onAuthenticationSuccess(httpRequest, httpResponse, authenticationResult)
             } else {

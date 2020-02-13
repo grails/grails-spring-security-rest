@@ -64,6 +64,7 @@ class RestAuthenticationFilter extends GenericFilterBean {
     AuthenticationSuccessHandler authenticationSuccessHandler
     AuthenticationFailureHandler authenticationFailureHandler
     RestAuthenticationEventPublisher authenticationEventPublisher
+    SpringSecurityRestFilterRequestMatcher requestMatcher
 
     AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource
 
@@ -75,12 +76,8 @@ class RestAuthenticationFilter extends GenericFilterBean {
         HttpServletRequest httpServletRequest = request as HttpServletRequest
         HttpServletResponse httpServletResponse = response as HttpServletResponse
 
-        String actualUri =  httpServletRequest.requestURI - httpServletRequest.contextPath
-
-        logger.debug "Actual URI is ${actualUri}; endpoint URL is ${endpointUrl}"
-
         //Only apply filter to the configured URL
-        if (actualUri == endpointUrl) {
+        if (requestMatcher.matches(httpServletRequest)) {
             log.debug "Applying authentication filter to this request"
 
             //Only POST is supported
