@@ -91,17 +91,13 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
     GrailsApplication grailsApplication
 
     Closure doWithSpring() { {->
-        def conf = SpringSecurityUtils.securityConfig
-        if (!conf || !conf.active) {
+        if (!springSecurityPluginsAreActive()){
             return
         }
 
+        def conf = SpringSecurityUtils.securityConfig
         SpringSecurityUtils.loadSecondaryConfig 'DefaultRestSecurityConfig'
         conf = SpringSecurityUtils.securityConfig
-
-        if (!conf.rest.active) {
-            return
-        }
 
         boolean printStatusMessages = (conf.printStatusMessages instanceof Boolean) ? conf.printStatusMessages : true
 
@@ -297,6 +293,9 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
 
     @Override
     void doWithApplicationContext() {
+        if (!springSecurityPluginsAreActive()){
+            return
+        }
         def customClaimProvidersList = applicationContext.getBeanNamesForType(CustomClaimProvider).collect {
             applicationContext.getBean(it, CustomClaimProvider)
         }
@@ -358,5 +357,19 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
          "sha256": new StandardPasswordEncoder()]
     }
 
+    private boolean springSecurityPluginsAreActive() {
+        def conf = SpringSecurityUtils.securityConfig
+        if (!conf || !conf.active) {
+            return false
+        }
+
+        SpringSecurityUtils.loadSecondaryConfig 'DefaultRestSecurityConfig'
+        conf = SpringSecurityUtils.securityConfig
+
+        if (!conf.rest.active) {
+            return false
+        }
+        return true
+    }
 
 }
