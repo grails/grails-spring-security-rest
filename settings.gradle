@@ -3,7 +3,8 @@ include 'spring-security-rest', 'spring-security-rest-memcached', 'spring-securi
 File build = new File('build')
 if (build.exists()) {
     build.eachDir {
-        include it.path
+        include it.name
+        project(":${it.name}").projectDir = it
     }
 }
 

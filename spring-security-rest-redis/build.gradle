@@ -1,6 +1,7 @@
 dependencies {
-    compile project(":spring-security-rest")
-    compile "org.grails.plugins:grails-redis:2.0.2"
+    implementation project(":spring-security-rest")
+    implementation "org.grails.plugins:redis:2.0.5"
+    implementation "redis.clients:jedis"
 
     profile "org.grails.profiles:plugin:${grailsVersion}"
 }

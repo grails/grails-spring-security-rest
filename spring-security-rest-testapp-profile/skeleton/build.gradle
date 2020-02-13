@@ -1,14 +1,14 @@
+testlogger {
+    showFullStackTraces true
+    showStandardStreams true
+    showPassedStandardStreams false
+    showSkippedStandardStreams false
+    showFailedStandardStreams true
+}
 
-integrationTest {
-    testLogging {
-        exceptionFormat = 'full'
-        events 'failed', 'standardOut', 'standardError'
+tasks.withType(Test) {
+    retry {
+        maxRetries = 3
+        maxFailures = 20
     }
-
-    beforeTest { descriptor -> logger.quiet " -- $descriptor" }
-
-    systemProperty 'geb.build.reportsDir', "${buildDir}/geb-reports"
-
-    systemProperty "geb.env", System.getProperty('geb.env')
-
 }

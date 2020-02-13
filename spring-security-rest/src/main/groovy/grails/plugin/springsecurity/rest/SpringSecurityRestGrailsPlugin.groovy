@@ -91,17 +91,13 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
     GrailsApplication grailsApplication
 
     Closure doWithSpring() { {->
-        def conf = SpringSecurityUtils.securityConfig
-        if (!conf || !conf.active) {
+        if (!springSecurityPluginsAreActive()){
             return
         }
 
+        def conf = SpringSecurityUtils.securityConfig
         SpringSecurityUtils.loadSecondaryConfig 'DefaultRestSecurityConfig'
         conf = SpringSecurityUtils.securityConfig
-
-        if (!conf.rest.active) {
-            return
-        }
 
         boolean printStatusMessages = (conf.printStatusMessages instanceof Boolean) ? conf.printStatusMessages : true
 
@@ -116,6 +112,8 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
         if(conf.rest.login.active) {
             SpringSecurityUtils.registerFilter 'restAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order + 1
 
+            restAuthenticationFilterRequestMatcher(SpringSecurityRestFilterRequestMatcher, conf.rest.login.endpointUrl)
+
             restAuthenticationFilter(RestAuthenticationFilter) {
                 authenticationManager = ref('authenticationManager')
                 authenticationSuccessHandler = ref('restAuthenticationSuccessHandler')
@@ -126,6 +124,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
                 tokenGenerator = ref('tokenGenerator')
                 tokenStorageService = ref('tokenStorageService')
                 authenticationEventPublisher = ref('authenticationEventPublisher')
+                requestMatcher = ref('restAuthenticationFilterRequestMatcher')
             }
 
             def paramsClosure = {
@@ -140,11 +139,14 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             }
 
             /* restLogoutFilter */
+            restLogoutFilterRequestMatcher(SpringSecurityRestFilterRequestMatcher, conf.rest.logout.endpointUrl)
+
             restLogoutFilter(RestLogoutFilter) {
                 endpointUrl = conf.rest.logout.endpointUrl
                 headerName = conf.rest.token.validation.headerName
                 tokenStorageService = ref('tokenStorageService')
                 tokenReader = ref('tokenReader')
+                requestMatcher = ref('restLogoutFilterRequestMatcher')
             }
         }
 
@@ -188,6 +190,8 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
         SpringSecurityUtils.registerFilter 'restTokenValidationFilter', SecurityFilterPosition.ANONYMOUS_FILTER.order + 1
         SpringSecurityUtils.registerFilter 'restExceptionTranslationFilter', SecurityFilterPosition.EXCEPTION_TRANSLATION_FILTER.order - 5
 
+        restTokenValidationFilterRequestMatcher(SpringSecurityRestFilterRequestMatcher, conf.rest.token.validation.endpointUrl)
+
         restTokenValidationFilter(RestTokenValidationFilter) {
             headerName = conf.rest.token.validation.headerName
             validationEndpointUrl = conf.rest.token.validation.endpointUrl
@@ -198,6 +202,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
             authenticationFailureHandler = ref('restAuthenticationFailureHandler')
             restAuthenticationProvider = ref('restAuthenticationProvider')
             authenticationEventPublisher = ref('authenticationEventPublisher')
+            requestMatcher = ref('restTokenValidationFilterRequestMatcher')
         }
 
         restExceptionTranslationFilter(ExceptionTranslationFilter, ref('restAuthenticationEntryPoint'), ref('restRequestCache')) {
@@ -297,6 +302,9 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
 
     @Override
     void doWithApplicationContext() {
+        if (!springSecurityPluginsAreActive()){
+            return
+        }
         def customClaimProvidersList = applicationContext.getBeanNamesForType(CustomClaimProvider).collect {
             applicationContext.getBean(it, CustomClaimProvider)
         }
@@ -316,7 +324,7 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
                 !pluginManager.hasGrailsPlugin('springSecurityRestGrailsCache') &&
                 !pluginManager.hasGrailsPlugin('springSecurityRestRedis') &&
                 !pluginManager.hasGrailsPlugin('springSecurityRestMemcached')) {
-            throw new Exception("A JWT secret must be defined. Please provide a value for the config property: grails.plugin.springsecurity.conf.rest.token.storage.jwt.secret")
+            throw new Exception("A JWT secret must be defined. Please provide a value for the config property: grails.plugin.springsecurity.rest.token.storage.jwt.secret")
         }
     }
 
@@ -358,5 +366,19 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
          "sha256": new StandardPasswordEncoder()]
     }
 
+    private boolean springSecurityPluginsAreActive() {
+        def conf = SpringSecurityUtils.securityConfig
+        if (!conf || !conf.active) {
+            return false
+        }
+
+        SpringSecurityUtils.loadSecondaryConfig 'DefaultRestSecurityConfig'
+        conf = SpringSecurityUtils.securityConfig
+
+        if (!conf.rest.active) {
+            return false
+        }
+        return true
+    }
 
 }

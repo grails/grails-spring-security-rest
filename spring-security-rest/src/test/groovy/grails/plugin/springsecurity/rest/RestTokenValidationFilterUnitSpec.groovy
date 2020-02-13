@@ -47,6 +47,9 @@ class RestTokenValidationFilterUnitSpec extends Specification {
         filter.authenticationFailureHandler = Mock(AuthenticationFailureHandler)
         filter.tokenReader = Mock(TokenReader)
         filter.authenticationEventPublisher = Mock(RestAuthenticationEventPublisher)
+        filter.requestMatcher = Stub(SpringSecurityRestFilterRequestMatcher) {
+            matches(_) >> true
+        }
     }
 
     void "authentication passes when a valid token is found"() {

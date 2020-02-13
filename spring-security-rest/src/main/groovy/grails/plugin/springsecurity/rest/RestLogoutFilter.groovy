@@ -45,15 +45,15 @@ class RestLogoutFilter extends GenericFilterBean {
 
     TokenStorageService tokenStorageService
 
+    SpringSecurityRestFilterRequestMatcher requestMatcher
+
     @Override
     void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest servletRequest = request as HttpServletRequest
         HttpServletResponse servletResponse = response as HttpServletResponse
 
-        String actualUri =  servletRequest.requestURI - servletRequest.contextPath
-
         //Only apply filter to the configured URL
-        if (actualUri == endpointUrl) {
+        if (requestMatcher.matches(servletRequest)) {
 
             //Only POST is supported
             if (servletRequest.method != 'POST') {
