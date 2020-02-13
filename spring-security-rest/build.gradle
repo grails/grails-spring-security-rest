@@ -14,14 +14,15 @@ dependencies {
     compile "org.pac4j:pac4j-oauth:${pac4jVersion}"
     compile "org.pac4j:pac4j-cas:${pac4jVersion}"
 
-    //https://snyk.io/vuln/SNYK-JAVA-ORGJASIGCASCLIENT-31192
-    compile 'org.jasig.cas.client:cas-client-core:3.5.0'
+    compile 'org.jasig.cas.client:cas-client-core:3.6.1'
+
+    //https://snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-472372
+    compile 'org.bouncycastle:bcprov-jdk15on:1.64'
 
     compile "com.nimbusds:nimbus-jose-jwt:8.6"
     compile 'commons-codec:commons-codec:1.14'
     compile "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
 
-    //https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-1000031
     compile "commons-fileupload:commons-fileupload:1.4"
 
     //https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7489
