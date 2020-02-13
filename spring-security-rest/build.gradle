@@ -25,7 +25,7 @@ dependencies {
     compile "commons-fileupload:commons-fileupload:1.4"
 
     //https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7489
-    compile "com.fasterxml.jackson.core:jackson-databind:2.8.11.1"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.10.2"
 
     testCompile "org.gperfutils:gbench:0.4.3-groovy-2.4"
     testCompile 'net.bytebuddy:byte-buddy:1.7.11'
