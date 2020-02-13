@@ -18,7 +18,7 @@ dependencies {
     compile 'org.jasig.cas.client:cas-client-core:3.5.0'
 
     compile "com.nimbusds:nimbus-jose-jwt:4.36"
-    compile 'commons-codec:commons-codec:1.11'
+    compile 'commons-codec:commons-codec:1.14'
     compile "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
 
     //https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-1000031
