@@ -67,7 +67,7 @@ subprojects { Project project ->
             testCompile "org.grails:grails-gorm-testing-support"
             //testCompile "org.grails:grails-plugin-testing"
             testCompile "org.grails:grails-web-testing-support"
-            testCompile('com.athaydes:spock-reports:1.2.13') {
+            testCompile('com.athaydes:spock-reports:1.6.3') {
                 transitive = false
             }
         }
