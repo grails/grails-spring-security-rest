@@ -26,7 +26,7 @@ def publishedProjects = pluginProjects + profileProjects
 
 subprojects { Project project ->
     group "org.grails.plugins"
-    version "3.0.0"
+    version "3.0.1"
 
     ext {
         grailsVersion = project.grailsVersion
