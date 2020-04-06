@@ -35,17 +35,13 @@ class MemcachedSpec extends AbstractRestSpec {
     @Shared
     MemcachedTokenStorageService memcachedTokenStorageService
 
-    @Shared
-    Integer originalExpiration
-
     @Autowired
     void setTokenStorageService(MemcachedTokenStorageService tokenStorageService) {
         this.memcachedTokenStorageService = tokenStorageService
-        originalExpiration = memcachedTokenStorageService.expiration
     }
 
     void cleanupSpec() {
-        memcachedTokenStorageService.expiration = originalExpiration
+        memcachedTokenStorageService.expiration = 3600
     }
 
     @Unroll
