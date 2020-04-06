@@ -2245,6 +2245,10 @@ the algorithm used is HMAC SHA-256 with a specified shared secret. The relevant 
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails.plugin.springsecurity.rest.token.storage.jwt.expiration</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>3600</code></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails.plugin.springsecurity.rest.token.storage.jwt.refreshExpiration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>(No Expiration)</code></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2374,8 +2378,13 @@ you JWT&#8217;s, think if you really need it.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Refresh tokens never expire, and can be used to obtain a new access token by sending a POST request to the
-<code>/oauth/access_token</code> endpoint:</p>
+<p>Refresh tokens never expire, by default, and can be used to obtain a new access token by sending a POST request to the
+<code>/oauth/access_token</code> endpoint.</p>
+</div>
+<div class="paragraph">
+<p>If you prefer to configure your refresh tokens to expire automatically, you can set
+<code>grails.plugin.springsecurity.rest.token.storage.jwt.refreshExpiration</code> to the number of seconds before the token
+is invalid. After this period, a client would be forced to present login credentials in order to obtain a new access token.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 15. Sample HTTP request to obtain an access token</div>
@@ -2408,7 +2417,7 @@ grant_type=refresh_token&amp;refresh_token=eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyN
 </td>
 <td class="content">
 <div class="paragraph">
-<p>As refresh tokens never expire, they must be securely stored in your client application. See
+<p>By default, refresh tokens never expire and must be securely stored in your client application. See
 <a href="https://tools.ietf.org/html/rfc6749#section-10.4">section 10.4 of the OAuth 2.0 spec</a> for more information.</p>
 </div>
 </td>
@@ -3626,7 +3635,7 @@ your gratitude via <a href="https://twitter.com/alvaro_sanchez">Twitter</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 3.0.1.BUILD-SNAPSHOT<br>
-Last updated 2020-04-06 05:22:40 UTC
+Last updated 2020-04-06 05:23:02 UTC
 </div>
 </div>
 </body>
