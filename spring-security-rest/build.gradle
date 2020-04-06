@@ -19,17 +19,17 @@ dependencies {
     //https://snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-472372
     compile 'org.bouncycastle:bcprov-jdk15on:1.64'
 
-    compile "com.nimbusds:nimbus-jose-jwt:8.6"
+    compile "com.nimbusds:nimbus-jose-jwt:8.12"
     compile 'commons-codec:commons-codec:1.14'
     compile "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
 
     compile "commons-fileupload:commons-fileupload:1.4"
 
     //https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7489
-    compile "com.fasterxml.jackson.core:jackson-databind:2.10.2"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.10.3"
 
     testCompile "org.gperfutils:gbench:0.4.3-groovy-2.4"
-    testCompile 'net.bytebuddy:byte-buddy:1.7.11'
+    testCompile 'net.bytebuddy:byte-buddy:1.10.9'
 
     profile "org.grails.profiles:web-plugin:${grailsVersion}"
 }

@@ -9,7 +9,7 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.13.0"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.15.1"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         //classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
         classpath 'com.adarshr:gradle-test-logger-plugin:2.0.0'
@@ -26,7 +26,7 @@ def publishedProjects = pluginProjects + profileProjects
 
 subprojects { Project project ->
     group "org.grails.plugins"
-    version "3.0.0"
+    version "3.0.1"
 
     ext {
         grailsVersion = project.grailsVersion
@@ -67,7 +67,7 @@ subprojects { Project project ->
             testCompile "org.grails:grails-gorm-testing-support"
             //testCompile "org.grails:grails-plugin-testing"
             testCompile "org.grails:grails-web-testing-support"
-            testCompile('com.athaydes:spock-reports:1.2.13') {
+            testCompile('com.athaydes:spock-reports:1.7.1') {
                 transitive = false
             }
         }
