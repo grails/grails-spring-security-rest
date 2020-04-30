@@ -29,7 +29,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:2.10.3"
 
     testCompile "org.gperfutils:gbench:0.4.3-groovy-2.4"
-    testCompile 'net.bytebuddy:byte-buddy:1.10.9'
+    testCompile 'net.bytebuddy:byte-buddy:1.10.10'
 
     profile "org.grails.profiles:web-plugin:${grailsVersion}"
 }
