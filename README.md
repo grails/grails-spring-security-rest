@@ -1,6 +1,6 @@
 Spring Security REST for Grails
 ===========================
-[![Build Status](https://travis-ci.org/alvarosanchez/grails-spring-security-rest.png?branch=develop)](https://travis-ci.org/alvarosanchez/grails-spring-security-rest)
+[![Build Status](https://travis-ci.org/grails-plugins/grails-spring-security-rest.svg?branch=develop)](https://travis-ci.org/github/grails-plugins/grails-spring-security-rest)
 [![Latest version](https://api.bintray.com/packages/grails/plugins/spring-security-rest/images/download.svg) ](https://bintray.com/grails/plugins/spring-security-rest/_latestVersion)
 [![Known Vulnerabilities](https://snyk.io/test/github/alvarosanchez/grails-spring-security-rest/develop/badge.svg)](https://snyk.io/test/github/alvarosanchez/grails-spring-security-rest)
 
@@ -9,8 +9,8 @@ using Spring Security. Sponsored and supported by [Object Computing Inc.](http:/
 
 Documentation: 
 
-* [User guide](http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/).
-* [Javadoc](http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/).
+* [User guide](https://grails-plugins.github.io/grails-spring-security-rest/latest/docs/).
+* [Javadoc](https://grails-plugins.github.io/grails-spring-security-rest/latest/docs/gapi/).
 
 Companies using this plugin
 ---------------------------
@@ -22,17 +22,17 @@ Companies using this plugin
 * [Sharptop Software](http://www.sharptop.co)
 * [Zaccak Solutions](http://www.zaccak.com)
 
-_Are you using this plugin and want to be listed here? [Include your company yourself](https://github.com/alvarosanchez/grails-spring-security-rest/edit/develop/README.md)_.
+_Are you using this plugin and want to be listed here? [Include your company yourself](https://grails-plugins.github.io/grails-spring-security-rest/edit/develop/README.md)_.
 
 Support
 -------
 
 * General questions should go to the [`#spring-security-rest` channel in Slack](https://grails.slack.com/messages/spring-security-rest).
 * You can also find answers at [StackOverflow](http://stackoverflow.com/questions/tagged/grails+spring-security-rest). Label your questions with both the `grails` and `spring-security-rest` tags.
-* If you've got issues, report them [here in GitHub](https://github.com/alvarosanchez/grails-spring-security-rest/issues).
+* If you've got issues, report them [here in GitHub](https://grails-plugins.github.io/grails-spring-security-rest/issues).
 * If you need commercial support, you can ask [OCI](http://www.ociweb.com) at [info AT ociweb DOT com](mailto:infoATociwebDOTcom).
 
-**NOTE**: if you have questions or issues, [enable debug logging](http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/index.html#_debugging),
+**NOTE**: if you have questions or issues, [enable debug logging](https://grails-plugins.github.io/grails-spring-security-rest/latest/docs/index.html#_debugging),
 and include the output in your request.
 
 
