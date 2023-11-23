@@ -30,7 +30,6 @@ subprojects { Project project ->
 
     ext {
         grailsVersion = project.grailsVersion
-        gradleWrapperVersion = project.gradleWrapperVersion
         isSnapshot = version.endsWith('SNAPSHOT')
         bintrayUser = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : ''
         bintrayKey = project.hasProperty('bintrayKey') ? project.property('bintrayKey') : ''
