@@ -1,6 +1,6 @@
 dependencies {
-    compile project(":spring-security-rest")
-    compile "net.spy:spymemcached:2.12.3"
+    implementation project(":spring-security-rest")
+    implementation "net.spy:spymemcached:2.12.3"
 
     profile "org.grails.profiles:plugin:${grailsVersion}"
 }

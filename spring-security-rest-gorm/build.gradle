@@ -1,4 +1,4 @@
 dependencies {
-    compile project(":spring-security-rest")
+    implementation project(":spring-security-rest")
     profile "org.grails.profiles:plugin:${grailsVersion}"
 }

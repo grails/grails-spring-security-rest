@@ -3,33 +3,33 @@ ext {
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-tomcat"
-    compile "org.grails:grails-dependencies"
-    compile "org.grails:grails-web-boot"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-tomcat"
+    implementation "org.grails:grails-dependencies"
+    implementation "org.grails:grails-web-boot"
 
-    compile "com.google.guava:guava:23.0"
+    implementation "com.google.guava:guava:23.0"
 
-    compile "org.pac4j:pac4j-core:${pac4jVersion}"
-    compile "org.pac4j:pac4j-oauth:${pac4jVersion}"
-    compile "org.pac4j:pac4j-cas:${pac4jVersion}"
+    implementation "org.pac4j:pac4j-core:${pac4jVersion}"
+    implementation "org.pac4j:pac4j-oauth:${pac4jVersion}"
+    implementation "org.pac4j:pac4j-cas:${pac4jVersion}"
 
-    compile 'org.jasig.cas.client:cas-client-core:3.6.1'
+    implementation 'org.jasig.cas.client:cas-client-core:3.6.1'
 
     //https://snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-472372
-    compile 'org.bouncycastle:bcprov-jdk15on:1.65'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.65'
 
-    compile "com.nimbusds:nimbus-jose-jwt:8.17"
-    compile 'commons-codec:commons-codec:1.15'
-    compile "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
+    implementation "com.nimbusds:nimbus-jose-jwt:8.17"
+    implementation 'commons-codec:commons-codec:1.15'
+    implementation "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
 
-    compile "commons-fileupload:commons-fileupload:1.4"
+    implementation "commons-fileupload:commons-fileupload:1.4"
 
     //https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7489
-    compile "com.fasterxml.jackson.core:jackson-databind:2.11.0"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.11.0"
 
-    testCompile "org.gperfutils:gbench:0.4.3-groovy-2.4"
-    testCompile 'net.bytebuddy:byte-buddy:1.10.10'
+    testImplementation "org.gperfutils:gbench:0.4.3-groovy-2.4"
+    testImplementation 'net.bytebuddy:byte-buddy:1.10.10'
 
     profile "org.grails.profiles:web-plugin:${grailsVersion}"
 }
