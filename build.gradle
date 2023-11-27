@@ -11,7 +11,6 @@ buildscript {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.15.2"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
-        //classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
         classpath 'com.adarshr:gradle-test-logger-plugin:2.0.0'
     }
 }
@@ -64,7 +63,6 @@ subprojects { Project project ->
             compileOnly "org.grails:grails-plugin-domain-class"
 
             testImplementation "org.grails:grails-gorm-testing-support"
-            //testCompile "org.grails:grails-plugin-testing"
             testImplementation "org.grails:grails-web-testing-support"
             testCompile('com.athaydes:spock-reports:1.7.1') {
                 transitive = false

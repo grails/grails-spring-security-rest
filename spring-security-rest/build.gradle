@@ -33,31 +33,3 @@ dependencies {
 
     profile "org.grails.profiles:web-plugin:${grailsVersion}"
 }
-
-/*
-license {
-
-    sourceSets {
-        main {
-            groovy {
-                srcDirs = [
-                    'grails-app/controllers',
-                    'grails-app/services',
-                    'src/main/groovy',
-                ]
-            }
-        }
-        test {
-            groovy {
-                srcDirs = [
-                    'src/test/groovy'
-                ]
-            }
-        }
-    }
-
-    ext.year = Calendar.instance.get(Calendar.YEAR)
-    ext.name = 'Alvaro Sanchez-Mariscal'
-    ext.email = 'alvaro.sanchezmariscal@gmail.com'
-}
-*/
