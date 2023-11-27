@@ -4,15 +4,16 @@ buildscript {
     }
     repositories {
         mavenLocal()
-        jcenter()
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.15.2"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
         classpath 'com.adarshr:gradle-test-logger-plugin:2.0.0'
     }
+}
+
+plugins {
+    id 'io.github.gradle-nexus.publish-plugin' version '1.3.0'
 }
 
 allprojects {
@@ -30,10 +31,6 @@ subprojects { Project project ->
     ext {
         grailsVersion = project.grailsVersion
         isSnapshot = version.endsWith('SNAPSHOT')
-        bintrayUser = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : ''
-        bintrayKey = project.hasProperty('bintrayKey') ? project.property('bintrayKey') : ''
-        pluginPortalUser = project.hasProperty('pluginPortalUser') ? project.property('pluginPortalUser') : ''
-        pluginPortalPassword = project.hasProperty('pluginPortalPassword') ? project.property('pluginPortalPassword') : ''
     }
 
     repositories {
@@ -44,8 +41,6 @@ subprojects { Project project ->
         project.name != "spring-security-rest-testapp-profile" &&
             !project.name.startsWith("build") ) {
         apply plugin: "org.grails.grails-plugin"
-        apply plugin: "org.grails.grails-plugin-publish"
-        apply plugin: "com.jfrog.artifactory"
     }
 
     if (project.name in pluginProjects) {
@@ -78,51 +73,57 @@ subprojects { Project project ->
             showSkippedStandardStreams false
             showFailedStandardStreams true
         }
-
-        artifactoryPublish {
-            dependsOn sourcesJar, javadocJar
-        }
     }
 
     if (project.name in profileProjects) {
         apply plugin: "org.grails.grails-profile"
-        apply plugin: "org.grails.grails-profile-publish"
     }
 
     if (project.name in publishedProjects && project.name != "spring-security-rest-docs" &&
             project.name != "spring-security-rest-testapp-profile") {
-        grailsPublish {
-            user = bintrayUser
-            key = bintrayKey
-            portalUser = pluginPortalUser
-            portalPassword = pluginPortalPassword
-            userOrg = 'grails'
-            repo = 'plugins'
-            githubSlug = 'alvarosanchez/grails-spring-security-rest'
-            license {
-                name = 'Apache-2.0'
-            }
-            title = "Spring Security REST plugin"
-            desc = "Grails plugin to implement token-based, RESTful authentication using Spring Security"
-            developers = [
-                alvarosanchez: "Alvaro Sanchez-Mariscal",
-                Schlogen: "James Kleeh"
-            ]
-        }
+        apply plugin: 'maven-publish'
+        apply plugin: 'signing'
+        publishing {
+            publications {
+                mavenRelease(MavenPublication) {
 
-        artifactory {
-            contextUrl = 'http://oss.jfrog.org'
-            publish {
-                repository {
-                    repoKey = isSnapshot ? 'oss-snapshot-local' : 'oss-release-local'
-                    username = bintrayUser
-                    password = bintrayKey
-                }
-                defaults {
-                    // Reference to Gradle configurations defined in the build script.
-                    // This is how we tell the Artifactory Plugin which artifacts should be
-                    // published to Artifactory.
-                    publications('maven')
+                    groupId = project.group
+                    artifactId = 'spring-security-rest'
+                    version = project.version
+
+                    from components.java
+
+                    artifact sourcesJar
+                    artifact javadocJar
+
+                    pom {
+                        name = 'Spring Security REST plugin'
+                        description = 'Grails plugin to implement token-based, RESTful authentication using Spring Security'
+                        url = 'https://github.com/grails/grails-spring-security-rest'
+                        licenses {
+                            license {
+                                name = 'The Apache License, Version 2.0'
+                                url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                            }
+                        }
+                        developers {
+                            developer {
+                                id = 'alvarosanchez'
+                                name = 'Alvaro Sanchez-Mariscal'
+                                email = ''
+                            }
+                            developer {
+                                id = 'jameskleeh'
+                                name = 'James Kleeh'
+                                email = ''
+                            }
+                        }
+                        scm {
+                            connection = 'scm:git:https://github.com/grails/grails-spring-security-rest.git'
+                            developerConnection = 'scm:git:https://github.com/grails/grails-spring-security-rest.git'
+                            url = 'https://github.com/grails/grails-spring-security-rest/tree/3.0.x'
+                        }
+                    }
                 }
             }
         }
