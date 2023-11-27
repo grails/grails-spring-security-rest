@@ -85,7 +85,7 @@ class BearerTokenReaderSpec extends Specification {
     }
 
     @Unroll
-    def "token value will not be read from #metod request Authorization header not prefix with 'Bearer'"() {
+    def "token value will not be read from #method request Authorization header not prefix with 'Bearer'"() {
         given:
         def token = 'abadtokenvalue'
         request.addHeader( 'Authorization', token )
