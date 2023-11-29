@@ -49,16 +49,18 @@ subprojects { Project project ->
 
         sourceCompatibility = targetCompatibility = 1.8
 
+        apply plugin: "java-library"
+
         dependencies {
             console "org.grails:grails-console"
 
-            implementation "org.springframework.boot:spring-boot-starter-logging"
-            implementation "org.springframework.boot:spring-boot-autoconfigure"
-            implementation "org.grails:grails-core"
-            implementation "org.grails.plugins:spring-security-core:$springSecurityCoreVersion"
+            api "org.springframework.boot:spring-boot-starter-logging"
+            api "org.springframework.boot:spring-boot-autoconfigure"
+            api "org.grails:grails-core"
+            api "org.grails.plugins:spring-security-core:$springSecurityCoreVersion"
 
-            compileOnly "org.grails:grails-plugin-services"
-            compileOnly "org.grails:grails-plugin-domain-class"
+            api "org.grails:grails-plugin-services"
+            api "org.grails:grails-plugin-domain-class"
 
             testImplementation "org.grails:grails-gorm-testing-support"
             testImplementation "org.grails:grails-web-testing-support"

@@ -3,30 +3,30 @@ ext {
 }
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.springframework.boot:spring-boot-starter-tomcat"
-    implementation "org.grails:grails-dependencies"
-    implementation "org.grails:grails-web-boot"
+    api "org.springframework.boot:spring-boot-starter-actuator"
+    api "org.springframework.boot:spring-boot-starter-tomcat"
+    api "org.grails:grails-dependencies"
+    api "org.grails:grails-web-boot"
 
-    implementation "com.google.guava:guava:23.0"
+    api "com.google.guava:guava:23.0"
 
-    implementation "org.pac4j:pac4j-core:${pac4jVersion}"
-    implementation "org.pac4j:pac4j-oauth:${pac4jVersion}"
-    implementation "org.pac4j:pac4j-cas:${pac4jVersion}"
+    api "org.pac4j:pac4j-core:${pac4jVersion}"
+    api "org.pac4j:pac4j-oauth:${pac4jVersion}"
+    api "org.pac4j:pac4j-cas:${pac4jVersion}"
 
-    implementation 'org.jasig.cas.client:cas-client-core:3.6.1'
+    api 'org.jasig.cas.client:cas-client-core:3.6.1'
 
     //https://snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-472372
-    implementation 'org.bouncycastle:bcprov-jdk15on:1.65'
+    api 'org.bouncycastle:bcprov-jdk15on:1.65'
 
-    implementation "com.nimbusds:nimbus-jose-jwt:8.17"
-    implementation 'commons-codec:commons-codec:1.15'
-    implementation "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
+    api "com.nimbusds:nimbus-jose-jwt:8.17"
+    api 'commons-codec:commons-codec:1.15'
+    api "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
 
-    implementation "commons-fileupload:commons-fileupload:1.4"
+    api "commons-fileupload:commons-fileupload:1.4"
 
     //https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7489
-    implementation "com.fasterxml.jackson.core:jackson-databind:2.11.0"
+    api "com.fasterxml.jackson.core:jackson-databind:2.11.0"
 
     testImplementation "org.gperfutils:gbench:0.4.3-groovy-2.4"
     testImplementation 'net.bytebuddy:byte-buddy:1.10.10'
