@@ -1,63 +1,35 @@
 ext {
-    pac4jVersion = '4.0.1'
+    pac4jVersion = '4.5.7'
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-tomcat"
-    compile "org.grails:grails-dependencies"
-    compile "org.grails:grails-web-boot"
+    api "org.springframework.boot:spring-boot-starter-actuator"
+    api "org.springframework.boot:spring-boot-starter-tomcat"
+    api "org.grails:grails-dependencies"
+    api "org.grails:grails-web-boot"
 
-    compile "com.google.guava:guava:23.0"
+    api "com.google.guava:guava:23.0"
 
-    compile "org.pac4j:pac4j-core:${pac4jVersion}"
-    compile "org.pac4j:pac4j-oauth:${pac4jVersion}"
-    compile "org.pac4j:pac4j-cas:${pac4jVersion}"
+    api "org.pac4j:pac4j-core:${pac4jVersion}"
+    api "org.pac4j:pac4j-oauth:${pac4jVersion}"
+    api "org.pac4j:pac4j-cas:${pac4jVersion}"
 
-    compile 'org.jasig.cas.client:cas-client-core:3.6.1'
+    api 'org.jasig.cas.client:cas-client-core:3.6.1'
 
     //https://snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-472372
-    compile 'org.bouncycastle:bcprov-jdk15on:1.65'
+    api 'org.bouncycastle:bcprov-jdk15on:1.65'
 
-    compile "com.nimbusds:nimbus-jose-jwt:8.17"
-    compile 'commons-codec:commons-codec:1.15'
-    compile "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
+    api "com.nimbusds:nimbus-jose-jwt:8.17"
+    api 'commons-codec:commons-codec:1.15'
+    api "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
 
-    compile "commons-fileupload:commons-fileupload:1.4"
+    api "commons-fileupload:commons-fileupload:1.4"
 
     //https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7489
-    compile "com.fasterxml.jackson.core:jackson-databind:2.11.0"
+    api "com.fasterxml.jackson.core:jackson-databind:2.11.0"
 
-    testCompile "org.gperfutils:gbench:0.4.3-groovy-2.4"
-    testCompile 'net.bytebuddy:byte-buddy:1.10.10'
+    testImplementation "org.gperfutils:gbench:0.4.3-groovy-2.4"
+    testImplementation 'net.bytebuddy:byte-buddy:1.10.10'
 
     profile "org.grails.profiles:web-plugin:${grailsVersion}"
 }
-
-/*
-license {
-
-    sourceSets {
-        main {
-            groovy {
-                srcDirs = [
-                    'grails-app/controllers',
-                    'grails-app/services',
-                    'src/main/groovy',
-                ]
-            }
-        }
-        test {
-            groovy {
-                srcDirs = [
-                    'src/test/groovy'
-                ]
-            }
-        }
-    }
-
-    ext.year = Calendar.instance.get(Calendar.YEAR)
-    ext.name = 'Alvaro Sanchez-Mariscal'
-    ext.email = 'alvaro.sanchezmariscal@gmail.com'
-}
-*/

@@ -26,9 +26,9 @@ import groovy.util.logging.Slf4j
 import org.apache.commons.codec.binary.Base64
 import grails.core.GrailsApplication
 import org.pac4j.core.client.IndirectClient
-import org.pac4j.core.context.J2EContext
+import org.pac4j.core.context.JEEContext
 import org.pac4j.core.context.WebContext
-import org.pac4j.core.redirect.RedirectAction
+import org.pac4j.core.exception.http.RedirectionAction
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.userdetails.User
 
@@ -56,7 +56,7 @@ class RestOauthController {
      */
     def authenticate(String provider, String callback) {
         IndirectClient client = restOauthService.getClient(provider)
-        WebContext context = new J2EContext(request, response)
+        WebContext context = new JEEContext(request, response)
 
         if (callback) {
             try {
@@ -70,7 +70,7 @@ class RestOauthController {
             }
         }
 
-        RedirectAction redirectAction = client.getRedirectAction(context)
+        RedirectionAction redirectAction = client.getRedirectionAction(context).get()
         log.debug "Redirecting to ${redirectAction.location}"
         redirect url: redirectAction.location
     }
@@ -81,7 +81,7 @@ class RestOauthController {
      * frontend application can store the REST API token locally for subsequent API calls.
      */
     def callback(String provider) {
-        WebContext context = new J2EContext(request, response)
+        WebContext context = new JEEContext(request, response)
         def frontendCallbackUrl
         if (session[CALLBACK_ATTR]) {
             log.debug "Found callback URL in the HTTP session"
