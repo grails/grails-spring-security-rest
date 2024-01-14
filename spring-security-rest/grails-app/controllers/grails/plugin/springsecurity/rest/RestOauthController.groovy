@@ -136,6 +136,7 @@ class RestOauthController {
                 AccessToken accessToken = tokenGenerator.generateAccessToken(principal, false)
                 accessToken.refreshToken = refreshToken
 
+                tokenStorageService.storeToken(accessToken)
                 authenticationEventPublisher.publishTokenCreation(accessToken)
 
                 response.addHeader 'Cache-Control', 'no-store'
