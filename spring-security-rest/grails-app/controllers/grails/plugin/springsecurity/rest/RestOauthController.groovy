@@ -26,9 +26,10 @@ import groovy.util.logging.Slf4j
 import org.apache.commons.codec.binary.Base64
 import grails.core.GrailsApplication
 import org.pac4j.core.client.IndirectClient
-import org.pac4j.core.context.JEEContext
+import org.pac4j.jee.context.JEEContext
 import org.pac4j.core.context.WebContext
 import org.pac4j.core.exception.http.RedirectionAction
+import org.pac4j.jee.context.session.JEESessionStore
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.userdetails.User
 
@@ -70,7 +71,7 @@ class RestOauthController {
             }
         }
 
-        RedirectionAction redirectAction = client.getRedirectionAction(context).get()
+        RedirectionAction redirectAction = client.getRedirectionAction(context, JEESessionStore.INSTANCE).get()
         log.debug "Redirecting to ${redirectAction.location}"
         redirect url: redirectAction.location
     }
