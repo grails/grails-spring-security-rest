@@ -16,20 +16,20 @@
  */
 package grails.plugin.springsecurity.rest.token.storage
 
+import grails.plugin.springsecurity.rest.token.AccessToken
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.Authentication
 
 /**
- * Implementations of this interface are responsible to load user information from a token storage system, and to store
+ * Implementations of this trait are responsible to load user information from a token storage system, and to store
  * token information into it.
  */
-interface TokenStorageService {
-
+trait TokenStorageService {
     /**
      * Returns a principal object given the passed token value
      * @throws TokenNotFoundException if no token is found in the storage
      */
-    UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException
+    abstract UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException
 
     /**
      * Stores a token. It receives the principal to store any additional information together with the token,
@@ -37,11 +37,18 @@ interface TokenStorageService {
      *
      * @see Authentication#getPrincipal()
      */
-    void storeToken(String tokenValue, UserDetails principal)
+    void storeToken(String tokenValue, UserDetails principal) {}
+
+    /**
+     * Stores the access token. Allows for handling of refresh token and other JWT claims as needed.
+     */
+    void storeToken(AccessToken accessToken) {
+        storeToken(accessToken.accessToken, accessToken.principal)
+    }
 
     /**
      * Removes a token from the storage.
      * @throws TokenNotFoundException if the given token is not found in the storage
      */
-    void removeToken(String tokenValue) throws TokenNotFoundException
+    abstract void removeToken(String tokenValue) throws TokenNotFoundException
 }

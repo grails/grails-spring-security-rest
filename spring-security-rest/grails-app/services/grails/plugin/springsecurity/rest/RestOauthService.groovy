@@ -98,7 +98,7 @@ class RestOauthService {
         log.debug "Generated REST authentication token: ${accessToken}"
 
         log.debug "Storing token on the token storage"
-        tokenStorageService.storeToken(accessToken.accessToken, userDetails)
+        tokenStorageService.storeToken(accessToken)
 
         authenticationEventPublisher.publishTokenCreation(accessToken)
 

@@ -108,7 +108,7 @@ class RestAuthenticationFilter extends GenericFilterBean {
                         AccessToken accessToken = tokenGenerator.generateAccessToken(authenticationResult.principal as UserDetails)
                         log.debug "Generated token: ${accessToken}"
 
-                        tokenStorageService.storeToken(accessToken.accessToken, authenticationResult.principal as UserDetails)
+                        tokenStorageService.storeToken(accessToken)
                         authenticationEventPublisher.publishTokenCreation(accessToken)
                         authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, accessToken)
                         SecurityContextHolder.context.setAuthentication(accessToken)
