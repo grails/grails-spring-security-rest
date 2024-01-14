@@ -1,0 +1,27 @@
+name: Run tests in project
+
+on:
+  push:
+    branches:
+      - '[3-9].[0-9].x'
+  pull_request:
+    branches:
+      - '[3-9].[0-9].x'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'liberica'
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: Run Tests
+        id: tests
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: |
+            check
