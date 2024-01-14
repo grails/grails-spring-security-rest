@@ -1,8 +1,3 @@
-plugins {
-    id 'maven-publish'
-    id 'signing'
-}
-
 task generateProfileConfig () {
     copy {
         from 'profile.yml.tmpl'
@@ -22,47 +17,3 @@ task generateProfileConfig () {
 }
 
 compileProfile.dependsOn generateProfileConfig
-
-publishing {
-    publications {
-        mavenRelease(MavenPublication) {
-
-            groupId = project.group
-            artifactId = 'spring-security-rest'
-            version = project.version
-
-            pom {
-                name = 'Spring Security REST plugin'
-                description = 'Grails plugin to implement token-based, RESTful authentication using Spring Security'
-                url = 'https://github.com/grails/grails-spring-security-rest'
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'alvarosanchez'
-                        name = 'Alvaro Sanchez-Mariscal'
-                        email = ''
-                    }
-                    developer {
-                        id = 'jameskleeh'
-                        name = 'James Kleeh'
-                        email = ''
-                    }
-                }
-                scm {
-                    connection = 'scm:git:https://github.com/grails/grails-spring-security-rest.git'
-                    developerConnection = 'scm:git:https://github.com/grails/grails-spring-security-rest.git'
-                    url = 'https://github.com/grails/grails-spring-security-rest/tree/3.0.x'
-                }
-            }
-        }
-    }
-}
-
-signing {
-    sign publishing.publications.mavenRelease
-}
