@@ -22,14 +22,39 @@ def pluginProjects = ['spring-security-rest', 'spring-security-rest-memcached', 
 def profileProjects = ['spring-security-rest-testapp-profile']
 def publishedProjects = pluginProjects + profileProjects
 
+ext {
+    grailsVersion = project.grailsVersion
+    isSnapshot = projectVersion.endsWith('SNAPSHOT')
+    isReleaseVersion = !isSnapshot
+}
+
+ext."signing.keyId" = project.hasProperty("signing.keyId") ? project.getProperty('signing.keyId') : System.getenv('SIGNING_KEY')
+ext."signing.password" = project.hasProperty("signing.password") ? project.getProperty('signing.password') : System.getenv('SIGNING_PASSPHRASE')
+ext."signing.secretKeyRingFile" = project.hasProperty("signing.secretKeyRingFile") ? project.getProperty('signing.secretKeyRingFile') : "${System.properties['user.home']}${File.separator}.gnupg${File.separator}secring.gpg"
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            def ossUser = System.getenv("SONATYPE_USERNAME") ?: project.hasProperty("sonatypeOssUsername") ? project.sonatypeOssUsername : ''
+            def ossPass = System.getenv("SONATYPE_PASSWORD") ?: project.hasProperty("sonatypeOssPassword") ? project.sonatypeOssPassword : ''
+            def ossStagingProfileId = System.getenv("SONATYPE_STAGING_PROFILE_ID") ?: project.hasProperty("sonatypeOssStagingProfileId") ? project.sonatypeOssStagingProfileId : ''
+            nexusUrl = uri("https://s01.oss.sonatype.org/service/local/")
+            snapshotRepositoryUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            username = ossUser
+            password = ossPass
+            stagingProfileId = ossStagingProfileId
+            useStaging = isReleaseVersion
+        }
+    }
+    transitionCheckOptions {
+        maxRetries.set(60)
+        delayBetween.set(java.time.Duration.ofMillis(4000))
+    }
+}
+
 subprojects { Project project ->
     group "org.grails.plugins"
-    version "3.0.1"
-
-    ext {
-        grailsVersion = project.grailsVersion
-        isSnapshot = version.endsWith('SNAPSHOT')
-    }
+    version projectVersion
 
     repositories {
         mavenCentral()
@@ -89,11 +114,28 @@ subprojects { Project project ->
         apply plugin: 'maven-publish'
         apply plugin: 'signing'
         publishing {
+
+            repositories {
+                maven {
+                    credentials {
+                        def u = System.getenv("ARTIFACTORY_USERNAME") ?: project.hasProperty("artifactoryPublishUsername") ? project.artifactoryPublishUsername : ''
+                        def p = System.getenv("ARTIFACTORY_PASSWORD") ?: project.hasProperty("artifactoryPublishPassword") ? project.artifactoryPublishPassword : ''
+                        username = u
+                        password = p
+                    }
+                    if (isSnapshot) {
+                        url "https://repo.grails.org/grails/plugins3-snapshots-local"
+                    } else {
+                        url "https://repo.grails.org/grails/plugins3-releases-local"
+                    }
+                }
+            }
+
             publications {
                 mavenRelease(MavenPublication) {
 
                     groupId = project.group
-                    artifactId = 'spring-security-rest'
+                    artifactId = project.name
                     version = project.version
 
                     from components.java
@@ -131,6 +173,10 @@ subprojects { Project project ->
                     }
                 }
             }
+        }
+
+        signing {
+            sign publishing.publications.mavenRelease
         }
     }
 }
