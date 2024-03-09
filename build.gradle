@@ -89,7 +89,7 @@ subprojects { Project project ->
 
             testImplementation "org.grails:grails-gorm-testing-support"
             testImplementation "org.grails:grails-web-testing-support"
-            testImplementation('com.athaydes:spock-reports:2.5.1-groovy-3.0') {
+            testImplementation('com.athaydes:spock-reports:2.5.1-groovy-4.0') {
                 transitive = false
             }
         }
