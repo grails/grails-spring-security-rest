@@ -8,7 +8,7 @@ dependencies {
     api "org.grails:grails-dependencies"
     api "org.grails:grails-web-boot"
 
-    api "com.google.guava:guava:23.0"
+    api "com.google.guava:guava:23.6.1-jre"
 
     api "org.pac4j:pac4j-core:${pac4jVersion}"
     api "org.pac4j:pac4j-oauth:${pac4jVersion}"
