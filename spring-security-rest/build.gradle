@@ -19,7 +19,7 @@ dependencies {
     //https://snyk.io/vuln/SNYK-JAVA-ORGBOUNCYCASTLE-472372
     api 'org.bouncycastle:bcprov-jdk15on:1.65'
 
-    api "com.nimbusds:nimbus-jose-jwt:8.17"
+    api "com.nimbusds:nimbus-jose-jwt:8.23"
     api 'commons-codec:commons-codec:1.15'
     api "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
 
