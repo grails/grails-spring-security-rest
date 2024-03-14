@@ -23,7 +23,7 @@ dependencies {
     api 'commons-codec:commons-codec:1.15'
     api "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
 
-    api "commons-fileupload:commons-fileupload:1.4"
+    api "commons-fileupload:commons-fileupload:1.5"
 
     //https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7489
     api "com.fasterxml.jackson.core:jackson-databind:2.11.0"
