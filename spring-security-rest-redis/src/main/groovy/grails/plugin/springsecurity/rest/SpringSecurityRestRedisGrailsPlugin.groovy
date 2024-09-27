@@ -17,6 +17,7 @@ class SpringSecurityRestRedisGrailsPlugin extends Plugin {
 
     String title = "Spring Security REST Plugin - Redis support"
     String author = "Alvaro Sanchez-Mariscal"
+    String authorEmail = ""
     String description = 'Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow'
 
     def profiles = ['web']
