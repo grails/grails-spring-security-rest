@@ -32,7 +32,7 @@ import spock.lang.Specification
 import static org.springframework.http.HttpStatus.FORBIDDEN
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 
-@Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/237")
+@Issue("https://github.com/grails/grails-spring-security-rest/issues/237")
 class RestOauthControllerSpec extends Specification implements ControllerUnitTest<RestOauthController> {
 
     /**

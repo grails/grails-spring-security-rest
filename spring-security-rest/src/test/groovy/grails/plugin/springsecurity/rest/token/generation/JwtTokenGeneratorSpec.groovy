@@ -145,7 +145,7 @@ class JwtTokenGeneratorSpec extends Specification implements TokenGeneratorSuppo
         jwtTokenGenerator << [setupSignedJwtTokenGenerator(), setupEncryptedJwtTokenGenerator()]
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/295")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/295")
     void "custom claims can be added"() {
         given:
         SignedJwtTokenGenerator tokenGenerator = setupSignedJwtTokenGenerator()

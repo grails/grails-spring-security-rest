@@ -59,7 +59,7 @@ class MemcachedSpec extends AbstractRestSpec {
         'Date'      | new Date()
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/86")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/86")
     void "Objects stored expire after the expiration time"() {
         given:
         memcachedTokenStorageService.expiration = 1
@@ -75,7 +75,7 @@ class MemcachedSpec extends AbstractRestSpec {
         thrown(TokenNotFoundException)
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/86")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/86")
     void "Objects are refreshed when accessed"() {
         given:
         memcachedTokenStorageService.expiration = 2

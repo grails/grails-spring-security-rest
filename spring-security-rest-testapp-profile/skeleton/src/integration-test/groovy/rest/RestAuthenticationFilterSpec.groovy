@@ -86,7 +86,7 @@ class RestAuthenticationFilterSpec extends AbstractRestSpec {
         response.headers.get('Content-Type')?.first() == 'application/json;charset=UTF-8'
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/275")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/275")
     void "WWW-Authenticate response header is sent on failed logins"() {
         when:
         def response = sendWrongCredentials()

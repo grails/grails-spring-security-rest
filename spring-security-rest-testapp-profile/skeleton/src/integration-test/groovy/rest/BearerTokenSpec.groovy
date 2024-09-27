@@ -22,7 +22,7 @@ import spock.lang.IgnoreIf
 import spock.lang.Issue
 
 @IgnoreIf({ !System.getProperty('useBearerToken', 'false').toBoolean() })
-@Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/73")
+@Issue("https://github.com/grails/grails-spring-security-rest/issues/73")
 class BearerTokenSpec extends AbstractRestSpec {
 
     void "access token response is compliant with the specification"() {
@@ -115,7 +115,7 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.headers.getFirst('WWW-Authenticate') == 'Bearer'
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/98")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/98")
     void "accessing Anonymous without a token, responds  ok"() {
         when:
         def response = restBuilder.get("${baseUrl}/anonymous") {
@@ -126,7 +126,7 @@ class BearerTokenSpec extends AbstractRestSpec {
         response.status == 200
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/98")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/98")
     void "accessing Secured without a token, responds Unauthorized"() {
         when:
         RestResponse response = restBuilder.post("${baseUrl}/secured") {

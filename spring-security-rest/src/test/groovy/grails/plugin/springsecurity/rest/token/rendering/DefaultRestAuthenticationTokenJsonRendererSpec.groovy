@@ -102,7 +102,7 @@ class DefaultRestAuthenticationTokenJsonRendererSpec extends Specification imple
 
     }
 
-    @Issue('https://github.com/alvarosanchez/grails-spring-security-rest/issues/33')
+    @Issue('https://github.com/grails/grails-spring-security-rest/issues/33')
     void "it renders OAuth information if the principal is an OAuthUser"() {
         given:
         def username = 'john.doe'

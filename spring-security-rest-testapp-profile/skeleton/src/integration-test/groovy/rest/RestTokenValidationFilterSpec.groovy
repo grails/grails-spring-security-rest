@@ -94,7 +94,7 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
         response.status == 403
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/67")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/67")
     void "JSESSIONID cookie is not created when using the stateless chain"() {
         when:
         RestResponse authResponse = sendCorrectCredentials() as RestResponse
@@ -113,7 +113,7 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/74")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/74")
     void "anonymous access works when enabled"() {
         when:
         def response = restBuilder.get("${baseUrl}/anonymous")
@@ -124,7 +124,7 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/74")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/74")
     void "in an anonymous chain, if a token is sent, is validated"() {
         when:
         def response = restBuilder.post("${baseUrl}/anonymous") {

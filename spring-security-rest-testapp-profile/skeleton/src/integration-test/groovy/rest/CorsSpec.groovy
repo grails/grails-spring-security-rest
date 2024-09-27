@@ -25,7 +25,7 @@ import spock.lang.Ignore
 /**
  * Specification to test CORS support
  *
- * @see https://github.com/alvarosanchez/grails-spring-security-rest/issues/4
+ * @see https://github.com/grails/grails-spring-security-rest/issues/4
  */
 //FIXME
 @Ignore

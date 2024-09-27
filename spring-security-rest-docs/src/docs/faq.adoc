@@ -55,7 +55,6 @@ I chose pac4j because:
 
 I'm also aware of a pac4j-spring-security module. See my previous response on HTTP sessions.
 
-=== Dude, this is awesome. How can I compensate you?
+=== Project History
 
-I doubt you can :). You may try giving me free beers the next time you see me in a conference. Or you can just express
-your gratitude via https://twitter.com/alvaro_sanchez[Twitter].
+Originally this plugin was written by Alvaro Sanchez-Mariscal (https://twitter.com/alvaro_sanchez[Twitter]).  It is currently maintained by the Grails Stewards.

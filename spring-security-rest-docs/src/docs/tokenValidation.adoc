@@ -49,7 +49,7 @@ grails.plugin.springsecurity.rest.token.validation.headerName = 'X-Auth-Token'
 ----
 
 If you still want to have full access and read the token from a different part of the request, you can implement a
-http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/reader/TokenReader.html[TokenReader]
+include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/reader/TokenReader.html[TokenReader]
 and register it in your `resources.groovy`  as `tokenReader`.
 
 [NOTE]

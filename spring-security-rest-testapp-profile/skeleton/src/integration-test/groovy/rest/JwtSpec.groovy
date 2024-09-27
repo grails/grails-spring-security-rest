@@ -173,7 +173,7 @@ class JwtSpec extends AbstractRestSpec {
         jwt.JWTClaimsSet.issuer == 'Spring Security REST Grails Plugin'
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/pull/344")
+    @Issue("https://github.com/grails/grails-spring-security-rest/pull/344")
     void "if the user no longer exists, token can't be refreshed"() {
         given:
         userDetailsManager.createUser(new User('foo', '{noop}password', []))
@@ -194,7 +194,7 @@ class JwtSpec extends AbstractRestSpec {
         userDetailsManager.deleteUser('foo')
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/pull/344")
+    @Issue("https://github.com/grails/grails-spring-security-rest/pull/344")
     @Unroll
     void "if the user is #status, token can't be refreshed"(User updatedUser, String status) {
         given:

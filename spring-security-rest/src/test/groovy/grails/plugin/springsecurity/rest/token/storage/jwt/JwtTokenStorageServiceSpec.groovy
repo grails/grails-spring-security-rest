@@ -59,7 +59,7 @@ class JwtTokenStorageServiceSpec extends Specification implements ServiceUnitTes
         thrown(TokenNotFoundException)
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/391")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/391")
     def "refresh token with optional expiration can be successfully loaded"() {
         given: "an access token that expires"
         AccessToken accessToken = tokenGenerator.generateAccessToken(new User('testUser', 'testPassword', []), true, 3600, 3600)
@@ -75,7 +75,7 @@ class JwtTokenStorageServiceSpec extends Specification implements ServiceUnitTes
         1 * service.userDetailsService.loadUserByUsername('testUser') >> { new User('testUser', 'testPassword', []) }
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/391")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/391")
     def "refresh token with optional expiration fails when expired"() {
         given:
         AccessToken accessToken = tokenGenerator.generateAccessToken(new User('testUser', 'testPassword', []), true, 3600, 1)

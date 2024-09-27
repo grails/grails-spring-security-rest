@@ -139,7 +139,7 @@ class BearerTokenReaderSpec extends Specification {
         !tokenReader.findToken(request)
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/235")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/235")
     def "it doesn't crash if token is missing"() {
         given:
         request.addHeader('Authorization', 'Bearer')

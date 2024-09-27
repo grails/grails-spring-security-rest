@@ -5,12 +5,13 @@ plugins {
 }
 
 def asciidoctorAttributes = [
-        'experimental'  : 'true',
-        'compat-mode'   : 'true',
-        'toc'           : 'left',
-        'icons'         : 'font',
-        'version'       : project.version,
-        'sourcedir'     : "${rootProject.allprojects.find { it.name == 'spring-security-rest'}.projectDir}/src/main/groovy"
+        'experimental'    : 'true',
+        'compat-mode'     : 'true',
+        'toc'             : 'left',
+        'icons'           : 'font',
+        'version'         : project.version,
+        'sourcedir'       : "${rootProject.allprojects.find { it.name == 'spring-security-rest' }.projectDir}/src/main/groovy",
+        'baseGroovyApiUrl': "https://grails-plugins.github.io/grails-spring-security-rest/${project.version}/docs/gapi/"
 ]
 
 tasks.named('asciidoctor', AsciidoctorTask) {
@@ -19,8 +20,8 @@ tasks.named('asciidoctor', AsciidoctorTask) {
         into "./images"
     }
 
-    sourceDir layout.projectDirectory.file('src/docs')
+    sourceDir project.file('src/docs')
     sources { include 'index.adoc' }
-    outputDir = layout.buildDirectory.file('docs')
+    outputDir = project.buildDir.toPath().resolve('docs').toFile()
     attributes asciidoctorAttributes
 }
