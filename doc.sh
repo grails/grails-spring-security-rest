@@ -25,13 +25,13 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
     if [[ -n $TRAVIS_TAG ]]; then
         rm -rf latest/
         mkdir -p latest/docs/gapi
-        cp -r ../spring-security-rest-docs/build/asciidoc/html5/. ./latest/docs
+        cp -r ../spring-security-rest-docs/build/docs/. ./latest/docs
         cp -r ../build/docs/groovydoc/. latest/docs/gapi
         git add latest/*
 
         rm -rf "$version"
         mkdir -p "$version/docs/gapi"
-        cp -r ../spring-security-rest-docs/build/asciidoc/html5/. "$version/docs"
+        cp -r ../spring-security-rest-docs/build/docs/. "$version/docs"
         cp -r ../build/docs/groovydoc/. "$version/docs/gapi"
         git add "$version/*"
     fi
@@ -39,7 +39,7 @@ if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
     if [[ $TRAVIS_BRANCH == 'develop' && $TRAVIS_REPO_SLUG == 'alvarosanchez/grails-spring-security-rest' ]]; then
         rm -rf next/
         mkdir -p next/docs/gapi
-        cp -r ../spring-security-rest-docs/build/asciidoc/html5/. ./next/docs
+        cp -r ../spring-security-rest-docs/build/docs/. ./next/docs
         cp -r ../build/docs/groovydoc/. next/docs/gapi
         git add next/*
     fi

@@ -1,17 +1,26 @@
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
+
 plugins {
-    id 'org.asciidoctor.convert' version '2.4.0'
+    id 'org.asciidoctor.jvm.convert' version "4.0.3"
 }
 
-asciidoctor {
+def asciidoctorAttributes = [
+        'experimental'  : 'true',
+        'compat-mode'   : 'true',
+        'toc'           : 'left',
+        'icons'         : 'font',
+        'version'       : project.version,
+        'sourcedir'     : "${rootProject.allprojects.find { it.name == 'spring-security-rest'}.projectDir}/src/main/groovy"
+]
+
+tasks.named('asciidoctor', AsciidoctorTask) {
     resources {
         from('src/docs/images')
         into "./images"
     }
 
-    attributes 'experimental'  : 'true',
-               'compat-mode'   : 'true',
-               'toc'           : 'left',
-               'icons'         : 'font',
-               'version'       : project.version,
-               'sourcedir'     : "${rootProject.allprojects.find { it.name == 'spring-security-rest'}.projectDir}/src/main/groovy"
+    sourceDir layout.projectDirectory.file('src/docs')
+    sources { include 'index.adoc' }
+    outputDir = layout.buildDirectory.file('docs')
+    attributes asciidoctorAttributes
 }

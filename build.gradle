@@ -93,10 +93,13 @@ subprojects { Project project ->
     }
 }
 
-task aggregateGroovyDoc(type: Groovydoc) {
+tasks.register('aggregateGroovyDoc', org.gradle.api.tasks.javadoc.Groovydoc) {
     def groovyDocProjects = subprojects.findAll { it.name in pluginProjects }
     group = JavaBasePlugin.DOCUMENTATION_GROUP
-
+    access = GroovydocAccess.PROTECTED
+    includeAuthor = false
+    includeMainForScripts = true
+    processScripts = true
     dependsOn groovyDocProjects.groovydoc
     source groovyDocProjects.groovydoc.source
     destinationDir file("${buildDir}/docs/groovydoc")

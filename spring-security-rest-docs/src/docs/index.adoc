@@ -1,3 +1,5 @@
+:includedir: src/docs/
+
 = Spring Security REST for Grails
 :author: Álvaro Sánchez-Mariscal Arnaiz
 :email: alvaro.sanchezmariscal@gmail.com
@@ -8,19 +10,23 @@ Version: {version}
 
 == Introduction to the Spring Security REST plugin
 
-include::introduction.adoc[]
+include::{includedir}introduction.adoc[]
+
+== What's new in 5.0?
+
+include::{includedir}whatsNew50.adoc[]
 
 == What's new in 2.0?
 
-include::whatsNew20.adoc[]
+include::{includedir}whatsNew20.adoc[]
 
 == What's new in 1.5?
 
-include::whatsNew15.adoc[]
+include::{includedir}whatsNew15.adoc[]
 
 == What's new in 1.4?
 
-include::whatsNew14.adoc[]
+include::{includedir}whatsNew14.adoc[]
 
 == Articles and sample projects
 
@@ -43,54 +49,54 @@ include::whatsNew14.adoc[]
 [[configuration]]
 == Configuration
 
-include::configuration.adoc[]
+include::{includedir}configuration.adoc[]
 
 [[events]]
 == Events
 
-include::events.adoc[]
+include::{includedir}events.adoc[]
 
 [[authentication]]
 == Authentication Endpoint
 
-include::authentication.adoc[]
+include::{includedir}authentication.adoc[]
 
 [[tokenGeneration]]
 == Token Generation
 
-include::tokenGeneration.adoc[]
+include::{includedir}tokenGeneration.adoc[]
 
 [[tokenStorage]]
 == Token Storage
 
-include::tokenStorage.adoc[]
+include::{includedir}tokenStorage.adoc[]
 
 [[tokenRendering]]
 == Token Rendering
 
-include::tokenRendering.adoc[]
+include::{includedir}tokenRendering.adoc[]
 
 [[tokenValidation]]
 == Token Validation Filter
 
-include::tokenValidation.adoc[]
+include::{includedir}tokenValidation.adoc[]
 
 [[cors]]
 == CORS support
 
-include::cors.adoc[]
+include::{includedir}cors.adoc[]
 
 [[oauth]]
 == Delegating authentication to OAuth providers
 
-include::oauth.adoc[]
+include::{includedir}oauth.adoc[]
 
 [[debugging]]
 == Debugging
 
-include::debugging.adoc[]
+include::{includedir}debugging.adoc[]
 
 [[faq]]
 == Frequently Asked Questions
 
-include::faq.adoc[]
+include::{includedir}faq.adoc[]
