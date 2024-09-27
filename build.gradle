@@ -51,7 +51,7 @@ subprojects { Project project ->
 
     if (project.name in pluginProjects) {
 
-        sourceCompatibility = targetCompatibility = JavaVersion.toVersion("11")
+        sourceCompatibility = targetCompatibility = JavaVersion.toVersion(11)
 
         apply plugin: "java-library"
 
