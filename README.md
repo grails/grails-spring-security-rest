@@ -1,6 +1,6 @@
 Spring Security REST for Grails
 ===========================
-[![Java CI](https://github.com/grails/grails-spring-security-rest/actions/workflows/gradle.yml/badge.svg)](https://github.com/grails/grails-spring-security-rest/actions/workflows/gradle.yml)
+[![Java CI](https://github.com/grails/grails-spring-security-rest/actions/workflows/gradle.yml/badge.svg?event=push)](https://github.com/grails/grails-spring-security-rest/actions/workflows/gradle.yml)
 
 Grails plugin to implement a stateless, token-based, RESTful authentication 
 using Spring Security.
