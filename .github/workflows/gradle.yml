@@ -26,7 +26,6 @@ jobs:
         with:
           arguments: |
             check 
-            --refresh-dependencies
             -Dgeb.env=chromeHeadless
   build:
     if: github.event_name == 'push'
@@ -47,5 +46,4 @@ jobs:
         with:
           arguments: |
             check 
-            --refresh-dependencies
             -Dgeb.env=chromeHeadless
