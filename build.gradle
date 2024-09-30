@@ -21,6 +21,7 @@ allprojects {
 }
 
 def pluginProjects = ['spring-security-rest', 'spring-security-rest-memcached', 'spring-security-rest-redis', 'spring-security-rest-grailscache', 'spring-security-rest-gorm']
+def profileProjects = ['spring-security-rest-testapp-profile']
 def publishedProjects = pluginProjects
 
 version project.projectVersion
@@ -38,7 +39,9 @@ subprojects { Project project ->
         mavenCentral()
         maven { url "https://repo.grails.org/grails/core" }
     }
-    if (project.name != "spring-security-rest-docs" && !project.name.startsWith("build") ) {
+    if (project.name != "spring-security-rest-docs" &&
+        project.name != "spring-security-rest-testapp-profile" &&
+            !project.name.startsWith("build") ) {
         apply plugin: "org.grails.grails-plugin"
     }
 
@@ -79,6 +82,10 @@ subprojects { Project project ->
             showSkippedStandardStreams false
             showFailedStandardStreams true
         }
+    }
+
+    if (project.name in profileProjects) {
+        apply plugin: "org.grails.grails-profile"
     }
 
     if (project.name in publishedProjects) {

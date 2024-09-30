@@ -43,5 +43,6 @@ include 'spring-security-rest-memcached'
 include 'spring-security-rest-redis'
 include 'spring-security-rest-grailscache'
 include 'spring-security-rest-gorm'
+include 'spring-security-rest-testapp-profile'
 include 'spring-security-rest-docs'
 
