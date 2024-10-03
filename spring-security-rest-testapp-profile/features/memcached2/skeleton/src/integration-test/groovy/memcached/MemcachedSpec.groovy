@@ -1,18 +1,16 @@
-/*
- * Copyright 2013-2015 Alvaro Sanchez-Mariscal <alvaro.sanchezmariscal@gmail.com>
+/* Copyright 2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 package memcached
 
@@ -59,7 +57,7 @@ class MemcachedSpec extends AbstractRestSpec {
         'Date'      | new Date()
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/86")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/86")
     void "Objects stored expire after the expiration time"() {
         given:
         memcachedTokenStorageService.expiration = 1
@@ -75,7 +73,7 @@ class MemcachedSpec extends AbstractRestSpec {
         thrown(TokenNotFoundException)
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/86")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/86")
     void "Objects are refreshed when accessed"() {
         given:
         memcachedTokenStorageService.expiration = 2

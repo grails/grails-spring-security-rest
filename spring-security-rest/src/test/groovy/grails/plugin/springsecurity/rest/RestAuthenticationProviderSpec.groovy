@@ -30,7 +30,7 @@ class RestAuthenticationProviderSpec extends Specification implements TokenGener
         this.restAuthenticationProvider.tokenStorageService = new JwtTokenStorageService(jwtService: jwtService, userDetailsService: userDetailsService)
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/276")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/276")
     void "if the JWT's expiration time is null, it's validated successfully"() {
         given:
         AccessToken accessToken = tokenGenerator.generateAccessToken(new User('testUser', 'testPassword', []), 0)
@@ -42,7 +42,7 @@ class RestAuthenticationProviderSpec extends Specification implements TokenGener
         result.authenticated
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/391")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/391")
     void "refresh tokens should not be usable for authentication"() {
         given:
         AccessToken accessToken = tokenGenerator.generateAccessToken(new User('testUser', 'testPassword', []), 0)

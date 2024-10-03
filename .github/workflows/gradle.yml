@@ -2,32 +2,48 @@ name: Java CI
 on:
   push:
     branches:
-      - '[3-9].[0-9].x'
+      - '[5-9].[0-9].x'
   pull_request:
     branches:
-      - '[3-9].[0-9].x'
+      - '[5-9].[0-9].x'
   workflow_dispatch:
 jobs:
-  test:
+  core-tests:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    env:
-      WORKSPACE: ${{ github.workspace }}
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: 8
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Wrapper Integrity
+        uses: gradle/actions/wrapper-validation@v3
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with: { java-version: 11, distribution: temurin }
       - name: Run Tests
-        if: github.event_name == 'pull_request'
-        id: tests
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: |
-            :spring-security-rest:check
+        uses: gradle/actions/setup-gradle@v3
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
-          GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
+        with:
+          arguments: |
+            check 
+            -Dgeb.env=chromeHeadless
+  build:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Wrapper Integrity
+        uses: gradle/wrapper-validation-action@v2
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with: { java-version: 11, distribution: temurin }
+      - name: Run Build
+        id: build
+        uses: gradle/actions/setup-gradle@v3
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+        with:
+          arguments: |
+            check 
+            -Dgeb.env=chromeHeadless

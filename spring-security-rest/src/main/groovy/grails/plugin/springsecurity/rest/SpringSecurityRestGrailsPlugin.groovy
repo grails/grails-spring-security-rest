@@ -1,18 +1,16 @@
-/*
- * Copyright 2013-2015 Alvaro Sanchez-Mariscal <alvaro.sanchezmariscal@gmail.com>
+/* Copyright 2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 package grails.plugin.springsecurity.rest
 
@@ -66,7 +64,7 @@ import org.springframework.security.web.savedrequest.NullRequestCache
 class SpringSecurityRestGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
-    String grailsVersion = "4.0.0 > *"
+    String grailsVersion = "6.1.1 > *"
     List loadAfter = ['springSecurityCore']
     List pluginExcludes = [
         "grails-app/views/**"
@@ -74,20 +72,20 @@ class SpringSecurityRestGrailsPlugin extends Plugin {
 
     String title = "Spring Security REST Plugin"
     String author = "Alvaro Sanchez-Mariscal"
-    String authorEmail = "alvaro.sanchezmariscal@gmail.com"
+    String authorEmail = ""
     String description = 'Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow'
 
     def profiles = ['web']
 
     // URL to the plugin's documentation
-    String documentation = "http://alvarosanchez.github.io/grails-spring-security-rest/"
+    String documentation = "https://grails-plugins.github.io/grails-spring-security-rest/"
 
     // Extra (optional) plugin metadata
     String license = "APACHE"
-    def organization = [ name: "Object Computing, Inc.", url: "http://www.ociweb.com" ]
+    def organization = [name: 'Grails', url: 'https://www.grails.org/']
 
-    def issueManagement = [ system: "GitHub", url: "https://github.com/alvarosanchez/grails-spring-security-rest/issues" ]
-    def scm = [ url: "https://github.com/alvarosanchez/grails-spring-security-rest" ]
+    def issueManagement = [ system: "GitHub", url: "https://github.com/grails/grails-spring-security-rest/issues" ]
+    def scm = [ url: "https://github.com/grails/grails-spring-security-rest" ]
     GrailsApplication grailsApplication
 
     Closure doWithSpring() { {->

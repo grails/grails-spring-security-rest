@@ -1,8 +1,3 @@
-plugins {
-    id 'maven-publish'
-    id 'signing'
-}
-
 task generateProfileConfig () {
     copy {
         from 'profile.yml.tmpl'
