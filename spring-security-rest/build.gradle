@@ -24,7 +24,7 @@ dependencies {
     api "com.fasterxml.jackson.core:jackson-databind:${project.property('jackson.version')}"
 
     testImplementation "org.gperfutils:gbench:0.4.3-groovy-2.4"
-    testImplementation 'net.bytebuddy:byte-buddy:1.14.11'
+    testImplementation 'net.bytebuddy:byte-buddy:1.14.19'
 
     profile "org.grails.profiles:web-plugin:${grailsVersion}"
 }
