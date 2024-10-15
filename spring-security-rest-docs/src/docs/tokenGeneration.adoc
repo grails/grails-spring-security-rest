@@ -6,11 +6,11 @@ more information about how this plugin uses JWT's, check the <<tokenStorage>> se
 ==== Claims
 
 It is possible, to include additional claims in the JWT generated. To do so, you can plug one or more implementations of the interface
-http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/jwt/CustomClaimProvider.html[`CustomClaimProvider`],
+include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/jwt/CustomClaimProvider.html[`CustomClaimProvider`],
 and register them in Spring.
 
 The plugin comes prepackaged with a
-http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/jwt/IssuerClaimProvider.html[`IssuerClaimProvider`],
+include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/jwt/IssuerClaimProvider.html[`IssuerClaimProvider`],
 that sets the `iss` field of the JWT claim set, and which value is configurable using the following configuration property:
 `grails.plugin.springsecurity.rest.token.generation.jwt.issuer`.
 
@@ -80,8 +80,8 @@ When using encrypted JWT's, those are the possible configuration options:
 
 If you are not using JWT, but any stateful strategy like Memcached or GORM, the following strategies are available:
 
-* http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/SecureRandomTokenGenerator.html[Using java.security.SecureRandom].
-* http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/UUIDTokenGenerator.html[Using java.util.UUID].
+* include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/SecureRandomTokenGenerator.html[Using java.security.SecureRandom].
+* include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/UUIDTokenGenerator.html[Using java.util.UUID].
 
 The strategy used is configurable:
 
@@ -101,5 +101,5 @@ Both of them generate tokens of 32 alphanumeric characters.
 
 That should be enough for most of the human beings. But if you still want to provide your own implementation,
 simply write a class implementing
-http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/token/generation/TokenGenerator.html[TokenGenerator]
+include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/TokenGenerator.html[TokenGenerator]
 and wire it up in `resources.groovy` as `tokenGenerator`.

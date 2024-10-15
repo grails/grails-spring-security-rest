@@ -12,7 +12,7 @@ import net.spy.memcached.spring.MemcachedClientFactoryBean
 class SpringSecurityRestMemcachedGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
-    String grailsVersion = "3.1.0 > *"
+    String grailsVersion = "6.1.1 > *"
     List loadAfter = ['springSecurityRest']
     List pluginExcludes = [
         "grails-app/views/**"
@@ -20,20 +20,20 @@ class SpringSecurityRestMemcachedGrailsPlugin extends Plugin {
 
     String title = "Spring Security REST Plugin - Memcached support"
     String author = "Alvaro Sanchez-Mariscal"
-    String authorEmail = "alvaro.sanchezmariscal@gmail.com"
+    String authorEmail = ""
     String description = 'Implements authentication for REST APIs based on Spring Security. It uses a token-based workflow'
 
     def profiles = ['web']
 
     // URL to the plugin's documentation
-    String documentation = "http://alvarosanchez.github.io/grails-spring-security-rest/"
+    String documentation = "https://grails-plugins.github.io/grails-spring-security-rest/"
 
     // Extra (optional) plugin metadata
     String license = "APACHE"
-    def organization = [ name: "Object Computing, Inc.", url: "http://www.ociweb.com" ]
+    def organization = [name: 'Grails', url: 'https://www.grails.org/']
 
-    def issueManagement = [ system: "GitHub", url: "https://github.com/alvarosanchez/grails-spring-security-rest/issues" ]
-    def scm = [ url: "https://github.com/alvarosanchez/grails-spring-security-rest" ]
+    def issueManagement = [ system: "GitHub", url: "https://github.com/grails/grails-spring-security-rest/issues" ]
+    def scm = [ url: "https://github.com/grails/grails-spring-security-rest" ]
 
     Closure doWithSpring() { {->
         def conf = SpringSecurityUtils.securityConfig

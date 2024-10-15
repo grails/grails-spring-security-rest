@@ -77,9 +77,9 @@ You can also define the URL as a `callback` parameter in the original link, eg:
 In this case, the token will be *concatenated* to the end of the URL.
 
 Upon successful OAuth authorisation (after step 6.1 in the above diagram), an
-http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/oauth/OauthUser.html[OauthUser]
+include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/oauth/OauthUser.html[OauthUser]
 will be stored in the security context. This is done by a bean named `oauthUserDetailsService`. The
-http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/gapi/grails/plugin/springsecurity/rest/oauth/DefaultOauthUserDetailsService.html[default implementation]
+include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/oauth/DefaultOauthUserDetailsService.html[default implementation]
 delegates to the configured `userDetailsService` bean, passing the profile ID as the username:
 
 [source,groovy]
@@ -115,7 +115,7 @@ parameter will be empty, and both `error` and `message` params will be appended:
 
 Below are some examples on how to configure it for Google, Facebook and Twitter.
 
-==== Google
+=== Google
 
 Define the following block in your `application.groovy`:
 

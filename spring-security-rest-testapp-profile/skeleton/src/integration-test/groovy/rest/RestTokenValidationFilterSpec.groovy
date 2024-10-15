@@ -1,18 +1,16 @@
-/*
- * Copyright 2013-2016 Alvaro Sanchez-Mariscal <alvaro.sanchezmariscal@gmail.com>
+/* Copyright 2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 package rest
 
@@ -94,7 +92,7 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
         response.status == 403
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/67")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/67")
     void "JSESSIONID cookie is not created when using the stateless chain"() {
         when:
         RestResponse authResponse = sendCorrectCredentials() as RestResponse
@@ -113,7 +111,7 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/74")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/74")
     void "anonymous access works when enabled"() {
         when:
         def response = restBuilder.get("${baseUrl}/anonymous")
@@ -124,7 +122,7 @@ class RestTokenValidationFilterSpec extends AbstractRestSpec {
 
     }
 
-    @Issue("https://github.com/alvarosanchez/grails-spring-security-rest/issues/74")
+    @Issue("https://github.com/grails/grails-spring-security-rest/issues/74")
     void "in an anonymous chain, if a token is sent, is validated"() {
         when:
         def response = restBuilder.post("${baseUrl}/anonymous") {

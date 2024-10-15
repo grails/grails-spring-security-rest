@@ -1,3 +1,5 @@
+import io.github.gradlenexus.publishplugin.InitializeNexusStagingRepository
+
 buildscript {
     repositories {
         mavenCentral()
@@ -5,13 +7,15 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsGradlePluginVersion"
+        classpath "io.github.gradle-nexus:publish-plugin:$gradlePublishPlugin"
         classpath 'com.adarshr:gradle-test-logger-plugin:4.0.0'
     }
 }
 
 plugins {
     id 'idea'
-    id 'io.github.gradle-nexus.publish-plugin' version '1.3.0'
+    id 'io.github.gradle-nexus.publish-plugin' version "$gradlePublishPlugin"
+    id "com.github.ben-manes.versions" version "0.39.0"
 }
 
 allprojects {
@@ -22,46 +26,25 @@ def pluginProjects = ['spring-security-rest', 'spring-security-rest-memcached', 
 def profileProjects = ['spring-security-rest-testapp-profile']
 def publishedProjects = pluginProjects + profileProjects
 
-ext {
-    grailsVersion = project.grailsVersion
-    isSnapshot = projectVersion.endsWith('SNAPSHOT')
-    isReleaseVersion = !isSnapshot
-}
-
-ext."signing.keyId" = project.hasProperty("signing.keyId") ? project.getProperty('signing.keyId') : System.getenv('SIGNING_KEY')
-ext."signing.password" = project.hasProperty("signing.password") ? project.getProperty('signing.password') : System.getenv('SIGNING_PASSPHRASE')
-ext."signing.secretKeyRingFile" = project.hasProperty("signing.secretKeyRingFile") ? project.getProperty('signing.secretKeyRingFile') : "${System.properties['user.home']}${File.separator}.gnupg${File.separator}secring.gpg"
-
-nexusPublishing {
-    repositories {
-        sonatype {
-            def ossUser = System.getenv("SONATYPE_USERNAME") ?: project.hasProperty("sonatypeOssUsername") ? project.sonatypeOssUsername : ''
-            def ossPass = System.getenv("SONATYPE_PASSWORD") ?: project.hasProperty("sonatypeOssPassword") ? project.sonatypeOssPassword : ''
-            def ossStagingProfileId = System.getenv("SONATYPE_STAGING_PROFILE_ID") ?: project.hasProperty("sonatypeOssStagingProfileId") ? project.sonatypeOssStagingProfileId : ''
-            nexusUrl = uri("https://s01.oss.sonatype.org/service/local/")
-            snapshotRepositoryUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-            username = ossUser
-            password = ossPass
-            stagingProfileId = ossStagingProfileId
-            useStaging = isReleaseVersion
-        }
-    }
-    transitionCheckOptions {
-        maxRetries.set(60)
-        delayBetween.set(java.time.Duration.ofMillis(4000))
-    }
-}
+version projectVersion
 
 subprojects { Project project ->
-    group "org.grails.plugins"
+    group projectGroup
     version projectVersion
+
+    ext {
+        grailsVersion = project.grailsVersion
+        isSnapshot = version.endsWith('SNAPSHOT')
+        isReleaseVersion = !ext.isSnapshot
+        isProfile = project.name.endsWith('-profile')
+    }
 
     repositories {
         mavenCentral()
         maven { url "https://repo.grails.org/grails/core" }
     }
     if (project.name != "spring-security-rest-docs" &&
-        project.name != "spring-security-rest-testapp-profile" &&
+            project.name != "spring-security-rest-testapp-profile" &&
             !project.name.startsWith("build") ) {
         apply plugin: "org.grails.grails-plugin"
     }
@@ -72,7 +55,7 @@ subprojects { Project project ->
 
     if (project.name in pluginProjects) {
 
-        sourceCompatibility = targetCompatibility = 1.8
+        sourceCompatibility = targetCompatibility = JavaVersion.toVersion(11)
 
         apply plugin: "java-library"
 
@@ -109,85 +92,14 @@ subprojects { Project project ->
         apply plugin: "org.grails.grails-profile"
     }
 
-    if (project.name in publishedProjects && project.name != "spring-security-rest-docs" &&
-            project.name != "spring-security-rest-testapp-profile") {
-        apply plugin: 'maven-publish'
-        apply plugin: 'signing'
-        publishing {
-
-            repositories {
-                maven {
-                    credentials {
-                        def u = System.getenv("ARTIFACTORY_USERNAME") ?: project.hasProperty("artifactoryPublishUsername") ? project.artifactoryPublishUsername : ''
-                        def p = System.getenv("ARTIFACTORY_PASSWORD") ?: project.hasProperty("artifactoryPublishPassword") ? project.artifactoryPublishPassword : ''
-                        username = u
-                        password = p
-                    }
-                    if (isSnapshot) {
-                        url "https://repo.grails.org/grails/plugins3-snapshots-local"
-                    } else {
-                        url "https://repo.grails.org/grails/plugins3-releases-local"
-                    }
-                }
-            }
-
-            publications {
-                mavenRelease(MavenPublication) {
-
-                    groupId = project.group
-                    artifactId = project.name
-                    version = project.version
-
-                    from components.java
-
-                    artifact sourcesJar
-                    artifact javadocJar
-
-                    pom {
-                        name = 'Spring Security REST plugin'
-                        description = 'Grails plugin to implement token-based, RESTful authentication using Spring Security'
-                        url = 'https://github.com/grails/grails-spring-security-rest'
-                        licenses {
-                            license {
-                                name = 'The Apache License, Version 2.0'
-                                url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
-                            }
-                        }
-                        developers {
-                            developer {
-                                id = 'alvarosanchez'
-                                name = 'Alvaro Sanchez-Mariscal'
-                                email = ''
-                            }
-                            developer {
-                                id = 'jameskleeh'
-                                name = 'James Kleeh'
-                                email = ''
-                            }
-                        }
-                        scm {
-                            connection = 'scm:git:https://github.com/grails/grails-spring-security-rest.git'
-                            developerConnection = 'scm:git:https://github.com/grails/grails-spring-security-rest.git'
-                            url = 'https://github.com/grails/grails-spring-security-rest/tree/3.0.x'
-                        }
-                    }
-                }
-            }
-        }
-
-        signing {
-            sign publishing.publications.mavenRelease
-        }
+    if (project.name in publishedProjects) {
+        apply from: rootProject.file("gradle/publishing.gradle")
     }
 }
 
-task aggregateGroovyDoc(type: Groovydoc) {
-    def groovyDocProjects = subprojects.findAll { it.name in pluginProjects }
-    group = JavaBasePlugin.DOCUMENTATION_GROUP
+apply from: rootProject.file("gradle/docs.gradle")
 
-    dependsOn groovyDocProjects.groovydoc
-    source groovyDocProjects.groovydoc.source
-    destinationDir file("${buildDir}/docs/groovydoc")
-    classpath = files(groovyDocProjects.groovydoc.classpath)
-    groovyClasspath = files(groovyDocProjects.groovydoc.groovyClasspath)
+//do not generate extra load on Nexus with new staging repository if signing fails
+tasks.withType(InitializeNexusStagingRepository).configureEach {
+    shouldRunAfter(tasks.withType(Sign))
 }
