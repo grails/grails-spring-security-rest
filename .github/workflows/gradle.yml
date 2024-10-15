@@ -12,7 +12,6 @@ env:
   GIT_USER_EMAIL: 'grails-build@users.noreply.github.com'
 jobs:
   tests:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,7 +29,7 @@ jobs:
           arguments: |
             check 
             -Dgeb.env=chromeHeadless
-  publish:
+  build:
     name: Publish Snapshot release
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
