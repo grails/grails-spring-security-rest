@@ -38,6 +38,6 @@ tasks.register('ghPagesRootIndexPage', Copy) {
     group = 'documentation'
     dependsOn = ['docs']
     from file("${rootProject.allprojects.find { it.name == 'spring-security-rest-docs'}.projectDir}/src/docs/index.tmpl")
-    into layout.buildDirectory
+    into rootProject.buildDir.toPath().resolve('docs').toFile()
     rename 'index.tmpl', 'ghpages.html'
 }
