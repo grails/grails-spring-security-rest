@@ -25,16 +25,16 @@ def pomInfo = {
 
 	delegate.developers {
 		delegate.developer {
-			delegate.id = 'alvarosanchez'
-			delegate.name = 'Alvaro Sanchez-Mariscal'
+			delegate.id 'alvarosanchez'
+			delegate.name 'Alvaro Sanchez-Mariscal'
 		}
 		delegate.developer {
-			delegate.id = 'jameskleeh'
-			delegate.name = 'James Kleeh'
+			delegate.id 'jameskleeh'
+			delegate.name 'James Kleeh'
 		}
 		delegate.developer {
-			delegate.id = 'jdaugherty'
-			delegate.name = "James Daugherty"
+			delegate.id 'jdaugherty'
+			delegate.name "James Daugherty"
 		}
 	}
 }
