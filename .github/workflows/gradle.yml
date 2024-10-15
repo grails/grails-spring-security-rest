@@ -7,9 +7,11 @@ on:
     branches:
       - '[5-9].[0-9].x'
   workflow_dispatch:
+env:
+  GIT_USER_NAME: 'grails-build'
+  GIT_USER_EMAIL: 'grails-build@users.noreply.github.com'
 jobs:
-  core-tests:
-    if: github.event_name == 'pull_request'
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,22 +30,42 @@ jobs:
             check 
             -Dgeb.env=chromeHeadless
   build:
-    if: github.event_name == 'push'
+    name: Publish Snapshot release
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: tests
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Wrapper Integrity
-        uses: gradle/wrapper-validation-action@v2
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with: { java-version: 11, distribution: temurin }
-      - name: Run Build
-        id: build
+      - uses: actions/checkout@v4
+      - uses: gradle/wrapper-validation-action@v2
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 11
+      - name: Publish to Artifactory (repo.grails.org)
+        uses: gradle/actions/setup-gradle@v3
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          ORG_GRADLE_PROJECT_artifactoryPublishUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
+          ORG_GRADLE_PROJECT_artifactoryPublishPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
+        with:
+          arguments: |
+            -Dorg.gradle.internal.publish.checksums.insecure=true
+            publish
+      - name: Generate Documentation
+        if: success()
         uses: gradle/actions/setup-gradle@v3
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         with:
-          arguments: |
-            check 
-            -Dgeb.env=chromeHeadless
+          arguments: docs
+      - name: Publish to Github Pages
+        if: success()
+        uses: micronaut-projects/github-pages-deploy-action@grails
+        env:
+          BRANCH: gh-pages
+          COMMIT_EMAIL: ${{ env.GIT_USER_EMAIL }}
+          COMMIT_NAME: ${{ env.GIT_USER_NAME }}
+          FOLDER: docs/build/docs
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          TARGET_REPOSITORY: ${{ github.repository }}
+          DOC_FOLDER: gh-pages

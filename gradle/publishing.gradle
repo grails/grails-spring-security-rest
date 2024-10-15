@@ -1,8 +1,42 @@
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-ext {
-	isReleaseVersion = !version.toString().endsWith("SNAPSHOT")
+ext.set('signing.keyId', project.findProperty('signing.keyId') ?: System.getenv('SIGNING_KEY'))
+ext.set('signing.password', project.findProperty('signing.password') ?: System.getenv('SIGNING_PASSPHRASE'))
+
+def pomInfo = {
+	delegate.name project.title
+	delegate.description project.projectDesc
+	delegate.url projectUrl
+
+	delegate.licenses {
+		delegate.license {
+			delegate.name 'Apache-2.0'
+			delegate.url 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+			delegate.distribution 'repo'
+		}
+	}
+
+	delegate.scm {
+		delegate.url "scm:git@github.com:${githubSlug}.git"
+		delegate.connection "scm:git@github.com:${githubSlug}.git"
+		delegate.developerConnection "scm:git@github.com:${githubSlug}.git"
+	}
+
+	delegate.developers {
+		delegate.developer {
+			delegate.id = 'alvarosanchez'
+			delegate.name = 'Alvaro Sanchez-Mariscal'
+		}
+		delegate.developer {
+			delegate.id = 'jameskleeh'
+			delegate.name = 'James Kleeh'
+		}
+		delegate.developer {
+			delegate.id = 'jdaugherty'
+			delegate.name = "James Daugherty"
+		}
+	}
 }
 
 publishing {
@@ -12,43 +46,32 @@ publishing {
 			groupId = project.group
 			version = project.version
 
-			from components.java
+			if(!isProfile) {
+				from components.java
 
-			artifact sourcesJar
-			artifact javadocJar
+				artifact sourcesJar
+				artifact javadocJar
+			}
 
-			pom {
-				name = 'Spring Security REST plugin'
-				description = 'Grails plugin to implement token-based, RESTful authentication using Spring Security'
-				url = project.projectUrl
-				licenses {
-					license {
-						name = 'The Apache License, Version 2.0'
-						url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
-					}
+			pom.withXml {
+				def pomNode = asNode()
+				pomNode.children().last() + pomInfo
+			}
+		}
+	}
+
+	if (isSnapshot) {
+		repositories {
+			maven {
+				credentials {
+					username = project.findProperty('artifactoryPublishUsername') ?: ''
+					password = project.findProperty('artifactoryPublishPassword') ?: ''
 				}
-				developers {
-					developer {
-						id = 'alvarosanchez'
-						name = 'Alvaro Sanchez-Mariscal'
-						email = ''
-					}
-					developer {
-						id = 'jameskleeh'
-						name = 'James Kleeh'
-						email = ''
-					}
-					developer {
-						id = 'jdaugherty'
-						name = "James Daugherty"
-						email = ''
-					}
-				}
-				scm {
-					connection = project.scmConnection
-					developerConnection = project.scmDeveloperConnection
-					url = project.scmUrl
-				}
+				url = isProfile ?
+						uri('https://repo.grails.org/grails/libs-snapshots-local') :
+						uri('https://repo.grails.org/grails/plugins3-snapshots-local')
+
+
 			}
 		}
 	}
@@ -56,14 +79,8 @@ publishing {
 
 afterEvaluate {
 	signing {
-		ext["signing.keyId"] = System.getenv('SIGNING_KEY_ID')
-		ext["signing.password"] = System.getenv('SIGNING_PASSPHRASE')
-		ext["signing.secretKeyRingFile"] = System.getenv('SECRING_FILE')
-
-		required {
-			isReleaseVersion && gradle.taskGraph.hasTask("publish")
-		}
-		sign publishing.publications.maven
+		required = { isReleaseVersion && gradle.taskGraph.hasTask('publish') }
+		sign(publishing.publications.maven)
 	}
 }
 
