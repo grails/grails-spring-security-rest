@@ -65,7 +65,7 @@ jobs:
           BRANCH: gh-pages
           COMMIT_EMAIL: ${{ env.GIT_USER_EMAIL }}
           COMMIT_NAME: ${{ env.GIT_USER_NAME }}
-          FOLDER: docs/build/docs
+          FOLDER: build/docs
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           TARGET_REPOSITORY: ${{ github.repository }}
           DOC_FOLDER: gh-pages
