@@ -15,7 +15,7 @@ dependencies {
 
     api 'org.bouncycastle:bcprov-jdk18on:1.77'
 
-    api "com.nimbusds:nimbus-jose-jwt:9.37.3"
+    api "com.nimbusds:nimbus-jose-jwt:9.41.2"
     api 'commons-codec:commons-codec:1.16.0'
     api "org.grails.plugins:spring-security-core:${springSecurityCoreVersion}"
 
