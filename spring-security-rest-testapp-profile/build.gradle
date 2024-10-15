@@ -1,6 +1,5 @@
 buildscript {
     repositories {
-        mavenCentral()
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
@@ -8,12 +7,7 @@ buildscript {
     }
 }
 
-plugins {
-    id 'maven-publish'
-    id 'signing'
-}
-
-task generateProfileConfig () {
+tasks.register('generateProfileConfig') {
     copy {
         from 'profile.yml.tmpl'
         into '.'
