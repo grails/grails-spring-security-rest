@@ -38,7 +38,7 @@ class OauthUser extends User implements Serializable {
 
     OauthUser(String username, String password, Collection<? extends GrantedAuthority> authorities, UserProfile userProfile) {
         super(username, password, authorities)
-        if(!(userProfile instanceof CommonProfile)) {
+        if(userProfile && !(userProfile instanceof CommonProfile)) {
             throw new IllegalStateException("The userProfile must be an instance of CommonProfile to support display name and email")
         }
 
