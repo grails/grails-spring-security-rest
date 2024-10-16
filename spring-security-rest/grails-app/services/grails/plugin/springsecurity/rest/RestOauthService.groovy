@@ -30,7 +30,7 @@ import org.codehaus.groovy.runtime.InvokerHelper
 import org.pac4j.core.client.IndirectClient
 import org.pac4j.core.context.WebContext
 import org.pac4j.core.credentials.Credentials
-import org.pac4j.core.profile.CommonProfile
+import org.pac4j.core.profile.UserProfile
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 
@@ -54,7 +54,7 @@ class RestOauthService {
         Map<String, ?> providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
         def clientClass = providerConfig.client
         if (clientClass instanceof CharSequence) clientClass = Class.forName(clientClass as String, true, Holders.grailsApplication.classLoader)
-        IndirectClient client = (clientClass as Class<? extends IndirectClient>).newInstance()
+        IndirectClient client = (clientClass as Class<? extends IndirectClient>).getDeclaredConstructor().newInstance()
 
         Map<String, ?> clientConfig = [:]
         clientConfig.putAll providerConfig
@@ -73,22 +73,22 @@ class RestOauthService {
         clientCache.get provider
     }
 
-    CommonProfile getProfile(String provider, WebContext context) {
+    UserProfile getProfile(String provider, WebContext context) {
         IndirectClient client = getClient(provider)
-        Credentials credentials = client.getCredentials context
+        Credentials credentials = client.getCredentials(context, null).orElse(null)
 
         log.debug "Querying provider to fetch User ID"
-        client.getUserProfile credentials, context
+        client.getUserProfile(credentials, context, null).orElse(null)
     }
 
-    OauthUser getOauthUser(String provider, CommonProfile profile) {
+    OauthUser getOauthUser(String provider, UserProfile profile) {
         def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
         List defaultRoles = providerConfig.defaultRoles.collect { new SimpleGrantedAuthority(it) }
         oauthUserDetailsService.loadUserByUserProfile(profile, defaultRoles)
     }
 
     String storeAuthentication(String provider, WebContext context) {
-        CommonProfile profile = getProfile(provider, context)
+        UserProfile profile = getProfile(provider, context)
         log.debug "User's ID: ${profile.id}"
 
         OauthUser userDetails = getOauthUser(provider, profile)

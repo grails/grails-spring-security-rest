@@ -16,6 +16,7 @@ package grails.plugin.springsecurity.rest.oauth
 
 import groovy.transform.CompileStatic
 import org.pac4j.core.profile.CommonProfile
+import org.pac4j.core.profile.UserProfile
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
@@ -35,9 +36,13 @@ class OauthUser extends User implements Serializable {
         super(username, password, authorities)
     }
 
-    OauthUser(String username, String password, Collection<? extends GrantedAuthority> authorities, CommonProfile userProfile) {
+    OauthUser(String username, String password, Collection<? extends GrantedAuthority> authorities, UserProfile userProfile) {
         super(username, password, authorities)
-        this.userProfile = userProfile
+        if(userProfile && !(userProfile instanceof CommonProfile)) {
+            throw new IllegalStateException("The userProfile must be an instance of CommonProfile to support display name and email")
+        }
+
+        this.userProfile = userProfile as CommonProfile
     }
 
 }

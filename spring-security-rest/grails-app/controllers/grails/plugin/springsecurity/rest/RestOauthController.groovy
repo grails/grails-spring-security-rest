@@ -14,6 +14,7 @@
  */
 package grails.plugin.springsecurity.rest
 
+import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured
 import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.error.CallbackErrorHandler
@@ -22,11 +23,11 @@ import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.util.logging.Slf4j
 import org.apache.commons.codec.binary.Base64
-import grails.core.GrailsApplication
+import org.grails.plugins.codecs.URLCodec
 import org.pac4j.core.client.IndirectClient
-import org.pac4j.jee.context.JEEContext
 import org.pac4j.core.context.WebContext
 import org.pac4j.core.exception.http.RedirectionAction
+import org.pac4j.jee.context.JEEContext
 import org.pac4j.jee.context.session.JEESessionStore
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.userdetails.User
@@ -98,8 +99,10 @@ class RestOauthController {
             def errorParams = new StringBuilder()
 
             Map params = callbackErrorHandler.convert(e)
+
+            URLCodec urlCodec = new URLCodec()
             params.each { key, value ->
-                errorParams << "&${key}=${value.encodeAsURL()}"
+                errorParams << "&${key}=${urlCodec.encoder.encode(value)}"
             }
 
             frontendCallbackUrl = getCallbackUrl(frontendCallbackUrl, errorParams.toString())
