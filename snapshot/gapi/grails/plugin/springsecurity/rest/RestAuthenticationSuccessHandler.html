@@ -105,7 +105,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 
             <!-- todo: direct known subclasses -->
             <hr>
-            <br>
 
 <pre>@groovy.transform.CompileStatic
 class RestAuthenticationSuccessHandler
@@ -131,7 +130,7 @@ implements org.springframework.security.web.authentication.AuthenticationSuccess
 
         <!-- =========== PROPERTY SUMMARY =========== -->
         
-         <ul class="blockList">
+         <ul class="blockList"> 
                 <li class="blockList"><a name="property_summary"><!--   --></a>
                     <h3>Properties Summary</h3>
                     <ul class="blockList">
@@ -150,6 +149,7 @@ implements org.springframework.security.web.authentication.AuthenticationSuccess
                     </table>
                    </ul>
                 </li>
+                
             </ul>
         
 
@@ -170,8 +170,7 @@ implements org.springframework.security.web.authentication.AuthenticationSuccess
                         
                         <tr class="altColor">
                             <td class="colFirst">
-                                <code><a href="#RestAuthenticationSuccessHandler()">RestAuthenticationSuccessHandler</a>
-                                ()</code><br></td>
+                                <code><strong><a href="#RestAuthenticationSuccessHandler()">RestAuthenticationSuccessHandler</a></strong>()</code><br></td>
                         </tr>
                         
                     </table>
@@ -198,7 +197,7 @@ implements org.springframework.security.web.authentication.AuthenticationSuccess
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#onAuthenticationSuccess(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.security.core.Authentication)">onAuthenticationSuccess</a></strong>(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, org.springframework.security.core.Authentication authentication)</code><br>Called when a user has been successfully authenticated.</td>
+                            <td class="colLast"><code><strong><a href="#onAuthenticationSuccess(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse, org.springframework.security.core.Authentication)">onAuthenticationSuccess</a></strong>(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, org.springframework.security.core.Authentication authentication)</code><br>Called when a user has been successfully authenticated.</td>
                         </tr>
                         
                     </table>
@@ -217,7 +216,7 @@ implements org.springframework.security.web.authentication.AuthenticationSuccess
                         
                         <tr class="altColor">
                             <td class="colFirst"><code>class java.lang.Object</code></td>
-                            <td class="colLast"><code>java.lang.Object#wait(long), java.lang.Object#wait(long, int), java.lang.Object#wait(), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
+                            <td class="colLast"><code>java.lang.Object#wait(long, int), java.lang.Object#wait(), java.lang.Object#wait(long), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
                         </tr>
                     </table>
                    </ul>
@@ -287,10 +286,10 @@ implements org.springframework.security.web.authentication.AuthenticationSuccess
                 </a>
                     <h3>Method Detail</h3>
                     
-                        <a name="onAuthenticationSuccess(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.security.core.Authentication)"><!-- --></a>
+                        <a name="onAuthenticationSuccess(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse, org.springframework.security.core.Authentication)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>void <strong>onAuthenticationSuccess</strong>(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, org.springframework.security.core.Authentication authentication)</h4>
+                                <h4>void <strong>onAuthenticationSuccess</strong>(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, org.springframework.security.core.Authentication authentication)</h4>
                                 <p> Called when a user has been successfully authenticated. <DL><DT><B>Parameters:</B></DT><DD><code>request</code> -  the request which caused the successful authentication</DD><DD><code>response</code> -  the response</DD><DD><code>authentication</code> -  the <tt>Authentication</tt> object which was created during the authentication process.</DD></DL></p>
                             </li>
                         </ul>
