@@ -16,7 +16,7 @@ package grails.plugin.springsecurity.rest.token.reader
 
 import grails.plugin.springsecurity.rest.token.AccessToken
 
-import javax.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletRequest
 
 public interface TokenReader {
 

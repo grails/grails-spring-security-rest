@@ -28,11 +28,16 @@ import grails.web.mapping.LinkGenerator
 import groovy.util.logging.Slf4j
 import org.codehaus.groovy.runtime.InvokerHelper
 import org.pac4j.core.client.IndirectClient
+import org.pac4j.core.context.CallContext
 import org.pac4j.core.context.WebContext
 import org.pac4j.core.credentials.Credentials
 import org.pac4j.core.profile.CommonProfile
+import org.pac4j.core.profile.UserProfile
+import org.springframework.beans.BeanWrapperImpl
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
+
+import java.beans.PropertyDescriptor
 
 /**
  * Deals with pac4j library to fetch a user profile from the selected OAuth provider, and stores it on the security context
@@ -51,20 +56,24 @@ class RestOauthService {
 
     private transient LoadingCache<String, IndirectClient> clientCache = CacheBuilder.newBuilder().<String, IndirectClient>build { String provider ->
         log.debug "Creating OAuth client for provider: ${provider}"
-        Map<String, ?> providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
-        def clientClass = providerConfig.client
-        if (clientClass instanceof CharSequence) clientClass = Class.forName(clientClass as String, true, Holders.grailsApplication.classLoader)
-        IndirectClient client = (clientClass as Class<? extends IndirectClient>).newInstance()
 
-        Map<String, ?> clientConfig = [:]
-        clientConfig.putAll providerConfig
-        clientConfig.remove 'client'
+        def clientClass = grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.client"]
+        if (clientClass instanceof CharSequence) clientClass = Class.forName(clientClass as String, true, Holders.grailsApplication.classLoader)
+        IndirectClient client = (clientClass as Class<? extends IndirectClient>).getDeclaredConstructor().newInstance()
 
         String callbackUrl = grailsLinkGenerator.link controller: 'restOauth', action: 'callback', params: [provider: provider], mapping: 'oauth', absolute: true
         log.debug "Callback URL is: ${callbackUrl}"
-        clientConfig.callbackUrl = callbackUrl
+        client.callbackUrl = callbackUrl
 
-        InvokerHelper.setProperties client, clientConfig
+        BeanWrapperImpl clientInvokerHelper = new BeanWrapperImpl(client)
+        for (PropertyDescriptor propertyDescriptor : clientInvokerHelper.getPropertyDescriptors()) {
+            if(propertyDescriptor.writeMethod) {
+                String propertyName = propertyDescriptor.name
+                if(propertyName != "client" && grailsApplication.config.containsKey("grails.plugin.springsecurity.rest.oauth.${provider}.${propertyName}")) {
+                    clientInvokerHelper.setPropertyValue(propertyName, grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.${propertyName}"])
+                }
+            }
+        }
 
         client
     }
@@ -73,22 +82,23 @@ class RestOauthService {
         clientCache.get provider
     }
 
-    CommonProfile getProfile(String provider, WebContext context) {
+    UserProfile getProfile(String provider, CallContext context) {
         IndirectClient client = getClient(provider)
-        Credentials credentials = client.getCredentials context
+        Credentials credentials = client.getCredentials(context).orElse(null)
+        client.validateCredentials(context, credentials)
 
         log.debug "Querying provider to fetch User ID"
-        client.getUserProfile credentials, context
+        client.getUserProfile(context, credentials).orElse(null)
     }
 
-    OauthUser getOauthUser(String provider, CommonProfile profile) {
-        def providerConfig = grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
-        List defaultRoles = providerConfig.defaultRoles.collect { new SimpleGrantedAuthority(it) }
+    OauthUser getOauthUser(String provider, UserProfile profile) {
+        def configuredDefaultRoles = grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.defaultRoles"]
+        List defaultRoles = configuredDefaultRoles?.collect { new SimpleGrantedAuthority(it as String) }
         oauthUserDetailsService.loadUserByUserProfile(profile, defaultRoles)
     }
 
-    String storeAuthentication(String provider, WebContext context) {
-        CommonProfile profile = getProfile(provider, context)
+    String storeAuthentication(String provider, CallContext context) {
+        UserProfile profile = getProfile(provider, context)
         log.debug "User's ID: ${profile.id}"
 
         OauthUser userDetails = getOauthUser(provider, profile)

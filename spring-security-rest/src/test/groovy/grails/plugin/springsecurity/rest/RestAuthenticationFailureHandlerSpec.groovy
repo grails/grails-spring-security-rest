@@ -20,8 +20,8 @@ import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.core.AuthenticationException
 import spock.lang.Specification
 
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 
 class RestAuthenticationFailureHandlerSpec extends Specification {
 

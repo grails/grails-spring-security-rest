@@ -17,7 +17,7 @@ package grails.plugin.springsecurity.rest.credentials
 import groovy.util.logging.Slf4j
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 
-import javax.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletRequest
 
 //tag::class[]
 /**

@@ -19,7 +19,7 @@ import grails.plugin.springsecurity.rest.token.reader.TokenReader
 import groovy.util.logging.Slf4j
 import org.springframework.http.MediaType
 
-import javax.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletRequest
 
 /**
  * RFC 6750 implementation of a {@link TokenReader}

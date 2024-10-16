@@ -14,6 +14,7 @@
  */
 package grails.plugin.springsecurity.rest
 
+import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured
 import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.error.CallbackErrorHandler
@@ -22,11 +23,12 @@ import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.util.logging.Slf4j
 import org.apache.commons.codec.binary.Base64
-import grails.core.GrailsApplication
+import org.grails.plugins.codecs.URLCodec
 import org.pac4j.core.client.IndirectClient
-import org.pac4j.jee.context.JEEContext
+import org.pac4j.core.context.CallContext
 import org.pac4j.core.context.WebContext
 import org.pac4j.core.exception.http.RedirectionAction
+import org.pac4j.jee.context.JEEContext
 import org.pac4j.jee.context.session.JEESessionStore
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.userdetails.User
@@ -80,14 +82,14 @@ class RestOauthController {
      * frontend application can store the REST API token locally for subsequent API calls.
      */
     def callback(String provider) {
-        WebContext context = new JEEContext(request, response)
+        CallContext context = new CallContext(new JEEContext(request, response), null)
         def frontendCallbackUrl
         if (session[CALLBACK_ATTR]) {
             log.debug "Found callback URL in the HTTP session"
             frontendCallbackUrl = session[CALLBACK_ATTR]
         } else {
             log.debug "Found callback URL in the configuration file"
-            frontendCallbackUrl = grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl
+            frontendCallbackUrl = grailsApplication.config['grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl']
         }
 
         try {
@@ -98,8 +100,10 @@ class RestOauthController {
             def errorParams = new StringBuilder()
 
             Map params = callbackErrorHandler.convert(e)
+
+            URLCodec urlCodec = new URLCodec()
             params.each { key, value ->
-                errorParams << "&${key}=${value.encodeAsURL()}"
+                errorParams << "&${key}=${urlCodec.encoder.encode(value)}"
             }
 
             frontendCallbackUrl = getCallbackUrl(frontendCallbackUrl, errorParams.toString())

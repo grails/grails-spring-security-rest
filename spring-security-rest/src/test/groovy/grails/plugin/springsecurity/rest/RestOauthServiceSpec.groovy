@@ -31,46 +31,40 @@ class RestOauthServiceSpec extends Specification implements ServiceUnitTest<Rest
         service.grailsLinkGenerator = grailsLinkGenerator
     }
 
-    def providerConfig(String provider) {
-        grailsApplication.config.grails.plugin.springsecurity.rest.oauth."${provider}"
-    }
-
     def "it can create a client for CasOAuthWrapper"() {
 
         given:
         def provider = "cas"
-        providerConfig(provider)
-        providerConfig(provider).client = CasOAuthWrapperClient
-        providerConfig(provider).key = 'my_key'
-        providerConfig(provider).secret = 'my_secret'
-        providerConfig(provider).casOAuthUrl = 'cas_oauth_url'
+        grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.client"] = CasOAuthWrapperClient
+        grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.key"] = 'my_key'
+        grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.secret"] = 'my_secret'
+        grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.casOAuthUrl"] = 'cas_oauth_url'
 
         when:
-        def client = service.getClient(provider);
+        def client = service.getClient(provider)
 
         then:
         assert client instanceof CasOAuthWrapperClient
-        assert client.key == providerConfig(provider).key
-        assert client.secret == providerConfig(provider).secret
-        assert client.casOAuthUrl == providerConfig(provider).casOAuthUrl
+        assert client.key == grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.key"]
+        assert client.secret == grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.secret"]
+        assert client.casOAuthUrl == grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.casOAuthUrl"]
 
     }
 
     @Unroll
     def "it can create a client for #provider"() {
         given:
-        providerConfig(provider)
-        providerConfig(provider).client = clientClass
-        providerConfig(provider).key = 'my_key'
-        providerConfig(provider).secret = 'my_secret'
+        grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.client"] = clientClass
+        grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.key"] = 'my_key'
+        grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.secret"] = 'my_secret'
 
         when:
-        def client = service.getClient(provider);
+        def client = service.getClient(provider)
 
         then:
         client.class == clientClass
-        client.key == providerConfig(provider).key
-        client.secret == providerConfig(provider).secret
+        client.key == grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.key"]
+        client.secret == grailsApplication.config["grails.plugin.springsecurity.rest.oauth.${provider}.secret"]
 
         where:
         provider        | clientClass

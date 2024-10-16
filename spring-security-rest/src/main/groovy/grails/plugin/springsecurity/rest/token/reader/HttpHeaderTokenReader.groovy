@@ -17,7 +17,7 @@ package grails.plugin.springsecurity.rest.token.reader
 import grails.plugin.springsecurity.rest.token.AccessToken
 import groovy.transform.CompileStatic
 
-import javax.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletRequest
 
 /**
  * Reads the token from a configurable HTTP Header

@@ -18,7 +18,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.security.web.util.matcher.RequestMatcher
 
-import javax.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletRequest
 
 /**
  * Determines whether a given request matches against a configured endpoint URL

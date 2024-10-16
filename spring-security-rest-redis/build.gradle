@@ -1,6 +1,6 @@
 dependencies {
     api project(":spring-security-rest")
-    api "org.grails.plugins:grails-redis:4.0.1"
+    api "org.grails.plugins:grails-redis:5.0.0-SNAPSHOT"
     api "redis.clients:jedis"
 
     profile "org.grails.profiles:plugin:${grailsVersion}"

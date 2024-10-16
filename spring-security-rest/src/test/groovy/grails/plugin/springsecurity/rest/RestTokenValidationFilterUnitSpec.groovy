@@ -29,7 +29,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import spock.lang.Specification
 import spock.lang.Subject
 
-import javax.servlet.FilterChain
+import jakarta.servlet.FilterChain
 
 @Subject(RestTokenValidationFilter)
 class RestTokenValidationFilterUnitSpec extends Specification {

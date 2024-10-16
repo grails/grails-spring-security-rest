@@ -39,9 +39,9 @@ class RestOauthControllerSpec extends Specification implements ControllerUnitTes
     private frontendCallbackBaseUrl = "http://config.com/welcome#token="
 
     def setup() {
-        grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl = { String tokenValue ->
+        grailsApplication.config.merge(['grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl' : { String tokenValue ->
             frontendCallbackBaseUrl + tokenValue
-        }
+        }])
 
         params.provider = "google"
     }
@@ -74,7 +74,7 @@ class RestOauthControllerSpec extends Specification implements ControllerUnitTes
     def 'UsernameNotFoundException caught within callback action with frontend string URL in Config.groovy'() {
 
         def caughtException = injectDependencies(new UsernameNotFoundException('message'))
-        grailsApplication.config.grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl = frontendCallbackBaseUrl
+        grailsApplication.config.merge(['grails.plugin.springsecurity.rest.oauth.frontendCallbackUrl': frontendCallbackBaseUrl])
 
         when:
         controller.callback()

@@ -20,7 +20,7 @@ import org.grails.plugin.cache.GrailsCacheManager
 import org.springframework.cache.Cache
 import org.springframework.security.core.userdetails.UserDetails
 
-import javax.annotation.PostConstruct
+import jakarta.annotation.PostConstruct
 
 /**
  * Uses <a href="http://grails.org/plugin/cache">Grails Cache plugin</a> to store and retrieve tokens.

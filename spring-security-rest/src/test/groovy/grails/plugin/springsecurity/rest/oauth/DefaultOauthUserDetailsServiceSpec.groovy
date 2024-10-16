@@ -46,7 +46,7 @@ class DefaultOauthUserDetailsServiceSpec extends Specification {
 
     void "it load users either existing or not"() {
         given:
-        application.config.grails.plugin.springsecurity.userLookup.userDomainClassName = 'demo.User'
+        application.config.merge(['grails.plugin.springsecurity.userLookup.userDomainClassName':'demo.User'])
         
         OauthUserDetailsService service = new DefaultOauthUserDetailsService()
         service.preAuthenticationChecks = new DefaultPreAuthenticationChecks()
@@ -69,7 +69,7 @@ class DefaultOauthUserDetailsServiceSpec extends Specification {
 
     void "when a user exists but it's disabled, it throws an exception"() {
         given:
-        application.config.grails.plugin.springsecurity.userLookup.userDomainClassName = 'demo.User'
+        application.config.merge(['grails.plugin.springsecurity.userLookup.userDomainClassName': 'demo.User'])
 
         OauthUserDetailsService service = new DefaultOauthUserDetailsService()
         service.preAuthenticationChecks = new DefaultPreAuthenticationChecks()
@@ -86,7 +86,7 @@ class DefaultOauthUserDetailsServiceSpec extends Specification {
 
     void "if userLookUp.userDomainClassName not set, don't look for the user with userDetailService; return basic OauthUser instead"() {
         given:
-        application.config.grails.plugin.springsecurity.userLookup.userDomainClassName = null
+        application.config.merge(['grails.plugin.springsecurity.userLookup.userDomainClassName': null])
 
         OauthUserDetailsService service = new DefaultOauthUserDetailsService()
         Collection<GrantedAuthority> expectedRoles = [new MockGrantedAuthority(authority: 'ROLE_USER')]
