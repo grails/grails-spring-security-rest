@@ -99,7 +99,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 
             <!-- todo: direct known subclasses -->
             <hr>
-            <br>
 
 <pre>interface OauthUserDetailsService
 extends org.springframework.security.core.userdetails.UserDetailsService</pre>
@@ -147,7 +146,7 @@ extends org.springframework.security.core.userdetails.UserDetailsService</pre>
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>abstract&nbsp;<a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a></code></td>
-                            <td class="colLast"><code><strong><a href="#loadUserByUserProfile(org.pac4j.core.profile.CommonProfile, Collection)">loadUserByUserProfile</a></strong>(org.pac4j.core.profile.CommonProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</code><br>Search for a user based on his org.pac4j.oauth.profile.OAuth20Profile. </td>
+                            <td class="colLast"><code><strong><a href="#loadUserByUserProfile(org.pac4j.core.profile.UserProfile, Collection)">loadUserByUserProfile</a></strong>(org.pac4j.core.profile.UserProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</code><br>Search for a user based on his org.pac4j.oauth.profile.OAuth20Profile. </td>
                         </tr>
                         
                     </table>
@@ -200,10 +199,10 @@ extends org.springframework.security.core.userdetails.UserDetailsService</pre>
                 </a>
                     <h3>Method Detail</h3>
                     
-                        <a name="loadUserByUserProfile(org.pac4j.core.profile.CommonProfile, Collection)"><!-- --></a>
+                        <a name="loadUserByUserProfile(org.pac4j.core.profile.UserProfile, Collection)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>abstract&nbsp;<a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a> <strong>loadUserByUserProfile</strong>(org.pac4j.core.profile.CommonProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</h4>
+                                <h4>abstract&nbsp;<a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a> <strong>loadUserByUserProfile</strong>(org.pac4j.core.profile.UserProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</h4>
                                 <p> Search for a user based on his org.pac4j.oauth.profile.OAuth20Profile. Implementations have a chance here to define additional
  checks, like verifying that user's email domain is valid.<DL><DT><B>throws:</B></DT><DD>UsernameNotFoundException if the user is not found and/or not allowed to login based on his profile</DD></DL> <DL><DT><B>Parameters:</B></DT><DD><code>userProfile</code> -  user's OAuth profile returned by OAuth provider.</DD><DD>defaultRoles</DD></DL><DL><DT><B>Returns:</B></DT><DD>a valid <a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html' title='OauthUser'>OauthUser</a>, otherwise a exception is thrown</DD></DL></p>
                             </li>

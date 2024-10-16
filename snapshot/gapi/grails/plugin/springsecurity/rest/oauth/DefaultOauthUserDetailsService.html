@@ -105,7 +105,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 
             <!-- todo: direct known subclasses -->
             <hr>
-            <br>
 
 <pre>@groovy.util.logging.Slf4j
 @groovy.transform.CompileStatic
@@ -135,7 +134,7 @@ implements <a href='../../../../../grails/plugin/springsecurity/rest/oauth/Oauth
 
         <!-- =========== PROPERTY SUMMARY =========== -->
         
-         <ul class="blockList">
+         <ul class="blockList"> 
                 <li class="blockList"><a name="property_summary"><!--   --></a>
                     <h3>Properties Summary</h3>
                     <ul class="blockList">
@@ -159,6 +158,7 @@ implements <a href='../../../../../grails/plugin/springsecurity/rest/oauth/Oauth
                     </table>
                    </ul>
                 </li>
+                
             </ul>
         
 
@@ -179,8 +179,7 @@ implements <a href='../../../../../grails/plugin/springsecurity/rest/oauth/Oauth
                         
                         <tr class="altColor">
                             <td class="colFirst">
-                                <code><a href="#DefaultOauthUserDetailsService()">DefaultOauthUserDetailsService</a>
-                                ()</code><br></td>
+                                <code><strong><a href="#DefaultOauthUserDetailsService()">DefaultOauthUserDetailsService</a></strong>()</code><br></td>
                         </tr>
                         
                     </table>
@@ -207,19 +206,19 @@ implements <a href='../../../../../grails/plugin/springsecurity/rest/oauth/Oauth
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a></code></td>
-                            <td class="colLast"><code><strong><a href="#instantiateOauthUser(org.pac4j.core.profile.CommonProfile, Collection)">instantiateOauthUser</a></strong>(org.pac4j.core.profile.CommonProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#instantiateOauthUser(org.pac4j.core.profile.UserProfile, Collection)">instantiateOauthUser</a></strong>(org.pac4j.core.profile.UserProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a></code></td>
-                            <td class="colLast"><code><strong><a href="#loadUserByUserProfile(org.pac4j.core.profile.CommonProfile, Collection)">loadUserByUserProfile</a></strong>(org.pac4j.core.profile.CommonProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#loadUserByUserProfile(org.pac4j.core.profile.UserProfile, Collection)">loadUserByUserProfile</a></strong>(org.pac4j.core.profile.UserProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a></code></td>
-                            <td class="colLast"><code><strong><a href="#loadUserByUserProfileWhenUserDomainClassIsSet(org.pac4j.core.profile.CommonProfile, Collection)">loadUserByUserProfileWhenUserDomainClassIsSet</a></strong>(org.pac4j.core.profile.CommonProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#loadUserByUserProfileWhenUserDomainClassIsSet(org.pac4j.core.profile.UserProfile, Collection)">loadUserByUserProfileWhenUserDomainClassIsSet</a></strong>(org.pac4j.core.profile.UserProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -244,7 +243,7 @@ implements <a href='../../../../../grails/plugin/springsecurity/rest/oauth/Oauth
                         
                         <tr class="altColor">
                             <td class="colFirst"><code>class java.lang.Object</code></td>
-                            <td class="colLast"><code>java.lang.Object#wait(long), java.lang.Object#wait(long, int), java.lang.Object#wait(), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
+                            <td class="colLast"><code>java.lang.Object#wait(long, int), java.lang.Object#wait(), java.lang.Object#wait(long), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
                         </tr>
                     </table>
                    </ul>
@@ -282,8 +281,7 @@ implements <a href='../../../../../grails/plugin/springsecurity/rest/oauth/Oauth
                         <a name="userDetailsService"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>@groovy.lang.Delegate
-org.springframework.security.core.userdetails.UserDetailsService <strong>userDetailsService</strong></h4>
+                                <h4>@groovy.lang.Delegate<br>org.springframework.security.core.userdetails.UserDetailsService <strong>userDetailsService</strong></h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -323,26 +321,26 @@ org.springframework.security.core.userdetails.UserDetailsService <strong>userDet
                 </a>
                     <h3>Method Detail</h3>
                     
-                        <a name="instantiateOauthUser(org.pac4j.core.profile.CommonProfile, Collection)"><!-- --></a>
+                        <a name="instantiateOauthUser(org.pac4j.core.profile.UserProfile, Collection)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a> <strong>instantiateOauthUser</strong>(org.pac4j.core.profile.CommonProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</h4>
+                                <h4><a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a> <strong>instantiateOauthUser</strong>(org.pac4j.core.profile.UserProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</h4>
                                 <p></p>
                             </li>
                         </ul>
                     
-                        <a name="loadUserByUserProfile(org.pac4j.core.profile.CommonProfile, Collection)"><!-- --></a>
+                        <a name="loadUserByUserProfile(org.pac4j.core.profile.UserProfile, Collection)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a> <strong>loadUserByUserProfile</strong>(org.pac4j.core.profile.CommonProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</h4>
+                                <h4><a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a> <strong>loadUserByUserProfile</strong>(org.pac4j.core.profile.UserProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</h4>
                                 <p></p>
                             </li>
                         </ul>
                     
-                        <a name="loadUserByUserProfileWhenUserDomainClassIsSet(org.pac4j.core.profile.CommonProfile, Collection)"><!-- --></a>
+                        <a name="loadUserByUserProfileWhenUserDomainClassIsSet(org.pac4j.core.profile.UserProfile, Collection)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a> <strong>loadUserByUserProfileWhenUserDomainClassIsSet</strong>(org.pac4j.core.profile.CommonProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</h4>
+                                <h4><a href='../../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a> <strong>loadUserByUserProfileWhenUserDomainClassIsSet</strong>(org.pac4j.core.profile.UserProfile userProfile, java.util.Collection&lt;org.springframework.security.core.GrantedAuthority&gt; defaultRoles)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -350,8 +348,7 @@ org.springframework.security.core.userdetails.UserDetailsService <strong>userDet
                         <a name="userDomainClassName()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>@groovy.transform.CompileDynamic
-java.lang.String <strong>userDomainClassName</strong>()</h4>
+                                <h4>@groovy.transform.CompileDynamic<br>java.lang.String <strong>userDomainClassName</strong>()</h4>
                                 <p></p>
                             </li>
                         </ul>

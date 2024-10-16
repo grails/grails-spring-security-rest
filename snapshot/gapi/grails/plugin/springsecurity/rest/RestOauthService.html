@@ -100,7 +100,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 
             <!-- todo: direct known subclasses -->
             <hr>
-            <br>
 
 <pre>@groovy.util.logging.Slf4j
 class RestOauthService
@@ -125,7 +124,7 @@ extends java.lang.Object</pre>
 
         <!-- =========== PROPERTY SUMMARY =========== -->
         
-         <ul class="blockList">
+         <ul class="blockList"> 
                 <li class="blockList"><a name="property_summary"><!--   --></a>
                     <h3>Properties Summary</h3>
                     <ul class="blockList">
@@ -174,6 +173,7 @@ extends java.lang.Object</pre>
                     </table>
                    </ul>
                 </li>
+                
             </ul>
         
 
@@ -194,8 +194,7 @@ extends java.lang.Object</pre>
                         
                         <tr class="altColor">
                             <td class="colFirst">
-                                <code><a href="#RestOauthService()">RestOauthService</a>
-                                ()</code><br></td>
+                                <code><strong><a href="#RestOauthService()">RestOauthService</a></strong>()</code><br></td>
                         </tr>
                         
                     </table>
@@ -228,19 +227,19 @@ extends java.lang.Object</pre>
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getOauthUser(java.lang.String, org.pac4j.core.profile.CommonProfile)">getOauthUser</a></strong>(java.lang.String provider, org.pac4j.core.profile.CommonProfile profile)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getOauthUser(java.lang.String, org.pac4j.core.profile.UserProfile)">getOauthUser</a></strong>(java.lang.String provider, org.pac4j.core.profile.UserProfile profile)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>org.pac4j.core.profile.CommonProfile</code></td>
-                            <td class="colLast"><code><strong><a href="#getProfile(java.lang.String, org.pac4j.core.context.WebContext)">getProfile</a></strong>(java.lang.String provider, org.pac4j.core.context.WebContext context)</code><br></td>
+                            <td class="colLast"><code>org.pac4j.core.profile.UserProfile</code></td>
+                            <td class="colLast"><code><strong><a href="#getProfile(java.lang.String, org.pac4j.core.context.CallContext)">getProfile</a></strong>(java.lang.String provider, org.pac4j.core.context.CallContext context)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.lang.String</code></td>
-                            <td class="colLast"><code><strong><a href="#storeAuthentication(java.lang.String, org.pac4j.core.context.WebContext)">storeAuthentication</a></strong>(java.lang.String provider, org.pac4j.core.context.WebContext context)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#storeAuthentication(java.lang.String, org.pac4j.core.context.CallContext)">storeAuthentication</a></strong>(java.lang.String provider, org.pac4j.core.context.CallContext context)</code><br></td>
                         </tr>
                         
                     </table>
@@ -259,7 +258,7 @@ extends java.lang.Object</pre>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code>class java.lang.Object</code></td>
-                            <td class="colLast"><code>java.lang.Object#wait(long), java.lang.Object#wait(long, int), java.lang.Object#wait(), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
+                            <td class="colLast"><code>java.lang.Object#wait(long, int), java.lang.Object#wait(), java.lang.Object#wait(long), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
                         </tr>
                     </table>
                    </ul>
@@ -385,26 +384,26 @@ extends java.lang.Object</pre>
                             </li>
                         </ul>
                     
-                        <a name="getOauthUser(java.lang.String, org.pac4j.core.profile.CommonProfile)"><!-- --></a>
+                        <a name="getOauthUser(java.lang.String, org.pac4j.core.profile.UserProfile)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a> <strong>getOauthUser</strong>(java.lang.String provider, org.pac4j.core.profile.CommonProfile profile)</h4>
+                                <h4><a href='../../../../grails/plugin/springsecurity/rest/oauth/OauthUser.html'>OauthUser</a> <strong>getOauthUser</strong>(java.lang.String provider, org.pac4j.core.profile.UserProfile profile)</h4>
                                 <p></p>
                             </li>
                         </ul>
                     
-                        <a name="getProfile(java.lang.String, org.pac4j.core.context.WebContext)"><!-- --></a>
+                        <a name="getProfile(java.lang.String, org.pac4j.core.context.CallContext)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>org.pac4j.core.profile.CommonProfile <strong>getProfile</strong>(java.lang.String provider, org.pac4j.core.context.WebContext context)</h4>
+                                <h4>org.pac4j.core.profile.UserProfile <strong>getProfile</strong>(java.lang.String provider, org.pac4j.core.context.CallContext context)</h4>
                                 <p></p>
                             </li>
                         </ul>
                     
-                        <a name="storeAuthentication(java.lang.String, org.pac4j.core.context.WebContext)"><!-- --></a>
+                        <a name="storeAuthentication(java.lang.String, org.pac4j.core.context.CallContext)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>java.lang.String <strong>storeAuthentication</strong>(java.lang.String provider, org.pac4j.core.context.WebContext context)</h4>
+                                <h4>java.lang.String <strong>storeAuthentication</strong>(java.lang.String provider, org.pac4j.core.context.CallContext context)</h4>
                                 <p></p>
                             </li>
                         </ul>

@@ -3332,7 +3332,7 @@ delegates to the configured <code>userDetailsService</code> bean, passing the pr
 
     UserDetailsChecker preAuthenticationChecks
 
-    OauthUser loadUserByUserProfile(CommonProfile userProfile, <span class="predefined-type">Collection</span>&lt;GrantedAuthority&gt; defaultRoles)
+    OauthUser loadUserByUserProfile(UserProfile userProfile, <span class="predefined-type">Collection</span>&lt;GrantedAuthority&gt; defaultRoles)
             <span class="directive">throws</span> UsernameNotFoundException {
 
         <span class="predefined-type">String</span> userDomainClass = userDomainClassName()
@@ -3342,7 +3342,7 @@ delegates to the configured <code>userDetailsService</code> bean, passing the pr
         loadUserByUserProfileWhenUserDomainClassIsSet(userProfile, defaultRoles)
     }
 
-    OauthUser loadUserByUserProfileWhenUserDomainClassIsSet(CommonProfile userProfile, <span class="predefined-type">Collection</span>&lt;GrantedAuthority&gt; defaultRoles) {
+    OauthUser loadUserByUserProfileWhenUserDomainClassIsSet(UserProfile userProfile, <span class="predefined-type">Collection</span>&lt;GrantedAuthority&gt; defaultRoles) {
         OauthUser oauthUser
         <span class="keyword">try</span> {
             log.debug <span class="string"><span class="delimiter">&quot;</span><span class="content">Trying to fetch user details for user profile: </span><span class="inline"><span class="inline-delimiter">${</span>userProfile<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>
@@ -3351,22 +3351,23 @@ delegates to the configured <code>userDetailsService</code> bean, passing the pr
             log.debug <span class="string"><span class="delimiter">&quot;</span><span class="content">Checking user details with </span><span class="inline"><span class="inline-delimiter">${</span>preAuthenticationChecks.class.name<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>
             preAuthenticationChecks?.check(userDetails)
 
-            <span class="predefined-type">Collection</span>&lt;GrantedAuthority&gt; allRoles = (userDetails.authorities + defaultRoles) <span class="keyword">as</span> <span class="predefined-type">Collection</span>&lt;GrantedAuthority&gt;
+            <span class="predefined-type">Collection</span>&lt;GrantedAuthority&gt; allRoles = <span class="type">[]</span>
+            allRoles.addAll(userDetails.authorities)
+            allRoles.addAll(defaultRoles)
             oauthUser = <span class="keyword">new</span> OauthUser(userDetails.username, userDetails.password, allRoles, userProfile)
-        } <span class="keyword">catch</span> (UsernameNotFoundException unfe) {
+        } <span class="keyword">catch</span> (UsernameNotFoundException ignored) {
             log.debug <span class="string"><span class="delimiter">&quot;</span><span class="content">User not found. Creating a new one with default roles: </span><span class="inline"><span class="inline-delimiter">${</span>defaultRoles<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>
             oauthUser = instantiateOauthUser(userProfile, defaultRoles)
         }
         oauthUser
     }
 
-    OauthUser instantiateOauthUser(CommonProfile userProfile, <span class="predefined-type">Collection</span>&lt;GrantedAuthority&gt; defaultRoles) {
+    OauthUser instantiateOauthUser(UserProfile userProfile, <span class="predefined-type">Collection</span>&lt;GrantedAuthority&gt; defaultRoles) {
         <span class="keyword">new</span> OauthUser(userProfile.id, <span class="string"><span class="delimiter">'</span><span class="content">N/A</span><span class="delimiter">'</span></span>, defaultRoles, userProfile)
     }
 
     <span class="annotation">@CompileDynamic</span>
     <span class="predefined-type">String</span> userDomainClassName() {
-
         SpringSecurityUtils.getSecurityConfig()?.get(<span class="string"><span class="delimiter">'</span><span class="content">userLookup</span><span class="delimiter">'</span></span>)?.get(<span class="string"><span class="delimiter">'</span><span class="content">userDomainClassName</span><span class="delimiter">'</span></span>)
     }
 
@@ -3694,7 +3695,7 @@ way of using HTTP sessions. So not acceptable.</p>
 <div id="footer">
 <div id="footer-text">
 Version 6.0.0-SNAPSHOT<br>
-Last updated 2024-10-15 21:10:35 UTC
+Last updated 2024-10-16 15:26:37 UTC
 </div>
 </div>
 </body>
