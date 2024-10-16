@@ -15,7 +15,7 @@ jobs:
         uses: gradle/actions/wrapper-validation@v3
       - name: Setup Java
         uses: actions/setup-java@v4
-        with: { java-version: 11, distribution: temurin }
+        with: { java-version: 17, distribution: temurin }
       - name: Get the current release version
         id: Set the current release version
         run: echo "release_version=${GITHUB_REF:11}" >> $GITHUB_OUTPUT
