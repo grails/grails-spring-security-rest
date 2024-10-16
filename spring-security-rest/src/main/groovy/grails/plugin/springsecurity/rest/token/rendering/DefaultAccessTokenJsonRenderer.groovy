@@ -64,8 +64,10 @@ class DefaultAccessTokenJsonRenderer implements AccessTokenJsonRenderer {
 
         if (userDetails instanceof OauthUser) {
             CommonProfile profile = (userDetails as OauthUser).userProfile
-            result.email = profile.email
-            result.displayName = profile.displayName
+            if(profile) {
+                result.email = profile.email
+                result.displayName = profile.displayName
+            }
         }
 
         JSON jsonResult = result as JSON
