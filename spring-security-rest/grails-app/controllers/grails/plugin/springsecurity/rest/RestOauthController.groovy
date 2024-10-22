@@ -14,11 +14,13 @@
  */
 package grails.plugin.springsecurity.rest
 
+import com.nimbusds.jwt.JWT
 import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured
 import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.error.CallbackErrorHandler
 import grails.plugin.springsecurity.rest.token.AccessToken
+import grails.plugin.springsecurity.rest.token.generation.jwt.AbstractJwtTokenGenerator
 import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import groovy.util.logging.Slf4j
@@ -47,6 +49,7 @@ class RestOauthController {
     RestOauthService restOauthService
     GrailsApplication grailsApplication
 
+    JwtService jwtService
     TokenStorageService tokenStorageService
     def tokenGenerator
     AccessTokenJsonRenderer accessTokenJsonRenderer
@@ -130,30 +133,50 @@ class RestOauthController {
 
         String refreshToken = params['refresh_token']
         log.debug "Trying to generate an access token for the refresh token: ${refreshToken}"
-        if (refreshToken) {
-            try {
-                def user = tokenStorageService.loadUserByToken(refreshToken)
-                User principal = user ? user as User : null
-                log.debug "Principal found for refresh token: ${principal}"
-
-                AccessToken accessToken = tokenGenerator.generateAccessToken(principal, false)
-                accessToken.refreshToken = refreshToken
-
-                tokenStorageService.storeToken(accessToken)
-                authenticationEventPublisher.publishTokenCreation(accessToken)
-
-                response.addHeader 'Cache-Control', 'no-store'
-                response.addHeader 'Pragma', 'no-cache'
-                render contentType: 'application/json', encoding: 'UTF-8',  text:  accessTokenJsonRenderer.generateJson(accessToken)
-            } catch (exception) {
-                render status: HttpStatus.FORBIDDEN
-            }
-        } else {
+        if(!refreshToken) {
             log.debug "Refresh token is missing. Replying with bad request"
             render status: HttpStatus.BAD_REQUEST, text: "Refresh token is required"
+            return
+        }
+
+        // only JWT tokens can be refreshed
+        if(!AbstractJwtTokenGenerator.isAssignableFrom(tokenGenerator.getClass())) {
+            log.debug("Token type does not support refresh tokens")
+            render status: HttpStatus.FORBIDDEN
+            return
+        }
+
+        try {
+            JWT jwt = jwtService.parse(refreshToken)
+            if(!jwt || !jwt.JWTClaimsSet.getBooleanClaim(AbstractJwtTokenGenerator.REFRESH_ONLY_CLAIM)) {
+                log.debug("Token ${refreshToken} is not a refresh token")
+                render status: HttpStatus.FORBIDDEN
+                return
+            }
+        }
+        catch(e) {
+            log.debug("Invalid refresh token: ${refreshToken}", e)
+            render status: HttpStatus.FORBIDDEN
+            return
+        }
+
+        try {
+            def user = tokenStorageService.loadUserByToken(refreshToken)
+            User principal = user ? user as User : null
+            log.debug "Principal found for refresh token: ${principal}"
+
+            AccessToken accessToken = (tokenGenerator as AbstractJwtTokenGenerator).generateAccessToken(principal, false)
+            accessToken.refreshToken = refreshToken
+
+            tokenStorageService.storeToken(accessToken)
+            authenticationEventPublisher.publishTokenCreation(accessToken)
+
+            response.addHeader 'Cache-Control', 'no-store'
+            response.addHeader 'Pragma', 'no-cache'
+            render contentType: 'application/json', encoding: 'UTF-8',  text:  accessTokenJsonRenderer.generateJson(accessToken)
+        } catch (e) {
+            log.debug("Could not load by refresh token", e)
+            render status: HttpStatus.FORBIDDEN
         }
     }
-
-
-
 }

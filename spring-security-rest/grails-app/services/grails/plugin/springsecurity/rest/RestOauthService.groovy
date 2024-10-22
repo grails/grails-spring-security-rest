@@ -26,12 +26,9 @@ import grails.core.GrailsApplication
 import grails.util.Holders
 import grails.web.mapping.LinkGenerator
 import groovy.util.logging.Slf4j
-import org.codehaus.groovy.runtime.InvokerHelper
 import org.pac4j.core.client.IndirectClient
 import org.pac4j.core.context.CallContext
-import org.pac4j.core.context.WebContext
 import org.pac4j.core.credentials.Credentials
-import org.pac4j.core.profile.CommonProfile
 import org.pac4j.core.profile.UserProfile
 import org.springframework.beans.BeanWrapperImpl
 import org.springframework.security.core.authority.SimpleGrantedAuthority

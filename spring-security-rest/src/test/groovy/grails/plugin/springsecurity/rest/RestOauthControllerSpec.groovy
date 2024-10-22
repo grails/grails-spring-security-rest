@@ -14,21 +14,23 @@
  */
 package grails.plugin.springsecurity.rest
 
+import com.nimbusds.jwt.JWT
+import com.nimbusds.jwt.JWTClaimsSet
+import com.nimbusds.jwt.PlainJWT
 import grails.plugin.springsecurity.rest.authentication.RestAuthenticationEventPublisher
 import grails.plugin.springsecurity.rest.error.DefaultCallbackErrorHandler
 import grails.plugin.springsecurity.rest.token.AccessToken
-import grails.plugin.springsecurity.rest.token.generation.TokenGenerator
+import grails.plugin.springsecurity.rest.token.generation.jwt.AbstractJwtTokenGenerator
+import grails.plugin.springsecurity.rest.token.rendering.AccessTokenJsonRenderer
 import grails.plugin.springsecurity.rest.token.storage.TokenStorageService
 import grails.testing.web.controllers.ControllerUnitTest
 import groovy.transform.InheritConstructors
 import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import spock.lang.Issue
 import spock.lang.Specification
 
-import static org.springframework.http.HttpStatus.FORBIDDEN
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
+import static org.springframework.http.HttpStatus.*
 
 @Issue("https://github.com/grails/grails-spring-security-rest/issues/237")
 class RestOauthControllerSpec extends Specification implements ControllerUnitTest<RestOauthController> {
@@ -122,25 +124,68 @@ class RestOauthControllerSpec extends Specification implements ControllerUnitTes
         response.redirectedUrl == expectedUrl
     }
 
+    void "invalid jwt receives forbidden"() {
+        given:
+        TokenStorageService stubbedTokenStorageService = Stub(TokenStorageService)
+        stubbedTokenStorageService.loadUserByToken(_) >> new User('foo', '', [])
+        controller.tokenStorageService = stubbedTokenStorageService
+
+        def stubbedTokenGenerator = Stub(AbstractJwtTokenGenerator) {
+            generateAccessToken() >> { u, b -> new AccessToken('accessToken') }
+        }
+        controller.tokenGenerator = stubbedTokenGenerator
+
+        controller.authenticationEventPublisher = Mock(RestAuthenticationEventPublisher)
+        controller.jwtService = Mock(JwtService)
+
+        when:
+        params.grant_type = 'refresh_token'
+        params.refresh_token = 'refresh_token_1'
+        request.method = 'POST'
+        controller.accessToken()
+
+        then:
+        1 * controller.jwtService.parse('refresh_token_1') >> { token ->
+            null
+        }
+        0 * controller.authenticationEventPublisher.publishTokenCreation(_)
+        response.status == FORBIDDEN.value()
+    }
+
     void "it publishes RestTokenCreationEvent's"() {
         given:
         TokenStorageService stubbedTokenStorageService = Stub(TokenStorageService)
         stubbedTokenStorageService.loadUserByToken(_) >> new User('foo', '', [])
         controller.tokenStorageService = stubbedTokenStorageService
 
-        def stubbedTokenGenerator = [ generateAccessToken: { u,b -> new AccessToken('accessToken') }]
+        def stubbedTokenGenerator = Stub(AbstractJwtTokenGenerator) {
+            generateAccessToken() >> { u, b -> new AccessToken('accessToken') }
+        }
         controller.tokenGenerator = stubbedTokenGenerator
 
         controller.authenticationEventPublisher = Mock(RestAuthenticationEventPublisher)
+        controller.jwtService = Mock(JwtService)
+        controller.accessTokenJsonRenderer = Mock(AccessTokenJsonRenderer)
+
+        JWT returnedToken = new PlainJWT(new JWTClaimsSet.Builder().claim(AbstractJwtTokenGenerator.REFRESH_ONLY_CLAIM, true).build())
 
         when:
         params.grant_type = 'refresh_token'
-        params.refresh_token = 'refresh_token'
+        params.refresh_token = 'refresh_token_1'
         request.method = 'POST'
         controller.accessToken()
 
         then:
+        1 * controller.jwtService.parse('refresh_token_1') >> { token ->
+            returnedToken
+        }
         1 * controller.authenticationEventPublisher.publishTokenCreation(_)
+        1 * controller.accessTokenJsonRenderer.generateJson(_) >> { token ->
+            assert !token.is(returnedToken)
+            'rendered json'
+        }
+        response.status == OK.value()
+        response.text == "rendered json"
     }
 }
 

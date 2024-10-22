@@ -12,6 +12,10 @@ Version: {version}
 
 include::{includedir}introduction.adoc[]
 
+== What's new in 6.0?
+
+include:{includedir}whatsNew60.adoc[]
+
 == What's new in 5.0?
 
 include::{includedir}whatsNew50.adoc[]

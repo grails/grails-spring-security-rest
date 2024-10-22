@@ -20,7 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails
 /**
  * Implementations of this interface must provide a token generation strategy
  */
-public interface TokenGenerator {
+interface TokenGenerator {
 
     /**
      * Generates a globally unique token.
