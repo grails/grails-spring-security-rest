@@ -6,11 +6,11 @@ more information about how this plugin uses JWT's, check the <<tokenStorage>> se
 ==== Claims
 
 It is possible, to include additional claims in the JWT generated. To do so, you can plug one or more implementations of the interface
-include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/jwt/CustomClaimProvider.html[`CustomClaimProvider`],
+{baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/jwt/CustomClaimProvider.html[CustomClaimProvider],
 and register them in Spring.
 
 The plugin comes prepackaged with a
-include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/jwt/IssuerClaimProvider.html[`IssuerClaimProvider`],
+{baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/jwt/IssuerClaimProvider.html[IssuerClaimProvider],
 that sets the `iss` field of the JWT claim set, and which value is configurable using the following configuration property:
 `grails.plugin.springsecurity.rest.token.generation.jwt.issuer`.
 
@@ -80,8 +80,8 @@ When using encrypted JWT's, those are the possible configuration options:
 
 If you are not using JWT, but any stateful strategy like Memcached or GORM, the following strategies are available:
 
-* include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/SecureRandomTokenGenerator.html[Using java.security.SecureRandom].
-* include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/UUIDTokenGenerator.html[Using java.util.UUID].
+* {baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/SecureRandomTokenGenerator.html[Using java.security.SecureRandom].
+* {baseGroovyApiUrl}grails/plugin/springsecurity/rest/token/generation/UUIDTokenGenerator.html[Using java.util.UUID].
 
 The strategy used is configurable:
 

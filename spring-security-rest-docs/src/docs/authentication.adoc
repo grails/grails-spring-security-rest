@@ -1,4 +1,4 @@
-The include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/RestAuthenticationFilter.html[authentication filter]
+The {baseGroovyApiUrl}grails/plugin/springsecurity/rest/RestAuthenticationFilter.html[authentication filter]
 uses the default `authenticationManager` bean, which in turn uses all the registered authentication
 providers. See the https://grails-plugins.github.io/grails-spring-security-core/v3/index.html#authenticationProviders[Spring Security Core guide]
 for more information about how to define your own providers. Note that you can easily plug any Spring Security sub-plugin
@@ -90,7 +90,7 @@ grails.plugin.springsecurity.rest.login.passwordPropertyName = 'pwd'
 ----
 
 If your JSON request format is different, you can plug your own implementation by defining a class which extends
-`include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/credentials/AbstractJsonPayloadCredentialsExtractor.html[AbstractJsonPayloadCredentialsExtractor]`.
+{baseGroovyApiUrl}grails/plugin/springsecurity/rest/credentials/AbstractJsonPayloadCredentialsExtractor.html[AbstractJsonPayloadCredentialsExtractor].
 The default implementation looks like this:
 
 [source,groovy]
@@ -136,7 +136,7 @@ let the tokens expire (they will expire anyway, unlike with other storages like 
 on every access).
 ====
 
-The include::{baseGroovyApiUrl}grails/plugin/springsecurity/rest/RestLogoutFilter.html[logout filter]
+The {baseGroovyApiUrl}grails/plugin/springsecurity/rest/RestLogoutFilter.html[logout filter]
 exposes an endpoint for deleting tokens. It will read the token from an HTTP header. If found, will delete it from the
 storage, sending a 200 response. Otherwise, it will send a 404 response.
 
