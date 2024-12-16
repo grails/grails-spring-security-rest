@@ -31,6 +31,7 @@ import org.pac4j.core.client.IndirectClient
 import org.pac4j.core.context.WebContext
 import org.pac4j.core.credentials.Credentials
 import org.pac4j.core.profile.UserProfile
+import org.pac4j.jee.context.session.JEESessionStore
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 
@@ -75,10 +76,10 @@ class RestOauthService {
 
     UserProfile getProfile(String provider, WebContext context) {
         IndirectClient client = getClient(provider)
-        Credentials credentials = client.getCredentials(context, null).orElse(null)
+        Credentials credentials = client.getCredentials(context, JEESessionStore.INSTANCE).orElse(null)
 
         log.debug "Querying provider to fetch User ID"
-        client.getUserProfile(credentials, context, null).orElse(null)
+        client.getUserProfile(credentials, context, JEESessionStore.INSTANCE).orElse(null)
     }
 
     OauthUser getOauthUser(String provider, UserProfile profile) {
