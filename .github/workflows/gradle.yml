@@ -17,12 +17,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Wrapper Integrity
-        uses: gradle/actions/wrapper-validation@v3
+        uses: gradle/actions/wrapper-validation@v4
       - name: Setup Java
         uses: actions/setup-java@v4
         with: { java-version: 17, distribution: liberica }
       - name: Run Tests
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         with:
@@ -42,7 +42,7 @@ jobs:
           distribution: liberica
           java-version: 17
       - name: Publish to Artifactory (repo.grails.org)
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           MAVEN_PUBLISH_USERNAME: ${{ secrets.MAVEN_PUBLISH_USERNAME }}
@@ -54,7 +54,7 @@ jobs:
             publish
       - name: Generate Documentation
         if: success()
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         with:
