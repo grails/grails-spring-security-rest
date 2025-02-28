@@ -1,4 +1,0 @@
-dependencies {
-    api project(":spring-security-rest")
-    profile "org.grails.profiles:plugin:${grailsVersion}"
-}

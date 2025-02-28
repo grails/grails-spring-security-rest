@@ -1,7 +1,0 @@
-dependencies {
-    api project(":spring-security-rest")
-    api "org.grails.plugins:grails-redis:$grailsRedisVersion"
-    api "redis.clients:jedis"
-
-    profile "org.grails.profiles:plugin:$grailsVersion"
-}
